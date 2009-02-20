@@ -1,0 +1,380 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CFA8E62F-0B65-4A9D-9963-71714E2B0E12}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>Dispersal_Sim</AssemblyName>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Dispersal_Sim</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="bobResize, Version=1.0.0.0, Culture=neutral" />
+    <Reference Include="DesignbyContract1">
+      <Name>DesignbyContract1</Name>
+      <HintPath>..\Utilities\DesignbyContract1\bin\Debug\DesignbyContract1.dll</HintPath>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Carto, Version=9.1.0.722, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86" />
+    <Reference Include="ESRI.ArcGIS.DataSourcesFile">
+      <Name>ESRI.ArcGIS.DataSourcesFile</Name>
+      <HintPath>..\..\..\..\ArcGIS\DotNet\ESRI.ArcGIS.DataSourcesFile.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\arcengine</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Display">
+      <Name>ESRI.ArcGIS.Display</Name>
+      <HintPath>..\..\..\..\ArcGIS\DotNet\ESRI.ArcGIS.Display.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\arcengine</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geodatabase">
+      <Name>ESRI.ArcGIS.Geodatabase</Name>
+      <HintPath>..\..\..\..\ArcGIS\DotNet\ESRI.ArcGIS.Geodatabase.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\arcengine</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.Geometry">
+      <Name>ESRI.ArcGIS.Geometry</Name>
+      <HintPath>..\..\..\..\ArcGIS\DotNet\ESRI.ArcGIS.Geometry.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\arcengine</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="ESRI.ArcGIS.System">
+      <Name>ESRI.ArcGIS.System</Name>
+      <HintPath>..\..\..\..\ArcGIS\DotNet\ESRI.ArcGIS.System.dll</HintPath>
+      <AssemblyFolderKey>hklm\dn\arcengine</AssemblyFolderKey>
+    </Reference>
+    <Reference Include="FileWriter">
+      <Name>FileWriter</Name>
+      <HintPath>..\Utilities\FileWriter\bin\Debug\FileWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="GISHACK, Version=1.0.2442.20462, Culture=neutral" />
+    <Reference Include="inputBox">
+      <Name>inputBox</Name>
+      <HintPath>..\Utilities\inputBox\bin\Debug\inputBox.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <Name>MathNet.Numerics</Name>
+      <HintPath>..\Utilities\MathNet.Numerics-v0.3\bin\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Name>System.Drawing</Name>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <Name>System.Windows.Forms</Name>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+    <Reference Include="txtBoxArray">
+      <Name>txtBoxArray</Name>
+      <HintPath>..\Utilities\txtBoxArray\bin\Debug\txtBoxArray.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Animal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AnimalAtributes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AnimalManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AnimalMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AnimalValidator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BeamMeHomeScottyMover.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BehaviorModifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BestComboHomeRangeFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BestFoodHomeRangeFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BestRiskHomeRangeFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClosestHomeRangeFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CraptasticXmlException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="crossOverInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DailyModiferCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DailyModifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DeadDisperser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DirectedMover.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Duration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EligibleHomeSite.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EligibleHomeSites.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FemaleAnimal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FemaleModifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Forms\frmInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMapSelectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmMapTimes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmModifierInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmSeason.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\frmYearlyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenderModifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HomeRangeCriteria.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HomeRangeFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HourlyModifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HourlyModifierCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IAttributeObserver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHomeRangeCriteria.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHomeRangeFinder.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IHomeRangeTrigger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InitialAnimalAttributes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InitialResidentInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InvalidMapException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IPointList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MaleAnimal.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MaleModifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Map.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MapManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MapManipulator.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Maps.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MapSwapTrigger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MemoryMap.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modifier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Mover.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ObservableAttribute.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OutPutManage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Point.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RandomNumbers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RandomWCMover.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resident.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ResidentAttributes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resting.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RiskyForage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="RiskySearch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SafeForage.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SafeSearch.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SimulatonManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SiteHomeRangeTrigger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SleepMover.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="StraightMover.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TemporalModifiers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TextFileWriter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TimeHomeRangeTrigger.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Content Include="App.ico" />
+    <EmbeddedResource Include="Forms\frmInput.resx">
+      <DependentUpon>frmInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMapSelectForm.resx">
+      <DependentUpon>frmMapSelectForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmMapTimes.resx">
+      <DependentUpon>frmMapTimes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmModifierInput.resx">
+      <DependentUpon>frmModifierInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmSeason.resx">
+      <DependentUpon>frmSeason.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\frmYearlyForm.resx">
+      <DependentUpon>frmYearlyForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>DATE 01/05/2009</PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

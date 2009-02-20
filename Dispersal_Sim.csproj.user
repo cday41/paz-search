@@ -1,0 +1,69 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <LastOpenVersion>7.10.3077</LastOpenVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ReferencePath>D:\Dispersal\Code\Round 2\Utilities\bobResize\bin\;D:\Dispersal\Code\Round 2\Utilities\DesignbyContract1\bin\Debug\;D:\Dispersal\Code\Round 2\Utilities\FileWriter\bin\Debug\;D:\Dispersal\Code\Round 2\Utilities\MathNet.Numerics-v0.3\bin\;D:\Dispersal\Code\Round 2\Utilities\txtBoxArray\bin\Debug\;D:\Dispersal\Code\Round 2\Utilities\inputBox\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\bobResize\bin\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\DesignbyContract1\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\FileWriter\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\MathNet.Numerics-v0.3\bin\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\txtBoxArray\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\inputBox\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\bobResize\bin\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\DesignbyContract1\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\FileWriter\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\MathNet.Numerics-v0.3\bin\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\txtBoxArray\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\inputBox\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\Beep\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\GISHACK\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\bobResize\bin\;D:\Dispersal\Code\Round_2\Utilities\DesignbyContract1\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\MathNet.Numerics-v0.3\bin\;D:\Dispersal\Code\Round_2\Utilities\txtBoxArray\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\inputBox\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\GISHACK\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\FileWriter\bin\Debug\;C:\Bob\Round_2\Utilities\bobResize\bin\;C:\Bob\Round_2\Utilities\DesignbyContract1\bin\Debug\;C:\Bob\Round_2\Utilities\MathNet.Numerics-v0.3\bin\;C:\Bob\Round_2\Utilities\txtBoxArray\bin\Debug\;C:\Bob\Round_2\Utilities\inputBox\bin\Debug\;C:\Bob\Round_2\Utilities\GISHACK\bin\Debug\;C:\Bob\Round_2\Utilities\FileWriter\bin\Debug\</ReferencePath>
+    <CopyProjectDestinationFolder>
+    </CopyProjectDestinationFolder>
+    <CopyProjectUncPath>
+    </CopyProjectUncPath>
+    <CopyProjectOption>0</CopyProjectOption>
+    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectTrust>0</ProjectTrust>
+    <PublishUrlHistory>http://localhost/Dispersal_Sim/</PublishUrlHistory>
+    <InstallUrlHistory>
+    </InstallUrlHistory>
+    <SupportUrlHistory>
+    </SupportUrlHistory>
+    <UpdateUrlHistory>
+    </UpdateUrlHistory>
+    <BootstrapperUrlHistory>
+    </BootstrapperUrlHistory>
+    <ApplicationRevision>0</ApplicationRevision>
+    <FallbackCulture>en-US</FallbackCulture>
+    <VerifyUploadedFiles>true</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <EnableASPDebugging>false</EnableASPDebugging>
+    <EnableASPXDebugging>false</EnableASPXDebugging>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <RemoteDebugMachine>
+    </RemoteDebugMachine>
+    <StartAction>Project</StartAction>
+    <StartArguments>
+    </StartArguments>
+    <StartPage>
+    </StartPage>
+    <StartProgram>
+    </StartProgram>
+    <StartURL>
+    </StartURL>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <StartWithIE>true</StartWithIE>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <EnableASPDebugging>false</EnableASPDebugging>
+    <EnableASPXDebugging>false</EnableASPXDebugging>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>false</EnableSQLServerDebugging>
+    <RemoteDebugEnabled>false</RemoteDebugEnabled>
+    <RemoteDebugMachine>
+    </RemoteDebugMachine>
+    <StartAction>Project</StartAction>
+    <StartArguments>
+    </StartArguments>
+    <StartPage>
+    </StartPage>
+    <StartProgram>
+    </StartProgram>
+    <StartURL>
+    </StartURL>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
+    <StartWithIE>false</StartWithIE>
+  </PropertyGroup>
+</Project>

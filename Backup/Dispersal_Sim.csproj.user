@@ -1,0 +1,48 @@
+<VisualStudioProject>
+    <CSHARP LastOpenVersion = "7.10.3077" >
+        <Build>
+            <Settings ReferencePath = "D:\Dispersal\Code\Round 2\Utilities\bobResize\bin\;D:\Dispersal\Code\Round 2\Utilities\DesignbyContract1\bin\Debug\;D:\Dispersal\Code\Round 2\Utilities\FileWriter\bin\Debug\;D:\Dispersal\Code\Round 2\Utilities\MathNet.Numerics-v0.3\bin\;D:\Dispersal\Code\Round 2\Utilities\txtBoxArray\bin\Debug\;D:\Dispersal\Code\Round 2\Utilities\inputBox\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\bobResize\bin\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\DesignbyContract1\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\FileWriter\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\MathNet.Numerics-v0.3\bin\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\txtBoxArray\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round 2\Utilities\inputBox\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\bobResize\bin\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\DesignbyContract1\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\FileWriter\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\MathNet.Numerics-v0.3\bin\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\txtBoxArray\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\inputBox\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\Beep\bin\Debug\;E:\Pat'sStuff\Dispersal\Code\Round_2\Utilities\GISHACK\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\bobResize\bin\;D:\Dispersal\Code\Round_2\Utilities\DesignbyContract1\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\MathNet.Numerics-v0.3\bin\;D:\Dispersal\Code\Round_2\Utilities\txtBoxArray\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\inputBox\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\GISHACK\bin\Debug\;D:\Dispersal\Code\Round_2\Utilities\FileWriter\bin\Debug\;C:\Bob\Round_2\Utilities\bobResize\bin\;C:\Bob\Round_2\Utilities\DesignbyContract1\bin\Debug\;C:\Bob\Round_2\Utilities\MathNet.Numerics-v0.3\bin\;C:\Bob\Round_2\Utilities\txtBoxArray\bin\Debug\;C:\Bob\Round_2\Utilities\inputBox\bin\Debug\;C:\Bob\Round_2\Utilities\GISHACK\bin\Debug\;C:\Bob\Round_2\Utilities\FileWriter\bin\Debug\" >
+                <Config
+                    Name = "Debug"
+                    EnableASPDebugging = "false"
+                    EnableASPXDebugging = "false"
+                    EnableUnmanagedDebugging = "false"
+                    EnableSQLServerDebugging = "false"
+                    RemoteDebugEnabled = "false"
+                    RemoteDebugMachine = ""
+                    StartAction = "Project"
+                    StartArguments = ""
+                    StartPage = ""
+                    StartProgram = ""
+                    StartURL = ""
+                    StartWorkingDirectory = ""
+                    StartWithIE = "true"
+                />
+                <Config
+                    Name = "Release"
+                    EnableASPDebugging = "false"
+                    EnableASPXDebugging = "false"
+                    EnableUnmanagedDebugging = "false"
+                    EnableSQLServerDebugging = "false"
+                    RemoteDebugEnabled = "false"
+                    RemoteDebugMachine = ""
+                    StartAction = "Project"
+                    StartArguments = ""
+                    StartPage = ""
+                    StartProgram = ""
+                    StartURL = ""
+                    StartWorkingDirectory = ""
+                    StartWithIE = "false"
+                />
+            </Settings>
+        </Build>
+        <OtherProjectSettings
+            CopyProjectDestinationFolder = ""
+            CopyProjectUncPath = ""
+            CopyProjectOption = "0"
+            ProjectView = "ProjectFiles"
+            ProjectTrust = "0"
+        />
+    </CSHARP>
+</VisualStudioProject>
+

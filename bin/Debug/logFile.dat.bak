@@ -1,0 +1,13 @@
+AnimalLogPath c:\animal.log
+AnimalManagerLogPath c:\animalManager.log
+AnimalMapLogPath c:\animalMap.log
+MapLogPath c:\map.log
+MapManagerPath c:\mapManager.log
+MoverLogPath C:\mover.log
+SimulationLogPath C:\Simulation.log
+AnimalAttributeLogPath c:\animalAttributes.log
+FormLogPath c:\Form.log
+MapManipulator c:\mapManip.log
+HomeRangeLogPath c:\homerange.log
+MapsLogPath c:\Maps.log
+HomeRangeTriggerPath c:\HomeRangeTrigger.log

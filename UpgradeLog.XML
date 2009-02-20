@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Dispersal_Sim">
+</Property><Property Name="Solution File" Value="D:\Dispersal\Code\Round_2\Dispersal_Sim\Dispersal_Sim.sln">
+</Property><Property Name="User Options File" Value="D:\Dispersal\Code\Round_2\Dispersal_Sim\Dispersal_Sim.suo">
+</Property><Property Name="Date" Value="Sunday, September 21, 2008">
+</Property><Property Name="Time" Value="11:52 AM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="Dispersal_Sim.sln" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Dispersal_Sim.sln">
+</Event><Event ErrorLevel="0" Project="" Source="Dispersal_Sim.suo" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Dispersal_Sim.suo">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Dispersal_Sim.csproj" Description="Project file successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Dispersal_Sim.csproj">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Dispersal_Sim.csproj.user" Description="Project user file successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Dispersal_Sim.csproj.user">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Animal.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Animal.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="AnimalAtributes.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\AnimalAtributes.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="AnimalManager.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\AnimalManager.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="AnimalMap.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\AnimalMap.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="AnimalValidator.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\AnimalValidator.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="AssemblyInfo.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="BeamMeHomeScottyMover.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\BeamMeHomeScottyMover.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="BehaviorModifier.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\BehaviorModifier.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="BestComboHomeRangeFinder.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\BestComboHomeRangeFinder.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="BestFoodHomeRangeFinder.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\BestFoodHomeRangeFinder.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="BestRiskHomeRangeFinder.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\BestRiskHomeRangeFinder.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="ClosestHomeRangeFinder.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\ClosestHomeRangeFinder.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="CraptasticXmlException.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\CraptasticXmlException.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="crossOverInfo.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\crossOverInfo.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="DailyModiferCollection.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\DailyModiferCollection.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="DailyModifier.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\DailyModifier.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="DeadDisperser.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\DeadDisperser.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="DirectedMover.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\DirectedMover.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Duration.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Duration.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="EligibleHomeSite.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\EligibleHomeSite.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="EligibleHomeSites.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\EligibleHomeSites.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="FemaleAnimal.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\FemaleAnimal.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="FemaleModifier.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\FemaleModifier.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmInput.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmInput.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmMapSelectForm.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmMapSelectForm.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmMapTimes.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmMapTimes.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmModifierInput.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmModifierInput.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmSeason.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmSeason.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmYearlyForm.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmYearlyForm.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="GenderModifier.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\GenderModifier.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="HomeRangeCriteria.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\HomeRangeCriteria.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="HomeRangeFinder.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\HomeRangeFinder.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="HourlyModifier.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\HourlyModifier.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="HourlyModifierCollection.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\HourlyModifierCollection.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="IAttributeObserver.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\IAttributeObserver.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="IHomeRangeCriteria.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\IHomeRangeCriteria.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="IHomeRangeFinder.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\IHomeRangeFinder.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="IHomeRangeTrigger.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\IHomeRangeTrigger.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="InitialAnimalAttributes.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\InitialAnimalAttributes.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="InitialResidentInfo.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\InitialResidentInfo.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="InvalidMapException.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\InvalidMapException.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="IPointList.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\IPointList.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="MaleAnimal.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\MaleAnimal.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="MaleModifier.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\MaleModifier.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Map.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Map.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="MapManager.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\MapManager.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="MapManipulator.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\MapManipulator.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Maps.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Maps.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="MapSwapTrigger.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\MapSwapTrigger.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="MemoryMap.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\MemoryMap.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Modifier.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Modifier.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Mover.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Mover.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="ObservableAttribute.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\ObservableAttribute.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="OutPutManage.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\OutPutManage.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Point.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Point.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="RandomNumbers.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\RandomNumbers.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="RandomWCMover.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\RandomWCMover.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Resident.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Resident.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="ResidentAttributes.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\ResidentAttributes.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Resting.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Resting.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="RiskyForage.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\RiskyForage.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="RiskySearch.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\RiskySearch.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="SafeForage.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\SafeForage.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="SafeSearch.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\SafeSearch.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="SimulatonManager.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\SimulatonManager.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="SiteHomeRangeTrigger.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\SiteHomeRangeTrigger.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="SleepMover.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\SleepMover.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="StraightMover.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\StraightMover.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="TemporalModifiers.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\TemporalModifiers.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="TextFileWriter.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\TextFileWriter.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="TimeHomeRangeTrigger.cs" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\TimeHomeRangeTrigger.cs">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="App.ico" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\App.ico">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmInput.resx" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmInput.resx">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmMapSelectForm.resx" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmMapSelectForm.resx">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmMapTimes.resx" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmMapTimes.resx">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmModifierInput.resx" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmModifierInput.resx">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmSeason.resx" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmSeason.resx">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Forms\frmYearlyForm.resx" Description="File successfully backed up as D:\Dispersal\Code\Round_2\Dispersal_Sim\Backup\Forms\frmYearlyForm.resx">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Dispersal_Sim.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Dispersal_Sim" Source="Dispersal_Sim.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="Dispersal_Sim.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="Dispersal_Sim.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Dispersal_Sim" Source="Dispersal_Sim.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>
