@@ -1,7 +1,0 @@
-<PartCoverSettings>
-  <Target>D:\Dispersal\Code\Round_2\Dispersal_Sim\bin\Debug\Dispersal_Sim.exe</Target>
-  <TargetWorkDir>D:\Dispersal\Code\Round_2\Dispersal_Sim\bin\Debug</TargetWorkDir>
-  <TargetArgs>
-  </TargetArgs>
-  <Rule>+[Dispersal_Sim.exe*]*</Rule>
-</PartCoverSettings>
