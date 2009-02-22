@@ -26,7 +26,7 @@ using bobResize;
 using System.Xml;
 using System.Xml.XPath;
 using PAZ_Dispersal.Forms;
-using GISHACK;
+//using GISHACK;
 
 namespace PAZ_Dispersal
 {
@@ -1700,15 +1700,7 @@ namespace PAZ_Dispersal
 		[STAThread]
 		static void Main() 
 		{
-#if DEBUG
-         GISHACK.TimeAdjuster.goBack();
-         GISHACK.TimeAdjuster.goBack();
-#endif
 			Application.Run(new frmInput());
-#if DEBUG
-         GISHACK.TimeAdjuster.goForward();
-         GISHACK.TimeAdjuster.goForward();
-#endif         
 
 		}
 

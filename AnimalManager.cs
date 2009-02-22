@@ -27,6 +27,8 @@ namespace PAZ_Dispersal
             mSafeSearchMod = new SafeSearchModifier();
             fw.writeLine("now making the mover object");
             mMover = RandomWCMover.getRandomWCMover();
+           
+           
             //  myMapManager = MapManager.GetUniqueInstance();
             //   mResidentAttributes = new ResidentAttributes();
 
@@ -53,6 +55,8 @@ namespace PAZ_Dispersal
         private HomeRangeCriteria mFemaleHomeRangeCriteria;
         private IHomeRangeTrigger mHomeRangeTrigger;
         private IHomeRangeFinder mHomeRangeFinder;
+
+       private Dictionary<IPoint,MapValue> mMapValues;
         #endregion
 
         #region public methods
@@ -610,25 +614,26 @@ namespace PAZ_Dispersal
             }
         }
 
-        public void setInitialValues()
-        {
-            try
-            {
+       public void setInitialValues()
+       {
+          
+          try
+          {
 
-            }
-            catch (System.Exception ex)
-            {
-                FileWriter.FileWriter.WriteErrorFile(ex);
+          }
+          catch (System.Exception ex)
+          {
+             FileWriter.FileWriter.WriteErrorFile(ex);
 #if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-            }
-        }
+          }
+       }
         public bool setSleepTime(DateTime currTime)
         {
             Animal a;
-            Animal b = new Animal();
-
+           // Animal b = new Animal();
+            this.mMapValues = new Dictionary<IPoint, MapValue>();
             bool success = true;
             fw.writeLine("inside animal manager calling set sleep time");
             try
@@ -641,12 +646,46 @@ namespace PAZ_Dispersal
                         a = (Animal)currAnimal.Current;
                         if (a.GetType().Name != "Resident" && !a.IsDead)
                         {
-                            if (a.Location == b.Location)
+                            
+                            a.setInitialSleepTime(currTime);
+                            fw.writeLine("Now check to see if we have the value for this location or not");
+                            if (this.mMapValues.ContainsKey(a.Location))
                             {
-                                a.MoveIndex = b.MoveIndex;
+                               fw.writeLine("had it so set the values");
+
+                               a.CaptureFood = this.mMapValues[a.Location].CaptureFood;
+                               a.FoodMeanSize = this.mMapValues[a.Location].FoodMeanSize;
+                               a.MoveSpeed = this.mMapValues[a.Location].MoveSpeed;
+                               a.MoveTurtosity = this.mMapValues[a.Location].MoveTurtosity;
+                               a.PerceptonModifier = this.mMapValues[a.Location].PerceptonModifier;
+                               a.PredationRisk = this.mMapValues[a.Location].PredationRisk;
+                               a.FoodIndex = this.mMapValues[a.Location].FoodIndex;
+                               a.MoveIndex = this.mMapValues[a.Location].MoveIndex;
+                               a.RiskIndex = this.mMapValues[a.Location].RiskIndex;
+                               a.SocialIndex = this.mMapValues[a.Location].SocialIndex;
                             }
-                            a.setInitialValues(currTime);
-                            b = a;
+                            else
+                            {
+                               fw.writeLine("did not have it, so go get them from the animal");
+                               a.setInitialValues(currTime);
+                               fw.writeLine("now store them off");
+                               MapValue mv = new MapValue();
+                               mv.CaptureFood = a.CaptureFood;
+                               mv.CurrLocation = a.Location;
+                               mv.FoodMeanSize = a.FoodMeanSize;
+                               mv.FoodSD_Size = a.FoodSD_Size;
+                               mv.MoveSpeed = a.MoveSpeed;
+                               mv.MoveTurtosity = a.MoveTurtosity;
+                               mv.PerceptonModifier = a.PerceptonModifier;
+                               mv.PredationRisk = a.PredationRisk;
+                               mv.FoodIndex = a.FoodIndex;
+                               mv.MoveIndex = a.MoveIndex;
+                               mv.RiskIndex = a.RiskIndex;
+                               mv.SocialIndex = a.SocialIndex;
+                               fw.writeLine("add to the list");
+                               this.mMapValues.Add(a.Location, mv);
+                            }
+                           
                         }
                     }
                 }

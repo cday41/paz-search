@@ -767,9 +767,7 @@ namespace PAZ_Dispersal
 
             startRight.X = start.X+ mPerceptionDist * System.Math.Cos(angleRight);
             startRight.Y = start.Y + mPerceptionDist * System.Math.Sin(angleRight);
-            //startRight.Y = start.Y + mPerceptionDist * System.Math.Sin(angleMoved + angleRight);
-
-			
+            			
             //repeat for end
             endLeft.X = end.X+ mPerceptionDist * System.Math.Cos(angleLeft);
             endLeft.Y = end.Y+ mPerceptionDist * System.Math.Sin(angleLeft);

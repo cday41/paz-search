@@ -140,6 +140,8 @@ private static MapManager uniqueInstance;
             fw.writeLine("back in AddTimeSteps now calling dissolveSteps");
             myMapManipulator.dissolveSteps();
             fw.writeLine("back from AddTimeSteps now calling do Occupied Stuff");
+             //this is to get the current occupied or not at this time because
+             // it could change over time.
             myMapManipulator.doOccupiedStuff(sex);
             if (timeStep == 0)
             {
@@ -157,7 +159,9 @@ private static MapManager uniqueInstance;
 
             }
             fw.writeLine("Now calling dissovle maps");
-            this.myAnimalMaps[AnimalID].dissolveAvailablePolygons(timeStep.ToString());
+             //HACK NEED TO REDO
+            ITable t = this.myMapManipulator.getTable(this.myAnimalMaps[AnimalID].mySelf);
+            this.myAnimalMaps[AnimalID].dissolveAvailablePolygons(timeStep.ToString(), t);
             fw.writeLine("Back from dissolveAvailablePolygons in AddTimeSteps now calling myAnimalMaps[AnimalID].explode");
             this.myAnimalMaps[AnimalID].explode(timeStep.ToString());
 

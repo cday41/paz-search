@@ -105,37 +105,37 @@ namespace PAZ_Dispersal
       }
       
      
-      public void dissolveStep()
-      {
+//      public void dissolveStep()
+//      {
          
-         ITable inputTable;
+//         ITable inputTable;
       
-         try
-         {
+//         try
+//         {
             
-            inputTable=this.getTable();
-            fw.writeLine("after getting the table for input");
-            fw.writeLine("number of fields int hte table is " + inputTable.Fields.FieldCount.ToString());
-            this.buildOutShapeFileName();
-            this.buildWorkSpaceName();
-            this.buildDataSetName(this.mySelf.AliasName);
-            int index = inputTable.FindField("AVAILABLE");
-            fw.writeLine("index of currtime is " + index.ToString());
-            if (inputTable.FindField("Available") >= 0)
-               mStepTable = ibg.Dissolve(inputTable,false,"Available","Minimum.Available",dsName);
-            //clean up the steps so we do not use them again
+//            inputTable=this.getTable();
+//            fw.writeLine("after getting the table for input");
+//            fw.writeLine("number of fields int hte table is " + inputTable.Fields.FieldCount.ToString());
+//            this.buildOutShapeFileName();
+//            this.buildWorkSpaceName();
+//            this.buildDataSetName(this.mySelf.AliasName);
+//            int index = inputTable.FindField("AVAILABLE");
+//            fw.writeLine("index of currtime is " + index.ToString());
+//            if (inputTable.FindField("Available") >= 0)
+//               mStepTable = ibg.Dissolve(inputTable,false,"Available","Minimum.Available",dsName);
+//            //clean up the steps so we do not use them again
           
          
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
+//         }
+//         catch(System.Exception ex)
+//         {
+//#if (DEBUG)
+//            System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//            FileWriter.FileWriter.WriteErrorFile(ex);
+//         }
         
-      }
+//      }
       private void getFieldID (ref StringCollection sc)
       {
          featCursor = this.mySelf.Search(null,true);
@@ -164,17 +164,17 @@ namespace PAZ_Dispersal
 
       }
 
-      public void dissolveAvailablePolygons(string inTimeStep)
+      public void dissolveAvailablePolygons(string inTimeStep, ITable inputTable)
       {
-         ITable inputTable = null;
-         ITable t = null;
+
+          ITable t = null;
          IBasicGeoprocessor bg = new ESRI.ArcGIS.Carto.BasicGeoprocessorClass();
          int numRows = 0;
          try
          {
             
             this.removeTimeStepMaps();
-            inputTable = this.getTable();
+            //inputTable = this.getTable();
             
             numRows = inputTable.RowCount(null);
             this.buildOutShapeFileName();
