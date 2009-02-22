@@ -248,24 +248,32 @@ namespace PAZ_Dispersal
       }//end of changeActiveState
       private string createTextOutput(DateTime currTime,double inPercent, double inX,double inY)
       {
-         string outPut;
+         string outPut = null;
 
-         outPut = currTime.Year.ToString() + "," +
-            currTime.ToShortDateString() + "," +
-            currTime.ToShortTimeString() + "," +
-            this.IdNum.ToString() + "," +
-            inX.ToString() + "," +
-            inY.ToString() + "," +
-            this.IsAsleep.ToString() + "," +
-            this.StateModifer.Name + "," +
-            this.mCurrEnergy.ToString() + "," +
-            //BC Saturday, February 16, 2008
-            (this.mPredationRisk * inPercent).ToString() + "," +
-            (this.mCaptureFood * inPercent).ToString() + "," +
-            this.mMoveTurtosity.ToString() + "," +
-            (this.mMoveSpeed * inPercent).ToString()+ "," +
-            this.mPerceptionDist.ToString()+ "," +
-            inPercent.ToString();
+         try
+         {
+             outPut = currTime.Year.ToString() + "," +
+                currTime.ToShortDateString() + "," +
+                currTime.ToShortTimeString() + "," +
+                this.IdNum.ToString() + "," +
+                inX.ToString() + "," +
+                inY.ToString() + "," +
+                this.IsAsleep.ToString() + "," +
+                this.StateModifer.Name + "," +
+                this.mCurrEnergy.ToString() + "," +
+                 //BC Saturday, February 16, 2008
+                (this.mPredationRisk * inPercent).ToString() + "," +
+                (this.mCaptureFood * inPercent).ToString() + "," +
+                this.mMoveTurtosity.ToString() + "," +
+                (this.mMoveSpeed * inPercent).ToString() + "," +
+                this.mPerceptionDist.ToString() + "," +
+                inPercent.ToString();
+         }
+         catch (System.Exception ex)
+         {
+
+             FileWriter.FileWriter.WriteErrorFile(ex);
+         }
 
          return outPut;
       }// end of createTextOutput
@@ -582,8 +590,14 @@ namespace PAZ_Dispersal
                   //Thursday, February 21, 2008 Moved after move to capture the percent of the step taken
                   //Wednesday, March 05, 2008 moved after calculating the the temp percent to accurately capture the value.
                   if (doTextOutput)
-                     mTextFileWriter.addLine(this.createTextOutput(currTime,tempPercentTimeStep,tempX,tempY));
-               
+                  {
+                      fw.writeLine("start writing text output");
+                      string s = this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY);
+                      fw.writeLine("the output will be " + s);
+                      mTextFileWriter.addLine(s,fw);
+ fw.writeLine("done writing text output");
+                  }
+                 
                   loseEnergy(tempPercentTimeStep);
                   eat(tempPercentTimeStep);
                   die(tempPercentTimeStep);
