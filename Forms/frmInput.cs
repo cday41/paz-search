@@ -2147,7 +2147,7 @@ namespace PAZ_Dispersal
          yf.ShowDialog();
          //add one day because right now the current start date is at midnite.
          this.myMapManager.changeMaps(this.mySimManager.StartSimulationDate);
-         this.mySimManager.buildAnimals();
+        this.mySimManager.buildAnimals();
          this.mySimManager.buildResidents();
          MessageBox.Show("done building animals");
          this.ShowTabPage(this.tabSpecies);

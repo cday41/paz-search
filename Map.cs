@@ -810,6 +810,7 @@ namespace PAZ_Dispersal
          return area;
       }
       public void GetInitialAnimalAttributes(out InitialAnimalAttributes [] outAttributes)
+      
       {
          IPoint tmpPoint = null;
          IFeature tmpFeature = null;

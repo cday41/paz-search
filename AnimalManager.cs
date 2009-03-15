@@ -328,14 +328,16 @@ namespace PAZ_Dispersal
             try
             {
                 //this is an array of attributes one of which is how many to make of this type
-                for (int i = 0; i <= inIAA.Length - 1; i++)
+                for (
+                    
+                    int i = 0; i <= inIAA.Length - 1; i++)
                 {
                     //so for each entity in the array we need to make j amount of animals
                     for (int j = 0; j < inIAA[i].NumToMake; j++)
                     {
                         if (inIAA[i].Sex == 'M')
                         {
-                            //fw.writeLine("makeing a new male");
+                            fw.writeLine("makeing a new male");
                             tmpAnimal = new Male();
                         }
                         else
@@ -353,6 +355,7 @@ namespace PAZ_Dispersal
                         tmpAnimal.myMover = this.mMover;
                         tmpAnimal.StateModifer = this.SafeSearchMod;
                         tmpAnimal.AnimalManager = this;
+                        tmpAnimal.dump();
                         fw.writeLine("now adding to the list of my animals;");
                         this.Add(tmpAnimal);
                     }

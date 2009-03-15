@@ -41,6 +41,7 @@ using System.IO;
 using System;
 using DesignByContract;
 using System.Collections.Generic;
+using System.Threading;
 namespace PAZ_Dispersal
 {
    public  class Animal
@@ -594,8 +595,30 @@ namespace PAZ_Dispersal
                       fw.writeLine("start writing text output");
                       string s = this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY);
                       fw.writeLine("the output will be " + s);
-                      mTextFileWriter.addLine(s,fw);
- fw.writeLine("done writing text output");
+                      if (mTextFileWriter != null)
+                      {
+                          mTextFileWriter.addLine(s, fw);
+                      }
+                      else
+                      {
+                          Thread.Sleep(300);
+                          int i = 0;
+                          while(mTextFileWriter == null && i < 100000)
+                          {
+                              i++;
+                              Thread.Sleep(300);
+                          }
+                          if (mTextFileWriter != null)
+                          {
+                              mTextFileWriter.addLine(s, fw);
+                              mTextFileWriter.addLine("looped " + i.ToString() + " times");
+                          }
+                          else
+                          {
+                              fw.writeLine("text writer bailed");
+                          }
+                      }
+                        fw.writeLine("done writing text output");
                   }
                  
                   loseEnergy(tempPercentTimeStep);
