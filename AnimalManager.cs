@@ -330,7 +330,7 @@ namespace PAZ_Dispersal
                 //this is an array of attributes one of which is how many to make of this type
                 for (
                     
-                    int i = 0; i <= inIAA.Length - 1; i++)
+                     int i = 0; i <= inIAA.Length - 1; i++)
                 {
                     //so for each entity in the array we need to make j amount of animals
                     for (int j = 0; j < inIAA[i].NumToMake; j++)
@@ -338,7 +338,7 @@ namespace PAZ_Dispersal
                         if (inIAA[i].Sex == 'M')
                         {
                             fw.writeLine("makeing a new male");
-                            tmpAnimal = new Male();
+                             tmpAnimal = new Male();
                         }
                         else
                         {
@@ -651,11 +651,11 @@ namespace PAZ_Dispersal
                         {
                             
                             a.setInitialSleepTime(currTime);
+                            a.setInitialSleepValues(currTime);
                             fw.writeLine("Now check to see if we have the value for this location or not");
                             if (this.mMapValues.ContainsKey(a.Location))
                             {
                                fw.writeLine("had it so set the values");
-
                                a.CaptureFood = this.mMapValues[a.Location].CaptureFood;
                                a.FoodMeanSize = this.mMapValues[a.Location].FoodMeanSize;
                                a.MoveSpeed = this.mMapValues[a.Location].MoveSpeed;
@@ -670,7 +670,7 @@ namespace PAZ_Dispersal
                             else
                             {
                                fw.writeLine("did not have it, so go get them from the animal");
-                               a.setInitialValues(currTime);
+                               a.setInitialMapValues(currTime);
                                fw.writeLine("now store them off");
                                MapValue mv = new MapValue();
                                mv.CaptureFood = a.CaptureFood;
@@ -735,7 +735,7 @@ namespace PAZ_Dispersal
         }
 
 
-        public void winterKillResidents()
+        public void winterKillResidents(DateTime currTime)
         {
             try
             {
@@ -751,7 +751,7 @@ namespace PAZ_Dispersal
                     {
                         r = (Resident)this[i];
                         fw.writeLine("so we are going to call the resident winter kill method");
-                        r.winterKill();
+                        r.winterKill(currTime);
                         fw.writeLine("after calling resident winter kill the animal is dead = " + r.IsDead.ToString());
                         if (r.IsDead)
                         {
@@ -899,7 +899,9 @@ namespace PAZ_Dispersal
 
                     tmpAnimal.HomeRangeTrigger = this.mHomeRangeTrigger;
                     tmpAnimal.HomeRangeFinder = this.mHomeRangeFinder;
-                    tmpAnimal.setInitialValues(currTime);
+                    tmpAnimal.setInitialSleepTime(currTime);
+                    tmpAnimal.setInitialSleepValues(currTime);
+                    tmpAnimal.setInitialMapValues(currTime);
                     tmpAnimal.dump();
                     this.Add(tmpAnimal);
                 }

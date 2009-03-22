@@ -371,7 +371,7 @@ namespace PAZ_Dispersal
          this.currDailyMod = this.myDailyModifiers.getNext();
          this.nextDayStart = this.myDailyModifiers.NextStartDate;
          //09/09/2007 moved winter kill before changing maps
-         this.mAnimalManager.winterKillResidents();
+         this.mAnimalManager.winterKillResidents(this.currTime);
          //the old mMaps out put path include last years YEAR so we need to strip it off and replace it with this years YEAR
          this.mMaps.OutMapPath = this.mMaps.OutMapPath.Remove(this.mMaps.OutMapPath.LastIndexOf("\\"),5);
          this.mMaps.OutMapPath = this.mMaps.OutMapPath + "\\" + this.currTime.Year.ToString();

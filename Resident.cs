@@ -27,7 +27,7 @@ namespace PAZ_Dispersal
       {
          Check.Require(mMyAttributes != null, "Resident Attributes have not been set");
          Check.Require(this.IdNum >= 0, "Resident ID was not set");
-         die(ref status);
+         die(ref status,currTime);
       }
 
       public void breed(out int numMales, out int numFemales)
@@ -77,7 +77,7 @@ namespace PAZ_Dispersal
          
       }
 
-      private void die(ref string status)
+      private void die(ref string status, DateTime currTime)
       {
          try
          {
@@ -89,7 +89,7 @@ namespace PAZ_Dispersal
             {
                status = "dead FROM ROLL OF DICE";
                fw.writeLine("george dies");
-               this.mTextFileWriter.addLine("died durning timestep");
+               this.mTextFileWriter.addLine("died durning timestep at " + currTime.ToShortTimeString() + ' ' + currTime.ToShortDateString());
                this.mIsDead = true;
             }
          }
@@ -99,7 +99,7 @@ namespace PAZ_Dispersal
          }
       }
 
-      public void winterKill()
+      public void winterKill(DateTime currTime)
       {
          try
          {
@@ -111,7 +111,7 @@ namespace PAZ_Dispersal
             if (mMyAttributes.ResidentYearlyRisk > rollOfTheDice)
             {
                fw.writeLine("did not make it through the winter so setting mDead to true");
-               this.mTextFileWriter.addLine("died as winter kill");
+               this.mTextFileWriter.addLine("died as winter kill at " + currTime.ToShortDateString());
                this.mIsDead = true;
             }
          }

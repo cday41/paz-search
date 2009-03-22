@@ -592,33 +592,7 @@ namespace PAZ_Dispersal
                   //Wednesday, March 05, 2008 moved after calculating the the temp percent to accurately capture the value.
                   if (doTextOutput)
                   {
-                      fw.writeLine("start writing text output");
-                      string s = this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY);
-                      fw.writeLine("the output will be " + s);
-                      if (mTextFileWriter != null)
-                      {
-                          mTextFileWriter.addLine(s, fw);
-                      }
-                      else
-                      {
-                          Thread.Sleep(300);
-                          int i = 0;
-                          while(mTextFileWriter == null && i < 100000)
-                          {
-                              i++;
-                              Thread.Sleep(300);
-                          }
-                          if (mTextFileWriter != null)
-                          {
-                              mTextFileWriter.addLine(s, fw);
-                              mTextFileWriter.addLine("looped " + i.ToString() + " times");
-                          }
-                          else
-                          {
-                              fw.writeLine("text writer bailed");
-                          }
-                      }
-                        fw.writeLine("done writing text output");
+                     mTextFileWriter.addLine(this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY));
                   }
                  
                   loseEnergy(tempPercentTimeStep);
@@ -742,17 +716,13 @@ namespace PAZ_Dispersal
          }
          return isSuitable && isAvailable;
       }
-      public void setInitialValues(DateTime currTime)
+
+      public void setInitialMapValues(DateTime currTime)
       {
          try
          { 
-            fw.writeLine("inside setInitialValues for animal " + this.myIdNum.ToString());
-            setInitialSleepTime(currTime);
-            if (this.mMoveIndex < 0)
-               setInitialLocaton();
-            this.mPerceptionDist = this.AnimalAtributes.PerceptionDistance;
-            this.buildFileNamePrefix(currTime.Year.ToString());
-            this.TextFileWriter = new TextFileWriter(this.AnimalAtributes.OutPutDir,this.fileNamePrefix);
+            fw.writeLine("inside setInitialMapValues for animal " + this.myIdNum.ToString());
+            
             this.setSocialIndex(this.Location);
             this.mMapManager.GetInitialMapData(this);
          }
@@ -765,6 +735,17 @@ namespace PAZ_Dispersal
          }
         
       }
+
+       public void setInitialSleepValues(DateTime currTime)
+       {
+           setInitialSleepTime(currTime);
+           if (this.mMoveIndex < 0)
+               setInitialLocaton();
+           this.mPerceptionDist = this.AnimalAtributes.PerceptionDistance;
+           this.buildFileNamePrefix(currTime.Year.ToString());
+           this.TextFileWriter = new TextFileWriter(this.AnimalAtributes.OutPutDir, this.fileNamePrefix);
+           return;
+       }
 
       public void updateMemory()
       {
