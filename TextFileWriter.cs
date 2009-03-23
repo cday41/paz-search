@@ -16,46 +16,17 @@ namespace PAZ_Dispersal
             }
             
             sw = new StreamWriter(mOutPath + "\\" + fileName + ".txt",true);
-            sw.AutoFlush = true;
             sw.WriteLine("Year,Day,Time,George #, X, Y, Asleep,Behavior Mode,Energy Level,Risk,ProbFoodCap,MVL,MSL,PercptionDist,Percent Step");
-
          }
       }
-      public void addLine(string inValue,FileWriter.FileWriter inFw)
+      public void addLine(string inValue)
       {
-          try
-          {
-              inFw.writeLine("inside addline checking if sw is null");
-              if (sw != null)
-              {
-                  inFw.writeLine("sw was not null");
-                  sw.WriteLine(inValue);
-                  sw.Flush();
-              }
-          }
-          catch (System.Exception ex)
-          {
-
-              FileWriter.FileWriter.WriteErrorFile(ex);
-          }
+         if(sw != null)
+         {
+            sw.WriteLine(inValue);
+            sw.Flush();
+         }
       }
-       public void addLine(string inValue)
-       {
-           try
-           {
-              
-               if (sw != null)
-               {
-                   sw.WriteLine(inValue);
-                   sw.Flush();
-               }
-           }
-           catch (System.Exception ex)
-           {
-
-               FileWriter.FileWriter.WriteErrorFile(ex);
-           }
-       }
 
       public void close()
       {

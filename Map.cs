@@ -3,10 +3,6 @@ using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.ArcMapUI;
-using ESRI.ArcGIS.Framework;
-using ESRI.ArcGIS.CartoUI;
-
 using System;
 using System.IO;
 using System.Threading;
@@ -23,6 +19,7 @@ namespace PAZ_Dispersal
       private IFeature myFeature;
       protected IFeatureLayer myFeatureLayer;
       private IField myField;
+      private IMap myMap;
       private object myObject;
       protected IWorkspaceName wsName;
       protected IDatasetName dsName;
@@ -79,8 +76,7 @@ namespace PAZ_Dispersal
          wsName = new WorkspaceNameClass();
          myHash = new Hashtable();
          this.myFeatureLayer = new FeatureLayerClass();
-         //this.myDoc = new MxDocumentClass();
-        // this.myMap = this.myDoc.FocusMap;
+         this.myMap = new MapClass();
          this.myFeature = null;
         
       }
@@ -381,44 +377,50 @@ namespace PAZ_Dispersal
          return coInfo;
       }
 
-//      public void disovleFeatures(string fieldName)
-//      {
-//         ITable myTable = null;
-//         IDatasetName dsName = null;
-//         IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
-//         IFeatureClassName fcn = new FeatureClassNameClass();
-//         try
-//         { 
-//            fcn.FeatureType=this.mySelf.FeatureType;
-//            fcn.ShapeType = this.mySelf.ShapeType;
-//            fcn.ShapeFieldName = this.mySelf.ShapeFieldName;
+      public void disovleFeatures(string fieldName)
+      {
+         ITable myTable = null;
+         IDatasetName dsName = null;
+         IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
+         IFeatureClassName fcn = new FeatureClassNameClass();
+         try
+         { 
+            fcn.FeatureType=this.mySelf.FeatureType;
+            fcn.ShapeType = this.mySelf.ShapeType;
+            fcn.ShapeFieldName = this.mySelf.ShapeFieldName;
 
-//            dsName=(IDatasetName)fcn;
-//            dsName.Name = "testDisolove";
-//            dsName.WorkspaceName=this.getWorkspaceName();
+            dsName=(IDatasetName)fcn;
+            dsName.Name = "testDisolove";
+            dsName.WorkspaceName=this.getWorkspaceName();
            
-//            myTable = this.getTable();
-//            if (myTable.FindField(fieldName) >= 0)
-//            {
-//               ITable t = bgp.Dissolve(myTable,false,fieldName,"Dissolve.Shape,Minimum."+fieldName,dsName);
-//            }
-//            else
-//            {
-//#if debug
-//               System.Windows.Forms.MessageBox.Show(fieldName + " can not be found for dissolve");
-//#endif
-//            }
+            myTable = this.getTable();
+            if (myTable.FindField(fieldName) >= 0)
+            {
+               ITable t = bgp.Dissolve(myTable,false,fieldName,"Dissolve.Shape,Minimum."+fieldName,dsName);
+            }
+            else
+            {
+#if debug
+               System.Windows.Forms.MessageBox.Show(fieldName + " can not be found for dissolve");
+#endif
+            }
 
 
-//         }
-//         catch(System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-      //}
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+        
+         
+         
+         
+
+
+      }
       public bool hasFeatures()
       {
          return this.mySelf.FeatureCount(null) > 0;
@@ -761,9 +763,10 @@ namespace PAZ_Dispersal
       public double getAllAvailableArea(int inAnimalID, string sex)
       {
          IArea a;
+         //HACK remove after testing
+         int numFeature = 0;
          double area = 0;double d = 0;
          IFeatureCursor search = null;
-
          fw.writeLine("inside getAllAvailableArea for animal id " + inAnimalID.ToString() + " who is " + sex);
          try
          {
@@ -778,17 +781,17 @@ namespace PAZ_Dispersal
             fw.writeLine("so my cursor where clause is " + qf.WhereClause);
             search = this.mySelf.Search(qf,false);
             fw.writeLine("just filled the cursor");
-          
+            
             f = search.NextFeature();
             while (f != null)
             {
                
                a = (IArea)f.ShapeCopy;
-               d = a.Area /(1000^2);
+               d = a.Area /(1000000);
                area += d;
-               fw.writeLine("working on feature number " + f.OID.ToString());
+               fw.writeLine("working on feature number " + numFeature.ToString());
                fw.writeLine("that feature has " + a.Area.ToString());
-               fw.writeLine("so after area/(1000^2) value is " + d.ToString());
+               fw.writeLine("so after area/(1000000) value is " + d.ToString());
                fw.writeLine("so current total area is " + area.ToString());
               
                f = search.NextFeature();
@@ -810,7 +813,6 @@ namespace PAZ_Dispersal
          return area;
       }
       public void GetInitialAnimalAttributes(out InitialAnimalAttributes [] outAttributes)
-      
       {
          IPoint tmpPoint = null;
          IFeature tmpFeature = null;
@@ -962,16 +964,16 @@ namespace PAZ_Dispersal
          }
          
       }
-      //public IFeatureLayer getLayer()
-      //{
-      //   myMap.ClearLayers();
-      //   this.myFeatureLayer.FeatureClass = mMySelf;
-      //   this.myFeatureLayer.Name = this.mySelf.AliasName;
-      //   this.myMap.AddLayer(this.myFeatureLayer);
-      //   ILayer l = myMap.get_Layer(0);
-      //   return (IFeatureLayer)l;
+      public IFeatureLayer getLayer()
+      {
+         myMap.ClearLayers();
+         this.myFeatureLayer.FeatureClass = mMySelf;
+         this.myFeatureLayer.Name = this.mySelf.AliasName;
+         this.myMap.AddLayer(this.myFeatureLayer);
+         ILayer l = myMap.get_Layer(0);
+         return (IFeatureLayer)l;
 
-      //}
+      }
       public object getNamedValueForSinglePolygon(int inPolyIndex,string inName)
       {
          this.myObject=null;
@@ -998,12 +1000,12 @@ namespace PAZ_Dispersal
 
       }
 
-      //public ITable getTable()
-      //{
-      //   ITable t;
-      //   t = (ITable)getLayer();
-      //   return t;
-      //}
+      public ITable getTable()
+      {
+         ITable t;
+         t = (ITable)getLayer();
+         return t;
+      }
 
       
       public IWorkspaceName getWorkspaceName()
@@ -1021,36 +1023,36 @@ namespace PAZ_Dispersal
          }
          return wsName;
       }
-//      public void dissolvePolygons(string inFieldName)
-//      {
-//         try
-//         {
-//            IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
-//            fw.writeLine("inside map mergepolygons clear out any exsiting layers");
-//            this.myMap.ClearLayers();
-//            fw.writeLine("make the feature class layer and add to map");
-//            this.myFeatureLayer = (IFeatureLayer)getLayer();
-//            ITable t = (ITable) this.myFeatureLayer;
-//            fw.writeLine("now work on the workspace thing");
-//            IWorkspaceName wsName = getWorkspaceName();
-//            IFeatureClassName outShapeFileName = new FeatureClassNameClass();
-//            outShapeFileName.FeatureType = mMySelf.FeatureType;
-//            outShapeFileName.ShapeType = mMySelf.ShapeType;
-//            outShapeFileName.ShapeFieldName = mMySelf.ShapeFieldName;
-//            IDatasetName dsName=(IDatasetName)outShapeFileName;
-//            dsName.Name = this.myFileName;
-//            dsName.WorkspaceName = wsName;
+      public void dissolvePolygons(string inFieldName)
+      {
+         try
+         {
+            IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
+            fw.writeLine("inside map mergepolygons clear out any exsiting layers");
+            this.myMap.ClearLayers();
+            fw.writeLine("make the feature class layer and add to map");
+            this.myFeatureLayer = (IFeatureLayer)getLayer();
+            ITable t = (ITable) this.myFeatureLayer;
+            fw.writeLine("now work on the workspace thing");
+            IWorkspaceName wsName = getWorkspaceName();
+            IFeatureClassName outShapeFileName = new FeatureClassNameClass();
+            outShapeFileName.FeatureType = mMySelf.FeatureType;
+            outShapeFileName.ShapeType = mMySelf.ShapeType;
+            outShapeFileName.ShapeFieldName = mMySelf.ShapeFieldName;
+            IDatasetName dsName=(IDatasetName)outShapeFileName;
+            dsName.Name = this.myFileName;
+            dsName.WorkspaceName = wsName;
 
-//            t = bgp.Dissolve(t,false,inFieldName,"Dissolve.Shape",dsName);
-//         }
-//         catch(System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//      }
+            t = bgp.Dissolve(t,false,inFieldName,"Dissolve.Shape",dsName);
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
       public void removeAllPolygons()
       {
          try
@@ -1549,14 +1551,13 @@ namespace PAZ_Dispersal
          {
             fw.writeLine("inside isPointOnMap with a value of X=" + inPoint.X.ToString() + " Y=" + inPoint.Y.ToString());
             //now we need to see if we are off the map or not.
-             //HACK NEED TO PUT BACK 
-            //IEnvelope e = this.getLayer().AreaOfInterest;
-            //fw.writeLine("XMax = "+e.XMax.ToString());
-            //fw.writeLine("XMin = "+e.XMin.ToString());
-            //fw.writeLine("YMax = "+e.YMax.ToString());
-            //fw.writeLine("YMin = "+e.YMin.ToString());
-            //if (inPoint.X > e.XMax || inPoint.X < e.XMin || inPoint.Y > e.YMax || inPoint.Y < e.YMin)
-            //   onMap=false;
+            IEnvelope e = this.getLayer().AreaOfInterest;
+            fw.writeLine("XMax = "+e.XMax.ToString());
+            fw.writeLine("XMin = "+e.XMin.ToString());
+            fw.writeLine("YMax = "+e.YMax.ToString());
+            fw.writeLine("YMin = "+e.YMin.ToString());
+            if (inPoint.X > e.XMax || inPoint.X < e.XMin || inPoint.Y > e.YMax || inPoint.Y < e.YMin)
+               onMap=false;
          }
          catch(System.Exception ex)
          {

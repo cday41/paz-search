@@ -12,7 +12,7 @@ namespace PAZ_Dispersal
       private double mPercentBreed;
       private double mNumChildernMean;
       private double mNumChildernSD;
-     
+      private string mOrginalID;
       
       private double mPercentFemale;
 
@@ -39,7 +39,11 @@ namespace PAZ_Dispersal
       }
       #region gettersAndSetters
 
-     
+      public string OriginalID
+      {
+         get {return mOrginalID;}
+         set {mOrginalID = value;}
+      }
        public double PercentBreed
 		{
 			get { return mPercentBreed; }

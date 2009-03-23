@@ -40,8 +40,6 @@ using ESRI.ArcGIS.Geodatabase;
 using System.IO;
 using System;
 using DesignByContract;
-using System.Collections.Generic;
-using System.Threading;
 namespace PAZ_Dispersal
 {
    public  class Animal
@@ -131,7 +129,7 @@ namespace PAZ_Dispersal
          StreamReader sr; 
          bool foundPath = false;
          
-             string st = System.Windows.Forms.Application.StartupPath;
+         string st = System.Windows.Forms.Application.StartupPath;
          if(File.Exists( st + @"\logFile.dat"))
          {
             sr= new StreamReader( st + @"\logFile.dat");
@@ -153,7 +151,7 @@ namespace PAZ_Dispersal
             fw = new FileWriter.EmptyFileWriter();
          }
       }//end of buildLogger
-      protected void buildFileNamePrefix(string year)
+      private void buildFileNamePrefix(string year)
       {
          System.Text.StringBuilder sb = new System.Text.StringBuilder();
          try
@@ -249,32 +247,24 @@ namespace PAZ_Dispersal
       }//end of changeActiveState
       private string createTextOutput(DateTime currTime,double inPercent, double inX,double inY)
       {
-         string outPut = null;
+         string outPut;
 
-         try
-         {
-             outPut = currTime.Year.ToString() + "," +
-                currTime.ToShortDateString() + "," +
-                currTime.ToShortTimeString() + "," +
-                this.IdNum.ToString() + "," +
-                inX.ToString() + "," +
-                inY.ToString() + "," +
-                this.IsAsleep.ToString() + "," +
-                this.StateModifer.Name + "," +
-                this.mCurrEnergy.ToString() + "," +
-                 //BC Saturday, February 16, 2008
-                (this.mPredationRisk * inPercent).ToString() + "," +
-                (this.mCaptureFood * inPercent).ToString() + "," +
-                this.mMoveTurtosity.ToString() + "," +
-                (this.mMoveSpeed * inPercent).ToString() + "," +
-                this.mPerceptionDist.ToString() + "," +
-                inPercent.ToString();
-         }
-         catch (System.Exception ex)
-         {
-
-             FileWriter.FileWriter.WriteErrorFile(ex);
-         }
+         outPut = currTime.Year.ToString() + "," +
+            currTime.ToShortDateString() + "," +
+            currTime.ToShortTimeString() + "," +
+            this.IdNum.ToString() + "," +
+            inX.ToString() + "," +
+            inY.ToString() + "," +
+            this.IsAsleep.ToString() + "," +
+            this.StateModifer.Name + "," +
+            this.mCurrEnergy.ToString() + "," +
+            //BC Saturday, February 16, 2008
+            (this.mPredationRisk * inPercent).ToString() + "," +
+            (this.mCaptureFood * inPercent).ToString() + "," +
+            this.mMoveTurtosity.ToString() + "," +
+            (this.mMoveSpeed * inPercent).ToString()+ "," +
+            this.mPerceptionDist.ToString()+ "," +
+            inPercent.ToString();
 
          return outPut;
       }// end of createTextOutput
@@ -384,7 +374,7 @@ namespace PAZ_Dispersal
       private void loseEnergy(double percentTimeStep)
       {
          double lostEnergy = 0;
-         //changed calc to use EnergyUsed instead of mTemporalEnergyUsed
+         //changed calc to use mEnergyUsed instead of mTemporalEnergyUsed
          lostEnergy = percentTimeStep * mEnergyUsed;  fw.writeLine("I used " + mEnergyUsed.ToString() + " this timestep");
          fw.writeLine("inside lose energy current energy level  is " + mCurrEnergy.ToString());
          this.mCurrEnergy = this.mCurrEnergy - lostEnergy;  fw.writeLine("so current energy level is " + this.mCurrEnergy.ToString());
@@ -394,7 +384,7 @@ namespace PAZ_Dispersal
          fw.writeLine("inside set initial location x = " + myLocation.X.ToString() + " y " + myLocation.Y.ToString());
 
       }
-      public void setInitialSleepTime(DateTime currTime)
+      private void setInitialSleepTime(DateTime currTime)
       {
          if (this.IdNum == 0 )
             fw.writeLine("inside set inital sleeptime curr time is " + currTime.ToShortDateString() + "  " + currTime.ToShortTimeString());
@@ -412,10 +402,10 @@ namespace PAZ_Dispersal
       }
       private void setSocialIndex()
       {
-        // fw.writeLine("inside setting social index old one was " +SocialIndex.ToString());
+        // fw.writeLine("inside setting social index old one was " +mSocialIndex.ToString());
          //fw.writeLine("my location is x = " + this.myLocation.X.ToString() + " Y = " + this.myLocation.Y.ToString());
          this.mMapManager.getSocialIndex(this.Location,ref mSocialIndex);
-        // fw.writeLine("new social index is " + this.SocialIndex.ToString());
+        // fw.writeLine("new social index is " + this.mSocialIndex.ToString());
       }
       private void upDateTemporalModifiers(HourlyModifier inHM, DailyModifier inDM)
       {
@@ -450,7 +440,7 @@ namespace PAZ_Dispersal
          this.mMapManager.GetMoveModifiers(this.myLocation,ref mMoveIndex,ref mMoveTurtosity,ref mMoveSpeed,ref mPerceptonModifier,ref mEnergyUsed);
          this.mMapManager.GetRiskModifier(this.myLocation,ref this.mRiskIndex, ref mPredationRisk);
          //Author: Bob Cummings moved down here from eat() made more sense to do it all in one place
-        // fw.writeLine("my food index is " + this.FoodIndex.ToString());
+        // fw.writeLine("my food index is " + this.mFoodIndex.ToString());
          this.mMapManager.GetFoodData(this.myLocation,ref this.mFoodIndex,ref this.mCaptureFood, ref this.mFoodMeanSize, ref this.mFoodSD_Size);
       }
       private void upDateMyValues()
@@ -591,10 +581,8 @@ namespace PAZ_Dispersal
                   //Thursday, February 21, 2008 Moved after move to capture the percent of the step taken
                   //Wednesday, March 05, 2008 moved after calculating the the temp percent to accurately capture the value.
                   if (doTextOutput)
-                  {
-                     mTextFileWriter.addLine(this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY));
-                  }
-                 
+                     mTextFileWriter.addLine(this.createTextOutput(currTime,tempPercentTimeStep,tempX,tempY));
+               
                   loseEnergy(tempPercentTimeStep);
                   eat(tempPercentTimeStep);
                   die(tempPercentTimeStep);
@@ -655,7 +643,7 @@ namespace PAZ_Dispersal
                //Tuesday, July 15, 2008 move back to end of step
                if(this.IsAsleep == false)
                {
-                  //fw.writeLine("adding a new eligible home site to the collection PredationRisk is " + PredationRisk.ToString());
+                  //fw.writeLine("adding a new eligible home site to the collection mPredationRisk is " + mPredationRisk.ToString());
                   this.mMySites.addSite(new EligibleHomeSite(this.mCaptureFood,this.mPredationRisk,this.myLocation.X,this.myLocation.Y),ref fw);
                }
 
@@ -716,13 +704,17 @@ namespace PAZ_Dispersal
          }
          return isSuitable && isAvailable;
       }
-
-      public void setInitialMapValues(DateTime currTime)
+      public void setInitialValues(DateTime currTime)
       {
          try
          { 
-            fw.writeLine("inside setInitialMapValues for animal " + this.myIdNum.ToString());
-            
+            fw.writeLine("inside setInitialValues for animal " + this.myIdNum.ToString());
+            setInitialSleepTime(currTime);
+            if (this.mMoveIndex < 0)
+               setInitialLocaton();
+            this.mPerceptionDist = this.AnimalAtributes.PerceptionDistance;
+            this.buildFileNamePrefix(currTime.Year.ToString());
+            this.TextFileWriter = new TextFileWriter(this.AnimalAtributes.OutPutDir,this.fileNamePrefix);
             this.setSocialIndex(this.Location);
             this.mMapManager.GetInitialMapData(this);
          }
@@ -735,17 +727,6 @@ namespace PAZ_Dispersal
          }
         
       }
-
-       public void setInitialSleepValues(DateTime currTime)
-       {
-           setInitialSleepTime(currTime);
-           if (this.mMoveIndex < 0)
-               setInitialLocaton();
-           this.mPerceptionDist = this.AnimalAtributes.PerceptionDistance;
-           this.buildFileNamePrefix(currTime.Year.ToString());
-           this.TextFileWriter = new TextFileWriter(this.AnimalAtributes.OutPutDir, this.fileNamePrefix);
-           return;
-       }
 
       public void updateMemory()
       {
@@ -766,10 +747,10 @@ namespace PAZ_Dispersal
             ITopologicalOperator to;
             CircularArcClass startCurve = new CircularArcClass();
             CircularArcClass endCurve = new CircularArcClass();
-            LineClass line1 = new LineClass();
-            LineClass line2 = new LineClass();
-            LineClass line3 = new LineClass();
-            LineClass line4 = new LineClass();
+            LineClass leftLine = new LineClass();
+            LineClass rightLine = new LineClass();
+            LineClass endLine = new LineClass();
+            LineClass startLine = new LineClass();
             PolygonClass memoryPolygon = new PolygonClass();
             object Missing = Type.Missing;
 
@@ -781,47 +762,34 @@ namespace PAZ_Dispersal
 			
             //step perceptionDistance forward and back
             startLeft.X = start.X+ this.mPerceptionDist * System.Math.Cos(angleLeft);
-            startLeft.Y = start.Y+ mPerceptionDist * System.Math.Sin(angleLeft);
+            startLeft.Y = start.Y+ mPerceptionDist * System.Math.Sin(angleMoved + angleLeft);
 
             startRight.X = start.X+ mPerceptionDist * System.Math.Cos(angleRight);
-            startRight.Y = start.Y + mPerceptionDist * System.Math.Sin(angleRight);
-            			
+            startRight.Y = start.Y+ mPerceptionDist * System.Math.Sin(angleRight);
+			
             //repeat for end
             endLeft.X = end.X+ mPerceptionDist * System.Math.Cos(angleLeft);
             endLeft.Y = end.Y+ mPerceptionDist * System.Math.Sin(angleLeft);
 
             endRight.X = end.X+ mPerceptionDist * System.Math.Cos(angleRight);
             endRight.Y = end.Y+ mPerceptionDist * System.Math.Sin(angleRight);
+            leftLine.FromPoint = startLeft;
+            leftLine.ToPoint = endLeft;
 
+            rightLine.FromPoint = startRight;
+            rightLine.ToPoint = endRight;
 
-            line1.FromPoint = startLeft;
-            line1.ToPoint = endLeft;
+            endLine.FromPoint = endRight;
+            endLine.ToPoint = startLeft;
 
-            line2.FromPoint = endLeft;
-            line2.ToPoint = endRight;
+            startLine.FromPoint = endLeft;
+            startLine.ToPoint = startLeft;
 
-            line3.FromPoint = endRight;
-            line3.ToPoint = startRight;
-
-            line4.FromPoint = startRight;
-            line4.ToPoint = startLeft;
-
-            fw.writeLine("my current location is " + this.getLocation_XY());
-            fw.writeLine("StartRight is x,y " + startRight.X.ToString() + " " + startRight.Y.ToString());
-            fw.writeLine("startLeft is x,y " + startLeft.X.ToString() + " " + startLeft.Y.ToString());
-            fw.writeLine("endRight is x,y " + endRight.X.ToString() + " " + endRight.Y.ToString());
-            fw.writeLine("endLeft is x,y " + endLeft.X.ToString() + " " + endLeft.Y.ToString());
-
-             
-             
-             memoryPolygon.SpatialReference = this.Location.SpatialReference;
-            memoryPolygon.AddSegment((ISegment)line1, ref Missing,  ref Missing);
-            memoryPolygon.AddSegment((ISegment)line2, ref Missing,  ref Missing);
-            memoryPolygon.AddSegment((ISegment)line3, ref Missing,  ref Missing);
-            memoryPolygon.AddSegment((ISegment)line4, ref Missing,  ref Missing);
-
-            if (memoryPolygon.Area < 0.0)
-                memoryPolygon.ReverseOrientation();
+            memoryPolygon.SpatialReference = this.Location.SpatialReference;
+            memoryPolygon.AddSegment((ISegment)leftLine, ref Missing,  ref Missing);
+            memoryPolygon.AddSegment((ISegment)rightLine, ref Missing,  ref Missing);
+            memoryPolygon.AddSegment((ISegment)endLine, ref Missing,  ref Missing);
+            memoryPolygon.AddSegment((ISegment)startLine, ref Missing,  ref Missing);
            
             to = (ITopologicalOperator)end;
             g = to.Buffer(mPerceptionDist);

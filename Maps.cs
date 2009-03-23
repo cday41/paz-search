@@ -49,9 +49,8 @@ using DesignByContract;
 namespace PAZ_Dispersal
 {
    public class Maps
+
    {
-
-
       #region private members
       private bool changeMaps;
       private MapSwapTrigger[] mMyTriggers;
@@ -109,7 +108,7 @@ namespace PAZ_Dispersal
                fw.writeLine(this.mMyTriggers[currIndex].ToString());
                fw.writeLine("new start date year, day, and hour is less than now, so loading " + this.mMyTriggers[currIndex].Path + this.mMyTriggers[currIndex].Filename);
                fw.writeLine("which has the starting time of " + this.mMyTriggers[currIndex].StartDate.ToShortDateString() + " " + this.mMyTriggers[currIndex].StartDate.ToShortTimeString());
-                MapManager.GetUniqueInstance().loadOneMap(mMapType, this.mMyTriggers[currIndex].Filename, this.mMyTriggers[currIndex].Path);
+               MapManager.GetUniqueInstance().loadOneMap(mMapType, this.mMyTriggers[currIndex].Filename, this.mMyTriggers[currIndex].Path);
                fw.writeLine("Now using new map");
                changeMaps = true;
                setNewStartDate();
@@ -137,7 +136,6 @@ namespace PAZ_Dispersal
             this.changeMap(now);
             if (this.mMapType == "Social" && changeMaps == true)
             {
-
                am.adjustNewSocialMap(MapManager.GetUniqueInstance().SocialMap);
                
             }

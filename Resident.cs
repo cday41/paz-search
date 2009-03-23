@@ -9,13 +9,6 @@ namespace PAZ_Dispersal
    public class Resident : Animal
    {
       private ResidentAttributes mMyAttributes;
-      private string mOriginalID;
-
-      public string OriginalID
-      {
-          get { return mOriginalID; }
-          set { mOriginalID = value; }
-      }
      
       
       public Resident()
@@ -27,7 +20,7 @@ namespace PAZ_Dispersal
       {
          Check.Require(mMyAttributes != null, "Resident Attributes have not been set");
          Check.Require(this.IdNum >= 0, "Resident ID was not set");
-         die(ref status,currTime);
+         die(ref status);
       }
 
       public void breed(out int numMales, out int numFemales)
@@ -39,7 +32,7 @@ namespace PAZ_Dispersal
          double rollDice;
          try
          {
-            fw.writeLine("inside breed for resident " + this.OriginalID);
+            fw.writeLine("inside breed for resident " + this.mMyAttributes.OriginalID);
             //roll the dice to see if we breed or not.
             rollDice = rn.getUniformRandomNum();
             fw.writeLine("rolling the dice returned " + rollDice.ToString());
@@ -77,7 +70,7 @@ namespace PAZ_Dispersal
          
       }
 
-      private void die(ref string status, DateTime currTime)
+      private void die(ref string status)
       {
          try
          {
@@ -89,7 +82,7 @@ namespace PAZ_Dispersal
             {
                status = "dead FROM ROLL OF DICE";
                fw.writeLine("george dies");
-               this.mTextFileWriter.addLine("died durning timestep at " + currTime.ToShortTimeString() + ' ' + currTime.ToShortDateString());
+               this.mTextFileWriter.addLine("died durning timestep");
                this.mIsDead = true;
             }
          }
@@ -99,7 +92,7 @@ namespace PAZ_Dispersal
          }
       }
 
-      public void winterKill(DateTime currTime)
+      public void winterKill()
       {
          try
          {
@@ -111,7 +104,7 @@ namespace PAZ_Dispersal
             if (mMyAttributes.ResidentYearlyRisk > rollOfTheDice)
             {
                fw.writeLine("did not make it through the winter so setting mDead to true");
-               this.mTextFileWriter.addLine("died as winter kill at " + currTime.ToShortDateString());
+               this.mTextFileWriter.addLine("died as winter kill");
                this.mIsDead = true;
             }
          }
@@ -135,10 +128,5 @@ namespace PAZ_Dispersal
       }
 
 
-
-      internal void buildFileNamePrefix(string p)
-      {
-          base.buildFileNamePrefix(p);
-      }
-  }
+   }
 }
