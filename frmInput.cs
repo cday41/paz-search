@@ -207,33 +207,33 @@ namespace PAZ_Dispersal
       {
           try
           {
-              //
-              // Required for Windows Form Designer support
-              //
-              InitializeComponent();
+         //
+         // Required for Windows Form Designer support
+         //
+         InitializeComponent();
 
-              //trash out any former error files
-              if (System.IO.File.Exists(@"C:\DispersalError.log"))
-                  System.IO.File.Delete(@"C:\DispersalError.log");
-
-              this.buildLogger();
-              this.tabControl.Width = this.Width;
-              myMapManager = MapManager.GetUniqueInstance();
-              mySimManager = new SimulatonManager();
-              mySimManager.Maps = myMapManager;
-              HideTabPage(this.tabSpecies);
-              HideTabPage(this.tabModify);
-              HideTabPage(this.tabSim);
-              HideTabPage(this.tabHomeRange);
-              HideTabPage(this.tabMap);
-              this.speciesText = new TextBoxArray();
-              this.simulationText = new TextBoxArray();
-              this.homeRangeText = new TextBoxArray();
-              this.timeText = new TextBoxArray();
-              buildTextBoxes(this.tabSpecies, ref this.speciesText);
-              buildTextBoxes(this.tabSim, ref this.simulationText);
-              buildTextBoxes(this.tabHomeRange, ref this.homeRangeText);
-              buildTextBoxes(this.tabTime, ref this.timeText);
+         //trash out any former error files
+         if (System.IO.File.Exists(@"C:\DispersalError.log"))
+            System.IO.File.Delete(@"C:\DispersalError.log");
+        
+         this.buildLogger();
+         this.tabControl.Width = this.Width;
+         myMapManager = MapManager.GetUniqueInstance();
+         mySimManager = new SimulatonManager();
+         mySimManager.Maps = myMapManager;
+         HideTabPage(this.tabSpecies);
+         HideTabPage(this.tabModify);
+         HideTabPage(this.tabSim);
+         HideTabPage(this.tabHomeRange);
+         HideTabPage(this.tabMap);
+         this.speciesText = new TextBoxArray();
+         this.simulationText = new TextBoxArray();
+         this.homeRangeText = new TextBoxArray();
+         this.timeText = new TextBoxArray();
+         buildTextBoxes(this.tabSpecies, ref this.speciesText);
+         buildTextBoxes(this.tabSim, ref this.simulationText);
+         buildTextBoxes(this.tabHomeRange, ref this.homeRangeText);
+         buildTextBoxes(this.tabTime,ref this.timeText);
           }
           catch (SystemException ex)
           {
@@ -267,1428 +267,1428 @@ namespace PAZ_Dispersal
       /// </summary>
       private void InitializeComponent()
       {
-          this.components = new System.ComponentModel.Container();
+         this.components = new System.ComponentModel.Container();
           System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInput));
-          this.tabControl = new System.Windows.Forms.TabControl();
-          this.tabTime = new System.Windows.Forms.TabPage();
-          this.btnLoadXML = new System.Windows.Forms.Button();
-          this.btnTime = new System.Windows.Forms.Button();
-          this.groupBox13 = new System.Windows.Forms.GroupBox();
-          this.nudWakeTime = new System.Windows.Forms.NumericUpDown();
-          this.label19 = new System.Windows.Forms.Label();
-          this.label33 = new System.Windows.Forms.Label();
-          this.txtEndDaySim = new System.Windows.Forms.TextBox();
-          this.label34 = new System.Windows.Forms.Label();
-          this.SimStartDate = new System.Windows.Forms.DateTimePicker();
-          this.label35 = new System.Windows.Forms.Label();
-          this.txtNumYears = new System.Windows.Forms.TextBox();
-          this.label36 = new System.Windows.Forms.Label();
-          this.txtTimeBetweenDailyTimeStep = new System.Windows.Forms.TextBox();
-          this.label37 = new System.Windows.Forms.Label();
-          this.txtEndDaySeason = new System.Windows.Forms.TextBox();
-          this.label38 = new System.Windows.Forms.Label();
-          this.txtNumSeasonDays = new System.Windows.Forms.TextBox();
-          this.label39 = new System.Windows.Forms.Label();
-          this.dtpSeasonStartDate = new System.Windows.Forms.DateTimePicker();
-          this.tabSpecies = new System.Windows.Forms.TabPage();
-          this.lblDuration = new System.Windows.Forms.Label();
-          this.groupBox10 = new System.Windows.Forms.GroupBox();
-          this.label3 = new System.Windows.Forms.Label();
-          this.txtPerception = new System.Windows.Forms.TextBox();
-          this.groupBox4 = new System.Windows.Forms.GroupBox();
-          this.label20 = new System.Windows.Forms.Label();
-          this.txtSafeToRisky = new System.Windows.Forms.TextBox();
-          this.label12 = new System.Windows.Forms.Label();
-          this.txtRiskyToSafe = new System.Windows.Forms.TextBox();
-          this.txtSearchForageTrigger = new System.Windows.Forms.TextBox();
-          this.label21 = new System.Windows.Forms.Label();
-          this.groupBox3 = new System.Windows.Forms.GroupBox();
-          this.label24 = new System.Windows.Forms.Label();
-          this.label23 = new System.Windows.Forms.Label();
-          this.txtDurSD = new System.Windows.Forms.TextBox();
-          this.txtDurMean = new System.Windows.Forms.TextBox();
-          this.btnAddRestDuration = new System.Windows.Forms.Button();
-          this.btnAddActiveDuration = new System.Windows.Forms.Button();
-          this.groupBox1 = new System.Windows.Forms.GroupBox();
-          this.label8 = new System.Windows.Forms.Label();
-          this.label7 = new System.Windows.Forms.Label();
-          this.txtMinEnergy = new System.Windows.Forms.TextBox();
-          this.label2 = new System.Windows.Forms.Label();
-          this.txtMaxEnergy = new System.Windows.Forms.TextBox();
-          this.txtInitialEnergy = new System.Windows.Forms.TextBox();
-          this.btnSpecies = new System.Windows.Forms.Button();
-          this.tabHomeRange = new System.Windows.Forms.TabPage();
-          this.groupBox12 = new System.Windows.Forms.GroupBox();
-          this.rdoNumSites = new System.Windows.Forms.RadioButton();
-          this.rdoNumSteps = new System.Windows.Forms.RadioButton();
-          this.lblTriggerNum = new System.Windows.Forms.Label();
-          this.txtTriggerNum = new System.Windows.Forms.TextBox();
-          this.btnHomeRange = new System.Windows.Forms.Button();
-          this.groupBox8 = new System.Windows.Forms.GroupBox();
-          this.label27 = new System.Windows.Forms.Label();
-          this.label26 = new System.Windows.Forms.Label();
-          this.txtFemaleHomeRangeArea = new System.Windows.Forms.TextBox();
-          this.txtMaleHomeRangeArea = new System.Windows.Forms.TextBox();
-          this.label6 = new System.Windows.Forms.Label();
-          this.txtFemaleDistMod = new System.Windows.Forms.TextBox();
-          this.txtMaleDistMod = new System.Windows.Forms.TextBox();
-          this.label10 = new System.Windows.Forms.Label();
-          this.groupBox11 = new System.Windows.Forms.GroupBox();
-          this.rdoCombo = new System.Windows.Forms.RadioButton();
-          this.rdoBestFood = new System.Windows.Forms.RadioButton();
-          this.rdoRisk = new System.Windows.Forms.RadioButton();
-          this.rdoClosest = new System.Windows.Forms.RadioButton();
-          this.tabMap = new System.Windows.Forms.TabPage();
-          this.grpTime = new System.Windows.Forms.GroupBox();
-          this.btnSetMove = new System.Windows.Forms.Button();
-          this.btnSetRisk = new System.Windows.Forms.Button();
-          this.btnSetFood = new System.Windows.Forms.Button();
-          this.btnSetRelease = new System.Windows.Forms.Button();
-          this.btnSetSocial = new System.Windows.Forms.Button();
-          this.btnMapNext = new System.Windows.Forms.Button();
-          this.btnMove = new System.Windows.Forms.Button();
-          this.btnRelease = new System.Windows.Forms.Button();
-          this.btnPredationMap = new System.Windows.Forms.Button();
-          this.btnFoodMaps = new System.Windows.Forms.Button();
-          this.btnSocialMaps = new System.Windows.Forms.Button();
-          this.groupBox6 = new System.Windows.Forms.GroupBox();
-          this.tabModify = new System.Windows.Forms.TabPage();
-          this.btnSafeForageModifer = new System.Windows.Forms.Button();
-          this.btnSafeSearchModifier = new System.Windows.Forms.Button();
-          this.btnRiskyForageModifer = new System.Windows.Forms.Button();
-          this.btnRiskySearchModifier = new System.Windows.Forms.Button();
-          this.btnDailyModifier = new System.Windows.Forms.Button();
-          this.btnAddHourlyModifer = new System.Windows.Forms.Button();
-          this.lblModifiers = new System.Windows.Forms.Label();
-          this.btnFemaleGender = new System.Windows.Forms.Button();
-          this.btnMoveOK = new System.Windows.Forms.Button();
-          this.btnMaleGender = new System.Windows.Forms.Button();
-          this.tabSim = new System.Windows.Forms.TabPage();
-          this.groupBox14 = new System.Windows.Forms.GroupBox();
-          this.btnParameterFile = new System.Windows.Forms.Button();
-          this.pbarSim = new System.Windows.Forms.ProgressBar();
-          this.btnRunSim = new System.Windows.Forms.Button();
-          this.btnTabSimOK = new System.Windows.Forms.Button();
-          this.groupBox7 = new System.Windows.Forms.GroupBox();
-          this.btnOutMapDir = new System.Windows.Forms.Button();
-          this.chkTextOutPut = new System.Windows.Forms.CheckBox();
-          this.groupBox5 = new System.Windows.Forms.GroupBox();
-          this.label18 = new System.Windows.Forms.Label();
-          this.txtResOffspringSD = new System.Windows.Forms.TextBox();
-          this.txtResOffspringMean = new System.Windows.Forms.TextBox();
-          this.txtResFemalePercent = new System.Windows.Forms.TextBox();
-          this.txtResBreedPercent = new System.Windows.Forms.TextBox();
-          this.label25 = new System.Windows.Forms.Label();
-          this.label14 = new System.Windows.Forms.Label();
-          this.txtResDieBetweenSeason = new System.Windows.Forms.TextBox();
-          this.txtResDieTimeStep = new System.Windows.Forms.TextBox();
-          this.label15 = new System.Windows.Forms.Label();
-          this.label16 = new System.Windows.Forms.Label();
-          this.label17 = new System.Windows.Forms.Label();
-          this.label11 = new System.Windows.Forms.Label();
-          this.label9 = new System.Windows.Forms.Label();
-          this.label5 = new System.Windows.Forms.Label();
-          this.groupBox2 = new System.Windows.Forms.GroupBox();
-          this.label1 = new System.Windows.Forms.Label();
-          this.label13 = new System.Windows.Forms.Label();
-          this.btnAddHourModifier = new System.Windows.Forms.Button();
-          this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-          this.btnNext = new System.Windows.Forms.Button();
-          this.txtRiskySafeThreshold = new System.Windows.Forms.TextBox();
-          this.label4 = new System.Windows.Forms.Label();
-          this.txtVision = new System.Windows.Forms.TextBox();
-          this.fdbCommon = new System.Windows.Forms.FolderBrowserDialog();
-          this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
-          this.lblHourMods = new System.Windows.Forms.Label();
-          this.sfdCommon = new System.Windows.Forms.SaveFileDialog();
-          this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-          this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-          this.tabControl.SuspendLayout();
-          this.tabTime.SuspendLayout();
-          this.groupBox13.SuspendLayout();
-          ((System.ComponentModel.ISupportInitialize)(this.nudWakeTime)).BeginInit();
-          this.tabSpecies.SuspendLayout();
-          this.groupBox10.SuspendLayout();
-          this.groupBox4.SuspendLayout();
-          this.groupBox3.SuspendLayout();
-          this.groupBox1.SuspendLayout();
-          this.tabHomeRange.SuspendLayout();
-          this.groupBox12.SuspendLayout();
-          this.groupBox8.SuspendLayout();
-          this.groupBox11.SuspendLayout();
-          this.tabMap.SuspendLayout();
-          this.grpTime.SuspendLayout();
-          this.tabModify.SuspendLayout();
-          this.tabSim.SuspendLayout();
-          this.groupBox14.SuspendLayout();
-          this.groupBox7.SuspendLayout();
-          this.groupBox5.SuspendLayout();
-          this.SuspendLayout();
-          // 
-          // tabControl
-          // 
-          this.tabControl.Controls.Add(this.tabTime);
-          this.tabControl.Controls.Add(this.tabSpecies);
-          this.tabControl.Controls.Add(this.tabHomeRange);
-          this.tabControl.Controls.Add(this.tabMap);
-          this.tabControl.Controls.Add(this.tabModify);
-          this.tabControl.Controls.Add(this.tabSim);
-          this.tabControl.Location = new System.Drawing.Point(-8, 24);
-          this.tabControl.Name = "tabControl";
-          this.tabControl.SelectedIndex = 0;
-          this.tabControl.Size = new System.Drawing.Size(760, 456);
-          this.tabControl.TabIndex = 0;
-          // 
-          // tabTime
-          // 
-          this.tabTime.Controls.Add(this.btnLoadXML);
-          this.tabTime.Controls.Add(this.btnTime);
-          this.tabTime.Controls.Add(this.groupBox13);
-          this.tabTime.Location = new System.Drawing.Point(4, 22);
-          this.tabTime.Name = "tabTime";
-          this.tabTime.Size = new System.Drawing.Size(752, 430);
-          this.tabTime.TabIndex = 5;
-          this.tabTime.Text = "Time Parameters";
-          // 
-          // btnLoadXML
-          // 
-          this.btnLoadXML.Location = new System.Drawing.Point(624, 16);
-          this.btnLoadXML.Name = "btnLoadXML";
-          this.btnLoadXML.Size = new System.Drawing.Size(88, 23);
-          this.btnLoadXML.TabIndex = 0;
-          this.btnLoadXML.Text = "Load from File";
-          this.btnLoadXML.Click += new System.EventHandler(this.btnLoadXML_Click);
-          // 
-          // btnTime
-          // 
-          this.btnTime.Location = new System.Drawing.Point(512, 376);
-          this.btnTime.Name = "btnTime";
-          this.btnTime.Size = new System.Drawing.Size(152, 32);
-          this.btnTime.TabIndex = 1;
-          this.btnTime.Text = "OK";
-          this.btnTime.Click += new System.EventHandler(this.btnTime_Click);
-          // 
-          // groupBox13
-          // 
-          this.groupBox13.Controls.Add(this.nudWakeTime);
-          this.groupBox13.Controls.Add(this.label19);
-          this.groupBox13.Controls.Add(this.label33);
-          this.groupBox13.Controls.Add(this.txtEndDaySim);
-          this.groupBox13.Controls.Add(this.label34);
-          this.groupBox13.Controls.Add(this.SimStartDate);
-          this.groupBox13.Controls.Add(this.label35);
-          this.groupBox13.Controls.Add(this.txtNumYears);
-          this.groupBox13.Controls.Add(this.label36);
-          this.groupBox13.Controls.Add(this.txtTimeBetweenDailyTimeStep);
-          this.groupBox13.Controls.Add(this.label37);
-          this.groupBox13.Controls.Add(this.txtEndDaySeason);
-          this.groupBox13.Controls.Add(this.label38);
-          this.groupBox13.Controls.Add(this.txtNumSeasonDays);
-          this.groupBox13.Controls.Add(this.label39);
-          this.groupBox13.Controls.Add(this.dtpSeasonStartDate);
-          this.groupBox13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-          this.groupBox13.Location = new System.Drawing.Point(68, 75);
-          this.groupBox13.Name = "groupBox13";
-          this.groupBox13.Size = new System.Drawing.Size(616, 280);
-          this.groupBox13.TabIndex = 3;
-          this.groupBox13.TabStop = false;
-          this.groupBox13.Text = "Time Parameters";
-          // 
-          // nudWakeTime
-          // 
-          this.nudWakeTime.Location = new System.Drawing.Point(16, 224);
+         this.tabControl = new System.Windows.Forms.TabControl();
+         this.tabTime = new System.Windows.Forms.TabPage();
+         this.btnLoadXML = new System.Windows.Forms.Button();
+         this.btnTime = new System.Windows.Forms.Button();
+         this.groupBox13 = new System.Windows.Forms.GroupBox();
+         this.nudWakeTime = new System.Windows.Forms.NumericUpDown();
+         this.label19 = new System.Windows.Forms.Label();
+         this.label33 = new System.Windows.Forms.Label();
+         this.txtEndDaySim = new System.Windows.Forms.TextBox();
+         this.label34 = new System.Windows.Forms.Label();
+         this.SimStartDate = new System.Windows.Forms.DateTimePicker();
+         this.label35 = new System.Windows.Forms.Label();
+         this.txtNumYears = new System.Windows.Forms.TextBox();
+         this.label36 = new System.Windows.Forms.Label();
+         this.txtTimeBetweenDailyTimeStep = new System.Windows.Forms.TextBox();
+         this.label37 = new System.Windows.Forms.Label();
+         this.txtEndDaySeason = new System.Windows.Forms.TextBox();
+         this.label38 = new System.Windows.Forms.Label();
+         this.txtNumSeasonDays = new System.Windows.Forms.TextBox();
+         this.label39 = new System.Windows.Forms.Label();
+         this.dtpSeasonStartDate = new System.Windows.Forms.DateTimePicker();
+         this.tabSpecies = new System.Windows.Forms.TabPage();
+         this.lblDuration = new System.Windows.Forms.Label();
+         this.groupBox10 = new System.Windows.Forms.GroupBox();
+         this.label3 = new System.Windows.Forms.Label();
+         this.txtPerception = new System.Windows.Forms.TextBox();
+         this.groupBox4 = new System.Windows.Forms.GroupBox();
+         this.label20 = new System.Windows.Forms.Label();
+         this.txtSafeToRisky = new System.Windows.Forms.TextBox();
+         this.label12 = new System.Windows.Forms.Label();
+         this.txtRiskyToSafe = new System.Windows.Forms.TextBox();
+         this.txtSearchForageTrigger = new System.Windows.Forms.TextBox();
+         this.label21 = new System.Windows.Forms.Label();
+         this.groupBox3 = new System.Windows.Forms.GroupBox();
+         this.label24 = new System.Windows.Forms.Label();
+         this.label23 = new System.Windows.Forms.Label();
+         this.txtDurSD = new System.Windows.Forms.TextBox();
+         this.txtDurMean = new System.Windows.Forms.TextBox();
+         this.btnAddRestDuration = new System.Windows.Forms.Button();
+         this.btnAddActiveDuration = new System.Windows.Forms.Button();
+         this.groupBox1 = new System.Windows.Forms.GroupBox();
+         this.label8 = new System.Windows.Forms.Label();
+         this.label7 = new System.Windows.Forms.Label();
+         this.txtMinEnergy = new System.Windows.Forms.TextBox();
+         this.label2 = new System.Windows.Forms.Label();
+         this.txtMaxEnergy = new System.Windows.Forms.TextBox();
+         this.txtInitialEnergy = new System.Windows.Forms.TextBox();
+         this.btnSpecies = new System.Windows.Forms.Button();
+         this.tabHomeRange = new System.Windows.Forms.TabPage();
+         this.groupBox12 = new System.Windows.Forms.GroupBox();
+         this.rdoNumSites = new System.Windows.Forms.RadioButton();
+         this.rdoNumSteps = new System.Windows.Forms.RadioButton();
+         this.lblTriggerNum = new System.Windows.Forms.Label();
+         this.txtTriggerNum = new System.Windows.Forms.TextBox();
+         this.btnHomeRange = new System.Windows.Forms.Button();
+         this.groupBox8 = new System.Windows.Forms.GroupBox();
+         this.label27 = new System.Windows.Forms.Label();
+         this.label26 = new System.Windows.Forms.Label();
+         this.txtFemaleHomeRangeArea = new System.Windows.Forms.TextBox();
+         this.txtMaleHomeRangeArea = new System.Windows.Forms.TextBox();
+         this.label6 = new System.Windows.Forms.Label();
+         this.txtFemaleDistMod = new System.Windows.Forms.TextBox();
+         this.txtMaleDistMod = new System.Windows.Forms.TextBox();
+         this.label10 = new System.Windows.Forms.Label();
+         this.groupBox11 = new System.Windows.Forms.GroupBox();
+         this.rdoCombo = new System.Windows.Forms.RadioButton();
+         this.rdoBestFood = new System.Windows.Forms.RadioButton();
+         this.rdoRisk = new System.Windows.Forms.RadioButton();
+         this.rdoClosest = new System.Windows.Forms.RadioButton();
+         this.tabMap = new System.Windows.Forms.TabPage();
+         this.grpTime = new System.Windows.Forms.GroupBox();
+         this.btnSetMove = new System.Windows.Forms.Button();
+         this.btnSetRisk = new System.Windows.Forms.Button();
+         this.btnSetFood = new System.Windows.Forms.Button();
+         this.btnSetRelease = new System.Windows.Forms.Button();
+         this.btnSetSocial = new System.Windows.Forms.Button();
+         this.btnMapNext = new System.Windows.Forms.Button();
+         this.btnMove = new System.Windows.Forms.Button();
+         this.btnRelease = new System.Windows.Forms.Button();
+         this.btnPredationMap = new System.Windows.Forms.Button();
+         this.btnFoodMaps = new System.Windows.Forms.Button();
+         this.btnSocialMaps = new System.Windows.Forms.Button();
+         this.groupBox6 = new System.Windows.Forms.GroupBox();
+         this.tabModify = new System.Windows.Forms.TabPage();
+         this.btnSafeForageModifer = new System.Windows.Forms.Button();
+         this.btnSafeSearchModifier = new System.Windows.Forms.Button();
+         this.btnRiskyForageModifer = new System.Windows.Forms.Button();
+         this.btnRiskySearchModifier = new System.Windows.Forms.Button();
+         this.btnDailyModifier = new System.Windows.Forms.Button();
+         this.btnAddHourlyModifer = new System.Windows.Forms.Button();
+         this.lblModifiers = new System.Windows.Forms.Label();
+         this.btnFemaleGender = new System.Windows.Forms.Button();
+         this.btnMoveOK = new System.Windows.Forms.Button();
+         this.btnMaleGender = new System.Windows.Forms.Button();
+         this.tabSim = new System.Windows.Forms.TabPage();
+         this.groupBox14 = new System.Windows.Forms.GroupBox();
+         this.btnParameterFile = new System.Windows.Forms.Button();
+         this.pbarSim = new System.Windows.Forms.ProgressBar();
+         this.btnRunSim = new System.Windows.Forms.Button();
+         this.btnTabSimOK = new System.Windows.Forms.Button();
+         this.groupBox7 = new System.Windows.Forms.GroupBox();
+         this.btnOutMapDir = new System.Windows.Forms.Button();
+         this.chkTextOutPut = new System.Windows.Forms.CheckBox();
+         this.groupBox5 = new System.Windows.Forms.GroupBox();
+         this.label18 = new System.Windows.Forms.Label();
+         this.txtResOffspringSD = new System.Windows.Forms.TextBox();
+         this.txtResOffspringMean = new System.Windows.Forms.TextBox();
+         this.txtResFemalePercent = new System.Windows.Forms.TextBox();
+         this.txtResBreedPercent = new System.Windows.Forms.TextBox();
+         this.label25 = new System.Windows.Forms.Label();
+         this.label14 = new System.Windows.Forms.Label();
+         this.txtResDieBetweenSeason = new System.Windows.Forms.TextBox();
+         this.txtResDieTimeStep = new System.Windows.Forms.TextBox();
+         this.label15 = new System.Windows.Forms.Label();
+         this.label16 = new System.Windows.Forms.Label();
+         this.label17 = new System.Windows.Forms.Label();
+         this.label11 = new System.Windows.Forms.Label();
+         this.label9 = new System.Windows.Forms.Label();
+         this.label5 = new System.Windows.Forms.Label();
+         this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this.label1 = new System.Windows.Forms.Label();
+         this.label13 = new System.Windows.Forms.Label();
+         this.btnAddHourModifier = new System.Windows.Forms.Button();
+         this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+         this.btnNext = new System.Windows.Forms.Button();
+         this.txtRiskySafeThreshold = new System.Windows.Forms.TextBox();
+         this.label4 = new System.Windows.Forms.Label();
+         this.txtVision = new System.Windows.Forms.TextBox();
+         this.fdbCommon = new System.Windows.Forms.FolderBrowserDialog();
+         this.myToolTip = new System.Windows.Forms.ToolTip(this.components);
+         this.lblHourMods = new System.Windows.Forms.Label();
+         this.sfdCommon = new System.Windows.Forms.SaveFileDialog();
+         this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+         this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+         this.tabControl.SuspendLayout();
+         this.tabTime.SuspendLayout();
+         this.groupBox13.SuspendLayout();
+         ((System.ComponentModel.ISupportInitialize)(this.nudWakeTime)).BeginInit();
+         this.tabSpecies.SuspendLayout();
+         this.groupBox10.SuspendLayout();
+         this.groupBox4.SuspendLayout();
+         this.groupBox3.SuspendLayout();
+         this.groupBox1.SuspendLayout();
+         this.tabHomeRange.SuspendLayout();
+         this.groupBox12.SuspendLayout();
+         this.groupBox8.SuspendLayout();
+         this.groupBox11.SuspendLayout();
+         this.tabMap.SuspendLayout();
+         this.grpTime.SuspendLayout();
+         this.tabModify.SuspendLayout();
+         this.tabSim.SuspendLayout();
+         this.groupBox14.SuspendLayout();
+         this.groupBox7.SuspendLayout();
+         this.groupBox5.SuspendLayout();
+         this.SuspendLayout();
+         // 
+         // tabControl
+         // 
+         this.tabControl.Controls.Add(this.tabTime);
+         this.tabControl.Controls.Add(this.tabSpecies);
+         this.tabControl.Controls.Add(this.tabHomeRange);
+         this.tabControl.Controls.Add(this.tabMap);
+         this.tabControl.Controls.Add(this.tabModify);
+         this.tabControl.Controls.Add(this.tabSim);
+         this.tabControl.Location = new System.Drawing.Point(-8, 24);
+         this.tabControl.Name = "tabControl";
+         this.tabControl.SelectedIndex = 0;
+         this.tabControl.Size = new System.Drawing.Size(760, 456);
+         this.tabControl.TabIndex = 0;
+         // 
+         // tabTime
+         // 
+         this.tabTime.Controls.Add(this.btnLoadXML);
+         this.tabTime.Controls.Add(this.btnTime);
+         this.tabTime.Controls.Add(this.groupBox13);
+         this.tabTime.Location = new System.Drawing.Point(4, 22);
+         this.tabTime.Name = "tabTime";
+         this.tabTime.Size = new System.Drawing.Size(752, 430);
+         this.tabTime.TabIndex = 5;
+         this.tabTime.Text = "Time Parameters";
+         // 
+         // btnLoadXML
+         // 
+         this.btnLoadXML.Location = new System.Drawing.Point(624, 16);
+         this.btnLoadXML.Name = "btnLoadXML";
+         this.btnLoadXML.Size = new System.Drawing.Size(88, 23);
+         this.btnLoadXML.TabIndex = 0;
+         this.btnLoadXML.Text = "Load from File";
+         this.btnLoadXML.Click += new System.EventHandler(this.btnLoadXML_Click);
+         // 
+         // btnTime
+         // 
+         this.btnTime.Location = new System.Drawing.Point(512, 376);
+         this.btnTime.Name = "btnTime";
+         this.btnTime.Size = new System.Drawing.Size(152, 32);
+         this.btnTime.TabIndex = 1;
+         this.btnTime.Text = "OK";
+         this.btnTime.Click += new System.EventHandler(this.btnTime_Click);
+         // 
+         // groupBox13
+         // 
+         this.groupBox13.Controls.Add(this.nudWakeTime);
+         this.groupBox13.Controls.Add(this.label19);
+         this.groupBox13.Controls.Add(this.label33);
+         this.groupBox13.Controls.Add(this.txtEndDaySim);
+         this.groupBox13.Controls.Add(this.label34);
+         this.groupBox13.Controls.Add(this.SimStartDate);
+         this.groupBox13.Controls.Add(this.label35);
+         this.groupBox13.Controls.Add(this.txtNumYears);
+         this.groupBox13.Controls.Add(this.label36);
+         this.groupBox13.Controls.Add(this.txtTimeBetweenDailyTimeStep);
+         this.groupBox13.Controls.Add(this.label37);
+         this.groupBox13.Controls.Add(this.txtEndDaySeason);
+         this.groupBox13.Controls.Add(this.label38);
+         this.groupBox13.Controls.Add(this.txtNumSeasonDays);
+         this.groupBox13.Controls.Add(this.label39);
+         this.groupBox13.Controls.Add(this.dtpSeasonStartDate);
+         this.groupBox13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+         this.groupBox13.Location = new System.Drawing.Point(68, 75);
+         this.groupBox13.Name = "groupBox13";
+         this.groupBox13.Size = new System.Drawing.Size(616, 280);
+         this.groupBox13.TabIndex = 3;
+         this.groupBox13.TabStop = false;
+         this.groupBox13.Text = "Time Parameters";
+         // 
+         // nudWakeTime
+         // 
+         this.nudWakeTime.Location = new System.Drawing.Point(16, 224);
           this.nudWakeTime.Maximum = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-          this.nudWakeTime.Name = "nudWakeTime";
+                                                                    23,
+                                                                    0,
+                                                                    0,
+                                                                    0});
+         this.nudWakeTime.Name = "nudWakeTime";
           this.nudWakeTime.Size = new System.Drawing.Size(120, 20);
-          this.nudWakeTime.TabIndex = 5;
-          // 
-          // label19
-          // 
-          this.label19.AutoSize = true;
-          this.label19.Location = new System.Drawing.Point(16, 200);
-          this.label19.Name = "label19";
+         this.nudWakeTime.TabIndex = 5;
+         // 
+         // label19
+         // 
+         this.label19.AutoSize = true;
+         this.label19.Location = new System.Drawing.Point(16, 200);
+         this.label19.Name = "label19";
           this.label19.Size = new System.Drawing.Size(110, 13);
-          this.label19.TabIndex = 16;
-          this.label19.Text = "Initial Wake Up (0-23)";
-          // 
-          // label33
-          // 
-          this.label33.AutoSize = true;
-          this.label33.Enabled = false;
-          this.label33.Location = new System.Drawing.Point(432, 200);
-          this.label33.Name = "label33";
+         this.label19.TabIndex = 16;
+         this.label19.Text = "Initial Wake Up (0-23)";
+         // 
+         // label33
+         // 
+         this.label33.AutoSize = true;
+         this.label33.Enabled = false;
+         this.label33.Location = new System.Drawing.Point(432, 200);
+         this.label33.Name = "label33";
           this.label33.Size = new System.Drawing.Size(115, 13);
-          this.label33.TabIndex = 15;
-          this.label33.Text = "End Date of Simulation";
-          // 
-          // txtEndDaySim
-          // 
-          this.txtEndDaySim.BackColor = System.Drawing.Color.White;
-          this.txtEndDaySim.Enabled = false;
-          this.txtEndDaySim.Location = new System.Drawing.Point(432, 216);
-          this.txtEndDaySim.Name = "txtEndDaySim";
-          this.txtEndDaySim.ReadOnly = true;
-          this.txtEndDaySim.Size = new System.Drawing.Size(152, 20);
-          this.txtEndDaySim.TabIndex = 14;
-          this.txtEndDaySim.Tag = "Date";
-          // 
-          // label34
-          // 
-          this.label34.AutoSize = true;
-          this.label34.Location = new System.Drawing.Point(16, 88);
-          this.label34.Name = "label34";
+         this.label33.TabIndex = 15;
+         this.label33.Text = "End Date of Simulation";
+         // 
+         // txtEndDaySim
+         // 
+         this.txtEndDaySim.BackColor = System.Drawing.Color.White;
+         this.txtEndDaySim.Enabled = false;
+         this.txtEndDaySim.Location = new System.Drawing.Point(432, 216);
+         this.txtEndDaySim.Name = "txtEndDaySim";
+         this.txtEndDaySim.ReadOnly = true;
+         this.txtEndDaySim.Size = new System.Drawing.Size(152, 20);
+         this.txtEndDaySim.TabIndex = 14;
+         this.txtEndDaySim.Tag = "Date";
+         // 
+         // label34
+         // 
+         this.label34.AutoSize = true;
+         this.label34.Location = new System.Drawing.Point(16, 88);
+         this.label34.Name = "label34";
           this.label34.Size = new System.Drawing.Size(118, 13);
-          this.label34.TabIndex = 13;
-          this.label34.Text = "Start Date of Simulation";
-          // 
-          // SimStartDate
-          // 
-          this.SimStartDate.Location = new System.Drawing.Point(16, 104);
-          this.SimStartDate.Name = "SimStartDate";
+         this.label34.TabIndex = 13;
+         this.label34.Text = "Start Date of Simulation";
+         // 
+         // SimStartDate
+         // 
+         this.SimStartDate.Location = new System.Drawing.Point(16, 104);
+         this.SimStartDate.Name = "SimStartDate";
           this.SimStartDate.Size = new System.Drawing.Size(200, 20);
-          this.SimStartDate.TabIndex = 1;
-          // 
-          // label35
-          // 
-          this.label35.AutoSize = true;
-          this.label35.Location = new System.Drawing.Point(232, 88);
-          this.label35.Name = "label35";
+         this.SimStartDate.TabIndex = 1;
+         // 
+         // label35
+         // 
+         this.label35.AutoSize = true;
+         this.label35.Location = new System.Drawing.Point(232, 88);
+         this.label35.Name = "label35";
           this.label35.Size = new System.Drawing.Size(114, 13);
-          this.label35.TabIndex = 11;
-          this.label35.Text = "Number of years to run";
-          // 
-          // txtNumYears
-          // 
-          this.txtNumYears.BackColor = System.Drawing.Color.White;
-          this.txtNumYears.Location = new System.Drawing.Point(232, 104);
-          this.txtNumYears.Name = "txtNumYears";
-          this.txtNumYears.Size = new System.Drawing.Size(152, 20);
-          this.txtNumYears.TabIndex = 2;
-          // 
-          // label36
-          // 
-          this.label36.AutoSize = true;
-          this.label36.Location = new System.Drawing.Point(232, 200);
-          this.label36.Name = "label36";
+         this.label35.TabIndex = 11;
+         this.label35.Text = "Number of years to run";
+         // 
+         // txtNumYears
+         // 
+         this.txtNumYears.BackColor = System.Drawing.Color.White;
+         this.txtNumYears.Location = new System.Drawing.Point(232, 104);
+         this.txtNumYears.Name = "txtNumYears";
+         this.txtNumYears.Size = new System.Drawing.Size(152, 20);
+         this.txtNumYears.TabIndex = 2;
+         // 
+         // label36
+         // 
+         this.label36.AutoSize = true;
+         this.label36.Location = new System.Drawing.Point(232, 200);
+         this.label36.Name = "label36";
           this.label36.Size = new System.Drawing.Size(179, 13);
-          this.label36.TabIndex = 9;
-          this.label36.Text = "Minutes between time steps per day.";
-          // 
-          // txtTimeBetweenDailyTimeStep
-          // 
-          this.txtTimeBetweenDailyTimeStep.Location = new System.Drawing.Point(232, 216);
-          this.txtTimeBetweenDailyTimeStep.Name = "txtTimeBetweenDailyTimeStep";
-          this.txtTimeBetweenDailyTimeStep.Size = new System.Drawing.Size(152, 20);
-          this.txtTimeBetweenDailyTimeStep.TabIndex = 6;
-          // 
-          // label37
-          // 
-          this.label37.AutoSize = true;
-          this.label37.Enabled = false;
-          this.label37.Location = new System.Drawing.Point(432, 152);
-          this.label37.Name = "label37";
+         this.label36.TabIndex = 9;
+         this.label36.Text = "Minutes between time steps per day.";
+         // 
+         // txtTimeBetweenDailyTimeStep
+         // 
+         this.txtTimeBetweenDailyTimeStep.Location = new System.Drawing.Point(232, 216);
+         this.txtTimeBetweenDailyTimeStep.Name = "txtTimeBetweenDailyTimeStep";
+         this.txtTimeBetweenDailyTimeStep.Size = new System.Drawing.Size(152, 20);
+         this.txtTimeBetweenDailyTimeStep.TabIndex = 6;
+         // 
+         // label37
+         // 
+         this.label37.AutoSize = true;
+         this.label37.Enabled = false;
+         this.label37.Location = new System.Drawing.Point(432, 152);
+         this.label37.Name = "label37";
           this.label37.Size = new System.Drawing.Size(103, 13);
-          this.label37.TabIndex = 7;
-          this.label37.Text = "End Date of Season";
-          // 
-          // txtEndDaySeason
-          // 
-          this.txtEndDaySeason.BackColor = System.Drawing.Color.White;
-          this.txtEndDaySeason.Enabled = false;
-          this.txtEndDaySeason.Location = new System.Drawing.Point(432, 168);
-          this.txtEndDaySeason.Name = "txtEndDaySeason";
-          this.txtEndDaySeason.ReadOnly = true;
-          this.txtEndDaySeason.Size = new System.Drawing.Size(152, 20);
-          this.txtEndDaySeason.TabIndex = 6;
-          this.txtEndDaySeason.TabStop = false;
-          this.txtEndDaySeason.Tag = "Date";
-          this.myToolTip.SetToolTip(this.txtEndDaySeason, "True");
-          // 
-          // label38
-          // 
-          this.label38.AutoSize = true;
-          this.label38.Location = new System.Drawing.Point(232, 152);
-          this.label38.Name = "label38";
+         this.label37.TabIndex = 7;
+         this.label37.Text = "End Date of Season";
+         // 
+         // txtEndDaySeason
+         // 
+         this.txtEndDaySeason.BackColor = System.Drawing.Color.White;
+         this.txtEndDaySeason.Enabled = false;
+         this.txtEndDaySeason.Location = new System.Drawing.Point(432, 168);
+         this.txtEndDaySeason.Name = "txtEndDaySeason";
+         this.txtEndDaySeason.ReadOnly = true;
+         this.txtEndDaySeason.Size = new System.Drawing.Size(152, 20);
+         this.txtEndDaySeason.TabIndex = 6;
+         this.txtEndDaySeason.TabStop = false;
+         this.txtEndDaySeason.Tag = "Date";
+         this.myToolTip.SetToolTip(this.txtEndDaySeason, "True");
+         // 
+         // label38
+         // 
+         this.label38.AutoSize = true;
+         this.label38.Location = new System.Drawing.Point(232, 152);
+         this.label38.Name = "label38";
           this.label38.Size = new System.Drawing.Size(138, 13);
-          this.label38.TabIndex = 5;
-          this.label38.Text = "Number of days in a season";
-          // 
-          // txtNumSeasonDays
-          // 
-          this.txtNumSeasonDays.Location = new System.Drawing.Point(232, 168);
-          this.txtNumSeasonDays.Name = "txtNumSeasonDays";
-          this.txtNumSeasonDays.Size = new System.Drawing.Size(152, 20);
-          this.txtNumSeasonDays.TabIndex = 4;
-          this.txtNumSeasonDays.LostFocus += new System.EventHandler(this.txtNumSeasonDays_LostFocus);
-          // 
-          // label39
-          // 
-          this.label39.AutoSize = true;
-          this.label39.Location = new System.Drawing.Point(16, 152);
-          this.label39.Name = "label39";
+         this.label38.TabIndex = 5;
+         this.label38.Text = "Number of days in a season";
+         // 
+         // txtNumSeasonDays
+         // 
+         this.txtNumSeasonDays.Location = new System.Drawing.Point(232, 168);
+         this.txtNumSeasonDays.Name = "txtNumSeasonDays";
+         this.txtNumSeasonDays.Size = new System.Drawing.Size(152, 20);
+         this.txtNumSeasonDays.TabIndex = 4;
+         this.txtNumSeasonDays.LostFocus += new System.EventHandler(this.txtNumSeasonDays_LostFocus);
+         // 
+         // label39
+         // 
+         this.label39.AutoSize = true;
+         this.label39.Location = new System.Drawing.Point(16, 152);
+         this.label39.Name = "label39";
           this.label39.Size = new System.Drawing.Size(106, 13);
-          this.label39.TabIndex = 2;
-          this.label39.Text = "Start Date of Season";
-          // 
-          // dtpSeasonStartDate
-          // 
-          this.dtpSeasonStartDate.CustomFormat = "MMMM dd";
-          this.dtpSeasonStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-          this.dtpSeasonStartDate.Location = new System.Drawing.Point(16, 168);
-          this.dtpSeasonStartDate.Name = "dtpSeasonStartDate";
+         this.label39.TabIndex = 2;
+         this.label39.Text = "Start Date of Season";
+         // 
+         // dtpSeasonStartDate
+         // 
+         this.dtpSeasonStartDate.CustomFormat = "MMMM dd";
+         this.dtpSeasonStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+         this.dtpSeasonStartDate.Location = new System.Drawing.Point(16, 168);
+         this.dtpSeasonStartDate.Name = "dtpSeasonStartDate";
           this.dtpSeasonStartDate.Size = new System.Drawing.Size(200, 20);
-          this.dtpSeasonStartDate.TabIndex = 3;
-          this.myToolTip.SetToolTip(this.dtpSeasonStartDate, "Some Stuff");
-          // 
-          // tabSpecies
-          // 
-          this.tabSpecies.Controls.Add(this.lblDuration);
-          this.tabSpecies.Controls.Add(this.groupBox10);
-          this.tabSpecies.Controls.Add(this.groupBox4);
-          this.tabSpecies.Controls.Add(this.groupBox3);
-          this.tabSpecies.Controls.Add(this.groupBox1);
-          this.tabSpecies.Controls.Add(this.btnSpecies);
-          this.tabSpecies.Location = new System.Drawing.Point(4, 22);
-          this.tabSpecies.Name = "tabSpecies";
-          this.tabSpecies.Size = new System.Drawing.Size(752, 430);
-          this.tabSpecies.TabIndex = 1;
-          this.tabSpecies.Text = "Species Attributes";
-          // 
-          // lblDuration
-          // 
-          this.lblDuration.Location = new System.Drawing.Point(520, 144);
-          this.lblDuration.Name = "lblDuration";
-          this.lblDuration.Size = new System.Drawing.Size(184, 72);
-          this.lblDuration.TabIndex = 5;
-          // 
-          // groupBox10
-          // 
-          this.groupBox10.Controls.Add(this.label3);
-          this.groupBox10.Controls.Add(this.txtPerception);
-          this.groupBox10.Location = new System.Drawing.Point(520, 16);
-          this.groupBox10.Name = "groupBox10";
-          this.groupBox10.Size = new System.Drawing.Size(176, 104);
-          this.groupBox10.TabIndex = 1;
-          this.groupBox10.TabStop = false;
-          this.groupBox10.Text = "Base Line Perception  Distance";
-          // 
-          // label3
-          // 
-          this.label3.AutoSize = true;
-          this.label3.Location = new System.Drawing.Point(16, 40);
-          this.label3.Name = "label3";
+         this.dtpSeasonStartDate.TabIndex = 3;
+         this.myToolTip.SetToolTip(this.dtpSeasonStartDate, "Some Stuff");
+         // 
+         // tabSpecies
+         // 
+         this.tabSpecies.Controls.Add(this.lblDuration);
+         this.tabSpecies.Controls.Add(this.groupBox10);
+         this.tabSpecies.Controls.Add(this.groupBox4);
+         this.tabSpecies.Controls.Add(this.groupBox3);
+         this.tabSpecies.Controls.Add(this.groupBox1);
+         this.tabSpecies.Controls.Add(this.btnSpecies);
+         this.tabSpecies.Location = new System.Drawing.Point(4, 22);
+         this.tabSpecies.Name = "tabSpecies";
+         this.tabSpecies.Size = new System.Drawing.Size(752, 430);
+         this.tabSpecies.TabIndex = 1;
+         this.tabSpecies.Text = "Species Attributes";
+         // 
+         // lblDuration
+         // 
+         this.lblDuration.Location = new System.Drawing.Point(520, 144);
+         this.lblDuration.Name = "lblDuration";
+         this.lblDuration.Size = new System.Drawing.Size(184, 72);
+         this.lblDuration.TabIndex = 5;
+         // 
+         // groupBox10
+         // 
+         this.groupBox10.Controls.Add(this.label3);
+         this.groupBox10.Controls.Add(this.txtPerception);
+         this.groupBox10.Location = new System.Drawing.Point(520, 16);
+         this.groupBox10.Name = "groupBox10";
+         this.groupBox10.Size = new System.Drawing.Size(176, 104);
+         this.groupBox10.TabIndex = 1;
+         this.groupBox10.TabStop = false;
+         this.groupBox10.Text = "Base Line Perception  Distance";
+         // 
+         // label3
+         // 
+         this.label3.AutoSize = true;
+         this.label3.Location = new System.Drawing.Point(16, 40);
+         this.label3.Name = "label3";
           this.label3.Size = new System.Drawing.Size(95, 13);
-          this.label3.TabIndex = 6;
-          this.label3.Text = "Distance in Meters";
-          // 
-          // txtPerception
-          // 
-          this.txtPerception.Location = new System.Drawing.Point(16, 56);
-          this.txtPerception.Name = "txtPerception";
-          this.txtPerception.Size = new System.Drawing.Size(128, 20);
-          this.txtPerception.TabIndex = 3;
-          // 
-          // groupBox4
-          // 
-          this.groupBox4.Controls.Add(this.label20);
-          this.groupBox4.Controls.Add(this.txtSafeToRisky);
-          this.groupBox4.Controls.Add(this.label12);
-          this.groupBox4.Controls.Add(this.txtRiskyToSafe);
-          this.groupBox4.Controls.Add(this.txtSearchForageTrigger);
-          this.groupBox4.Controls.Add(this.label21);
-          this.groupBox4.Location = new System.Drawing.Point(24, 288);
-          this.groupBox4.Name = "groupBox4";
-          this.groupBox4.Size = new System.Drawing.Size(480, 112);
-          this.groupBox4.TabIndex = 3;
-          this.groupBox4.TabStop = false;
-          this.groupBox4.Text = "Behavior Triggers";
-          // 
-          // label20
-          // 
-          this.label20.AutoSize = true;
-          this.label20.Location = new System.Drawing.Point(320, 40);
-          this.label20.Name = "label20";
+         this.label3.TabIndex = 6;
+         this.label3.Text = "Distance in Meters";
+         // 
+         // txtPerception
+         // 
+         this.txtPerception.Location = new System.Drawing.Point(16, 56);
+         this.txtPerception.Name = "txtPerception";
+         this.txtPerception.Size = new System.Drawing.Size(128, 20);
+         this.txtPerception.TabIndex = 3;
+         // 
+         // groupBox4
+         // 
+         this.groupBox4.Controls.Add(this.label20);
+         this.groupBox4.Controls.Add(this.txtSafeToRisky);
+         this.groupBox4.Controls.Add(this.label12);
+         this.groupBox4.Controls.Add(this.txtRiskyToSafe);
+         this.groupBox4.Controls.Add(this.txtSearchForageTrigger);
+         this.groupBox4.Controls.Add(this.label21);
+         this.groupBox4.Location = new System.Drawing.Point(24, 288);
+         this.groupBox4.Name = "groupBox4";
+         this.groupBox4.Size = new System.Drawing.Size(480, 112);
+         this.groupBox4.TabIndex = 3;
+         this.groupBox4.TabStop = false;
+         this.groupBox4.Text = "Behavior Triggers";
+         // 
+         // label20
+         // 
+         this.label20.AutoSize = true;
+         this.label20.Location = new System.Drawing.Point(320, 40);
+         this.label20.Name = "label20";
           this.label20.Size = new System.Drawing.Size(73, 13);
-          this.label20.TabIndex = 5;
-          this.label20.Text = "Risky to Safe ";
-          // 
-          // txtSafeToRisky
-          // 
-          this.txtSafeToRisky.Location = new System.Drawing.Point(176, 56);
-          this.txtSafeToRisky.Name = "txtSafeToRisky";
+         this.label20.TabIndex = 5;
+         this.label20.Text = "Risky to Safe ";
+         // 
+         // txtSafeToRisky
+         // 
+         this.txtSafeToRisky.Location = new System.Drawing.Point(176, 56);
+         this.txtSafeToRisky.Name = "txtSafeToRisky";
           this.txtSafeToRisky.Size = new System.Drawing.Size(100, 20);
-          this.txtSafeToRisky.TabIndex = 10;
-          this.myToolTip.SetToolTip(this.txtSafeToRisky, "example: (Roll of Dice – Observed Risk) < 0.000001");
-          // 
-          // label12
-          // 
-          this.label12.AutoSize = true;
-          this.label12.Location = new System.Drawing.Point(176, 40);
-          this.label12.Name = "label12";
+         this.txtSafeToRisky.TabIndex = 10;
+         this.myToolTip.SetToolTip(this.txtSafeToRisky, "example: (Roll of Dice – Observed Risk) < 0.000001");
+         // 
+         // label12
+         // 
+         this.label12.AutoSize = true;
+         this.label12.Location = new System.Drawing.Point(176, 40);
+         this.label12.Name = "label12";
           this.label12.Size = new System.Drawing.Size(70, 13);
-          this.label12.TabIndex = 4;
-          this.label12.Text = "Safe to Risky";
-          // 
-          // txtRiskyToSafe
-          // 
-          this.txtRiskyToSafe.Location = new System.Drawing.Point(320, 56);
-          this.txtRiskyToSafe.Name = "txtRiskyToSafe";
+         this.label12.TabIndex = 4;
+         this.label12.Text = "Safe to Risky";
+         // 
+         // txtRiskyToSafe
+         // 
+         this.txtRiskyToSafe.Location = new System.Drawing.Point(320, 56);
+         this.txtRiskyToSafe.Name = "txtRiskyToSafe";
           this.txtRiskyToSafe.Size = new System.Drawing.Size(100, 20);
-          this.txtRiskyToSafe.TabIndex = 11;
-          this.myToolTip.SetToolTip(this.txtRiskyToSafe, "Example: (Roll of Dice – Observed Risk) > 0.0001");
-          // 
-          // txtSearchForageTrigger
-          // 
-          this.txtSearchForageTrigger.Location = new System.Drawing.Point(24, 56);
-          this.txtSearchForageTrigger.Name = "txtSearchForageTrigger";
+         this.txtRiskyToSafe.TabIndex = 11;
+         this.myToolTip.SetToolTip(this.txtRiskyToSafe, "Example: (Roll of Dice – Observed Risk) > 0.0001");
+         // 
+         // txtSearchForageTrigger
+         // 
+         this.txtSearchForageTrigger.Location = new System.Drawing.Point(24, 56);
+         this.txtSearchForageTrigger.Name = "txtSearchForageTrigger";
           this.txtSearchForageTrigger.Size = new System.Drawing.Size(100, 20);
-          this.txtSearchForageTrigger.TabIndex = 9;
-          // 
-          // label21
-          // 
-          this.label21.AutoSize = true;
-          this.label21.Location = new System.Drawing.Point(24, 40);
-          this.label21.Name = "label21";
+         this.txtSearchForageTrigger.TabIndex = 9;
+         // 
+         // label21
+         // 
+         this.label21.AutoSize = true;
+         this.label21.Location = new System.Drawing.Point(24, 40);
+         this.label21.Name = "label21";
           this.label21.Size = new System.Drawing.Size(115, 13);
-          this.label21.TabIndex = 0;
-          this.label21.Text = "Search/Forage Trigger";
-          // 
-          // groupBox3
-          // 
-          this.groupBox3.Controls.Add(this.label24);
-          this.groupBox3.Controls.Add(this.label23);
-          this.groupBox3.Controls.Add(this.txtDurSD);
-          this.groupBox3.Controls.Add(this.txtDurMean);
-          this.groupBox3.Controls.Add(this.btnAddRestDuration);
-          this.groupBox3.Controls.Add(this.btnAddActiveDuration);
-          this.groupBox3.Location = new System.Drawing.Point(24, 136);
-          this.groupBox3.Name = "groupBox3";
-          this.groupBox3.Size = new System.Drawing.Size(456, 136);
-          this.groupBox3.TabIndex = 2;
-          this.groupBox3.TabStop = false;
-          this.groupBox3.Text = "Duration time periods ";
-          // 
-          // label24
-          // 
-          this.label24.AutoSize = true;
-          this.label24.Location = new System.Drawing.Point(88, 32);
-          this.label24.Name = "label24";
+         this.label21.TabIndex = 0;
+         this.label21.Text = "Search/Forage Trigger";
+         // 
+         // groupBox3
+         // 
+         this.groupBox3.Controls.Add(this.label24);
+         this.groupBox3.Controls.Add(this.label23);
+         this.groupBox3.Controls.Add(this.txtDurSD);
+         this.groupBox3.Controls.Add(this.txtDurMean);
+         this.groupBox3.Controls.Add(this.btnAddRestDuration);
+         this.groupBox3.Controls.Add(this.btnAddActiveDuration);
+         this.groupBox3.Location = new System.Drawing.Point(24, 136);
+         this.groupBox3.Name = "groupBox3";
+         this.groupBox3.Size = new System.Drawing.Size(456, 136);
+         this.groupBox3.TabIndex = 2;
+         this.groupBox3.TabStop = false;
+         this.groupBox3.Text = "Duration time periods ";
+         // 
+         // label24
+         // 
+         this.label24.AutoSize = true;
+         this.label24.Location = new System.Drawing.Point(88, 32);
+         this.label24.Name = "label24";
           this.label24.Size = new System.Drawing.Size(55, 13);
-          this.label24.TabIndex = 19;
-          this.label24.Text = "Mean Amt";
-          // 
-          // label23
-          // 
-          this.label23.AutoSize = true;
-          this.label23.Location = new System.Drawing.Point(296, 32);
-          this.label23.Name = "label23";
+         this.label24.TabIndex = 19;
+         this.label24.Text = "Mean Amt";
+         // 
+         // label23
+         // 
+         this.label23.AutoSize = true;
+         this.label23.Location = new System.Drawing.Point(296, 32);
+         this.label23.Name = "label23";
           this.label23.Size = new System.Drawing.Size(73, 13);
-          this.label23.TabIndex = 18;
-          this.label23.Text = "Standard Dev";
-          // 
-          // txtDurSD
-          // 
-          this.txtDurSD.Location = new System.Drawing.Point(280, 56);
-          this.txtDurSD.Name = "txtDurSD";
-          this.txtDurSD.Size = new System.Drawing.Size(104, 20);
-          this.txtDurSD.TabIndex = 6;
-          // 
-          // txtDurMean
-          // 
-          this.txtDurMean.Location = new System.Drawing.Point(80, 56);
-          this.txtDurMean.Name = "txtDurMean";
-          this.txtDurMean.Size = new System.Drawing.Size(104, 20);
-          this.txtDurMean.TabIndex = 5;
-          // 
-          // btnAddRestDuration
-          // 
-          this.btnAddRestDuration.Enabled = false;
-          this.btnAddRestDuration.Location = new System.Drawing.Point(280, 80);
-          this.btnAddRestDuration.Name = "btnAddRestDuration";
-          this.btnAddRestDuration.Size = new System.Drawing.Size(104, 32);
-          this.btnAddRestDuration.TabIndex = 8;
-          this.btnAddRestDuration.Text = "Add Rest Duration";
-          this.btnAddRestDuration.Click += new System.EventHandler(this.btnAddRestDuration_Click);
-          // 
-          // btnAddActiveDuration
-          // 
-          this.btnAddActiveDuration.Location = new System.Drawing.Point(80, 80);
-          this.btnAddActiveDuration.Name = "btnAddActiveDuration";
-          this.btnAddActiveDuration.Size = new System.Drawing.Size(104, 32);
-          this.btnAddActiveDuration.TabIndex = 7;
-          this.btnAddActiveDuration.Text = "Add Active Duration";
-          this.btnAddActiveDuration.Click += new System.EventHandler(this.btnAddActiveDuration_Click);
-          // 
-          // groupBox1
-          // 
-          this.groupBox1.Controls.Add(this.label8);
-          this.groupBox1.Controls.Add(this.label7);
-          this.groupBox1.Controls.Add(this.txtMinEnergy);
-          this.groupBox1.Controls.Add(this.label2);
-          this.groupBox1.Controls.Add(this.txtMaxEnergy);
-          this.groupBox1.Controls.Add(this.txtInitialEnergy);
-          this.groupBox1.Location = new System.Drawing.Point(24, 16);
-          this.groupBox1.Name = "groupBox1";
-          this.groupBox1.Size = new System.Drawing.Size(464, 104);
-          this.groupBox1.TabIndex = 0;
-          this.groupBox1.TabStop = false;
-          this.groupBox1.Text = "Energy Parameters";
-          // 
-          // label8
-          // 
-          this.label8.AutoSize = true;
-          this.label8.Location = new System.Drawing.Point(328, 40);
-          this.label8.Name = "label8";
+         this.label23.TabIndex = 18;
+         this.label23.Text = "Standard Dev";
+         // 
+         // txtDurSD
+         // 
+         this.txtDurSD.Location = new System.Drawing.Point(280, 56);
+         this.txtDurSD.Name = "txtDurSD";
+         this.txtDurSD.Size = new System.Drawing.Size(104, 20);
+         this.txtDurSD.TabIndex = 6;
+         // 
+         // txtDurMean
+         // 
+         this.txtDurMean.Location = new System.Drawing.Point(80, 56);
+         this.txtDurMean.Name = "txtDurMean";
+         this.txtDurMean.Size = new System.Drawing.Size(104, 20);
+         this.txtDurMean.TabIndex = 5;
+         // 
+         // btnAddRestDuration
+         // 
+         this.btnAddRestDuration.Enabled = false;
+         this.btnAddRestDuration.Location = new System.Drawing.Point(280, 80);
+         this.btnAddRestDuration.Name = "btnAddRestDuration";
+         this.btnAddRestDuration.Size = new System.Drawing.Size(104, 32);
+         this.btnAddRestDuration.TabIndex = 8;
+         this.btnAddRestDuration.Text = "Add Rest Duration";
+         this.btnAddRestDuration.Click += new System.EventHandler(this.btnAddRestDuration_Click);
+         // 
+         // btnAddActiveDuration
+         // 
+         this.btnAddActiveDuration.Location = new System.Drawing.Point(80, 80);
+         this.btnAddActiveDuration.Name = "btnAddActiveDuration";
+         this.btnAddActiveDuration.Size = new System.Drawing.Size(104, 32);
+         this.btnAddActiveDuration.TabIndex = 7;
+         this.btnAddActiveDuration.Text = "Add Active Duration";
+         this.btnAddActiveDuration.Click += new System.EventHandler(this.btnAddActiveDuration_Click);
+         // 
+         // groupBox1
+         // 
+         this.groupBox1.Controls.Add(this.label8);
+         this.groupBox1.Controls.Add(this.label7);
+         this.groupBox1.Controls.Add(this.txtMinEnergy);
+         this.groupBox1.Controls.Add(this.label2);
+         this.groupBox1.Controls.Add(this.txtMaxEnergy);
+         this.groupBox1.Controls.Add(this.txtInitialEnergy);
+         this.groupBox1.Location = new System.Drawing.Point(24, 16);
+         this.groupBox1.Name = "groupBox1";
+         this.groupBox1.Size = new System.Drawing.Size(464, 104);
+         this.groupBox1.TabIndex = 0;
+         this.groupBox1.TabStop = false;
+         this.groupBox1.Text = "Energy Parameters";
+         // 
+         // label8
+         // 
+         this.label8.AutoSize = true;
+         this.label8.Location = new System.Drawing.Point(328, 40);
+         this.label8.Name = "label8";
           this.label8.Size = new System.Drawing.Size(60, 13);
-          this.label8.TabIndex = 5;
-          this.label8.Text = "Min Energy";
-          // 
-          // label7
-          // 
-          this.label7.AutoSize = true;
-          this.label7.Location = new System.Drawing.Point(24, 40);
-          this.label7.Name = "label7";
+         this.label8.TabIndex = 5;
+         this.label8.Text = "Min Energy";
+         // 
+         // label7
+         // 
+         this.label7.AutoSize = true;
+         this.label7.Location = new System.Drawing.Point(24, 40);
+         this.label7.Name = "label7";
           this.label7.Size = new System.Drawing.Size(67, 13);
-          this.label7.TabIndex = 4;
-          this.label7.Text = "Initial Energy";
-          // 
-          // txtMinEnergy
-          // 
-          this.txtMinEnergy.Location = new System.Drawing.Point(328, 56);
-          this.txtMinEnergy.Name = "txtMinEnergy";
+         this.label7.TabIndex = 4;
+         this.label7.Text = "Initial Energy";
+         // 
+         // txtMinEnergy
+         // 
+         this.txtMinEnergy.Location = new System.Drawing.Point(328, 56);
+         this.txtMinEnergy.Name = "txtMinEnergy";
           this.txtMinEnergy.Size = new System.Drawing.Size(100, 20);
-          this.txtMinEnergy.TabIndex = 2;
-          this.myToolTip.SetToolTip(this.txtMinEnergy, "The min amount of energy before starvation");
-          // 
-          // label2
-          // 
-          this.label2.AutoSize = true;
-          this.label2.Location = new System.Drawing.Point(176, 40);
-          this.label2.Name = "label2";
+         this.txtMinEnergy.TabIndex = 2;
+         this.myToolTip.SetToolTip(this.txtMinEnergy, "The min amount of energy before starvation");
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.Location = new System.Drawing.Point(176, 40);
+         this.label2.Name = "label2";
           this.label2.Size = new System.Drawing.Size(63, 13);
-          this.label2.TabIndex = 3;
-          this.label2.Text = "Max Energy";
-          // 
-          // txtMaxEnergy
-          // 
-          this.txtMaxEnergy.Location = new System.Drawing.Point(184, 56);
-          this.txtMaxEnergy.Name = "txtMaxEnergy";
+         this.label2.TabIndex = 3;
+         this.label2.Text = "Max Energy";
+         // 
+         // txtMaxEnergy
+         // 
+         this.txtMaxEnergy.Location = new System.Drawing.Point(184, 56);
+         this.txtMaxEnergy.Name = "txtMaxEnergy";
           this.txtMaxEnergy.Size = new System.Drawing.Size(100, 20);
-          this.txtMaxEnergy.TabIndex = 1;
-          this.myToolTip.SetToolTip(this.txtMaxEnergy, "Max amount of energy the species can hold");
-          // 
-          // txtInitialEnergy
-          // 
-          this.txtInitialEnergy.Location = new System.Drawing.Point(24, 56);
-          this.txtInitialEnergy.Name = "txtInitialEnergy";
+         this.txtMaxEnergy.TabIndex = 1;
+         this.myToolTip.SetToolTip(this.txtMaxEnergy, "Max amount of energy the species can hold");
+         // 
+         // txtInitialEnergy
+         // 
+         this.txtInitialEnergy.Location = new System.Drawing.Point(24, 56);
+         this.txtInitialEnergy.Name = "txtInitialEnergy";
           this.txtInitialEnergy.Size = new System.Drawing.Size(100, 20);
-          this.txtInitialEnergy.TabIndex = 0;
-          this.myToolTip.SetToolTip(this.txtInitialEnergy, "Iniatial amount of energy for day one");
-          // 
-          // btnSpecies
-          // 
-          this.btnSpecies.Enabled = false;
-          this.btnSpecies.Location = new System.Drawing.Point(544, 360);
-          this.btnSpecies.Name = "btnSpecies";
-          this.btnSpecies.Size = new System.Drawing.Size(128, 40);
-          this.btnSpecies.TabIndex = 12;
-          this.btnSpecies.Text = "OK";
-          this.btnSpecies.Click += new System.EventHandler(this.btnSpecies_Click);
-          // 
-          // tabHomeRange
-          // 
-          this.tabHomeRange.Controls.Add(this.groupBox12);
-          this.tabHomeRange.Controls.Add(this.btnHomeRange);
-          this.tabHomeRange.Controls.Add(this.groupBox8);
-          this.tabHomeRange.Controls.Add(this.groupBox11);
-          this.tabHomeRange.Location = new System.Drawing.Point(4, 22);
-          this.tabHomeRange.Name = "tabHomeRange";
-          this.tabHomeRange.Size = new System.Drawing.Size(752, 430);
-          this.tabHomeRange.TabIndex = 4;
-          this.tabHomeRange.Text = "Home Range";
-          // 
-          // groupBox12
-          // 
-          this.groupBox12.Controls.Add(this.rdoNumSites);
-          this.groupBox12.Controls.Add(this.rdoNumSteps);
-          this.groupBox12.Controls.Add(this.lblTriggerNum);
-          this.groupBox12.Controls.Add(this.txtTriggerNum);
-          this.groupBox12.Location = new System.Drawing.Point(376, 32);
-          this.groupBox12.Name = "groupBox12";
-          this.groupBox12.Size = new System.Drawing.Size(352, 112);
-          this.groupBox12.TabIndex = 3;
-          this.groupBox12.TabStop = false;
-          this.groupBox12.Text = "Choose Trigger";
-          // 
-          // rdoNumSites
-          // 
-          this.rdoNumSites.Location = new System.Drawing.Point(24, 56);
-          this.rdoNumSites.Name = "rdoNumSites";
-          this.rdoNumSites.Size = new System.Drawing.Size(136, 24);
-          this.rdoNumSites.TabIndex = 5;
-          this.rdoNumSites.Text = "Number of Sites";
-          // 
-          // rdoNumSteps
-          // 
-          this.rdoNumSteps.Checked = true;
-          this.rdoNumSteps.Location = new System.Drawing.Point(24, 24);
-          this.rdoNumSteps.Name = "rdoNumSteps";
-          this.rdoNumSteps.Size = new System.Drawing.Size(136, 24);
-          this.rdoNumSteps.TabIndex = 4;
-          this.rdoNumSteps.TabStop = true;
-          this.rdoNumSteps.Text = "Number of Steps";
-          this.rdoNumSteps.CheckedChanged += new System.EventHandler(this.rdoNumSteps_CheckedChanged);
-          // 
-          // lblTriggerNum
-          // 
-          this.lblTriggerNum.Location = new System.Drawing.Point(208, 32);
-          this.lblTriggerNum.Name = "lblTriggerNum";
-          this.lblTriggerNum.Size = new System.Drawing.Size(104, 24);
-          this.lblTriggerNum.TabIndex = 3;
-          this.lblTriggerNum.Text = "Number of Steps";
-          // 
-          // txtTriggerNum
-          // 
-          this.txtTriggerNum.Location = new System.Drawing.Point(208, 64);
-          this.txtTriggerNum.Name = "txtTriggerNum";
-          this.txtTriggerNum.Size = new System.Drawing.Size(80, 20);
-          this.txtTriggerNum.TabIndex = 2;
-          // 
-          // btnHomeRange
-          // 
-          this.btnHomeRange.Location = new System.Drawing.Point(496, 344);
-          this.btnHomeRange.Name = "btnHomeRange";
-          this.btnHomeRange.Size = new System.Drawing.Size(136, 40);
-          this.btnHomeRange.TabIndex = 2;
-          this.btnHomeRange.Text = "OK";
-          this.btnHomeRange.Click += new System.EventHandler(this.btnHomeRange_Click);
-          // 
-          // groupBox8
-          // 
-          this.groupBox8.Controls.Add(this.label27);
-          this.groupBox8.Controls.Add(this.label26);
-          this.groupBox8.Controls.Add(this.txtFemaleHomeRangeArea);
-          this.groupBox8.Controls.Add(this.txtMaleHomeRangeArea);
-          this.groupBox8.Controls.Add(this.label6);
-          this.groupBox8.Controls.Add(this.txtFemaleDistMod);
-          this.groupBox8.Controls.Add(this.txtMaleDistMod);
-          this.groupBox8.Controls.Add(this.label10);
-          this.groupBox8.Location = new System.Drawing.Point(40, 32);
-          this.groupBox8.Name = "groupBox8";
-          this.groupBox8.Size = new System.Drawing.Size(296, 360);
-          this.groupBox8.TabIndex = 0;
-          this.groupBox8.TabStop = false;
-          this.groupBox8.Text = "Area required for home range (sq km)";
-          // 
-          // label27
-          // 
-          this.label27.Location = new System.Drawing.Point(152, 32);
-          this.label27.Name = "label27";
-          this.label27.Size = new System.Drawing.Size(96, 16);
-          this.label27.TabIndex = 3;
-          this.label27.Text = "Females";
-          // 
-          // label26
-          // 
-          this.label26.Location = new System.Drawing.Point(24, 32);
-          this.label26.Name = "label26";
-          this.label26.Size = new System.Drawing.Size(96, 16);
-          this.label26.TabIndex = 2;
-          this.label26.Text = "Males";
-          // 
-          // txtFemaleHomeRangeArea
-          // 
-          this.txtFemaleHomeRangeArea.Location = new System.Drawing.Point(152, 72);
-          this.txtFemaleHomeRangeArea.Name = "txtFemaleHomeRangeArea";
-          this.txtFemaleHomeRangeArea.Size = new System.Drawing.Size(112, 20);
-          this.txtFemaleHomeRangeArea.TabIndex = 1;
+         this.txtInitialEnergy.TabIndex = 0;
+         this.myToolTip.SetToolTip(this.txtInitialEnergy, "Iniatial amount of energy for day one");
+         // 
+         // btnSpecies
+         // 
+         this.btnSpecies.Enabled = false;
+         this.btnSpecies.Location = new System.Drawing.Point(544, 360);
+         this.btnSpecies.Name = "btnSpecies";
+         this.btnSpecies.Size = new System.Drawing.Size(128, 40);
+         this.btnSpecies.TabIndex = 12;
+         this.btnSpecies.Text = "OK";
+         this.btnSpecies.Click += new System.EventHandler(this.btnSpecies_Click);
+         // 
+         // tabHomeRange
+         // 
+         this.tabHomeRange.Controls.Add(this.groupBox12);
+         this.tabHomeRange.Controls.Add(this.btnHomeRange);
+         this.tabHomeRange.Controls.Add(this.groupBox8);
+         this.tabHomeRange.Controls.Add(this.groupBox11);
+         this.tabHomeRange.Location = new System.Drawing.Point(4, 22);
+         this.tabHomeRange.Name = "tabHomeRange";
+         this.tabHomeRange.Size = new System.Drawing.Size(752, 430);
+         this.tabHomeRange.TabIndex = 4;
+         this.tabHomeRange.Text = "Home Range";
+         // 
+         // groupBox12
+         // 
+         this.groupBox12.Controls.Add(this.rdoNumSites);
+         this.groupBox12.Controls.Add(this.rdoNumSteps);
+         this.groupBox12.Controls.Add(this.lblTriggerNum);
+         this.groupBox12.Controls.Add(this.txtTriggerNum);
+         this.groupBox12.Location = new System.Drawing.Point(376, 32);
+         this.groupBox12.Name = "groupBox12";
+         this.groupBox12.Size = new System.Drawing.Size(352, 112);
+         this.groupBox12.TabIndex = 3;
+         this.groupBox12.TabStop = false;
+         this.groupBox12.Text = "Choose Trigger";
+         // 
+         // rdoNumSites
+         // 
+         this.rdoNumSites.Location = new System.Drawing.Point(24, 56);
+         this.rdoNumSites.Name = "rdoNumSites";
+         this.rdoNumSites.Size = new System.Drawing.Size(136, 24);
+         this.rdoNumSites.TabIndex = 5;
+         this.rdoNumSites.Text = "Number of Sites";
+         // 
+         // rdoNumSteps
+         // 
+         this.rdoNumSteps.Checked = true;
+         this.rdoNumSteps.Location = new System.Drawing.Point(24, 24);
+         this.rdoNumSteps.Name = "rdoNumSteps";
+         this.rdoNumSteps.Size = new System.Drawing.Size(136, 24);
+         this.rdoNumSteps.TabIndex = 4;
+         this.rdoNumSteps.TabStop = true;
+         this.rdoNumSteps.Text = "Number of Steps";
+         this.rdoNumSteps.CheckedChanged += new System.EventHandler(this.rdoNumSteps_CheckedChanged);
+         // 
+         // lblTriggerNum
+         // 
+         this.lblTriggerNum.Location = new System.Drawing.Point(208, 32);
+         this.lblTriggerNum.Name = "lblTriggerNum";
+         this.lblTriggerNum.Size = new System.Drawing.Size(104, 24);
+         this.lblTriggerNum.TabIndex = 3;
+         this.lblTriggerNum.Text = "Number of Steps";
+         // 
+         // txtTriggerNum
+         // 
+         this.txtTriggerNum.Location = new System.Drawing.Point(208, 64);
+         this.txtTriggerNum.Name = "txtTriggerNum";
+         this.txtTriggerNum.Size = new System.Drawing.Size(80, 20);
+         this.txtTriggerNum.TabIndex = 2;
+         // 
+         // btnHomeRange
+         // 
+         this.btnHomeRange.Location = new System.Drawing.Point(496, 344);
+         this.btnHomeRange.Name = "btnHomeRange";
+         this.btnHomeRange.Size = new System.Drawing.Size(136, 40);
+         this.btnHomeRange.TabIndex = 2;
+         this.btnHomeRange.Text = "OK";
+         this.btnHomeRange.Click += new System.EventHandler(this.btnHomeRange_Click);
+         // 
+         // groupBox8
+         // 
+         this.groupBox8.Controls.Add(this.label27);
+         this.groupBox8.Controls.Add(this.label26);
+         this.groupBox8.Controls.Add(this.txtFemaleHomeRangeArea);
+         this.groupBox8.Controls.Add(this.txtMaleHomeRangeArea);
+         this.groupBox8.Controls.Add(this.label6);
+         this.groupBox8.Controls.Add(this.txtFemaleDistMod);
+         this.groupBox8.Controls.Add(this.txtMaleDistMod);
+         this.groupBox8.Controls.Add(this.label10);
+         this.groupBox8.Location = new System.Drawing.Point(40, 32);
+         this.groupBox8.Name = "groupBox8";
+         this.groupBox8.Size = new System.Drawing.Size(296, 360);
+         this.groupBox8.TabIndex = 0;
+         this.groupBox8.TabStop = false;
+         this.groupBox8.Text = "Area required for home range (sq km)";
+         // 
+         // label27
+         // 
+         this.label27.Location = new System.Drawing.Point(152, 32);
+         this.label27.Name = "label27";
+         this.label27.Size = new System.Drawing.Size(96, 16);
+         this.label27.TabIndex = 3;
+         this.label27.Text = "Females";
+         // 
+         // label26
+         // 
+         this.label26.Location = new System.Drawing.Point(24, 32);
+         this.label26.Name = "label26";
+         this.label26.Size = new System.Drawing.Size(96, 16);
+         this.label26.TabIndex = 2;
+         this.label26.Text = "Males";
+         // 
+         // txtFemaleHomeRangeArea
+         // 
+         this.txtFemaleHomeRangeArea.Location = new System.Drawing.Point(152, 72);
+         this.txtFemaleHomeRangeArea.Name = "txtFemaleHomeRangeArea";
+         this.txtFemaleHomeRangeArea.Size = new System.Drawing.Size(112, 20);
+         this.txtFemaleHomeRangeArea.TabIndex = 1;
           this.txtFemaleHomeRangeArea.Validating += new System.ComponentModel.CancelEventHandler(this.txtFemaleHomeRangeArea_Validating);
-          // 
-          // txtMaleHomeRangeArea
-          // 
-          this.txtMaleHomeRangeArea.Location = new System.Drawing.Point(24, 72);
-          this.txtMaleHomeRangeArea.Name = "txtMaleHomeRangeArea";
-          this.txtMaleHomeRangeArea.Size = new System.Drawing.Size(112, 20);
-          this.txtMaleHomeRangeArea.TabIndex = 0;
+         // 
+         // txtMaleHomeRangeArea
+         // 
+         this.txtMaleHomeRangeArea.Location = new System.Drawing.Point(24, 72);
+         this.txtMaleHomeRangeArea.Name = "txtMaleHomeRangeArea";
+         this.txtMaleHomeRangeArea.Size = new System.Drawing.Size(112, 20);
+         this.txtMaleHomeRangeArea.TabIndex = 0;
           this.txtMaleHomeRangeArea.Validating += new System.ComponentModel.CancelEventHandler(this.txtMaleHomeRangeArea_Validating);
-          // 
-          // label6
-          // 
-          this.label6.Location = new System.Drawing.Point(24, 56);
-          this.label6.Name = "label6";
-          this.label6.Size = new System.Drawing.Size(248, 16);
-          this.label6.TabIndex = 2;
-          this.label6.Text = "Area required for home range (sq km)";
-          // 
-          // txtFemaleDistMod
-          // 
-          this.txtFemaleDistMod.Location = new System.Drawing.Point(152, 128);
-          this.txtFemaleDistMod.Name = "txtFemaleDistMod";
-          this.txtFemaleDistMod.Size = new System.Drawing.Size(112, 20);
-          this.txtFemaleDistMod.TabIndex = 1;
-          // 
-          // txtMaleDistMod
-          // 
-          this.txtMaleDistMod.Location = new System.Drawing.Point(24, 128);
-          this.txtMaleDistMod.Name = "txtMaleDistMod";
-          this.txtMaleDistMod.Size = new System.Drawing.Size(112, 20);
-          this.txtMaleDistMod.TabIndex = 0;
-          // 
-          // label10
-          // 
-          this.label10.Location = new System.Drawing.Point(24, 96);
-          this.label10.Name = "label10";
-          this.label10.Size = new System.Drawing.Size(248, 32);
-          this.label10.TabIndex = 2;
-          this.label10.Text = "Distance Weight Modifer (Used in conjunction with Choose Criteria)";
-          // 
-          // groupBox11
-          // 
-          this.groupBox11.Controls.Add(this.rdoCombo);
-          this.groupBox11.Controls.Add(this.rdoBestFood);
-          this.groupBox11.Controls.Add(this.rdoRisk);
-          this.groupBox11.Controls.Add(this.rdoClosest);
-          this.groupBox11.Location = new System.Drawing.Point(376, 168);
-          this.groupBox11.Name = "groupBox11";
-          this.groupBox11.Size = new System.Drawing.Size(352, 104);
-          this.groupBox11.TabIndex = 8;
-          this.groupBox11.TabStop = false;
-          this.groupBox11.Text = "Choose Criteria";
-          // 
-          // rdoCombo
-          // 
-          this.rdoCombo.Location = new System.Drawing.Point(208, 56);
-          this.rdoCombo.Name = "rdoCombo";
+         // 
+         // label6
+         // 
+         this.label6.Location = new System.Drawing.Point(24, 56);
+         this.label6.Name = "label6";
+         this.label6.Size = new System.Drawing.Size(248, 16);
+         this.label6.TabIndex = 2;
+         this.label6.Text = "Area required for home range (sq km)";
+         // 
+         // txtFemaleDistMod
+         // 
+         this.txtFemaleDistMod.Location = new System.Drawing.Point(152, 128);
+         this.txtFemaleDistMod.Name = "txtFemaleDistMod";
+         this.txtFemaleDistMod.Size = new System.Drawing.Size(112, 20);
+         this.txtFemaleDistMod.TabIndex = 1;
+         // 
+         // txtMaleDistMod
+         // 
+         this.txtMaleDistMod.Location = new System.Drawing.Point(24, 128);
+         this.txtMaleDistMod.Name = "txtMaleDistMod";
+         this.txtMaleDistMod.Size = new System.Drawing.Size(112, 20);
+         this.txtMaleDistMod.TabIndex = 0;
+         // 
+         // label10
+         // 
+         this.label10.Location = new System.Drawing.Point(24, 96);
+         this.label10.Name = "label10";
+         this.label10.Size = new System.Drawing.Size(248, 32);
+         this.label10.TabIndex = 2;
+         this.label10.Text = "Distance Weight Modifer (Used in conjunction with Choose Criteria)";
+         // 
+         // groupBox11
+         // 
+         this.groupBox11.Controls.Add(this.rdoCombo);
+         this.groupBox11.Controls.Add(this.rdoBestFood);
+         this.groupBox11.Controls.Add(this.rdoRisk);
+         this.groupBox11.Controls.Add(this.rdoClosest);
+         this.groupBox11.Location = new System.Drawing.Point(376, 168);
+         this.groupBox11.Name = "groupBox11";
+         this.groupBox11.Size = new System.Drawing.Size(352, 104);
+         this.groupBox11.TabIndex = 8;
+         this.groupBox11.TabStop = false;
+         this.groupBox11.Text = "Choose Criteria";
+         // 
+         // rdoCombo
+         // 
+         this.rdoCombo.Location = new System.Drawing.Point(208, 56);
+         this.rdoCombo.Name = "rdoCombo";
           this.rdoCombo.Size = new System.Drawing.Size(104, 24);
-          this.rdoCombo.TabIndex = 10;
-          this.rdoCombo.Text = "Combo";
-          // 
-          // rdoBestFood
-          // 
-          this.rdoBestFood.Location = new System.Drawing.Point(208, 24);
-          this.rdoBestFood.Name = "rdoBestFood";
+         this.rdoCombo.TabIndex = 10;
+         this.rdoCombo.Text = "Combo";
+         // 
+         // rdoBestFood
+         // 
+         this.rdoBestFood.Location = new System.Drawing.Point(208, 24);
+         this.rdoBestFood.Name = "rdoBestFood";
           this.rdoBestFood.Size = new System.Drawing.Size(104, 24);
-          this.rdoBestFood.TabIndex = 9;
-          this.rdoBestFood.Text = "Best Food";
-          // 
-          // rdoRisk
-          // 
-          this.rdoRisk.Location = new System.Drawing.Point(24, 56);
-          this.rdoRisk.Name = "rdoRisk";
+         this.rdoBestFood.TabIndex = 9;
+         this.rdoBestFood.Text = "Best Food";
+         // 
+         // rdoRisk
+         // 
+         this.rdoRisk.Location = new System.Drawing.Point(24, 56);
+         this.rdoRisk.Name = "rdoRisk";
           this.rdoRisk.Size = new System.Drawing.Size(104, 24);
-          this.rdoRisk.TabIndex = 8;
-          this.rdoRisk.Text = "Least Risk";
-          // 
-          // rdoClosest
-          // 
-          this.rdoClosest.Checked = true;
-          this.rdoClosest.Location = new System.Drawing.Point(24, 24);
-          this.rdoClosest.Name = "rdoClosest";
+         this.rdoRisk.TabIndex = 8;
+         this.rdoRisk.Text = "Least Risk";
+         // 
+         // rdoClosest
+         // 
+         this.rdoClosest.Checked = true;
+         this.rdoClosest.Location = new System.Drawing.Point(24, 24);
+         this.rdoClosest.Name = "rdoClosest";
           this.rdoClosest.Size = new System.Drawing.Size(104, 24);
-          this.rdoClosest.TabIndex = 5;
-          this.rdoClosest.TabStop = true;
-          this.rdoClosest.Text = "Closest ";
-          // 
-          // tabMap
-          // 
-          this.tabMap.Controls.Add(this.grpTime);
-          this.tabMap.Controls.Add(this.btnMapNext);
-          this.tabMap.Controls.Add(this.btnMove);
-          this.tabMap.Controls.Add(this.btnRelease);
-          this.tabMap.Controls.Add(this.btnPredationMap);
-          this.tabMap.Controls.Add(this.btnFoodMaps);
-          this.tabMap.Controls.Add(this.btnSocialMaps);
-          this.tabMap.Controls.Add(this.groupBox6);
-          this.tabMap.Location = new System.Drawing.Point(4, 22);
-          this.tabMap.Name = "tabMap";
-          this.tabMap.Size = new System.Drawing.Size(752, 430);
-          this.tabMap.TabIndex = 0;
-          this.tabMap.Text = "Simulation Maps";
-          // 
-          // grpTime
-          // 
-          this.grpTime.Controls.Add(this.btnSetMove);
-          this.grpTime.Controls.Add(this.btnSetRisk);
-          this.grpTime.Controls.Add(this.btnSetFood);
-          this.grpTime.Controls.Add(this.btnSetRelease);
-          this.grpTime.Controls.Add(this.btnSetSocial);
-          this.grpTime.Location = new System.Drawing.Point(276, 19);
-          this.grpTime.Name = "grpTime";
-          this.grpTime.Size = new System.Drawing.Size(200, 389);
-          this.grpTime.TabIndex = 13;
-          this.grpTime.TabStop = false;
-          this.grpTime.Text = "Set Start Times";
-          this.grpTime.Visible = false;
-          // 
-          // btnSetMove
-          // 
-          this.btnSetMove.Enabled = false;
-          this.btnSetMove.Location = new System.Drawing.Point(24, 232);
-          this.btnSetMove.Name = "btnSetMove";
-          this.btnSetMove.Size = new System.Drawing.Size(152, 48);
-          this.btnSetMove.TabIndex = 23;
-          this.btnSetMove.Text = "Set Movement Modifier Maps";
-          this.btnSetMove.Click += new System.EventHandler(this.btnSetMove_Click);
-          // 
-          // btnSetRisk
-          // 
-          this.btnSetRisk.Enabled = false;
-          this.btnSetRisk.Location = new System.Drawing.Point(24, 160);
-          this.btnSetRisk.Name = "btnSetRisk";
-          this.btnSetRisk.Size = new System.Drawing.Size(152, 48);
-          this.btnSetRisk.TabIndex = 21;
-          this.btnSetRisk.Text = "Set Predation Risk Maps";
-          this.btnSetRisk.Click += new System.EventHandler(this.btnSetRisk_Click);
-          // 
-          // btnSetFood
-          // 
-          this.btnSetFood.Enabled = false;
-          this.btnSetFood.Location = new System.Drawing.Point(24, 96);
-          this.btnSetFood.Name = "btnSetFood";
-          this.btnSetFood.Size = new System.Drawing.Size(152, 40);
-          this.btnSetFood.TabIndex = 24;
-          this.btnSetFood.Text = "Set Food Maps";
-          this.btnSetFood.Click += new System.EventHandler(this.btnSetFood_Click);
-          // 
-          // btnSetRelease
-          // 
-          this.btnSetRelease.Location = new System.Drawing.Point(24, 304);
-          this.btnSetRelease.Name = "btnSetRelease";
-          this.btnSetRelease.Size = new System.Drawing.Size(152, 48);
-          this.btnSetRelease.TabIndex = 22;
-          this.btnSetRelease.Text = "Set Release Maps";
-          this.btnSetRelease.Click += new System.EventHandler(this.btnSetRelease_Click);
-          // 
-          // btnSetSocial
-          // 
-          this.btnSetSocial.Location = new System.Drawing.Point(24, 32);
-          this.btnSetSocial.Name = "btnSetSocial";
-          this.btnSetSocial.Size = new System.Drawing.Size(152, 40);
-          this.btnSetSocial.TabIndex = 20;
-          this.btnSetSocial.Text = "Set Social Maps ";
-          this.btnSetSocial.Click += new System.EventHandler(this.btnSetSocial_Click);
-          // 
-          // btnMapNext
-          // 
-          this.btnMapNext.Location = new System.Drawing.Point(616, 480);
-          this.btnMapNext.Name = "btnMapNext";
-          this.btnMapNext.Size = new System.Drawing.Size(144, 48);
-          this.btnMapNext.TabIndex = 5;
-          this.btnMapNext.Text = "Next";
-          // 
-          // btnMove
-          // 
-          this.btnMove.Enabled = false;
-          this.btnMove.Location = new System.Drawing.Point(48, 254);
-          this.btnMove.Name = "btnMove";
-          this.btnMove.Size = new System.Drawing.Size(152, 48);
-          this.btnMove.TabIndex = 4;
-          this.btnMove.Text = "Load Movement Modifier Maps";
-          this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
-          // 
-          // btnRelease
-          // 
-          this.btnRelease.Enabled = false;
-          this.btnRelease.Location = new System.Drawing.Point(48, 328);
-          this.btnRelease.Name = "btnRelease";
-          this.btnRelease.Size = new System.Drawing.Size(152, 48);
-          this.btnRelease.TabIndex = 3;
-          this.btnRelease.Text = "Load Release Maps";
-          this.btnRelease.Click += new System.EventHandler(this.btnDispersal_Click);
-          // 
-          // btnPredationMap
-          // 
-          this.btnPredationMap.Enabled = false;
-          this.btnPredationMap.Location = new System.Drawing.Point(48, 180);
-          this.btnPredationMap.Name = "btnPredationMap";
-          this.btnPredationMap.Size = new System.Drawing.Size(152, 48);
-          this.btnPredationMap.TabIndex = 2;
-          this.btnPredationMap.Text = "Load Predation Risk Maps";
-          this.btnPredationMap.Click += new System.EventHandler(this.btnPredationMap_Click);
-          // 
-          // btnFoodMaps
-          // 
-          this.btnFoodMaps.Enabled = false;
-          this.btnFoodMaps.Location = new System.Drawing.Point(48, 114);
-          this.btnFoodMaps.Name = "btnFoodMaps";
-          this.btnFoodMaps.Size = new System.Drawing.Size(152, 40);
-          this.btnFoodMaps.TabIndex = 1;
-          this.btnFoodMaps.Text = "Load Food Maps";
-          this.btnFoodMaps.Click += new System.EventHandler(this.btnFoodMaps_Click);
-          // 
-          // btnSocialMaps
-          // 
-          this.btnSocialMaps.Location = new System.Drawing.Point(48, 48);
-          this.btnSocialMaps.Name = "btnSocialMaps";
-          this.btnSocialMaps.Size = new System.Drawing.Size(152, 40);
-          this.btnSocialMaps.TabIndex = 0;
-          this.btnSocialMaps.Text = "Load Social Maps";
-          this.btnSocialMaps.Click += new System.EventHandler(this.btnSocialMaps_Click);
-          // 
-          // groupBox6
-          // 
-          this.groupBox6.Location = new System.Drawing.Point(24, 16);
-          this.groupBox6.Name = "groupBox6";
-          this.groupBox6.Size = new System.Drawing.Size(200, 392);
-          this.groupBox6.TabIndex = 7;
-          this.groupBox6.TabStop = false;
-          this.groupBox6.Text = "Validate All Maps";
-          // 
-          // tabModify
-          // 
-          this.tabModify.Controls.Add(this.btnSafeForageModifer);
-          this.tabModify.Controls.Add(this.btnSafeSearchModifier);
-          this.tabModify.Controls.Add(this.btnRiskyForageModifer);
-          this.tabModify.Controls.Add(this.btnRiskySearchModifier);
-          this.tabModify.Controls.Add(this.btnDailyModifier);
-          this.tabModify.Controls.Add(this.btnAddHourlyModifer);
-          this.tabModify.Controls.Add(this.lblModifiers);
-          this.tabModify.Controls.Add(this.btnFemaleGender);
-          this.tabModify.Controls.Add(this.btnMoveOK);
-          this.tabModify.Controls.Add(this.btnMaleGender);
-          this.tabModify.Location = new System.Drawing.Point(4, 22);
-          this.tabModify.Name = "tabModify";
-          this.tabModify.Size = new System.Drawing.Size(752, 430);
-          this.tabModify.TabIndex = 2;
-          this.tabModify.Text = "Movement Modifiers";
-          // 
-          // btnSafeForageModifer
-          // 
-          this.btnSafeForageModifer.Location = new System.Drawing.Point(32, 368);
-          this.btnSafeForageModifer.Name = "btnSafeForageModifer";
-          this.btnSafeForageModifer.Size = new System.Drawing.Size(208, 32);
-          this.btnSafeForageModifer.TabIndex = 10;
-          this.btnSafeForageModifer.Text = "Safe Foraging Modifier";
-          this.btnSafeForageModifer.Click += new System.EventHandler(this.btnSafeForageModifer_Click);
-          // 
-          // btnSafeSearchModifier
-          // 
-          this.btnSafeSearchModifier.Location = new System.Drawing.Point(32, 320);
-          this.btnSafeSearchModifier.Name = "btnSafeSearchModifier";
-          this.btnSafeSearchModifier.Size = new System.Drawing.Size(208, 32);
-          this.btnSafeSearchModifier.TabIndex = 9;
-          this.btnSafeSearchModifier.Text = "Safe Search Modifier";
-          this.btnSafeSearchModifier.Click += new System.EventHandler(this.btnSafeSearchModifier_Click);
-          // 
-          // btnRiskyForageModifer
-          // 
-          this.btnRiskyForageModifer.Location = new System.Drawing.Point(32, 272);
-          this.btnRiskyForageModifer.Name = "btnRiskyForageModifer";
-          this.btnRiskyForageModifer.Size = new System.Drawing.Size(208, 32);
-          this.btnRiskyForageModifer.TabIndex = 7;
-          this.btnRiskyForageModifer.Text = "Risky Foraging Modifier";
-          this.btnRiskyForageModifer.Click += new System.EventHandler(this.btnRiskyForageModifer_Click);
-          // 
-          // btnRiskySearchModifier
-          // 
-          this.btnRiskySearchModifier.Location = new System.Drawing.Point(32, 224);
-          this.btnRiskySearchModifier.Name = "btnRiskySearchModifier";
-          this.btnRiskySearchModifier.Size = new System.Drawing.Size(208, 32);
-          this.btnRiskySearchModifier.TabIndex = 8;
-          this.btnRiskySearchModifier.Text = "Risky Search Modifer";
-          this.btnRiskySearchModifier.Click += new System.EventHandler(this.btnRiskySearchModifier_Click);
-          // 
-          // btnDailyModifier
-          // 
-          this.btnDailyModifier.Location = new System.Drawing.Point(32, 184);
-          this.btnDailyModifier.Name = "btnDailyModifier";
-          this.btnDailyModifier.Size = new System.Drawing.Size(208, 32);
-          this.btnDailyModifier.TabIndex = 2;
-          this.btnDailyModifier.Text = "Add Daily Movement Modifier";
-          this.btnDailyModifier.Click += new System.EventHandler(this.btnDailyModifier_Click);
-          // 
-          // btnAddHourlyModifer
-          // 
-          this.btnAddHourlyModifer.Location = new System.Drawing.Point(32, 136);
-          this.btnAddHourlyModifer.Name = "btnAddHourlyModifer";
-          this.btnAddHourlyModifer.Size = new System.Drawing.Size(208, 32);
-          this.btnAddHourlyModifer.TabIndex = 1;
-          this.btnAddHourlyModifer.Text = "Add Hourly Movement Modifier";
-          this.btnAddHourlyModifer.Click += new System.EventHandler(this.btnAddHourlyModifer_Click_1);
-          // 
-          // lblModifiers
-          // 
+         this.rdoClosest.TabIndex = 5;
+         this.rdoClosest.TabStop = true;
+         this.rdoClosest.Text = "Closest ";
+         // 
+         // tabMap
+         // 
+         this.tabMap.Controls.Add(this.grpTime);
+         this.tabMap.Controls.Add(this.btnMapNext);
+         this.tabMap.Controls.Add(this.btnMove);
+         this.tabMap.Controls.Add(this.btnRelease);
+         this.tabMap.Controls.Add(this.btnPredationMap);
+         this.tabMap.Controls.Add(this.btnFoodMaps);
+         this.tabMap.Controls.Add(this.btnSocialMaps);
+         this.tabMap.Controls.Add(this.groupBox6);
+         this.tabMap.Location = new System.Drawing.Point(4, 22);
+         this.tabMap.Name = "tabMap";
+         this.tabMap.Size = new System.Drawing.Size(752, 430);
+         this.tabMap.TabIndex = 0;
+         this.tabMap.Text = "Simulation Maps";
+         // 
+         // grpTime
+         // 
+         this.grpTime.Controls.Add(this.btnSetMove);
+         this.grpTime.Controls.Add(this.btnSetRisk);
+         this.grpTime.Controls.Add(this.btnSetFood);
+         this.grpTime.Controls.Add(this.btnSetRelease);
+         this.grpTime.Controls.Add(this.btnSetSocial);
+         this.grpTime.Location = new System.Drawing.Point(276, 19);
+         this.grpTime.Name = "grpTime";
+         this.grpTime.Size = new System.Drawing.Size(200, 389);
+         this.grpTime.TabIndex = 13;
+         this.grpTime.TabStop = false;
+         this.grpTime.Text = "Set Start Times";
+         this.grpTime.Visible = false;
+         // 
+         // btnSetMove
+         // 
+         this.btnSetMove.Enabled = false;
+         this.btnSetMove.Location = new System.Drawing.Point(24, 232);
+         this.btnSetMove.Name = "btnSetMove";
+         this.btnSetMove.Size = new System.Drawing.Size(152, 48);
+         this.btnSetMove.TabIndex = 23;
+         this.btnSetMove.Text = "Set Movement Modifier Maps";
+         this.btnSetMove.Click += new System.EventHandler(this.btnSetMove_Click);
+         // 
+         // btnSetRisk
+         // 
+         this.btnSetRisk.Enabled = false;
+         this.btnSetRisk.Location = new System.Drawing.Point(24, 160);
+         this.btnSetRisk.Name = "btnSetRisk";
+         this.btnSetRisk.Size = new System.Drawing.Size(152, 48);
+         this.btnSetRisk.TabIndex = 21;
+         this.btnSetRisk.Text = "Set Predation Risk Maps";
+         this.btnSetRisk.Click += new System.EventHandler(this.btnSetRisk_Click);
+         // 
+         // btnSetFood
+         // 
+         this.btnSetFood.Enabled = false;
+         this.btnSetFood.Location = new System.Drawing.Point(24, 96);
+         this.btnSetFood.Name = "btnSetFood";
+         this.btnSetFood.Size = new System.Drawing.Size(152, 40);
+         this.btnSetFood.TabIndex = 24;
+         this.btnSetFood.Text = "Set Food Maps";
+         this.btnSetFood.Click += new System.EventHandler(this.btnSetFood_Click);
+         // 
+         // btnSetRelease
+         // 
+         this.btnSetRelease.Location = new System.Drawing.Point(24, 304);
+         this.btnSetRelease.Name = "btnSetRelease";
+         this.btnSetRelease.Size = new System.Drawing.Size(152, 48);
+         this.btnSetRelease.TabIndex = 22;
+         this.btnSetRelease.Text = "Set Release Maps";
+         this.btnSetRelease.Click += new System.EventHandler(this.btnSetRelease_Click);
+         // 
+         // btnSetSocial
+         // 
+         this.btnSetSocial.Location = new System.Drawing.Point(24, 32);
+         this.btnSetSocial.Name = "btnSetSocial";
+         this.btnSetSocial.Size = new System.Drawing.Size(152, 40);
+         this.btnSetSocial.TabIndex = 20;
+         this.btnSetSocial.Text = "Set Social Maps ";
+         this.btnSetSocial.Click += new System.EventHandler(this.btnSetSocial_Click);
+         // 
+         // btnMapNext
+         // 
+         this.btnMapNext.Location = new System.Drawing.Point(616, 480);
+         this.btnMapNext.Name = "btnMapNext";
+         this.btnMapNext.Size = new System.Drawing.Size(144, 48);
+         this.btnMapNext.TabIndex = 5;
+         this.btnMapNext.Text = "Next";
+         // 
+         // btnMove
+         // 
+         this.btnMove.Enabled = false;
+         this.btnMove.Location = new System.Drawing.Point(48, 254);
+         this.btnMove.Name = "btnMove";
+         this.btnMove.Size = new System.Drawing.Size(152, 48);
+         this.btnMove.TabIndex = 4;
+         this.btnMove.Text = "Load Movement Modifier Maps";
+         this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
+         // 
+         // btnRelease
+         // 
+         this.btnRelease.Enabled = false;
+         this.btnRelease.Location = new System.Drawing.Point(48, 328);
+         this.btnRelease.Name = "btnRelease";
+         this.btnRelease.Size = new System.Drawing.Size(152, 48);
+         this.btnRelease.TabIndex = 3;
+         this.btnRelease.Text = "Load Release Maps";
+         this.btnRelease.Click += new System.EventHandler(this.btnDispersal_Click);
+         // 
+         // btnPredationMap
+         // 
+         this.btnPredationMap.Enabled = false;
+         this.btnPredationMap.Location = new System.Drawing.Point(48, 180);
+         this.btnPredationMap.Name = "btnPredationMap";
+         this.btnPredationMap.Size = new System.Drawing.Size(152, 48);
+         this.btnPredationMap.TabIndex = 2;
+         this.btnPredationMap.Text = "Load Predation Risk Maps";
+         this.btnPredationMap.Click += new System.EventHandler(this.btnPredationMap_Click);
+         // 
+         // btnFoodMaps
+         // 
+         this.btnFoodMaps.Enabled = false;
+         this.btnFoodMaps.Location = new System.Drawing.Point(48, 114);
+         this.btnFoodMaps.Name = "btnFoodMaps";
+         this.btnFoodMaps.Size = new System.Drawing.Size(152, 40);
+         this.btnFoodMaps.TabIndex = 1;
+         this.btnFoodMaps.Text = "Load Food Maps";
+         this.btnFoodMaps.Click += new System.EventHandler(this.btnFoodMaps_Click);
+         // 
+         // btnSocialMaps
+         // 
+         this.btnSocialMaps.Location = new System.Drawing.Point(48, 48);
+         this.btnSocialMaps.Name = "btnSocialMaps";
+         this.btnSocialMaps.Size = new System.Drawing.Size(152, 40);
+         this.btnSocialMaps.TabIndex = 0;
+         this.btnSocialMaps.Text = "Load Social Maps";
+         this.btnSocialMaps.Click += new System.EventHandler(this.btnSocialMaps_Click);
+         // 
+         // groupBox6
+         // 
+         this.groupBox6.Location = new System.Drawing.Point(24, 16);
+         this.groupBox6.Name = "groupBox6";
+         this.groupBox6.Size = new System.Drawing.Size(200, 392);
+         this.groupBox6.TabIndex = 7;
+         this.groupBox6.TabStop = false;
+         this.groupBox6.Text = "Validate All Maps";
+         // 
+         // tabModify
+         // 
+         this.tabModify.Controls.Add(this.btnSafeForageModifer);
+         this.tabModify.Controls.Add(this.btnSafeSearchModifier);
+         this.tabModify.Controls.Add(this.btnRiskyForageModifer);
+         this.tabModify.Controls.Add(this.btnRiskySearchModifier);
+         this.tabModify.Controls.Add(this.btnDailyModifier);
+         this.tabModify.Controls.Add(this.btnAddHourlyModifer);
+         this.tabModify.Controls.Add(this.lblModifiers);
+         this.tabModify.Controls.Add(this.btnFemaleGender);
+         this.tabModify.Controls.Add(this.btnMoveOK);
+         this.tabModify.Controls.Add(this.btnMaleGender);
+         this.tabModify.Location = new System.Drawing.Point(4, 22);
+         this.tabModify.Name = "tabModify";
+         this.tabModify.Size = new System.Drawing.Size(752, 430);
+         this.tabModify.TabIndex = 2;
+         this.tabModify.Text = "Movement Modifiers";
+         // 
+         // btnSafeForageModifer
+         // 
+         this.btnSafeForageModifer.Location = new System.Drawing.Point(32, 368);
+         this.btnSafeForageModifer.Name = "btnSafeForageModifer";
+         this.btnSafeForageModifer.Size = new System.Drawing.Size(208, 32);
+         this.btnSafeForageModifer.TabIndex = 10;
+         this.btnSafeForageModifer.Text = "Safe Foraging Modifier";
+         this.btnSafeForageModifer.Click += new System.EventHandler(this.btnSafeForageModifer_Click);
+         // 
+         // btnSafeSearchModifier
+         // 
+         this.btnSafeSearchModifier.Location = new System.Drawing.Point(32, 320);
+         this.btnSafeSearchModifier.Name = "btnSafeSearchModifier";
+         this.btnSafeSearchModifier.Size = new System.Drawing.Size(208, 32);
+         this.btnSafeSearchModifier.TabIndex = 9;
+         this.btnSafeSearchModifier.Text = "Safe Search Modifier";
+         this.btnSafeSearchModifier.Click += new System.EventHandler(this.btnSafeSearchModifier_Click);
+         // 
+         // btnRiskyForageModifer
+         // 
+         this.btnRiskyForageModifer.Location = new System.Drawing.Point(32, 272);
+         this.btnRiskyForageModifer.Name = "btnRiskyForageModifer";
+         this.btnRiskyForageModifer.Size = new System.Drawing.Size(208, 32);
+         this.btnRiskyForageModifer.TabIndex = 7;
+         this.btnRiskyForageModifer.Text = "Risky Foraging Modifier";
+         this.btnRiskyForageModifer.Click += new System.EventHandler(this.btnRiskyForageModifer_Click);
+         // 
+         // btnRiskySearchModifier
+         // 
+         this.btnRiskySearchModifier.Location = new System.Drawing.Point(32, 224);
+         this.btnRiskySearchModifier.Name = "btnRiskySearchModifier";
+         this.btnRiskySearchModifier.Size = new System.Drawing.Size(208, 32);
+         this.btnRiskySearchModifier.TabIndex = 8;
+         this.btnRiskySearchModifier.Text = "Risky Search Modifer";
+         this.btnRiskySearchModifier.Click += new System.EventHandler(this.btnRiskySearchModifier_Click);
+         // 
+         // btnDailyModifier
+         // 
+         this.btnDailyModifier.Location = new System.Drawing.Point(32, 184);
+         this.btnDailyModifier.Name = "btnDailyModifier";
+         this.btnDailyModifier.Size = new System.Drawing.Size(208, 32);
+         this.btnDailyModifier.TabIndex = 2;
+         this.btnDailyModifier.Text = "Add Daily Movement Modifier";
+         this.btnDailyModifier.Click += new System.EventHandler(this.btnDailyModifier_Click);
+         // 
+         // btnAddHourlyModifer
+         // 
+         this.btnAddHourlyModifer.Location = new System.Drawing.Point(32, 136);
+         this.btnAddHourlyModifer.Name = "btnAddHourlyModifer";
+         this.btnAddHourlyModifer.Size = new System.Drawing.Size(208, 32);
+         this.btnAddHourlyModifer.TabIndex = 1;
+         this.btnAddHourlyModifer.Text = "Add Hourly Movement Modifier";
+         this.btnAddHourlyModifer.Click += new System.EventHandler(this.btnAddHourlyModifer_Click_1);
+         // 
+         // lblModifiers
+         // 
           this.lblModifiers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-          this.lblModifiers.Location = new System.Drawing.Point(320, 24);
-          this.lblModifiers.Name = "lblModifiers";
-          this.lblModifiers.Size = new System.Drawing.Size(400, 328);
-          this.lblModifiers.TabIndex = 4;
-          // 
-          // btnFemaleGender
-          // 
-          this.btnFemaleGender.Location = new System.Drawing.Point(32, 88);
-          this.btnFemaleGender.Name = "btnFemaleGender";
-          this.btnFemaleGender.Size = new System.Drawing.Size(208, 32);
-          this.btnFemaleGender.TabIndex = 0;
-          this.btnFemaleGender.Text = "Female Gender Modifier";
-          this.btnFemaleGender.Click += new System.EventHandler(this.btnFemaleGender_Click);
-          // 
-          // btnMoveOK
-          // 
-          this.btnMoveOK.Location = new System.Drawing.Point(552, 384);
-          this.btnMoveOK.Name = "btnMoveOK";
-          this.btnMoveOK.Size = new System.Drawing.Size(80, 24);
-          this.btnMoveOK.TabIndex = 3;
-          this.btnMoveOK.Text = "OK";
-          this.btnMoveOK.Click += new System.EventHandler(this.btnMoveOK_Click);
-          // 
-          // btnMaleGender
-          // 
-          this.btnMaleGender.Location = new System.Drawing.Point(32, 40);
-          this.btnMaleGender.Name = "btnMaleGender";
-          this.btnMaleGender.Size = new System.Drawing.Size(208, 32);
-          this.btnMaleGender.TabIndex = 0;
-          this.btnMaleGender.Text = "Male Gender Modifer";
-          this.btnMaleGender.Click += new System.EventHandler(this.btnMaleGender_Click);
-          // 
-          // tabSim
-          // 
-          this.tabSim.Controls.Add(this.groupBox14);
-          this.tabSim.Controls.Add(this.pbarSim);
-          this.tabSim.Controls.Add(this.btnRunSim);
-          this.tabSim.Controls.Add(this.btnTabSimOK);
-          this.tabSim.Controls.Add(this.groupBox7);
-          this.tabSim.Controls.Add(this.groupBox5);
-          this.tabSim.Location = new System.Drawing.Point(4, 22);
-          this.tabSim.Name = "tabSim";
-          this.tabSim.Size = new System.Drawing.Size(752, 430);
-          this.tabSim.TabIndex = 3;
-          this.tabSim.Text = "Simulation Parameters";
-          this.tabSim.Enter += new System.EventHandler(this.tabSim_Enter);
-          // 
-          // groupBox14
-          // 
-          this.groupBox14.Controls.Add(this.btnParameterFile);
-          this.groupBox14.Location = new System.Drawing.Point(32, 368);
-          this.groupBox14.Name = "groupBox14";
-          this.groupBox14.Size = new System.Drawing.Size(424, 48);
-          this.groupBox14.TabIndex = 4;
-          this.groupBox14.TabStop = false;
-          this.groupBox14.Text = "Save Parameters to file";
-          // 
-          // btnParameterFile
-          // 
-          this.btnParameterFile.Location = new System.Drawing.Point(232, 16);
-          this.btnParameterFile.Name = "btnParameterFile";
-          this.btnParameterFile.Size = new System.Drawing.Size(152, 23);
-          this.btnParameterFile.TabIndex = 0;
-          this.btnParameterFile.Text = "Browse for Parameter File";
-          this.btnParameterFile.Click += new System.EventHandler(this.btnParameterFile_Click);
-          // 
-          // pbarSim
-          // 
-          this.pbarSim.Location = new System.Drawing.Point(48, 248);
-          this.pbarSim.Name = "pbarSim";
-          this.pbarSim.Size = new System.Drawing.Size(544, 32);
-          this.pbarSim.Step = 1;
-          this.pbarSim.TabIndex = 3;
-          // 
-          // btnRunSim
-          // 
-          this.btnRunSim.Enabled = false;
-          this.btnRunSim.Location = new System.Drawing.Point(496, 376);
-          this.btnRunSim.Name = "btnRunSim";
-          this.btnRunSim.Size = new System.Drawing.Size(160, 32);
-          this.btnRunSim.TabIndex = 1;
-          this.btnRunSim.Text = "Run Simulaton";
-          this.btnRunSim.Click += new System.EventHandler(this.button1_Click);
-          // 
-          // btnTabSimOK
-          // 
-          this.btnTabSimOK.Location = new System.Drawing.Point(496, 320);
-          this.btnTabSimOK.Name = "btnTabSimOK";
-          this.btnTabSimOK.Size = new System.Drawing.Size(152, 32);
-          this.btnTabSimOK.TabIndex = 0;
-          this.btnTabSimOK.Text = "OK";
-          this.btnTabSimOK.Click += new System.EventHandler(this.btnTabSimOK_Click);
-          // 
-          // groupBox7
-          // 
-          this.groupBox7.Controls.Add(this.btnOutMapDir);
-          this.groupBox7.Controls.Add(this.chkTextOutPut);
-          this.groupBox7.Location = new System.Drawing.Point(32, 304);
-          this.groupBox7.Name = "groupBox7";
-          this.groupBox7.Size = new System.Drawing.Size(424, 56);
-          this.groupBox7.TabIndex = 2;
-          this.groupBox7.TabStop = false;
-          this.groupBox7.Text = "Output Parameters";
-          // 
-          // btnOutMapDir
-          // 
-          this.btnOutMapDir.Location = new System.Drawing.Point(232, 16);
-          this.btnOutMapDir.Name = "btnOutMapDir";
-          this.btnOutMapDir.Size = new System.Drawing.Size(152, 32);
-          this.btnOutMapDir.TabIndex = 0;
-          this.btnOutMapDir.Text = "Set Output For Maps";
-          this.btnOutMapDir.Click += new System.EventHandler(this.btnOutMapDir_Click);
-          // 
-          // chkTextOutPut
-          // 
-          this.chkTextOutPut.Location = new System.Drawing.Point(16, 24);
-          this.chkTextOutPut.Name = "chkTextOutPut";
-          this.chkTextOutPut.Size = new System.Drawing.Size(120, 24);
-          this.chkTextOutPut.TabIndex = 0;
-          this.chkTextOutPut.Text = "Create Text Files";
-          this.chkTextOutPut.CheckedChanged += new System.EventHandler(this.chkTextOutPut_CheckedChanged);
-          // 
-          // groupBox5
-          // 
-          this.groupBox5.Controls.Add(this.label18);
-          this.groupBox5.Controls.Add(this.txtResOffspringSD);
-          this.groupBox5.Controls.Add(this.txtResOffspringMean);
-          this.groupBox5.Controls.Add(this.txtResFemalePercent);
-          this.groupBox5.Controls.Add(this.txtResBreedPercent);
-          this.groupBox5.Controls.Add(this.label25);
-          this.groupBox5.Controls.Add(this.label14);
-          this.groupBox5.Controls.Add(this.txtResDieBetweenSeason);
-          this.groupBox5.Controls.Add(this.txtResDieTimeStep);
-          this.groupBox5.Controls.Add(this.label15);
-          this.groupBox5.Controls.Add(this.label16);
-          this.groupBox5.Controls.Add(this.label17);
-          this.groupBox5.Location = new System.Drawing.Point(24, 16);
-          this.groupBox5.Name = "groupBox5";
-          this.groupBox5.Size = new System.Drawing.Size(544, 208);
-          this.groupBox5.TabIndex = 0;
-          this.groupBox5.TabStop = false;
-          this.groupBox5.Text = "Resident Parameters";
-          // 
-          // label18
-          // 
-          this.label18.AutoSize = true;
-          this.label18.Location = new System.Drawing.Point(248, 144);
-          this.label18.Name = "label18";
+         this.lblModifiers.Location = new System.Drawing.Point(320, 24);
+         this.lblModifiers.Name = "lblModifiers";
+         this.lblModifiers.Size = new System.Drawing.Size(400, 328);
+         this.lblModifiers.TabIndex = 4;
+         // 
+         // btnFemaleGender
+         // 
+         this.btnFemaleGender.Location = new System.Drawing.Point(32, 88);
+         this.btnFemaleGender.Name = "btnFemaleGender";
+         this.btnFemaleGender.Size = new System.Drawing.Size(208, 32);
+         this.btnFemaleGender.TabIndex = 0;
+         this.btnFemaleGender.Text = "Female Gender Modifier";
+         this.btnFemaleGender.Click += new System.EventHandler(this.btnFemaleGender_Click);
+         // 
+         // btnMoveOK
+         // 
+         this.btnMoveOK.Location = new System.Drawing.Point(552, 384);
+         this.btnMoveOK.Name = "btnMoveOK";
+         this.btnMoveOK.Size = new System.Drawing.Size(80, 24);
+         this.btnMoveOK.TabIndex = 3;
+         this.btnMoveOK.Text = "OK";
+         this.btnMoveOK.Click += new System.EventHandler(this.btnMoveOK_Click);
+         // 
+         // btnMaleGender
+         // 
+         this.btnMaleGender.Location = new System.Drawing.Point(32, 40);
+         this.btnMaleGender.Name = "btnMaleGender";
+         this.btnMaleGender.Size = new System.Drawing.Size(208, 32);
+         this.btnMaleGender.TabIndex = 0;
+         this.btnMaleGender.Text = "Male Gender Modifer";
+         this.btnMaleGender.Click += new System.EventHandler(this.btnMaleGender_Click);
+         // 
+         // tabSim
+         // 
+         this.tabSim.Controls.Add(this.groupBox14);
+         this.tabSim.Controls.Add(this.pbarSim);
+         this.tabSim.Controls.Add(this.btnRunSim);
+         this.tabSim.Controls.Add(this.btnTabSimOK);
+         this.tabSim.Controls.Add(this.groupBox7);
+         this.tabSim.Controls.Add(this.groupBox5);
+         this.tabSim.Location = new System.Drawing.Point(4, 22);
+         this.tabSim.Name = "tabSim";
+         this.tabSim.Size = new System.Drawing.Size(752, 430);
+         this.tabSim.TabIndex = 3;
+         this.tabSim.Text = "Simulation Parameters";
+         this.tabSim.Enter += new System.EventHandler(this.tabSim_Enter);
+         // 
+         // groupBox14
+         // 
+         this.groupBox14.Controls.Add(this.btnParameterFile);
+         this.groupBox14.Location = new System.Drawing.Point(32, 368);
+         this.groupBox14.Name = "groupBox14";
+         this.groupBox14.Size = new System.Drawing.Size(424, 48);
+         this.groupBox14.TabIndex = 4;
+         this.groupBox14.TabStop = false;
+         this.groupBox14.Text = "Save Parameters to file";
+         // 
+         // btnParameterFile
+         // 
+         this.btnParameterFile.Location = new System.Drawing.Point(232, 16);
+         this.btnParameterFile.Name = "btnParameterFile";
+         this.btnParameterFile.Size = new System.Drawing.Size(152, 23);
+         this.btnParameterFile.TabIndex = 0;
+         this.btnParameterFile.Text = "Browse for Parameter File";
+         this.btnParameterFile.Click += new System.EventHandler(this.btnParameterFile_Click);
+         // 
+         // pbarSim
+         // 
+         this.pbarSim.Location = new System.Drawing.Point(48, 248);
+         this.pbarSim.Name = "pbarSim";
+         this.pbarSim.Size = new System.Drawing.Size(544, 32);
+         this.pbarSim.Step = 1;
+         this.pbarSim.TabIndex = 3;
+         // 
+         // btnRunSim
+         // 
+         this.btnRunSim.Enabled = false;
+         this.btnRunSim.Location = new System.Drawing.Point(496, 376);
+         this.btnRunSim.Name = "btnRunSim";
+         this.btnRunSim.Size = new System.Drawing.Size(160, 32);
+         this.btnRunSim.TabIndex = 1;
+         this.btnRunSim.Text = "Run Simulaton";
+         this.btnRunSim.Click += new System.EventHandler(this.button1_Click);
+         // 
+         // btnTabSimOK
+         // 
+         this.btnTabSimOK.Location = new System.Drawing.Point(496, 320);
+         this.btnTabSimOK.Name = "btnTabSimOK";
+         this.btnTabSimOK.Size = new System.Drawing.Size(152, 32);
+         this.btnTabSimOK.TabIndex = 0;
+         this.btnTabSimOK.Text = "OK";
+         this.btnTabSimOK.Click += new System.EventHandler(this.btnTabSimOK_Click);
+         // 
+         // groupBox7
+         // 
+         this.groupBox7.Controls.Add(this.btnOutMapDir);
+         this.groupBox7.Controls.Add(this.chkTextOutPut);
+         this.groupBox7.Location = new System.Drawing.Point(32, 304);
+         this.groupBox7.Name = "groupBox7";
+         this.groupBox7.Size = new System.Drawing.Size(424, 56);
+         this.groupBox7.TabIndex = 2;
+         this.groupBox7.TabStop = false;
+         this.groupBox7.Text = "Output Parameters";
+         // 
+         // btnOutMapDir
+         // 
+         this.btnOutMapDir.Location = new System.Drawing.Point(232, 16);
+         this.btnOutMapDir.Name = "btnOutMapDir";
+         this.btnOutMapDir.Size = new System.Drawing.Size(152, 32);
+         this.btnOutMapDir.TabIndex = 0;
+         this.btnOutMapDir.Text = "Set Output For Maps";
+         this.btnOutMapDir.Click += new System.EventHandler(this.btnOutMapDir_Click);
+         // 
+         // chkTextOutPut
+         // 
+         this.chkTextOutPut.Location = new System.Drawing.Point(16, 24);
+         this.chkTextOutPut.Name = "chkTextOutPut";
+         this.chkTextOutPut.Size = new System.Drawing.Size(120, 24);
+         this.chkTextOutPut.TabIndex = 0;
+         this.chkTextOutPut.Text = "Create Text Files";
+         this.chkTextOutPut.CheckedChanged += new System.EventHandler(this.chkTextOutPut_CheckedChanged);
+         // 
+         // groupBox5
+         // 
+         this.groupBox5.Controls.Add(this.label18);
+         this.groupBox5.Controls.Add(this.txtResOffspringSD);
+         this.groupBox5.Controls.Add(this.txtResOffspringMean);
+         this.groupBox5.Controls.Add(this.txtResFemalePercent);
+         this.groupBox5.Controls.Add(this.txtResBreedPercent);
+         this.groupBox5.Controls.Add(this.label25);
+         this.groupBox5.Controls.Add(this.label14);
+         this.groupBox5.Controls.Add(this.txtResDieBetweenSeason);
+         this.groupBox5.Controls.Add(this.txtResDieTimeStep);
+         this.groupBox5.Controls.Add(this.label15);
+         this.groupBox5.Controls.Add(this.label16);
+         this.groupBox5.Controls.Add(this.label17);
+         this.groupBox5.Location = new System.Drawing.Point(24, 16);
+         this.groupBox5.Name = "groupBox5";
+         this.groupBox5.Size = new System.Drawing.Size(544, 208);
+         this.groupBox5.TabIndex = 0;
+         this.groupBox5.TabStop = false;
+         this.groupBox5.Text = "Resident Parameters";
+         // 
+         // label18
+         // 
+         this.label18.AutoSize = true;
+         this.label18.Location = new System.Drawing.Point(248, 144);
+         this.label18.Name = "label18";
           this.label18.Size = new System.Drawing.Size(83, 13);
-          this.label18.TabIndex = 9;
-          this.label18.Text = "SD of Litter Size";
-          // 
-          // txtResOffspringSD
-          // 
-          this.txtResOffspringSD.Location = new System.Drawing.Point(248, 160);
-          this.txtResOffspringSD.Name = "txtResOffspringSD";
-          this.txtResOffspringSD.Size = new System.Drawing.Size(152, 20);
-          this.txtResOffspringSD.TabIndex = 8;
-          // 
-          // txtResOffspringMean
-          // 
-          this.txtResOffspringMean.Location = new System.Drawing.Point(24, 160);
-          this.txtResOffspringMean.Name = "txtResOffspringMean";
-          this.txtResOffspringMean.Size = new System.Drawing.Size(136, 20);
-          this.txtResOffspringMean.TabIndex = 7;
-          this.myToolTip.SetToolTip(this.txtResOffspringMean, "Number of offspring who live old enough to become dispersers.");
-          // 
-          // txtResFemalePercent
-          // 
-          this.txtResFemalePercent.Location = new System.Drawing.Point(248, 112);
-          this.txtResFemalePercent.Name = "txtResFemalePercent";
-          this.txtResFemalePercent.Size = new System.Drawing.Size(152, 20);
-          this.txtResFemalePercent.TabIndex = 6;
-          // 
-          // txtResBreedPercent
-          // 
-          this.txtResBreedPercent.Location = new System.Drawing.Point(24, 112);
-          this.txtResBreedPercent.Name = "txtResBreedPercent";
-          this.txtResBreedPercent.Size = new System.Drawing.Size(152, 20);
-          this.txtResBreedPercent.TabIndex = 5;
-          // 
-          // label25
-          // 
-          this.label25.AutoSize = true;
-          this.label25.Location = new System.Drawing.Point(24, 48);
-          this.label25.Name = "label25";
+         this.label18.TabIndex = 9;
+         this.label18.Text = "SD of Litter Size";
+         // 
+         // txtResOffspringSD
+         // 
+         this.txtResOffspringSD.Location = new System.Drawing.Point(248, 160);
+         this.txtResOffspringSD.Name = "txtResOffspringSD";
+         this.txtResOffspringSD.Size = new System.Drawing.Size(152, 20);
+         this.txtResOffspringSD.TabIndex = 8;
+         // 
+         // txtResOffspringMean
+         // 
+         this.txtResOffspringMean.Location = new System.Drawing.Point(24, 160);
+         this.txtResOffspringMean.Name = "txtResOffspringMean";
+         this.txtResOffspringMean.Size = new System.Drawing.Size(136, 20);
+         this.txtResOffspringMean.TabIndex = 7;
+         this.myToolTip.SetToolTip(this.txtResOffspringMean, "Number of offspring who live old enough to become dispersers.");
+         // 
+         // txtResFemalePercent
+         // 
+         this.txtResFemalePercent.Location = new System.Drawing.Point(248, 112);
+         this.txtResFemalePercent.Name = "txtResFemalePercent";
+         this.txtResFemalePercent.Size = new System.Drawing.Size(152, 20);
+         this.txtResFemalePercent.TabIndex = 6;
+         // 
+         // txtResBreedPercent
+         // 
+         this.txtResBreedPercent.Location = new System.Drawing.Point(24, 112);
+         this.txtResBreedPercent.Name = "txtResBreedPercent";
+         this.txtResBreedPercent.Size = new System.Drawing.Size(152, 20);
+         this.txtResBreedPercent.TabIndex = 5;
+         // 
+         // label25
+         // 
+         this.label25.AutoSize = true;
+         this.label25.Location = new System.Drawing.Point(24, 48);
+         this.label25.Name = "label25";
           this.label25.Size = new System.Drawing.Size(208, 13);
-          this.label25.TabIndex = 4;
-          this.label25.Text = "% Chance Resident dieing in one time step";
-          // 
-          // label14
-          // 
-          this.label14.AutoSize = true;
-          this.label14.Location = new System.Drawing.Point(248, 48);
-          this.label14.Name = "label14";
+         this.label25.TabIndex = 4;
+         this.label25.Text = "% Chance Resident dieing in one time step";
+         // 
+         // label14
+         // 
+         this.label14.AutoSize = true;
+         this.label14.Location = new System.Drawing.Point(248, 48);
+         this.label14.Name = "label14";
           this.label14.Size = new System.Drawing.Size(262, 13);
-          this.label14.TabIndex = 3;
-          this.label14.Text = "%Chance Resident dieing between Dispersal Seasons";
-          // 
-          // txtResDieBetweenSeason
-          // 
-          this.txtResDieBetweenSeason.Location = new System.Drawing.Point(248, 64);
-          this.txtResDieBetweenSeason.Name = "txtResDieBetweenSeason";
-          this.txtResDieBetweenSeason.Size = new System.Drawing.Size(152, 20);
-          this.txtResDieBetweenSeason.TabIndex = 2;
-          this.myToolTip.SetToolTip(this.txtResDieBetweenSeason, "Since we skip the time steps between dispersal seasons we need to estimate the ch" +
-                  "ance of survival on another level");
-          // 
-          // txtResDieTimeStep
-          // 
-          this.txtResDieTimeStep.Location = new System.Drawing.Point(24, 64);
-          this.txtResDieTimeStep.Name = "txtResDieTimeStep";
-          this.txtResDieTimeStep.Size = new System.Drawing.Size(152, 20);
-          this.txtResDieTimeStep.TabIndex = 0;
-          this.myToolTip.SetToolTip(this.txtResDieTimeStep, "What is the chance any single resident will die during a time step ");
-          // 
-          // label15
-          // 
-          this.label15.AutoSize = true;
-          this.label15.Location = new System.Drawing.Point(24, 96);
-          this.label15.Name = "label15";
+         this.label14.TabIndex = 3;
+         this.label14.Text = "%Chance Resident dieing between Dispersal Seasons";
+         // 
+         // txtResDieBetweenSeason
+         // 
+         this.txtResDieBetweenSeason.Location = new System.Drawing.Point(248, 64);
+         this.txtResDieBetweenSeason.Name = "txtResDieBetweenSeason";
+         this.txtResDieBetweenSeason.Size = new System.Drawing.Size(152, 20);
+         this.txtResDieBetweenSeason.TabIndex = 2;
+         this.myToolTip.SetToolTip(this.txtResDieBetweenSeason, "Since we skip the time steps between dispersal seasons we need to estimate the ch" +
+            "ance of survival on another level");
+         // 
+         // txtResDieTimeStep
+         // 
+         this.txtResDieTimeStep.Location = new System.Drawing.Point(24, 64);
+         this.txtResDieTimeStep.Name = "txtResDieTimeStep";
+         this.txtResDieTimeStep.Size = new System.Drawing.Size(152, 20);
+         this.txtResDieTimeStep.TabIndex = 0;
+         this.myToolTip.SetToolTip(this.txtResDieTimeStep, "What is the chance any single resident will die during a time step ");
+         // 
+         // label15
+         // 
+         this.label15.AutoSize = true;
+         this.label15.Location = new System.Drawing.Point(24, 96);
+         this.label15.Name = "label15";
           this.label15.Size = new System.Drawing.Size(128, 13);
-          this.label15.TabIndex = 4;
-          this.label15.Text = "% Chance Female Breeds";
-          // 
-          // label16
-          // 
-          this.label16.AutoSize = true;
-          this.label16.Location = new System.Drawing.Point(248, 96);
-          this.label16.Name = "label16";
+         this.label15.TabIndex = 4;
+         this.label15.Text = "% Chance Female Breeds";
+         // 
+         // label16
+         // 
+         this.label16.AutoSize = true;
+         this.label16.Location = new System.Drawing.Point(248, 96);
+         this.label16.Name = "label16";
           this.label16.Size = new System.Drawing.Size(144, 13);
-          this.label16.TabIndex = 3;
-          this.label16.Text = "%Chance Offspring is Female";
-          // 
-          // label17
-          // 
-          this.label17.AutoSize = true;
-          this.label17.Location = new System.Drawing.Point(24, 144);
-          this.label17.Name = "label17";
+         this.label16.TabIndex = 3;
+         this.label16.Text = "%Chance Offspring is Female";
+         // 
+         // label17
+         // 
+         this.label17.AutoSize = true;
+         this.label17.Location = new System.Drawing.Point(24, 144);
+         this.label17.Name = "label17";
           this.label17.Size = new System.Drawing.Size(83, 13);
-          this.label17.TabIndex = 3;
-          this.label17.Text = "Mean Litter Size";
-          // 
-          // label11
-          // 
-          this.label11.Location = new System.Drawing.Point(0, 0);
-          this.label11.Name = "label11";
+         this.label17.TabIndex = 3;
+         this.label17.Text = "Mean Litter Size";
+         // 
+         // label11
+         // 
+         this.label11.Location = new System.Drawing.Point(0, 0);
+         this.label11.Name = "label11";
           this.label11.Size = new System.Drawing.Size(100, 23);
-          this.label11.TabIndex = 0;
-          // 
-          // label9
-          // 
-          this.label9.Location = new System.Drawing.Point(0, 0);
-          this.label9.Name = "label9";
+         this.label11.TabIndex = 0;
+         // 
+         // label9
+         // 
+         this.label9.Location = new System.Drawing.Point(0, 0);
+         this.label9.Name = "label9";
           this.label9.Size = new System.Drawing.Size(100, 23);
-          this.label9.TabIndex = 0;
-          // 
-          // label5
-          // 
-          this.label5.Location = new System.Drawing.Point(0, 0);
-          this.label5.Name = "label5";
+         this.label9.TabIndex = 0;
+         // 
+         // label5
+         // 
+         this.label5.Location = new System.Drawing.Point(0, 0);
+         this.label5.Name = "label5";
           this.label5.Size = new System.Drawing.Size(100, 23);
-          this.label5.TabIndex = 0;
-          // 
-          // groupBox2
-          // 
-          this.groupBox2.Location = new System.Drawing.Point(0, 0);
-          this.groupBox2.Name = "groupBox2";
+         this.label5.TabIndex = 0;
+         // 
+         // groupBox2
+         // 
+         this.groupBox2.Location = new System.Drawing.Point(0, 0);
+         this.groupBox2.Name = "groupBox2";
           this.groupBox2.Size = new System.Drawing.Size(200, 100);
-          this.groupBox2.TabIndex = 0;
-          this.groupBox2.TabStop = false;
-          // 
-          // label1
-          // 
-          this.label1.Location = new System.Drawing.Point(0, 0);
-          this.label1.Name = "label1";
+         this.groupBox2.TabIndex = 0;
+         this.groupBox2.TabStop = false;
+         // 
+         // label1
+         // 
+         this.label1.Location = new System.Drawing.Point(0, 0);
+         this.label1.Name = "label1";
           this.label1.Size = new System.Drawing.Size(100, 23);
-          this.label1.TabIndex = 0;
-          // 
-          // label13
-          // 
-          this.label13.Location = new System.Drawing.Point(0, 0);
-          this.label13.Name = "label13";
+         this.label1.TabIndex = 0;
+         // 
+         // label13
+         // 
+         this.label13.Location = new System.Drawing.Point(0, 0);
+         this.label13.Name = "label13";
           this.label13.Size = new System.Drawing.Size(100, 23);
-          this.label13.TabIndex = 0;
-          // 
-          // btnAddHourModifier
-          // 
-          this.btnAddHourModifier.Location = new System.Drawing.Point(0, 0);
-          this.btnAddHourModifier.Name = "btnAddHourModifier";
+         this.label13.TabIndex = 0;
+         // 
+         // btnAddHourModifier
+         // 
+         this.btnAddHourModifier.Location = new System.Drawing.Point(0, 0);
+         this.btnAddHourModifier.Name = "btnAddHourModifier";
           this.btnAddHourModifier.Size = new System.Drawing.Size(75, 23);
-          this.btnAddHourModifier.TabIndex = 0;
-          // 
-          // dateTimePicker1
-          // 
-          this.dateTimePicker1.Location = new System.Drawing.Point(0, 0);
-          this.dateTimePicker1.Name = "dateTimePicker1";
+         this.btnAddHourModifier.TabIndex = 0;
+         // 
+         // dateTimePicker1
+         // 
+         this.dateTimePicker1.Location = new System.Drawing.Point(0, 0);
+         this.dateTimePicker1.Name = "dateTimePicker1";
           this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
-          this.dateTimePicker1.TabIndex = 0;
-          // 
-          // btnNext
-          // 
-          this.btnNext.Location = new System.Drawing.Point(0, 0);
-          this.btnNext.Name = "btnNext";
+         this.dateTimePicker1.TabIndex = 0;
+         // 
+         // btnNext
+         // 
+         this.btnNext.Location = new System.Drawing.Point(0, 0);
+         this.btnNext.Name = "btnNext";
           this.btnNext.Size = new System.Drawing.Size(75, 23);
-          this.btnNext.TabIndex = 0;
-          // 
-          // txtRiskySafeThreshold
-          // 
-          this.txtRiskySafeThreshold.Location = new System.Drawing.Point(0, 0);
-          this.txtRiskySafeThreshold.Name = "txtRiskySafeThreshold";
+         this.btnNext.TabIndex = 0;
+         // 
+         // txtRiskySafeThreshold
+         // 
+         this.txtRiskySafeThreshold.Location = new System.Drawing.Point(0, 0);
+         this.txtRiskySafeThreshold.Name = "txtRiskySafeThreshold";
           this.txtRiskySafeThreshold.Size = new System.Drawing.Size(100, 20);
-          this.txtRiskySafeThreshold.TabIndex = 0;
-          // 
-          // label4
-          // 
-          this.label4.Location = new System.Drawing.Point(50, 24);
-          this.label4.Name = "label4";
-          this.label4.Size = new System.Drawing.Size(96, 24);
-          this.label4.TabIndex = 7;
-          this.label4.Text = "Max Vision Distance";
-          // 
-          // txtVision
-          // 
-          this.txtVision.Location = new System.Drawing.Point(50, 56);
-          this.txtVision.Name = "txtVision";
+         this.txtRiskySafeThreshold.TabIndex = 0;
+         // 
+         // label4
+         // 
+         this.label4.Location = new System.Drawing.Point(50, 24);
+         this.label4.Name = "label4";
+         this.label4.Size = new System.Drawing.Size(96, 24);
+         this.label4.TabIndex = 7;
+         this.label4.Text = "Max Vision Distance";
+         // 
+         // txtVision
+         // 
+         this.txtVision.Location = new System.Drawing.Point(50, 56);
+         this.txtVision.Name = "txtVision";
           this.txtVision.Size = new System.Drawing.Size(100, 20);
-          this.txtVision.TabIndex = 0;
-          this.myToolTip.SetToolTip(this.txtVision, "The farthest the animal can see in meters");
-          // 
-          // lblHourMods
-          // 
-          this.lblHourMods.Location = new System.Drawing.Point(0, 0);
-          this.lblHourMods.Name = "lblHourMods";
+         this.txtVision.TabIndex = 0;
+         this.myToolTip.SetToolTip(this.txtVision, "The farthest the animal can see in meters");
+         // 
+         // lblHourMods
+         // 
+         this.lblHourMods.Location = new System.Drawing.Point(0, 0);
+         this.lblHourMods.Name = "lblHourMods";
           this.lblHourMods.Size = new System.Drawing.Size(100, 23);
-          this.lblHourMods.TabIndex = 0;
-          // 
-          // frmInput
-          // 
-          this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-          this.ClientSize = new System.Drawing.Size(744, 477);
-          this.Controls.Add(this.tabControl);
-          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-          this.Name = "frmInput";
-          this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-          this.Text = "S.E.A.R.C.H.";
-          this.Load += new System.EventHandler(this.frmInput_Load);
-          this.tabControl.ResumeLayout(false);
-          this.tabTime.ResumeLayout(false);
-          this.groupBox13.ResumeLayout(false);
+         this.lblHourMods.TabIndex = 0;
+         // 
+         // frmInput
+         // 
+         this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+         this.ClientSize = new System.Drawing.Size(744, 477);
+         this.Controls.Add(this.tabControl);
+         this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+         this.Name = "frmInput";
+         this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+         this.Text = "S.E.A.R.C.H.";
+         this.Load += new System.EventHandler(this.frmInput_Load);
+         this.tabControl.ResumeLayout(false);
+         this.tabTime.ResumeLayout(false);
+         this.groupBox13.ResumeLayout(false);
           this.groupBox13.PerformLayout();
-          ((System.ComponentModel.ISupportInitialize)(this.nudWakeTime)).EndInit();
-          this.tabSpecies.ResumeLayout(false);
-          this.groupBox10.ResumeLayout(false);
+         ((System.ComponentModel.ISupportInitialize)(this.nudWakeTime)).EndInit();
+         this.tabSpecies.ResumeLayout(false);
+         this.groupBox10.ResumeLayout(false);
           this.groupBox10.PerformLayout();
-          this.groupBox4.ResumeLayout(false);
+         this.groupBox4.ResumeLayout(false);
           this.groupBox4.PerformLayout();
-          this.groupBox3.ResumeLayout(false);
+         this.groupBox3.ResumeLayout(false);
           this.groupBox3.PerformLayout();
-          this.groupBox1.ResumeLayout(false);
+         this.groupBox1.ResumeLayout(false);
           this.groupBox1.PerformLayout();
-          this.tabHomeRange.ResumeLayout(false);
-          this.groupBox12.ResumeLayout(false);
+         this.tabHomeRange.ResumeLayout(false);
+         this.groupBox12.ResumeLayout(false);
           this.groupBox12.PerformLayout();
-          this.groupBox8.ResumeLayout(false);
+         this.groupBox8.ResumeLayout(false);
           this.groupBox8.PerformLayout();
-          this.groupBox11.ResumeLayout(false);
-          this.tabMap.ResumeLayout(false);
-          this.grpTime.ResumeLayout(false);
-          this.tabModify.ResumeLayout(false);
-          this.tabSim.ResumeLayout(false);
-          this.groupBox14.ResumeLayout(false);
-          this.groupBox7.ResumeLayout(false);
-          this.groupBox5.ResumeLayout(false);
+         this.groupBox11.ResumeLayout(false);
+         this.tabMap.ResumeLayout(false);
+         this.grpTime.ResumeLayout(false);
+         this.tabModify.ResumeLayout(false);
+         this.tabSim.ResumeLayout(false);
+         this.groupBox14.ResumeLayout(false);
+         this.groupBox7.ResumeLayout(false);
+         this.groupBox5.ResumeLayout(false);
           this.groupBox5.PerformLayout();
-          this.ResumeLayout(false);
+         this.ResumeLayout(false);
 
       }
       
@@ -1697,20 +1697,11 @@ namespace PAZ_Dispersal
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-//        [STAThread]
-//        static void Main() 
-//        {
-//#if DEBUG
-//            GISHACK.TimeAdjuster.goBack();
-//            GISHACK.TimeAdjuster.goBack();
-//#endif
-//            Application.Run(new frmInput());
-//#if DEBUG
-//            GISHACK.TimeAdjuster.goForward();
-//            GISHACK.TimeAdjuster.goForward();
-//#endif         
+		[STAThread]
+		static void Main() 
+		{
 
-//        }
+		}
 
 		#endregion
       
@@ -2818,19 +2809,7 @@ namespace PAZ_Dispersal
                   System.Convert.ToDouble(this.txtResOffspringMean.Text),
                   System.Convert.ToDouble(this.txtResOffspringSD.Text));
 
-//              // this.mySimManager.StartSeasonDate = this.SimStartDate.Value.Date;
-//             //  this.mySimManager.EndSeasonDate = System.Convert.ToDateTime(this.txtEndDaySeason.Text);
-//           ///  //  this.mySimManager.NumDaysSeason = System.Convert.ToInt32(this.txtNumSeasonDays.Text);
-//          //     this.mySimManager.ElapsedTimeBetweenTimeStep = System.Convert.ToDouble(this.txtTimeBetweenDailyTimeStep.Text);
-//
-//               if (60 % this.mySimManager.ElapsedTimeBetweenTimeStep != 0 && this.mySimManager.ElapsedTimeBetweenTimeStep % 60 != 0)
-//               {
-//                  MessageBox.Show("The time between timesteps a day has to be a mulitple of 60", 
-//                     "Input Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-//                  this.txtTimeBetweenDailyTimeStep.SelectAll();
-//                  this.txtTimeBetweenDailyTimeStep.Focus();
-//                  success = false;
-//               }
+
                this.mySimManager.NumSeasons = System.Convert.ToInt32(this.txtNumYears.Text);
                if (success)
                {
@@ -2886,20 +2865,20 @@ namespace PAZ_Dispersal
       {
          try
          {
-             if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeEngine) != esriLicenseStatus.esriLicenseCheckedOut)
-             {
-                 if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeArcView) != esriLicenseStatus.esriLicenseCheckedOut)
-                 {
-                     if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeArcEditor) != esriLicenseStatus.esriLicenseCheckedOut)
+            if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeEngine) != esriLicenseStatus.esriLicenseCheckedOut)
+            {
+               if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeArcView) != esriLicenseStatus.esriLicenseCheckedOut)
+               {
+                  if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeArcEditor) != esriLicenseStatus.esriLicenseCheckedOut)
+                  {
+                     if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeArcInfo) != esriLicenseStatus.esriLicenseCheckedOut)
                      {
-                         if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeArcInfo) != esriLicenseStatus.esriLicenseCheckedOut)
-                         {
-                             System.Windows.Forms.MessageBox.Show("The initialization failed. This application cannot run!");
-                             this.Close();
-                         }
+                        System.Windows.Forms.MessageBox.Show("The initialization failed. This application cannot run!");
+                        this.Close();
                      }
-                 }
-             }
+                  }
+               }
+            }
          }
          catch(System.Exception ex)
          {
