@@ -140,6 +140,8 @@ private static MapManager uniqueInstance;
             fw.writeLine("back in AddTimeSteps now calling dissolveSteps");
             myMapManipulator.dissolveSteps();
             fw.writeLine("back from AddTimeSteps now calling do Occupied Stuff");
+             //this is to get the current occupied or not at this time because
+             // it could change over time.
             myMapManipulator.doOccupiedStuff(sex);
             if (timeStep == 0)
             {
@@ -157,7 +159,9 @@ private static MapManager uniqueInstance;
 
             }
             fw.writeLine("Now calling dissovle maps");
-            this.myAnimalMaps[AnimalID].dissolveAvailablePolygons(timeStep.ToString());
+             //HACK NEED TO REDO
+            ITable t = this.myMapManipulator.getTable(this.myAnimalMaps[AnimalID].mySelf);
+            this.myAnimalMaps[AnimalID].dissolveAvailablePolygons(timeStep.ToString(), t);
             fw.writeLine("Back from dissolveAvailablePolygons in AddTimeSteps now calling myAnimalMaps[AnimalID].explode");
             this.myAnimalMaps[AnimalID].explode(timeStep.ToString());
 
@@ -185,7 +189,7 @@ private static MapManager uniqueInstance;
       {
          fw.writeLine("inside changeMaps (DateTime now,AnimalManager am)");
          fw.writeLine("DateTime = " + now.ToShortDateString() + " " + now.ToShortTimeString());
-         mySocialMaps.changeMap(now, am);
+         
          myFoodMaps.changeMap(now);
          myPredationMaps.changeMap(now);
          myMoveMaps.changeMap(now);
@@ -198,6 +202,30 @@ private static MapManager uniqueInstance;
          myPredationMaps.changeMap(now);
          myMoveMaps.changeMap(now);
          myDispersalMaps.changeMap(now);
+      }
+
+      public void changeSocialMap(DateTime now, AnimalManager am)
+      {
+         IFeatureClass oldSocialFeatureClass;
+          IFeatureClass newSocialFeatureClass;
+         try
+         {
+            fw.writeLine("inside change social map");
+            oldSocialFeatureClass = this.SocialMap.mySelf;
+            fw.writeLine("social map name is " + oldSocialFeatureClass.AliasName);
+            mySocialMaps.changeMap(now, am);
+            fw.writeLine("after change social map name is " + this.SocialMap.mySelf.AliasName);
+            if (!oldSocialFeatureClass.Equals(this.SocialMap))
+            {
+               newSocialFeatureClass = this.myMapManipulator.clipMaps(oldSocialFeatureClass, mySocialMap.mySelf,ref this.SocialIndex);
+               this.changeOutSocialMapAfterClip(newSocialFeatureClass);
+            }
+         }
+         catch (Exception ex)
+         {
+
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
       }
       public crossOverInfo getCrossOverInfo(IPoint startPoint, IPoint endPoint)
       {
@@ -744,12 +772,12 @@ private static MapManager uniqueInstance;
             //file name is 
             if (myMapManipulator.makeHomeRange(inA))
             {
-                oldSocialFeatureClass = this.SocialMap.mySelf;
+               oldSocialFeatureClass = this.SocialMap.mySelf;
                fw.writeLine("ok myMapManipulator.makeHomeRange returned true so create the home range");
                createAnimalHomeRangeMap(inA.IdNum, inA.FileNamePrefix);
                fw.writeLine("now try to change out the social map");
                changeOutSocialMapWithHomeRange();
-               newSocialFeatureClass = this.myMapManipulator.clipMaps(oldSocialFeatureClass, mySocialMap.mySelf, ref this.SocialIndex);
+               newSocialFeatureClass = this.myMapManipulator.clipMaps(oldSocialFeatureClass, mySocialMap.mySelf,ref this.SocialIndex);
                this.changeOutSocialMapAfterClip(newSocialFeatureClass);
             }
          }
@@ -1130,14 +1158,14 @@ private static MapManager uniqueInstance;
        private void changeOutSocialMapAfterClip(IFeatureClass newSocialFeatureClass)
        {
            string[] fileNames;
-           string path = this.mySocialMap.Path;
+           string path = this.OutMapPath;
            string extension;
            string fileName;
-        
+      
            try
            {
                fw.writeLine("inside changeOutSocialMapAfterClip");
-               fileName = this.SocialMap.mySelf.AliasName;
+               fileName = System.IO.Path.GetFileNameWithoutExtension(this.SocialMap.mySelf.AliasName) + "*";
                this.mySocialMap = null;
                this.myMapManipulator.SocialMap = null;
                fileNames = Directory.GetFiles(this.mOutMapPath, fileName);
@@ -1416,7 +1444,9 @@ private static MapManager uniqueInstance;
                switch (inMapType)
                {
                   case "Social":
-                     fw.writeLine("inside case under Social loading the map");
+                     
+                      
+                      fw.writeLine("inside case under Social loading the map");
                      if (mySocialMap == null)
                      {
 
@@ -1438,7 +1468,7 @@ private static MapManager uniqueInstance;
 
                      }
                      mySocialMap.TypeOfMap = "Social";
-                     mySocialMap.Path = inPath;
+                     mySocialMap.Path = mOutMapPath;
                      //add the refernce to the map manipulator
                      this.myMapManipulator.SocialMap = this.mySocialMap;
                      break;

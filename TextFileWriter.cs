@@ -19,14 +19,41 @@ namespace PAZ_Dispersal
             sw.WriteLine("Year,Day,Time,George #, X, Y, Asleep,Behavior Mode,Energy Level,Risk,ProbFoodCap,MVL,MSL,PercptionDist,Percent Step");
          }
       }
-      public void addLine(string inValue)
+      public void addLine(string inValue,FileWriter.FileWriter inFw)
       {
-         if(sw != null)
-         {
-            sw.WriteLine(inValue);
-            sw.Flush();
-         }
+          try
+          {
+              inFw.writeLine("inside addline checking if sw is null");
+              if (sw != null)
+              {
+                  inFw.writeLine("sw was not null");
+                  sw.WriteLine(inValue);
+                  sw.Flush();
+              }
+          }
+          catch (System.Exception ex)
+          {
+
+              FileWriter.FileWriter.WriteErrorFile(ex);
+          }
       }
+       public void addLine(string inValue)
+       {
+           try
+           {
+              
+               if (sw != null)
+               {
+                   sw.WriteLine(inValue);
+                   sw.Flush();
+               }
+           }
+           catch (System.Exception ex)
+           {
+
+               FileWriter.FileWriter.WriteErrorFile(ex);
+           }
+       }
 
       public void close()
       {
