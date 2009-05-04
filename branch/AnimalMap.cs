@@ -50,9 +50,10 @@ namespace PAZ_Dispersal
       public AnimalMap(string inName,string path,IGeometryDef inGeoDef):this()
       {
          fw.writeLine("my name is " + inName);
-         fw.writeLine("my path is " + path);
+         fw.writeLine("my path is " + path + "\\" + inName);
          this.myFileName = inName;
-         this.myPath = path;
+         this.myPath = path + "\\" + inName;
+         this.FullFileName = this.myPath + "\\" + inName + ".shp";
          this.mGeoDef = inGeoDef;
          this.makeMap(path,inName,inGeoDef);
          
@@ -105,37 +106,7 @@ namespace PAZ_Dispersal
       }
       
      
-//      public void dissolveStep()
-//      {
-         
-//         ITable inputTable;
-      
-//         try
-//         {
-            
-//            inputTable=this.getTable();
-//            fw.writeLine("after getting the table for input");
-//            fw.writeLine("number of fields int hte table is " + inputTable.Fields.FieldCount.ToString());
-//            this.buildOutShapeFileName();
-//            this.buildWorkSpaceName();
-//            this.buildDataSetName(this.mySelf.AliasName);
-//            int index = inputTable.FindField("AVAILABLE");
-//            fw.writeLine("index of currtime is " + index.ToString());
-//            if (inputTable.FindField("Available") >= 0)
-//               mStepTable = ibg.Dissolve(inputTable,false,"Available","Minimum.Available",dsName);
-//            //clean up the steps so we do not use them again
-          
-         
-//         }
-//         catch(System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-        
-//      }
+
       private void getFieldID (ref StringCollection sc)
       {
          featCursor = this.mySelf.Search(null,true);
@@ -197,7 +168,7 @@ namespace PAZ_Dispersal
       {
          try
          {
-            //string newFileName = "explode" + timeStep;
+            //string newFileName = "explode" + timeStepPath;
             IFeatureClass ifc = getShapeFile("TimeStep"+timeStep); 
 
       
@@ -386,8 +357,13 @@ namespace PAZ_Dispersal
 
             
             this.mySelf = shapeWksp.CreateFeatureClass(shapeFileName,fieldsEdit,null,null,esriFeatureType.esriFTSimple,"Shape","");
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(shpWkspFactory);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(connectionProperty);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(geoDef);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(fields);
 
 
+            
          }
          catch(System.Exception ex)
          {
@@ -507,7 +483,7 @@ namespace PAZ_Dispersal
          try
          {
             //first make sure there is a file to open
-            if (File.Exists(this.fullFileName + "TimeStep.shp"))
+            if (File.Exists(this.FullFileName + "TimeStep.shp"))
             {
             
                mUnionFeatureClass=Map.openFeatureClass(this.myPath,this.mySelf.AliasName + "TimeStep");

@@ -52,7 +52,7 @@ namespace PAZ_Dispersal
       
       //animal and map managers
       private AnimalManager mAnimalManager;
-      private MapManager mMaps;
+      private MapManager mMapManager;
       
       private FileWriter.FileWriter fw;
       private string mErrMessage;
@@ -66,6 +66,7 @@ namespace PAZ_Dispersal
          myHourlyModifiers = HourlyModifierCollection.GetUniqueInstance();
          myDailyModifiers = DailyModiferCollection.GetUniqueInstance();
          mElapsedTimeBetweenTimeStep = 0;
+         this.makeTempMap(@"C:\MapTest");
          fw.writeLine("back in sim manager with a modifier count of " + myHourlyModifiers.Count.ToString());
       }
 
@@ -84,7 +85,7 @@ namespace PAZ_Dispersal
          
          this.currTime = this.mStartSeasonDate;
          this.currTime = this.currTime.AddHours( this.AnimalManager.AnimalAttributes.WakeUpTime);
-         this.Maps.CurrTime = this.currTime;
+         this.MapManager.CurrTime = this.currTime;
          fw.writeLine("now start the big loop for the sim");
          for (int currSeason = 0; currSeason < this.mNumSeasons; currSeason++)
          {
@@ -116,7 +117,7 @@ namespace PAZ_Dispersal
             fw.writeLine("");
             fw.writeLine("");
          }
-        // this.mMaps.removeExtraFiles();
+        // this.mMapManager.removeExtraFiles();
 
          System.Windows.Forms.MessageBox.Show("done");
 
@@ -150,7 +151,7 @@ namespace PAZ_Dispersal
 //            fw.writeLine("now the currDate is " + this.currTime.ToShortDateString());
 //            initializeYearlySimulation();
 //         }
-//         // this.mMaps.removeExtraFiles();
+//         // this.mMapManager.removeExtraFiles();
 //
 //         System.Windows.Forms.MessageBox.Show("done");
 //
@@ -165,7 +166,7 @@ namespace PAZ_Dispersal
       {
          bool success = false;
          InitialAnimalAttributes[] iAA = null;
-         this.mMaps.GetInitialAnimalAttributes(out iAA);
+         this.mMapManager.GetInitialAnimalAttributes(out iAA);
          if (iAA != null)
          {
             success = this.mAnimalManager.makeInitialAnimals(iAA);
@@ -181,7 +182,7 @@ namespace PAZ_Dispersal
       public bool buildResidents()
       {
          InitialAnimalAttributes[] iAA = null;
-         this.mMaps.GetInitalResidentAttributes(out iAA);
+         this.mMapManager.GetInitalResidentAttributes(out iAA);
          this.mAnimalManager.makeResidents(iAA);
          return true;
       }
@@ -233,10 +234,10 @@ namespace PAZ_Dispersal
             numInitialAnimals = this.AnimalManager.Count;
             if (numInitialAnimals > 0)
             {
-               success=this.mMaps.makeNewAnimalMaps(numInitialAnimals);
+               success=this.mMapManager.makeNewAnimalMaps(numInitialAnimals);
                if (success == false)
                {
-                  mErrMessage = mMaps.getErrMessage();
+                  mErrMessage = mMapManager.getErrMessage();
                }
             }
             else
@@ -257,13 +258,25 @@ namespace PAZ_Dispersal
 
       }
 
-      public bool makeTempMap()
+      public bool makeTempMap(string path)
+      { bool success = true;
+      try
       {
-         bool success=mMaps.makeTempMaps(this.mMaps.OutMapPath);
-         if (success == false)
-         {
-            mErrMessage = "unable to make temp map look for error file";
-         }
+         
+         DataManipulator dm = new DataManipulator();
+         dm.CreateEmptyFeatureClass(path, "CurrStep.shp");
+         if(this.mMapManager != null)
+         this.mMapManager.CurrStepPath = path + "\\CurrStep.shp";
+
+      }
+      
+      catch (System.Exception ex)
+      {
+         System.Windows.Forms.MessageBox.Show(ex.Message);
+         FileWriter.FileWriter.WriteErrorFile(ex);
+         success = false;
+         mErrMessage = "unable to make temp map look for error file";
+      }
          return success;
         
       }
@@ -372,23 +385,23 @@ namespace PAZ_Dispersal
          this.nextDayStart = this.myDailyModifiers.NextStartDate;
          //09/09/2007 moved winter kill before changing maps
          this.mAnimalManager.winterKillResidents();
-         //the old mMaps out put path include last years YEAR so we need to strip it off and replace it with this years YEAR
-         this.mMaps.OutMapPath = this.mMaps.OutMapPath.Remove(this.mMaps.OutMapPath.LastIndexOf("\\"),5);
-         this.mMaps.OutMapPath = this.mMaps.OutMapPath + "\\" + this.currTime.Year.ToString();
+         //the old mMapManager out put path include last years YEAR so we need to strip it off and replace it with this years YEAR
+         this.mMapManager.OutMapPath = this.mMapManager.OutMapPath.Remove(this.mMapManager.OutMapPath.LastIndexOf("\\"),5);
+         this.mMapManager.OutMapPath = this.mMapManager.OutMapPath + "\\" + this.currTime.Year.ToString();
          
          //reset the maps start dates for this year
-         this.Maps.addYearToMaps();
+         this.MapManager.addYearToMaps();
 
          //now deal with the animals.
          //Author: Bob Cummings Saturday, October 13, 2007
          this.mAnimalManager.removeRemaingDispersers();
 
          //had an issue with breeding before switchout the maps so moved it to happen after
-         this.Maps.setUpNewYearsMaps(this.currTime,this.mAnimalManager);
+         this.MapManager.setUpNewYearsMaps(this.currTime,this.mAnimalManager);
          
          this.mAnimalManager.breedFemales(this.currTime);
          //this.mAnimalManager.setSleepTime(this.currTime);
-         this.mMaps.makeNextGenerationAnimalMaps(this.mAnimalManager,this.currTime.Year.ToString());
+         this.mMapManager.makeNextGenerationAnimalMaps(this.mAnimalManager,this.currTime.Year.ToString());
          fw.writeLine("done initializing yearly simulation");
       }
 
@@ -418,7 +431,7 @@ namespace PAZ_Dispersal
             currDailyMod = this.myDailyModifiers.getNext();
             this.nextDayStart = this.myDailyModifiers.NextStartDate;
          }
-         this.Maps.changeMaps(this.currTime,this.mAnimalManager);
+         this.MapManager.changeMaps(this.currTime,this.mAnimalManager);
          
       }
       
@@ -467,10 +480,10 @@ namespace PAZ_Dispersal
          DailyModiferCollection mySingleton = DailyModiferCollection.GetUniqueInstance();
          return mySingleton;
       }
-      public MapManager Maps
+      public MapManager MapManager
       {
-         get { return mMaps; }
-         set { mMaps = value; }
+         get { return mMapManager; }
+         set { mMapManager = value; }
       }
       public string ErrMessage
       {

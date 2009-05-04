@@ -4,11 +4,11 @@ using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.esriSystem;
 using ESRI.ArcGIS.Geometry;
-using ESRI.ArcGIS.Carto;
-using ESRI.ArcGIS.Display;
-using ESRI.ArcGIS.ArcMapUI;
-using ESRI.ArcGIS.Framework;
-using ESRI.ArcGIS.CartoUI;
+
+
+
+
+
 using ESRI.ArcGIS.Geoprocessor;
 using ESRI.ArcGIS.DataManagementTools;
 using System.Runtime.InteropServices;
@@ -21,12 +21,12 @@ namespace PAZ_Dispersal
     public class MapManipulator
     {
 
-        #region Constructors (1)
+		#region Constructors (1) 
 
         public MapManipulator()
         {
-            myDoc = new MxDocumentClass();
-            myMap = myDoc.FocusMap;
+           // myDoc = new MxDocumentClass();
+           // myMap = myDoc.FocusMap;
 
             wsName = new WorkspaceNameClass();
             wsDissolveName = new WorkspaceNameClass();
@@ -42,12 +42,12 @@ namespace PAZ_Dispersal
 
         }
 
-        #endregion Constructors
+		#endregion Constructors 
 
 
         #region privateMemberVariables
         private IArray array_1;
-        private IMxDocument myDoc;
+
 
 
         private IFeatureClass occupiedFeatureClass;
@@ -61,8 +61,7 @@ namespace PAZ_Dispersal
         private IFeatureCursor featCursor;
         private IFields fields;
         private IQueryFilter queryFilter;
-        private ILayer layer_1;
-        private ILayer layer_2;
+
 
         private ITable table_1;
         private ITable table_2;
@@ -72,7 +71,7 @@ namespace PAZ_Dispersal
         private IDatasetName dsName;
         private IDatasetName dsDissolveName;
         private Map mCurrStepMap;
-        private IMap myMap;
+
         private Map mSocialMap;
         private Map myHomeRangeMap;
         private FileWriter.FileWriter fw;
@@ -87,26 +86,26 @@ namespace PAZ_Dispersal
         #region publicMethods
 
 
-        public bool addTimeStep(IPolygon step1, IPolygon step2, string sex)
-        {
-            bool success = true;
-            try
-            {
-                resetTimeStep();
-                addStepPolygon(step1);
-                addStepPolygon(step2);
-            }
-            catch (System.Exception ex)
-            {
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-                success = false;
-            }
-            return success;
+//        public bool addTimeStep(IPolygon step1, IPolygon step2, string sex)
+//        {
+//            bool success = true;
+//            try
+//            {
+//                resetTimeStep();
+//                addStepPolygon(step1);
+//                addStepPolygon(step2);
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//                success = false;
+//            }
+//            return success;
 
-        }
+        //}
         public bool buildTempMaps(string path, IGeometryDef inGeoDef)
         {
             bool success = false;
@@ -120,97 +119,97 @@ namespace PAZ_Dispersal
             success = true;
             return success;
         }
-        public bool copyOccupiedToAnimalMap(AnimalMap in_outMap)
-        {
-            bool success = false;
-            IFeature f;
-            IFeatureCursor searchCursor = null;
-            IFeatureCursor insertCursor = null;
-            IFeatureBuffer insertBuff = null;
-            try
-            {
-                fw.writeLine("inside copyOccupiedToAnimalMap");
-                fw.writeLine("     map name is " + in_outMap.fullFileName);
-                searchCursor = this.occupiedFeatureClass.Search(null, true);
-                insertCursor = in_outMap.mySelf.Insert(true);
-                insertBuff = in_outMap.mySelf.CreateFeatureBuffer();
-                //            this.searchCursor=this.occupiedFeatureClass.Search(null,true);
-                //            this.insertCursor = in_outMap.mySelf.Insert(true);
-                //            this.insertBuff = in_outMap.mySelf.CreateFeatureBuffer();
-                f = searchCursor.NextFeature();
-                while (f != null)
-                {
-                    insertBuff.Shape = f.Shape;
-                    this.AddFields(insertBuff, f);
-                    insertCursor.InsertFeature(insertBuff);
-                    f = searchCursor.NextFeature();
-                }
-                insertCursor.Flush();
-                this.removeTempMaps("Occupied");
-                success = true;
-            }
-            catch (System.Exception ex)
-            {
-                FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            }
-            finally
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertBuff);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertCursor);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(searchCursor);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(occupiedFeatureClass);
-            }
-            return success;
+//        public bool copyOccupiedToAnimalMap(AnimalMap in_outMap)
+//        {
+//            bool success = false;
+//            IFeature f;
+//            IFeatureCursor searchCursor = null;
+//            IFeatureCursor insertCursor = null;
+//            IFeatureBuffer insertBuff = null;
+//            try
+//            {
+//                fw.writeLine("inside copyOccupiedToAnimalMap");
+//                fw.writeLine("     map name is " + in_outMap.fullFileName);
+//                searchCursor = this.occupiedFeatureClass.Search(null, true);
+//                insertCursor = in_outMap.mySelf.Insert(true);
+//                insertBuff = in_outMap.mySelf.CreateFeatureBuffer();
+//                //            this.searchCursor=this.occupiedFeatureClass.Search(null,true);
+//                //            this.insertCursor = in_outMap.mySelf.Insert(true);
+//                //            this.insertBuff = in_outMap.mySelf.CreateFeatureBuffer();
+//                f = searchCursor.NextFeature();
+//                while (f != null)
+//                {
+//                    insertBuff.Shape = f.Shape;
+//                    this.AddFields(insertBuff, f);
+//                    insertCursor.InsertFeature(insertBuff);
+//                    f = searchCursor.NextFeature();
+//                }
+//                insertCursor.Flush();
+//                this.removeTempMaps("Occupied");
+//                success = true;
+//            }
+//            catch (System.Exception ex)
+//            {
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//            }
+//            finally
+//            {
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertBuff);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertCursor);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(searchCursor);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(occupiedFeatureClass);
+//            }
+//            return success;
 
-        }
-        public bool copyUnionToAnimalMap(AnimalMap in_outMap)
-        {
-            bool success = false;
-            IFeature feat = null;
-            IFeatureCursor searchCursor = null;
-            IFeatureCursor insertCursor = null;
-            IFeatureBuffer insertBuff = null;
-            //HACK JAN 19 TEST
-            try
-            {
-                in_outMap.removeAllPolygons();
-                searchCursor = this.unionFeatureClass.Search(null, true);
-                insertCursor = in_outMap.mySelf.Insert(true);
-                insertBuff = in_outMap.mySelf.CreateFeatureBuffer();
-                feat = searchCursor.NextFeature();
-                while (feat != null)
-                {
-                    insertBuff.Shape = feat.Shape;
-                    this.AddFields(insertBuff, feat);
-                    insertCursor.InsertFeature(insertBuff);
-                    feat = searchCursor.NextFeature();
+//        }
+//        public bool copyUnionToAnimalMap(AnimalMap in_outMap)
+//        {
+//            bool success = false;
+//            IFeature feat = null;
+//            IFeatureCursor searchCursor = null;
+//            IFeatureCursor insertCursor = null;
+//            IFeatureBuffer insertBuff = null;
+//            //HACK JAN 19 TEST
+//            try
+//            {
+//                in_outMap.removeAllPolygons();
+//                searchCursor = this.unionFeatureClass.Search(null, true);
+//                insertCursor = in_outMap.mySelf.Insert(true);
+//                insertBuff = in_outMap.mySelf.CreateFeatureBuffer();
+//                feat = searchCursor.NextFeature();
+//                while (feat != null)
+//                {
+//                    insertBuff.Shape = feat.Shape;
+//                    this.AddFields(insertBuff, feat);
+//                    insertCursor.InsertFeature(insertBuff);
+//                    feat = searchCursor.NextFeature();
 
-                }
-                insertCursor.Flush();
-                this.removeTempMaps("Union");
+//                }
+//                insertCursor.Flush();
+//                this.removeTempMaps("Union");
 
-                success = true;
-            }
-            catch (System.Exception ex)
-            {
-                FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            }
-            finally
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertBuff);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertCursor);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(searchCursor);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(unionFeatureClass);
-            }
-            return success;
+//                success = true;
+//            }
+//            catch (System.Exception ex)
+//            {
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//            }
+//            finally
+//            {
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertBuff);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(insertCursor);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(searchCursor);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(unionFeatureClass);
+//            }
+//            return success;
 
-        }
+//        }
         public IFeatureClass clipMaps(IFeatureClass oldMap, IFeatureClass newMap, ref int SocialIndex)
         {
             IEnvelope firstE = null;
@@ -290,75 +289,75 @@ namespace PAZ_Dispersal
             return outShapeFile;
 
         }
-        public void dissolveSteps2()
-        {
-            IFeatureClassName myName = new FeatureClassNameClass();
-            IFeatureClass feat = null ;
+      //  public void dissolveSteps2()
+      //  {
+      //      IFeatureClassName myName = new FeatureClassNameClass();
+      //      IFeatureClass feat = null ;
             
           
-            ITable dissolveTable = this.mCurrStepMap.mySelf as ITable;
-            IDataset dataset = this.mCurrStepMap.mySelf as IDataset;
-            Geoprocessor geoprocessor = new Geoprocessor();
-            Dissolve d = new Dissolve();
-            d.in_features = dissolveTable;
-            d.out_feature_class = feat;
-            d.dissolve_field="CurrTime";
-            geoprocessor.Execute(d, null);
+      //      ITable dissolveTable = this.mCurrStepMap.mySelf as ITable;
+      //      IDataset dataset = this.mCurrStepMap.mySelf as IDataset;
+      //      Geoprocessor geoprocessor = new Geoprocessor();
+      //      Dissolve d = new Dissolve();
+      //      d.in_features = dissolveTable;
+      //      d.out_feature_class = feat;
+      //      d.dissolve_field="CurrTime";
+      //      geoprocessor.Execute(d, null);
 
-        }
-        public void   dissolveSteps()
-      {
-         IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
-         IFeatureLayer featureLayer_1 = new FeatureLayerClass();
-         ILayer layer_1 = null;
-         ITable table_1 = null;
-         try
-         {
-            this.buildDissovlePath();
-            this.buildDissolveWorkSpaceName();
-            this.getOutShapeFileName();
-            this.buildDissolveDataSetName();
+      //  }
+      //  public void   dissolveSteps()
+      //{
+      //   IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
+      //   IFeatureLayer featureLayer_1 = new FeatureLayerClass();
+      //   ILayer layer_1 = null;
+      //   ITable table_1 = null;
+      //   try
+      //   {
+      //      this.buildDissovlePath();
+      //      this.buildDissolveWorkSpaceName();
+      //      this.getOutShapeFileName();
+      //      this.buildDissolveDataSetName();
 
-            fw.writeLine("inside dissolve steps getting the feature layer");
-            featureLayer_1.FeatureClass = this.mCurrStepMap.mySelf; //firstInFeatureClass;
-            featureLayer_1.Name = this.mCurrStepMap.mySelf.AliasName; //firstInFeatureClass.AliasName;
-            fw.writeLine("now clearing the old layers from my map");
-            myMap.ClearLayers();
-            fw.writeLine("now adding the layers to the map");
-            myMap.AddLayer(featureLayer_1);
-            layer_1 = myMap.get_Layer(0);
-            featureLayer_1 = (IFeatureLayer)layer_1;
-            fw.writeLine("now getting the table from the layer");
-            table_1 = (ITable)featureLayer_1;
-            fw.writeLine("table 1 has " + table_1.RowCount(null).ToString() + " rows");
+      //      fw.writeLine("inside dissolve steps getting the feature layer");
+      //      featureLayer_1.FeatureClass = this.mCurrStepMap.mySelf; //firstInFeatureClass;
+      //      featureLayer_1.Name = this.mCurrStepMap.mySelf.AliasName; //firstInFeatureClass.AliasName;
+      //      fw.writeLine("now clearing the old layers from my map");
+      //      myMap.ClearLayers();
+      //      fw.writeLine("now adding the layers to the map");
+      //      myMap.AddLayer(featureLayer_1);
+      //      layer_1 = myMap.get_Layer(0);
+      //      featureLayer_1 = (IFeatureLayer)layer_1;
+      //      fw.writeLine("now getting the table from the layer");
+      //      table_1 = (ITable)featureLayer_1;
+      //      fw.writeLine("table 1 has " + table_1.RowCount(null).ToString() + " rows");
 
-            if (table_1.FindField("CurrTime") > 0)
-            {
-               fw.writeLine("found the currtime field so do the dissolve");
-               dissolveTable = ibg.Dissolve(table_1, false, "CurrTime", "Dissolve.CurrTime,Minimum.CurrTime", this.dsDissolveName);
-               fw.writeLine("done with the dissolve");
-               fw.writeLine("dissolve table has " + dissolveTable.RowCount(null).ToString() + " rows");
-            }
-            else
-            {
-                System.Windows.Forms.MessageBox.Show("no curr time field to dissolve on");
-            }
-         }
+      //      if (table_1.FindField("CurrTime") > 0)
+      //      {
+      //         fw.writeLine("found the currtime field so do the dissolve");
+      //         dissolveTable = ibg.Dissolve(table_1, false, "CurrTime", "Dissolve.CurrTime,Minimum.CurrTime", this.dsDissolveName);
+      //         fw.writeLine("done with the dissolve");
+      //         fw.writeLine("dissolve table has " + dissolveTable.RowCount(null).ToString() + " rows");
+      //      }
+      //      else
+      //      {
+      //          System.Windows.Forms.MessageBox.Show("no curr time field to dissolve on");
+      //      }
+      //   }
               
                
-         catch (System.Exception ex)        
-         {          FileWriter.FileWriter.WriteErrorFile(ex);  
-                System.Windows.Forms.MessageBox.Show(ex.Message);
+      //   catch (System.Exception ex)        
+      //   {          FileWriter.FileWriter.WriteErrorFile(ex);  
+      //          System.Windows.Forms.MessageBox.Show(ex.Message);
 
 
-            }
-            finally
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(featureLayer_1);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(table_1);
-            }
-        }
+      //      }
+      //      finally
+      //      {
+      //          System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
+      //          System.Runtime.InteropServices.Marshal.ReleaseComObject(featureLayer_1);
+      //          System.Runtime.InteropServices.Marshal.ReleaseComObject(table_1);
+      //      }
+      //  }
         public void dissolveNewSocial(Map newSocialMap)
         {
             string DissolveMapName;
@@ -436,16 +435,17 @@ namespace PAZ_Dispersal
 
             }
         }
-        public void doOccupiedStuff(string sex)
-        {
-            fw.writeLine("inside doOccupiedStuff");
-            outShapeFileName = new FeatureClassNameClass();
-            IFeatureClass tempFC = null;
+
+        //public void doOccupiedStuff(string sex)
+        //{
+        //    fw.writeLine("inside doOccupiedStuff");
+        //    outShapeFileName = new FeatureClassNameClass();
+        //    IFeatureClass tempFC = null;
            
-            this.addOccupideTerritory();
-            // this.removeTempMaps("dissolve");
-            this.makeOccupiedAvailable(sex);
-        }
+        //    this.addOccupideTerritory();
+        //    // this.removeTempMaps("dissolve");
+        //    this.makeOccupiedAvailable(sex);
+        //}
         public void editNewSocialMap(string fileName)
         {
             IQueryFilter qf = null;
@@ -547,52 +547,53 @@ namespace PAZ_Dispersal
                 }
             }
         }
-        public void intersectFeatures(ref IFeatureClass inFC, ITable inTable, string name)
-        {
-            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
-            try
-            {
-                table_1 = this.getTable(this.mSocialMap.mySelf);
-                table_2 = inTable;
 
-                //this works when uncommented
-                 IFeatureClassName outShapeFileName = new FeatureClassNameClass();
-                outShapeFileName.FeatureType = mSocialMap.mySelf.FeatureType;
-                outShapeFileName.ShapeType = mSocialMap.mySelf.ShapeType;
-                outShapeFileName.ShapeFieldName = mSocialMap.mySelf.ShapeFieldName;
-                IWorkspaceName wsName = new WorkspaceNameClass();
+//        public void intersectFeatures(ref IFeatureClass inFC, ITable inTable, string name)
+//        {
+//            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
+//            try
+//            {
+//                table_1 = this.getTable(this.mSocialMap.mySelf);
+//                table_2 = inTable;
+
+//                //this works when uncommented
+//                 IFeatureClassName outShapeFileName = new FeatureClassNameClass();
+//                outShapeFileName.FeatureType = mSocialMap.mySelf.FeatureType;
+//                outShapeFileName.ShapeType = mSocialMap.mySelf.ShapeType;
+//                outShapeFileName.ShapeFieldName = mSocialMap.mySelf.ShapeFieldName;
+//                IWorkspaceName wsName = new WorkspaceNameClass();
                 
-                wsName.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapeFileWorkspaceFactory.1";
-               wsName.PathName = mPath;
+//                wsName.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapeFileWorkspaceFactory.1";
+//               wsName.PathName = mPath;
 
-                dsName = (IDatasetName)outShapeFileName;
-                dsName.Name = name;
-                dsName.WorkspaceName = wsName;
-                Check.Require(table_1 != null, "table 1 was null");
-                Check.Require(table_2 != null, "table 2 was null");
-                Check.Require(outShapeFileName != null, "outshape file name was null");
-                inFC = ibg.Intersect(table_1, false, table_2, false, tolerence, outShapeFileName);
-
-
-            }
-            catch (COMException comEX)
-            {
-                System.Windows.Forms.MessageBox.Show(comEX.Message);
-            }
-            catch (System.Exception ex)
-            {
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
-            finally
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
-            }
+//                dsName = (IDatasetName)outShapeFileName;
+//                dsName.Name = name;
+//                dsName.WorkspaceName = wsName;
+//                Check.Require(table_1 != null, "table 1 was null");
+//                Check.Require(table_2 != null, "table 2 was null");
+//                Check.Require(outShapeFileName != null, "outshape file name was null");
+//                inFC = ibg.Intersect(table_1, false, table_2, false, tolerence, outShapeFileName);
 
 
-        }
+//            }
+//            catch (COMException comEX)
+//            {
+//                System.Windows.Forms.MessageBox.Show(comEX.Message);
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//            }
+//            finally
+//            {
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
+//            }
+
+
+//        }
         public void makeMapCopies(string orgPath, string orgFileName, string newPath, string newFileName)
         {
             string[] fileNames;
@@ -736,87 +737,87 @@ namespace PAZ_Dispersal
             }
 
         }
-        public void unionTimeStep(AnimalMap in_outMap, string AnimalID, string timeStep)
-        {
-            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
-            ITable table_1 = null;
-            ITable table_2 = null;
-            try
-            {
-                this.unionFeatureClass = null;
-                this.makeMapCopies(in_outMap.Path, in_outMap.mySelf.AliasName, in_outMap.Path, "lastMap");
-                fw.writeLine("inside unionTimeStep");
-                fw.writeLine("Animal number = " + AnimalID);
-                fw.writeLine("time step = " + timeStep);
-                string fileName = in_outMap.mySelf.AliasName;
-                table_1 = this.getTable(in_outMap.mySelf);
-                table_2 = this.getOccupiedTable();
-                this.buildDataSetName("Union" + name.ToString());
-                fw.writeLine("calling the union method");
-                fw.writeLine("name is " + name.ToString());
+//        public void unionTimeStep(AnimalMap in_outMap, string AnimalID, string timeStep)
+//        {
+//            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
+//            ITable table_1 = null;
+//            ITable table_2 = null;
+//            try
+//            {
+//                this.unionFeatureClass = null;
+//                this.makeMapCopies(in_outMap.Path, in_outMap.mySelf.AliasName, in_outMap.Path, "lastMap");
+//                fw.writeLine("inside unionTimeStep");
+//                fw.writeLine("Animal number = " + AnimalID);
+//                fw.writeLine("time step = " + timeStep);
+//                string fileName = in_outMap.mySelf.AliasName;
+//                table_1 = this.getTable(in_outMap.mySelf);
+//                table_2 = this.getOccupiedTable();
+//                this.buildDataSetName("Union" + name.ToString());
+//                fw.writeLine("calling the union method");
+//                fw.writeLine("name is " + name.ToString());
 
 
-                Check.Require(table_1 != null, "table 1 was null");
-                Check.Require(table_2 != null, "table 2 was null");
-                Check.Require(outShapeFileName != null, "outshape file name was null");
-                this.unionFeatureClass = ibg.Union(table_1, false, table_2, false, this.tolerence, outShapeFileName);
+//                Check.Require(table_1 != null, "table 1 was null");
+//                Check.Require(table_2 != null, "table 2 was null");
+//                Check.Require(outShapeFileName != null, "outshape file name was null");
+//                this.unionFeatureClass = ibg.Union(table_1, false, table_2, false, this.tolerence, outShapeFileName);
 
-                this.removeTempMaps("Occupied");
-                fw.writeLine("done with the union now calling the edit union");
-                editUnionFeatureClass();
-                fw.writeLine("back from editUninon now leaving unionTimeStep");
-                fw.writeLine("");
-            }
-            catch (System.Exception ex)
-            {
-#if DEBUG
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                fw.writeLine("");
-                fw.writeLine("Animal number = " + AnimalID);
-                fw.writeLine("time step = " + timeStep);
-                FileWriter.FileWriter.WriteErrorFile(ex);
-                FileWriter.FileWriter.AddToErrorFile("Animal number = " + AnimalID);
-                FileWriter.FileWriter.AddToErrorFile("time step = " + timeStep);
-            }
-            finally
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(table_1);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(table_2);
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(occupiedFeatureClass);
-            }
+//                this.removeTempMaps("Occupied");
+//                fw.writeLine("done with the union now calling the edit union");
+//                editUnionFeatureClass();
+//                fw.writeLine("back from editUninon now leaving unionTimeStep");
+//                fw.writeLine("");
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if DEBUG
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                fw.writeLine("");
+//                fw.writeLine("Animal number = " + AnimalID);
+//                fw.writeLine("time step = " + timeStep);
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//                FileWriter.FileWriter.AddToErrorFile("Animal number = " + AnimalID);
+//                FileWriter.FileWriter.AddToErrorFile("time step = " + timeStep);
+//            }
+//            finally
+//            {
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(table_1);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(table_2);
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(occupiedFeatureClass);
+//            }
 
-        }
-        public ITable unionTimeStepGetTable()
-        {
-            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
-            try
-            {
-                table_1 = this.getDissolveOccupiedTable();
-                table_2 = this.getOccupiedTable();
-                this.buildDataSetName("Union" + name.ToString());
-                this.unionFeatureClass = ibg.Union(table_1, false, table_2, false, this.tolerence, outShapeFileName);
-                //this.unionFeatureClass=this.ibg.Union(table_1,true,table_2,false,this.tolerence,this.outShapeFileName);
-                this.removeTempMaps("Occupied");
-                editUnionFeatureClass();
-                fw.writeLine("leaving unionTimeStep");
-                fw.writeLine("");
-            }
-            catch (System.Exception ex)
-            {
-#if DEBUG
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
-            finally
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
-            }
-            return this.getOccupiedTable();
+//        }
+//        public ITable unionTimeStepGetTable()
+//        {
+//            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
+//            try
+//            {
+//                table_1 = this.getDissolveOccupiedTable();
+//                table_2 = this.getOccupiedTable();
+//                this.buildDataSetName("Union" + name.ToString());
+//                this.unionFeatureClass = ibg.Union(table_1, false, table_2, false, this.tolerence, outShapeFileName);
+//                //this.unionFeatureClass=this.ibg.Union(table_1,true,table_2,false,this.tolerence,this.outShapeFileName);
+//                this.removeTempMaps("Occupied");
+//                editUnionFeatureClass();
+//                fw.writeLine("leaving unionTimeStep");
+//                fw.writeLine("");
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if DEBUG
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//            }
+//            finally
+//            {
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
+//            }
+//            return this.getOccupiedTable();
 
-        }
+//        }
 
         #endregion
 
@@ -972,29 +973,29 @@ namespace PAZ_Dispersal
             }
 
         }
-        private void addStepPolygon(AnimalMap inMap, IPolygon inPoly)
-        {
-            IFeature feature = null;
-            IFields fields;
-            int index = 0;
+        //private void addStepPolygon(AnimalMap inMap, IPolygon inPoly)
+        //{
+        //    IFeature feature = null;
+        //    IFields fields;
+        //    int index = 0;
 
 
-            //now add the one we want
-            try
-            {
-                feature = inMap.mySelf.CreateFeature();
-                fields = feature.Fields;
-                index = fields.FindField("CurrTime");
-                if (index >= 0)
-                    feature.set_Value(index, 1);
-                feature.Shape = inPoly;
-                feature.Store();
-            }
-            catch (System.Exception ex)
-            {
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
-        }
+        //    //now add the one we want
+        //    try
+        //    {
+        //        feature = inMap.mySelf.CreateFeature();
+        //        fields = feature.Fields;
+        //        index = fields.FindField("CurrTime");
+        //        if (index >= 0)
+        //            feature.set_Value(index, 1);
+        //        feature.Shape = inPoly;
+        //        feature.Store();
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        FileWriter.FileWriter.WriteErrorFile(ex);
+        //    }
+        //}
         private void AddFields(IFeatureBuffer featureBuffer, IFeature feature)
         {
             // Copy the attributes of the orig feature the new feature
@@ -1016,31 +1017,31 @@ namespace PAZ_Dispersal
                 }
             }
         }
-        private void addNewPoly(Map inMap, IPolygon inPoly)
-        {
-            IFeature feature = null;
-            IFields fields;
-            int index = 0;
+        //private void addNewPoly(Map inMap, IPolygon inPoly)
+        //{
+        //    IFeature feature = null;
+        //    IFields fields;
+        //    int index = 0;
 
 
-            //now add the one we want
-            try
-            {
-                feature = inMap.mySelf.CreateFeature();
-                fields = feature.Fields;
-                index = fields.FindField("CurrTime");
-                if (index >= 0)
-                    feature.set_Value(index, 1);
-                feature.Shape = inPoly;
-                feature.Store();
-            }
-            catch (System.Exception ex)
-            {
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
+        //    //now add the one we want
+        //    try
+        //    {
+        //        feature = inMap.mySelf.CreateFeature();
+        //        fields = feature.Fields;
+        //        index = fields.FindField("CurrTime");
+        //        if (index >= 0)
+        //            feature.set_Value(index, 1);
+        //        feature.Shape = inPoly;
+        //        feature.Store();
+        //    }
+        //    catch (System.Exception ex)
+        //    {
+        //        FileWriter.FileWriter.WriteErrorFile(ex);
+        //    }
 
 
-        }
+        //}
         private PolygonClass buildBoundary(Animal inAnimal, int numberOfPoints, double stretchFactor)
         {
             IPointCollection boundaryPoints = new PolygonClass();
@@ -1289,7 +1290,7 @@ namespace PAZ_Dispersal
             IFeatureLayer myFeatureLayer = new FeatureLayerClass();
             myFeatureLayer.FeatureClass = inFeatureClass;
             myFeatureLayer.Name = inFeatureClass.AliasName;
-            myMap.AddLayer(myFeatureLayer);
+            this.myMap.AddLayer(myFeatureLayer);
             ILayer l = myMap.get_Layer(0);
             IEnvelope e = l.AreaOfInterest;
             return e;
@@ -1441,55 +1442,55 @@ namespace PAZ_Dispersal
             return this.dsName.Name;
 
         }
-        private void dissolveHomeRange(string fieldName)
-        {
-            ITable tableInput = null;
-            ITable tableOutput = null;
-            IFeatureLayer fl = new FeatureLayerClass();
-            ILayer l;
-            int fieldIndex;
-            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
+//        private void dissolveHomeRange(string fieldName)
+//        {
+//            ITable tableInput = null;
+//            ITable tableOutput = null;
+//            IFeatureLayer fl = new FeatureLayerClass();
+//            ILayer l;
+//            int fieldIndex;
+//            IBasicGeoprocessor ibg = new BasicGeoprocessorClass();
 
-            try
-            {
-                fw.writeLine("inside dissolveHomeRange and we are going to dissolve on " + fieldName);
+//            try
+//            {
+//                fw.writeLine("inside dissolveHomeRange and we are going to dissolve on " + fieldName);
 
-                this.getOutShapeFileName();
-                this.buildWorkSpaceName();
-                this.buildDataSetName("DissolveHome");
-                fw.writeLine("ok called the getOutShapeFileName buildWorkSpaceName buildDataSetName");
-                fw.writeLine("now clear out the map and do the layer table thing");
-                //get the table from a layer and not the feature class
-                this.myMap.ClearLayers();
-                fl.FeatureClass = this.homeRangeFeatureClass;
-                fl.Name = this.homeRangeFeatureClass.AliasName;
-                fw.writeLine("the home range we want to dissolve is " + homeRangeFeatureClass.AliasName);
-                myMap.AddLayer(fl);
-                l = myMap.get_Layer(0);
-                tableInput = this.homeRangeFeatureClass as ITable;
-                tableInput = (ITable)l;
-                fw.writeLine("check for the field name " + fieldName);
-                fieldIndex = tableInput.FindField(fieldName);
-                if (fieldIndex < 0)
-                    fw.writeLine("Could not find " + fieldName + " in the dissolve home range method of MapManipulator");
-                fw.writeLine("found " + fieldName + " at position number " + fieldIndex.ToString());
-                fw.writeLine("found it now do the dissovle");
-                tableOutput = ibg.Dissolve(tableInput, false, fieldName, "Dissolve.Shape,Minimum." + fieldName, this.dsName);
+//                this.getOutShapeFileName();
+//                this.buildWorkSpaceName();
+//                this.buildDataSetName("DissolveHome");
+//                fw.writeLine("ok called the getOutShapeFileName buildWorkSpaceName buildDataSetName");
+//                fw.writeLine("now clear out the map and do the layer table thing");
+//                //get the table from a layer and not the feature class
+//                this.myMap.ClearLayers();
+//                fl.FeatureClass = this.homeRangeFeatureClass;
+//                fl.Name = this.homeRangeFeatureClass.AliasName;
+//                fw.writeLine("the home range we want to dissolve is " + homeRangeFeatureClass.AliasName);
+//                myMap.AddLayer(fl);
+//                l = myMap.get_Layer(0);
+//                tableInput = this.homeRangeFeatureClass as ITable;
+//                tableInput = (ITable)l;
+//                fw.writeLine("check for the field name " + fieldName);
+//                fieldIndex = tableInput.FindField(fieldName);
+//                if (fieldIndex < 0)
+//                    fw.writeLine("Could not find " + fieldName + " in the dissolve home range method of MapManipulator");
+//                fw.writeLine("found " + fieldName + " at position number " + fieldIndex.ToString());
+//                fw.writeLine("found it now do the dissovle");
+//                tableOutput = ibg.Dissolve(tableInput, false, fieldName, "Dissolve.Shape,Minimum." + fieldName, this.dsName);
 
-            }
-            catch (System.Exception ex)
-            {
-                FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                System.Windows.Forms.Application.Exit();
-            }
-            finally
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
-            }
-        }
+//            }
+//            catch (System.Exception ex)
+//            {
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                System.Windows.Forms.Application.Exit();
+//            }
+//            finally
+//            {
+//                System.Runtime.InteropServices.Marshal.ReleaseComObject(ibg);
+//            }
+//        }
         private void editUnionFeatureClass()
         {
             int indexAvailable;
@@ -1626,7 +1627,7 @@ namespace PAZ_Dispersal
                 fw.writeLine("inside editNewSocialMap(string idNum, string sex) for animal num " + idNum);
                 qf = new QueryFilterClass();
                 ifc = Map.openFeatureClass(this.mPath, "HomeRange" + this.HomeRangeIndex.ToString());
-                if (sex.ToUpper() == "MALE")
+                if (sex.Equals("MALE",StringComparison.CurrentCultureIgnoreCase))
                 {
                     fieldName = "OCCUP_MA_1";
                     sexField = "OCCUP_MALE";
@@ -1671,32 +1672,32 @@ namespace PAZ_Dispersal
             }
 
         }
-        private double getArea(IPolygon inPoly)
-        {
-            double area = 0;
-            IArea areaGetter;
+//        private double getArea(IPolygon inPoly)
+//        {
+//            double area = 0;
+//            IArea areaGetter;
 
-            try
-            {
-                fw.writeLine("inside get area");
-                areaGetter = (IArea)inPoly;
+//            try
+//            {
+//                fw.writeLine("inside get area");
+//                areaGetter = (IArea)inPoly;
 
-                area = areaGetter.Area;
-                fw.writeLine("total area is " + area.ToString());
-                //area is in meters we are measuring in km so divide by 1000
-                area = areaGetter.Area / 1000000;
-                fw.writeLine("total area is " + area.ToString() + " kilometers");
-            }
-            catch (System.Exception ex)
-            {
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-                area = 0;
-            }
-            return area;
-        }
+//                area = areaGetter.Area;
+//                fw.writeLine("total area is " + area.ToString());
+//                //area is in meters we are measuring in km so divide by 1000
+//                area = areaGetter.Area / 1000000;
+//                fw.writeLine("total area is " + area.ToString() + " kilometers");
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//                area = 0;
+//            }
+//            return area;
+//        }
         private ITable getOccupiedTable()
         {
             IFeatureLayer featureLayer_2 = new FeatureLayerClass();
@@ -1750,29 +1751,29 @@ namespace PAZ_Dispersal
             return (ITable)layer;
 
         }
-        private IFeatureClass getDissolveShapeFile()
-        {
-            IFeatureClass ifc = null;
+//        private IFeatureClass getDissolveShapeFile()
+//        {
+//            IFeatureClass ifc = null;
 
-            try
-            {
-                IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
-                IFeatureWorkspace featureWorkspace = null;
-                featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(this.mDissolvePath, 0);
-                ifc = featureWorkspace.OpenFeatureClass("Dissolve");
-            }
+//            try
+//            {
+//                IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
+//                IFeatureWorkspace featureWorkspace = null;
+//                featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(this.mDissolvePath, 0);
+//                ifc = featureWorkspace.OpenFeatureClass("Dissolve");
+//            }
 
 
-            catch (System.Exception ex)
-            {
-#if(DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Source + " "); //+ ex.InnerException.ToString());
-#endif
-            }
+//            catch (System.Exception ex)
+//            {
+//#if(DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Source + " "); //+ ex.InnerException.ToString());
+//#endif
+//            }
 
-            return ifc;
+//            return ifc;
 
-        }
+//        }
         private IFeatureClass getDissolveOccupiedShapeFile()
         {
 
@@ -1825,50 +1826,50 @@ namespace PAZ_Dispersal
             }
             return (ITable)layer_1;
         }
-        private IFields getFields(IGeometryDef inGeoDef)
-        {
-            fields = new FieldsClass();
-            IFieldsEdit fieldsEdit = (IFieldsEdit)fields;
-            IField field = new FieldClass();
-            IFieldEdit fieldEdit = (IFieldEdit)field;
-            try
-            {
+//        private IFields getFields(IGeometryDef inGeoDef)
+//        {
+//            fields = new FieldsClass();
+//            IFieldsEdit fieldsEdit = (IFieldsEdit)fields;
+//            IField field = new FieldClass();
+//            IFieldEdit fieldEdit = (IFieldEdit)field;
+//            try
+//            {
 
 
-                fieldEdit = new FieldClass();
-                fieldEdit.Name_2 = "OBJECTID";
-                fieldEdit.AliasName_2 = "OBJECTID";
-                fieldEdit.Type_2 = esriFieldType.esriFieldTypeOID;
-                fieldsEdit.AddField(fieldEdit);
+//                fieldEdit = new FieldClass();
+//                fieldEdit.Name_2 = "OBJECTID";
+//                fieldEdit.AliasName_2 = "OBJECTID";
+//                fieldEdit.Type_2 = esriFieldType.esriFieldTypeOID;
+//                fieldsEdit.AddField(fieldEdit);
 
-                fieldEdit = new FieldClass();
-                fieldEdit.Name_2 = "SHAPE";
-                fieldEdit.IsNullable_2 = true;
-                fieldEdit.Type_2 = esriFieldType.esriFieldTypeGeometry;
-                fieldEdit.GeometryDef_2 = inGeoDef;
-                fieldEdit.Required_2 = true;
-                fieldsEdit.AddField(fieldEdit);
+//                fieldEdit = new FieldClass();
+//                fieldEdit.Name_2 = "SHAPE";
+//                fieldEdit.IsNullable_2 = true;
+//                fieldEdit.Type_2 = esriFieldType.esriFieldTypeGeometry;
+//                fieldEdit.GeometryDef_2 = inGeoDef;
+//                fieldEdit.Required_2 = true;
+//                fieldsEdit.AddField(fieldEdit);
 
-                fieldEdit = new FieldClass();
-                fieldEdit.Name_2 = "ID";
-                fieldEdit.Type_2 = esriFieldType.esriFieldTypeSmallInteger;
-                fieldsEdit.AddField(fieldEdit);
+//                fieldEdit = new FieldClass();
+//                fieldEdit.Name_2 = "ID";
+//                fieldEdit.Type_2 = esriFieldType.esriFieldTypeSmallInteger;
+//                fieldsEdit.AddField(fieldEdit);
 
-                fieldEdit = new FieldClass();
-                fieldEdit.Name_2 = "CurrTime";
-                fieldEdit.Type_2 = esriFieldType.esriFieldTypeSmallInteger;
-                fieldsEdit.AddField(fieldEdit);
+//                fieldEdit = new FieldClass();
+//                fieldEdit.Name_2 = "CurrTime";
+//                fieldEdit.Type_2 = esriFieldType.esriFieldTypeSmallInteger;
+//                fieldsEdit.AddField(fieldEdit);
 
-            }
-            catch (System.Exception ex)
-            {
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
-            return fieldsEdit as IFields;
-        }
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//            }
+//            return fieldsEdit as IFields;
+//        }
         private IFields getHomeRangeFields(IGeometryDef inGeoDef)
         {
             fields = new FieldsClass();
@@ -2111,25 +2112,25 @@ namespace PAZ_Dispersal
             }
             return geoDef;
         }
-        private void makeNewAnimalFeatureClass(ref AnimalMap in_outMap, IGeometryDef gd)
-        {
-            try
-            {
+//        private void makeNewAnimalFeatureClass(ref AnimalMap in_outMap, IGeometryDef gd)
+//        {
+//            try
+//            {
 
-                string fileName = in_outMap.mySelf.AliasName;
-                in_outMap.removeAllPolygons();
-                this.removeAnimalMaps(fileName);
-                in_outMap.makeMap(fileName, this.mPath, gd);
+//                string fileName = in_outMap.mySelf.AliasName;
+//                in_outMap.removeAllPolygons();
+//                this.removeAnimalMaps(fileName);
+//                in_outMap.makeMap(fileName, this.mPath, gd);
 
-            }
-            catch (System.Exception ex)
-            {
-#if DEBUG
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
-        }
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if DEBUG
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//            }
+//        }
         private void makeOccupiedAvailable(string sex)
         {
             string search;
@@ -2214,26 +2215,26 @@ namespace PAZ_Dispersal
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(featCursor);
             }
         }
-        private void removeAnimalMaps(string inName)
-        {
-            string[] fileNames;
-            try
-            {
-                fileNames = Directory.GetFiles(mPath + "\\" + inName, inName + "*");
-                for (int i = 0; i < fileNames.Length; i++)
-                {
-                    File.Delete(fileNames[i]);
-                }
+       private void removeAnimalMaps(string inName)
+       {
+          string[] fileNames;
+          try
+          {
+             fileNames = Directory.GetFiles(mPath + "\\" + inName, inName + "*");
+             for (int i = 0; i < fileNames.Length; i++)
+             {
+                File.Delete(fileNames[i]);
+             }
 
-            }
-            catch (System.Exception ex)
-            {
+          }
+          catch (System.Exception ex)
+          {
 #if (DEBUG)
                 System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
-        }
+             FileWriter.FileWriter.WriteErrorFile(ex);
+          }
+       }
         private void removeTempMaps(string inName)
         {
             string[] fileNames;
@@ -2327,34 +2328,34 @@ namespace PAZ_Dispersal
             }
 
         }
-        private void resetFeatureClass(IFeatureClass inFC)
-        {
-            try
-            {
-                if (inFC != null)
-                {
-                    IFeatureCursor tmpCur;
-                    IFeature tmpFeature;
-                    tmpCur = inFC.Search(null, false);
-                    tmpFeature = tmpCur.NextFeature();
+//        private void resetFeatureClass(IFeatureClass inFC)
+//        {
+//            try
+//            {
+//                if (inFC != null)
+//                {
+//                    IFeatureCursor tmpCur;
+//                    IFeature tmpFeature;
+//                    tmpCur = inFC.Search(null, false);
+//                    tmpFeature = tmpCur.NextFeature();
 
-                    while (tmpFeature != null)
-                    {
-                        tmpFeature.Delete();
-                        tmpFeature = tmpCur.NextFeature();
-                    }
-                }
+//                    while (tmpFeature != null)
+//                    {
+//                        tmpFeature.Delete();
+//                        tmpFeature = tmpCur.NextFeature();
+//                    }
+//                }
 
-            }
-            catch (System.Exception ex)
-            {
-#if (DEBUG)
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-                FileWriter.FileWriter.WriteErrorFile(ex);
-            }
+//            }
+//            catch (System.Exception ex)
+//            {
+//#if (DEBUG)
+//                System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//                FileWriter.FileWriter.WriteErrorFile(ex);
+//            }
 
-        }
+//        }
 
         //private bool selectFromMap()
         //{

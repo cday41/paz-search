@@ -12,6 +12,8 @@ namespace PAZ_Dispersal
 {
    public class Map
    {
+
+
       #region privateData
       private DateTime mBeginTime;
       protected FileWriter.FileWriter fw;
@@ -28,9 +30,11 @@ namespace PAZ_Dispersal
       protected string myFileName;
       protected string mTypeOfMap;
       private string mChangeType;
+      private string fullFileName;
       private Hashtable myHash;
       
       #endregion
+
       #region gettersAndSetters
 
       public string ChangeType
@@ -45,9 +49,10 @@ namespace PAZ_Dispersal
          set { mBeginTime = value; }
       }
 
-      public string fullFileName
+      public string FullFileName
       {
-         get {return myPath + "\\" + myFileName;}
+         get { return fullFileName; }
+         set { this.fullFileName = value; }
       }
       public string TypeOfMap
       {
@@ -121,6 +126,11 @@ namespace PAZ_Dispersal
       public Map(IFeatureClass inSelf):this()
       {
          mMySelf = inSelf;
+      }
+      public Map(IFeatureClass inSelf, string fullName):this()
+      {
+         mMySelf = inSelf;
+         this.fullFileName = fullName;
       }
       
       #endregion
@@ -1152,8 +1162,6 @@ namespace PAZ_Dispersal
 
   
       #endregion
-
-
 
       #region privateMethods
 

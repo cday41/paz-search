@@ -35,6 +35,7 @@ namespace FileWriter
       private static FileWriter formLogger;
       private static FileWriter homeRangeTriggerLogger;
       private static FileWriter homeSiteTriggerLogger;
+      private static FileWriter dataLogger;
 
       public FileWriter(string inFileName)
       {
@@ -192,6 +193,18 @@ namespace FileWriter
             homeSiteTriggerLogger = new FileWriter(filePath);
          }
          return homeSiteTriggerLogger;
+      }
+
+      public static FileWriter getDataLogger(string filePath)
+      {
+         if (dataLogger == null)
+         {
+            //get rid of any old log files
+            if (File.Exists(filePath))
+               File.Delete(filePath);
+            dataLogger = new FileWriter(filePath);
+         }
+         return dataLogger;
       }
 
 

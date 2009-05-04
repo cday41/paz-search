@@ -349,7 +349,7 @@ namespace PAZ_Dispersal
          try
          {
             fw.writeLine("inside find home calling to get the time step map");
-            fc = this.MapManager.getTimeStepMap(this.IdNum.ToString());
+            //fc = this.MapManager.getTimeStepMap(this.IdNum.ToString());
             if (fc != null)
             {
                fw.writeLine("now setting the home range center");
@@ -536,7 +536,7 @@ namespace PAZ_Dispersal
          try
          {
            
-            //this.timeStep++;
+            //this.timeStepPath++;
             #region 
             fw.writeLine("");
             fw.writeLine("inside Animal Do Time Step for " + myIdNum.ToString() +
@@ -670,7 +670,7 @@ namespace PAZ_Dispersal
                      fw.writeLine("ok we are home now setting the location = home range center");
                      this.Location = this.HomeRangeCenter;
                      fw.writeLine("now building the home range");
-                     this.MapManager.makeHomeRange(this);
+                     //this.MapManager.makeHomeRange(this);
                      status = "resident";
                      if (doTextOutput)
                         this.mTextFileWriter.addLine("Found Home at " + this.myLocation.X.ToString() + " and " + this.myLocation.Y.ToString());

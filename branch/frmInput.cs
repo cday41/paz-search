@@ -25,7 +25,7 @@ using ESRI.ArcGIS.esriSystem;
 using bobResize;
 using System.Xml;
 using System.Xml.XPath;
-using PAZ_Dispersal.Forms;
+using PAZ_Dispersal;
 //using GISHACK;
 
 namespace PAZ_Dispersal
@@ -220,7 +220,7 @@ namespace PAZ_Dispersal
          this.tabControl.Width = this.Width;
          myMapManager = MapManager.GetUniqueInstance();
          mySimManager = new SimulatonManager();
-         mySimManager.Maps = myMapManager;
+         mySimManager.MapManager = myMapManager;
          HideTabPage(this.tabSpecies);
          HideTabPage(this.tabModify);
          HideTabPage(this.tabSim);
@@ -1107,7 +1107,7 @@ namespace PAZ_Dispersal
          this.tabMap.Name = "tabMap";
          this.tabMap.Size = new System.Drawing.Size(752, 430);
          this.tabMap.TabIndex = 0;
-         this.tabMap.Text = "Simulation Maps";
+         this.tabMap.Text = "Simulation MapManager";
          // 
          // grpTime
          // 
@@ -1131,7 +1131,7 @@ namespace PAZ_Dispersal
          this.btnSetMove.Name = "btnSetMove";
          this.btnSetMove.Size = new System.Drawing.Size(152, 48);
          this.btnSetMove.TabIndex = 23;
-         this.btnSetMove.Text = "Set Movement Modifier Maps";
+         this.btnSetMove.Text = "Set Movement Modifier MapManager";
          this.btnSetMove.Click += new System.EventHandler(this.btnSetMove_Click);
          // 
          // btnSetRisk
@@ -1141,7 +1141,7 @@ namespace PAZ_Dispersal
          this.btnSetRisk.Name = "btnSetRisk";
          this.btnSetRisk.Size = new System.Drawing.Size(152, 48);
          this.btnSetRisk.TabIndex = 21;
-         this.btnSetRisk.Text = "Set Predation Risk Maps";
+         this.btnSetRisk.Text = "Set Predation Risk MapManager";
          this.btnSetRisk.Click += new System.EventHandler(this.btnSetRisk_Click);
          // 
          // btnSetFood
@@ -1151,7 +1151,7 @@ namespace PAZ_Dispersal
          this.btnSetFood.Name = "btnSetFood";
          this.btnSetFood.Size = new System.Drawing.Size(152, 40);
          this.btnSetFood.TabIndex = 24;
-         this.btnSetFood.Text = "Set Food Maps";
+         this.btnSetFood.Text = "Set Food MapManager";
          this.btnSetFood.Click += new System.EventHandler(this.btnSetFood_Click);
          // 
          // btnSetRelease
@@ -1160,7 +1160,7 @@ namespace PAZ_Dispersal
          this.btnSetRelease.Name = "btnSetRelease";
          this.btnSetRelease.Size = new System.Drawing.Size(152, 48);
          this.btnSetRelease.TabIndex = 22;
-         this.btnSetRelease.Text = "Set Release Maps";
+         this.btnSetRelease.Text = "Set Release MapManager";
          this.btnSetRelease.Click += new System.EventHandler(this.btnSetRelease_Click);
          // 
          // btnSetSocial
@@ -1169,7 +1169,7 @@ namespace PAZ_Dispersal
          this.btnSetSocial.Name = "btnSetSocial";
          this.btnSetSocial.Size = new System.Drawing.Size(152, 40);
          this.btnSetSocial.TabIndex = 20;
-         this.btnSetSocial.Text = "Set Social Maps ";
+         this.btnSetSocial.Text = "Set Social MapManager ";
          this.btnSetSocial.Click += new System.EventHandler(this.btnSetSocial_Click);
          // 
          // btnMapNext
@@ -1187,7 +1187,7 @@ namespace PAZ_Dispersal
          this.btnMove.Name = "btnMove";
          this.btnMove.Size = new System.Drawing.Size(152, 48);
          this.btnMove.TabIndex = 4;
-         this.btnMove.Text = "Load Movement Modifier Maps";
+         this.btnMove.Text = "Load Movement Modifier MapManager";
          this.btnMove.Click += new System.EventHandler(this.btnMove_Click);
          // 
          // btnRelease
@@ -1197,7 +1197,7 @@ namespace PAZ_Dispersal
          this.btnRelease.Name = "btnRelease";
          this.btnRelease.Size = new System.Drawing.Size(152, 48);
          this.btnRelease.TabIndex = 3;
-         this.btnRelease.Text = "Load Release Maps";
+         this.btnRelease.Text = "Load Release MapManager";
          this.btnRelease.Click += new System.EventHandler(this.btnDispersal_Click);
          // 
          // btnPredationMap
@@ -1207,7 +1207,7 @@ namespace PAZ_Dispersal
          this.btnPredationMap.Name = "btnPredationMap";
          this.btnPredationMap.Size = new System.Drawing.Size(152, 48);
          this.btnPredationMap.TabIndex = 2;
-         this.btnPredationMap.Text = "Load Predation Risk Maps";
+         this.btnPredationMap.Text = "Load Predation Risk MapManager";
          this.btnPredationMap.Click += new System.EventHandler(this.btnPredationMap_Click);
          // 
          // btnFoodMaps
@@ -1217,7 +1217,7 @@ namespace PAZ_Dispersal
          this.btnFoodMaps.Name = "btnFoodMaps";
          this.btnFoodMaps.Size = new System.Drawing.Size(152, 40);
          this.btnFoodMaps.TabIndex = 1;
-         this.btnFoodMaps.Text = "Load Food Maps";
+         this.btnFoodMaps.Text = "Load Food MapManager";
          this.btnFoodMaps.Click += new System.EventHandler(this.btnFoodMaps_Click);
          // 
          // btnSocialMaps
@@ -1226,7 +1226,7 @@ namespace PAZ_Dispersal
          this.btnSocialMaps.Name = "btnSocialMaps";
          this.btnSocialMaps.Size = new System.Drawing.Size(152, 40);
          this.btnSocialMaps.TabIndex = 0;
-         this.btnSocialMaps.Text = "Load Social Maps";
+         this.btnSocialMaps.Text = "Load Social MapManager";
          this.btnSocialMaps.Click += new System.EventHandler(this.btnSocialMaps_Click);
          // 
          // groupBox6
@@ -1236,7 +1236,7 @@ namespace PAZ_Dispersal
          this.groupBox6.Size = new System.Drawing.Size(200, 392);
          this.groupBox6.TabIndex = 7;
          this.groupBox6.TabStop = false;
-         this.groupBox6.Text = "Validate All Maps";
+         this.groupBox6.Text = "Validate All MapManager";
          // 
          // tabModify
          // 
@@ -1423,7 +1423,7 @@ namespace PAZ_Dispersal
          this.btnOutMapDir.Name = "btnOutMapDir";
          this.btnOutMapDir.Size = new System.Drawing.Size(152, 32);
          this.btnOutMapDir.TabIndex = 0;
-         this.btnOutMapDir.Text = "Set Output For Maps";
+         this.btnOutMapDir.Text = "Set Output For MapManager";
          this.btnOutMapDir.Click += new System.EventHandler(this.btnOutMapDir_Click);
          // 
          // chkTextOutPut
@@ -1697,11 +1697,7 @@ namespace PAZ_Dispersal
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		[STAThread]
-		static void Main() 
-		{
-
-		}
+		
 
 		#endregion
       
@@ -1979,24 +1975,24 @@ namespace PAZ_Dispersal
       private void btnSocialMaps_Click(object sender, System.EventArgs e)
       {
          validateMaps("Social",ref socialDir,"Social Landscape","Energy/Food",btnFoodMaps);
-         this.mySimManager.Maps.mySocialMaps.MyPath = socialDir;
+         this.mySimManager.MapManager.mySocialMaps.MyPath = socialDir;
       }// end btnSocialMaps_Click
    
       private void btnFoodMaps_Click(object sender, System.EventArgs e)
       {
          validateMaps("Food",ref foodDir,"Food Source","risk",btnPredationMap);
-         this.mySimManager.Maps.myFoodMaps.MyPath = foodDir;
+         this.mySimManager.MapManager.myFoodMaps.MyPath = foodDir;
       }// end btnFoodMaps_Click
       private void btnPredationMap_Click(object sender, System.EventArgs e)
       {
          validateMaps("Predation",ref riskDir,"Predation Risk","movement",btnMove);
-         this.mySimManager.Maps.myPredationMaps.MyPath = riskDir;
+         this.mySimManager.MapManager.myPredationMaps.MyPath = riskDir;
       }// end btnPredationMap_Click
       private void btnMove_Click(object sender, System.EventArgs e)
       {
 
          validateMaps("Move",ref moveDir,"Movement Modifier","Dispersal",btnRelease);
-         this.mySimManager.Maps.myMoveMaps.MyPath = moveDir;
+         this.mySimManager.MapManager.myMoveMaps.MyPath = moveDir;
       }// end btnMove_Click
       private void btnDispersal_Click(object sender, System.EventArgs e)
       {
@@ -2030,7 +2026,7 @@ namespace PAZ_Dispersal
             //then it is being loaded by file and no need to show the dialog box.
             if(disDir == "")
             {
-               this.fdbCommon.Description = "Browse for Release Area Maps";
+               this.fdbCommon.Description = "Browse for Release Area MapManager";
                if (this.fdbCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                {
                   disDir = this.fdbCommon.SelectedPath;
@@ -2045,7 +2041,7 @@ namespace PAZ_Dispersal
             else
             {
                MessageBox.Show("All the maps have been validated.  Now set the start times");
-               this.mySimManager.Maps.myDispersalMaps.MyPath = disDir;
+               this.mySimManager.MapManager.myDispersalMaps.MyPath = disDir;
                this.grpTime.Visible = true;
                this.btnSetSocial.Enabled = true;
             } 
@@ -2067,7 +2063,7 @@ namespace PAZ_Dispersal
             //if the path is empty then we are loading manually.  If the path has a value we are loading from a file.
             if (path == "")
             {
-               this.fdbCommon.Description = "Browse for " + description + " Maps";
+               this.fdbCommon.Description = "Browse for " + description + " MapManager";
                if (this.fdbCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                {
                   path = this.fdbCommon.SelectedPath;
@@ -2762,19 +2758,20 @@ namespace PAZ_Dispersal
             this.fdbCommon.ShowNewFolderButton=true;
             if (this.fdbCommon.ShowDialog() == DialogResult.OK)
             {
+               if (!mySimManager.makeTempMap(this.fdbCommon.SelectedPath))
+               {
+                  System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
+                  this.mySimManager.ErrMessage = "";
+               }
                //this will help use group the maps by year run 
                startYear = this.mySimManager.StartSeasonDate.Year.ToString();
-               this.mySimManager.Maps.OutMapPath = this.fdbCommon.SelectedPath + '\\' + startYear;
+               this.mySimManager.MapManager.OutMapPath = this.fdbCommon.SelectedPath + '\\' + startYear;
                if(! this.mySimManager.makeInitialAnimalMaps())
                {
                   System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage,"Error");
                   this.mySimManager.ErrMessage = "";
                }
-               if(! mySimManager.makeTempMap())
-               {
-                  System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage,"Error");
-                  this.mySimManager.ErrMessage = "";
-               }
+               
 
             }
 
@@ -2799,7 +2796,7 @@ namespace PAZ_Dispersal
          bool success = true;
          if (this.areTextBoxesFilled(this.simulationText))
          {
-            if(this.mySimManager.Maps.OutMapPath != null)
+            if(this.mySimManager.MapManager.OutMapPath != null)
             {
                this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
                this.mySimManager.AnimalManager.setResidentModifierValues(System.Convert.ToDouble(this.txtResDieTimeStep.Text),
@@ -2821,7 +2818,7 @@ namespace PAZ_Dispersal
             else
             {
                success = false;
-               MessageBox.Show("You need to set the out put directory first using the 'Set Output For Maps' button");
+               MessageBox.Show("You need to set the out put directory first using the 'Set Output For MapManager' button");
                this.btnOutMapDir.Focus();
             }
          }
@@ -3197,7 +3194,7 @@ namespace PAZ_Dispersal
          xw.WriteEndElement();//end of resident element
 			
          xw.WriteStartElement("Output");
-         xw.WriteElementString("OutputPath",this.mySimManager.Maps.OutMapPath);
+         xw.WriteElementString("OutputPath",this.mySimManager.MapManager.OutMapPath);
          xw.WriteElementString("TextOutput",this.mySimManager.DoTextOutPut.ToString());
          xw.WriteEndElement();//end of output element
          xw.WriteEndElement();//end of Simulation tab element
@@ -3651,7 +3648,7 @@ namespace PAZ_Dispersal
          temp.MoveNext();
          temp = nit.Current.Select("//OutputPath");
          temp.MoveNext();
-         this.mySimManager.Maps.OutMapPath =  temp.Current.Value;
+         this.mySimManager.MapManager.OutMapPath =  temp.Current.Value;
          temp = nit.Current.Select("//TextOutput");
          temp.MoveNext();
          this.chkTextOutPut.Checked = System.Boolean.Parse(temp.Current.Value);

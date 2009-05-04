@@ -84,7 +84,7 @@ namespace PAZ_Dispersal
             changeMaps = false;
             int currIndex = this.mMyTriggers.Length - 1;
             fw.writeLine("");
-            fw.writeLine("inside Maps changeMap for map type " + mMapType + " at simulation datetime " + now.ToShortDateString() + " " + now.ToShortTimeString());
+            fw.writeLine("inside MapManager changeMap for map type " + mMapType + " at simulation datetime " + now.ToShortDateString() + " " + now.ToShortTimeString());
             this.dumpTriggersHere();
             if (this.mMyTriggers.Length > 1)
             {
@@ -132,7 +132,7 @@ namespace PAZ_Dispersal
          try
          {
             fw.writeLine("inside changeMap(DateTime now, AnimalManager am) calling changeMap(now)");
-            string previousMapName = MapManager.GetUniqueInstance().SocialMap.fullFileName;
+            string previousMapName = MapManager.GetUniqueInstance().SocialMap.FullFileName;
             this.changeMap(now);
             if (this.mMapType == "Social" && changeMaps == true)
             {
@@ -226,7 +226,7 @@ namespace PAZ_Dispersal
       {
          try
          {
-            fw.writeLine("inside loadXMLTriggers for " + this.mMapType + " Maps");
+            fw.writeLine("inside loadXMLTriggers for " + this.mMapType + " MapManager");
             mMyTriggers = new MapSwapTrigger[inIterator.Count];
             int index = -1;
             while (inIterator.MoveNext())
