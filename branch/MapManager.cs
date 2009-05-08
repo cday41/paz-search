@@ -150,10 +150,10 @@ private static MapManager uniqueInstance;
          {
             
             string mapPath = this.myAnimalMaps[AnimalID].FullFileName;
-            string clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + ".shp";
-            string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + ".shp";
-            string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + ".shp";
-            string dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + ".shp";
+            string clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+            string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+            string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+            string dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
       
             fw.writeLine("inside AddTimeSteps for ManManager the animal id is " + AnimalID.ToString());
             fw.writeLine("time step is " + timeStep.ToString());
@@ -162,25 +162,21 @@ private static MapManager uniqueInstance;
            
             fw.writeLine("back in AddTimeSteps now going to clip against the social map");
             this.myDataManipulator.Clip(this.mySocialMap.FullFileName, timeStepPath, clipPath );
-            this.myDataManipulator.DeleteAllFeatures(timeStepPath);
+            
             fw.writeLine("back from Clipping now update the Current Animal Map");
              //this is to get the current occupied or not at this time because
              // it could change over time.
-            //this.myDataManipulator.UpdateAnimalMap(this.myAnimalMaps[AnimalID].FullFileName, this.OutMapPath + "\\Clippy.shp", @"C:\Map\2008\0\new.shp");
             if (timeStep == 0)
             {
                //if the first time through then we only need to add it to the map
                fw.writeLine("Calling Copy to Animal Map since it is the first time step");
                this.myDataManipulator.CopyToAnimalMap(mapPath, clipPath);
-               this.myDataManipulator.DeleteAllFeatures(clipPath);
                this.myDataManipulator.Dissolve(mapPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
             }
             else
             {
                fw.writeLine("Calling update the animal map");
-              // this.myDataManipulator.CopyToAnimalMap(mapPath, clipPath);
                this.myDataManipulator.UnionAnimalClipData(mapPath,clipPath,unionPath);
-               this.myDataManipulator.DeleteAllFeatures(clipPath);
                this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
             }
             fw.writeLine("Now calling dissovle maps");
@@ -188,7 +184,6 @@ private static MapManager uniqueInstance;
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             this.removeAnimalMap(this.myAnimalMaps[AnimalID].mySelf);
             this.myDataManipulator.CopyToAnimalMap(mapPath, dissolvePath);
-            this.myDataManipulator.DeleteAllFeatures(dissolvePath);
 
          }
          catch (System.Exception ex)

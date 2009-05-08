@@ -41,8 +41,8 @@ namespace PAZ_Dispersal
       {
          myProcessor = new Geoprocessor();
          fw = FileWriter.FileWriter.getDataLogger(@"C:\DataLogger.log");
-         tempLayer1 = System.IO.Directory.GetCurrentDirectory() + "\\layer1";
-         tempLayer2 = System.IO.Directory.GetCurrentDirectory() + "\\layer2";
+         tempLayer1 = "\\layer1";
+         tempLayer2 = "\\layer2";
       }
 
 		#endregion Constructors 
@@ -71,14 +71,39 @@ namespace PAZ_Dispersal
       {
          IFeatureClass fc;
          IQueryFilter qf;
+         int SUITABILIT;
+         int OCCUP_MALE;
+         int OCCUP_FEMA;
+         int SUITABIL_1;
+         int OCCUP_MA_1;
+         int OCCUP_FE_1;
+         string suitValue;
+         string occMale;
+         string occFemale;
+         
          GetFeatureClassFromFileName(UnionPath, out fc, out qf);
          IField field = fc.Fields.get_Field(2);
          qf.WhereClause = field.AliasName + " = -1";
          IFeatureCursor curr = fc.Update(qf, false);
+         SUITABILIT = curr.FindField("SUITABILIT");
+         OCCUP_MALE = curr.FindField("OCCUP_MALE");
+         OCCUP_FEMA = curr.FindField("OCCUP_FEMA");
+         SUITABIL_1 = curr.FindField("SUITABIL_1");
+         OCCUP_MA_1 = curr.FindField("OCCUP_MA_1");
+         OCCUP_FE_1 = curr.FindField("OCCUP_FE_1");
+
          IFeature feat = curr.NextFeature();
          while (feat != null)
          {
-            curr.DeleteFeature();
+            suitValue = feat.get_Value(SUITABIL_1).ToString();
+            occMale = feat.get_Value(OCCUP_MA_1).ToString();
+            occFemale = feat.get_Value(OCCUP_FE_1).ToString();
+
+            feat.set_Value(SUITABILIT, suitValue);
+            feat.set_Value(OCCUP_MALE, occMale);
+            feat.set_Value(OCCUP_FEMA, occFemale);
+
+            feat.Store();
             feat = curr.NextFeature();
          }
          curr.Flush();
@@ -204,20 +229,21 @@ namespace PAZ_Dispersal
 
       private void RunProcess(IGPProcess inProcess, ITrackCancel inCancel)
       {
-
          try
          {
+            string toolbox = inProcess.ToolboxName;
+            fw.writeLine("inside run process");
+            fw.writeLine("the process I want to run is " + inProcess.ToolName);
+            fw.writeLine("the tool box is " + toolbox);
             myProcessor.OverwriteOutput = true;
-         
             myProcessor.Execute(inProcess, null);
             ReturnMessages(myProcessor);
-
+            myProcessor.RemoveToolbox(toolbox);
          }
          catch (Exception ex)
          {
             Console.WriteLine(ex.Message);
             ReturnMessages(myProcessor);
-
          }
       }
 
@@ -230,14 +256,20 @@ namespace PAZ_Dispersal
          this.RunProcess(selectByValue, null);
       }
 
+      
       private void UnionFeatures(string LayerList, string fc)
       {
-         fw.writeLine("insied UnionFeatures going to make " + fc);
+         fw.writeLine("inside UnionFeatures going to make " + fc);
+         fw.writeLine("my layer list is " + LayerList);
          Union u = new Union();
+         fw.writeLine("made new union tool");
          u.in_features = LayerList;
+         fw.writeLine("just set the layers");
          u.out_feature_class = fc;
+         fw.writeLine("set the feature class");
          fw.writeLine("Calling Run Process");
          this.RunProcess(u, null);
+         fw.writeLine("back from runprocess");
       }
 
 		#endregion Private Methods 
