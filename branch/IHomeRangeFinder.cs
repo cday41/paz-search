@@ -5,6 +5,7 @@ namespace PAZ_Dispersal
    {
      // bool FindHomeRange(Animal inAnimal,AnimalMap inMap);
       bool setHomeRangeCenter(Animal inAnimal, IFeatureClass inAnmialMemoryMap);
+      bool setHomeRangeCenter(Animal inA, string inFileName);
 
    }
 }

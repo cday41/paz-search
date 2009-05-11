@@ -9,7 +9,7 @@ namespace PAZ_Dispersal
 	public class InitialAnimalAttributes
 	{
       private char mySex;
-      private PointClass myLocation;
+      private IPoint myLocation;
       private int myNumToMake;
       private string myOrginalID;
 
@@ -37,7 +37,7 @@ namespace PAZ_Dispersal
 			set { mySex = value; }
 		}
 
-      public PointClass Location
+      public IPoint Location
 		{
 			get { return myLocation; }
 			set { myLocation = value; }

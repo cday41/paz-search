@@ -12,16 +12,16 @@ namespace PAZ_Dispersal
    /// <summary>
    /// Summary description for ClosestHomeRangeFinder.
    /// </summary>
-   public sealed class ClosestHomeRangeFinder:HomeRangeFinder
-   {  
+   public sealed class ClosestHomeRangeFinder : HomeRangeFinder
+   {
       #region private member variables
-      
+
       static ClosestHomeRangeFinder uniqueInstance;
       #endregion
 
       public static ClosestHomeRangeFinder getInstance()
       {
-         if (uniqueInstance==null)
+         if (uniqueInstance == null)
          {
             uniqueInstance = new ClosestHomeRangeFinder();
          }
@@ -29,47 +29,36 @@ namespace PAZ_Dispersal
       }
       private ClosestHomeRangeFinder()
       {
-         
+
       }
 
-      public override bool setHomeRangeCenter(Animal inAnimal, IFeatureClass inAnmialMemoryMap)
+      public override bool setHomeRangeCenter(Animal inAnimal, string fileName)
       {
          bool success = false;
-         IFeatureCursor fc;
-         int currStep;
+         int index;
          double polyArea;
-         IPolygon currPoly;
+         PointClass currEligibleSite=null;
          try
          {
-            Check.Require(inAnmialMemoryMap != null,"InAnimalMap is null in ClosetHomeRanage finder");
-            fw.writeLine("inside the setHomeRangeCenter in the ClosestHomeRangeFinder for george number " + inAnimal.IdNum.ToString());
-            fw.writeLine("making the feature class and feature cursor");
-            fc = this.getSuitablePolygons(inAnmialMemoryMap);
-            fw.writeLine("now calling make array of polygons");
-            makeArrayOfPolygons(fc);
-            fw.writeLine("now loop through the sites");
-            for(currStep = inAnimal.getNumStepsInPath();currStep>=0 && success == false;currStep--)
+            string sex = inAnimal.Sex;
+            this.setSuitableSites(inAnimal, fileName);
+            double requiredArea = inAnimal.HomeRangeArea;
+            for (index = inAnimal.MySites.Count-1; index >= 0; index--)
             {
-
-               IPoint p = inAnimal.getLocation(currStep);
-               fw.writeLine("current point is x = " + p.X.ToString() + " y = " + p.Y.ToString() );
-               currPoly = this.getPolygon(p);
-               if (currPoly != null)//if null was not in a suitable polygon
+               currEligibleSite = inAnimal.GetEligibleStep(index);
+               if (this.getArea(currEligibleSite) >= requiredArea)
                {
-                  polyArea = this.getArea(currPoly);
-                  fw.writeLine("current polygon is " + polyArea.ToString());
-                  fw.writeLine("george needs " + inAnimal.HomeRangeArea.ToString());
-                  if (polyArea >= inAnimal.HomeRangeArea)
-                  {
-                     fw.writeLine("ok big enough area");
-                     inAnimal.HomeRangeCenter = p as PointClass;
-                     success = true;
-                  }
+
+                  inAnimal.HomeRangeCenter = currEligibleSite;
+                  
+                  success = true;
+                  break;
                }
             }
 
+           
          }
-         catch(System.Exception ex)
+         catch (System.Exception ex)
          {
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);

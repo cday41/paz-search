@@ -13,156 +13,105 @@ namespace PAZ_Dispersal
    public class Map
    {
 
+		#region Static Methods (2) 
 
-      #region privateData
-      private DateTime mBeginTime;
-      protected FileWriter.FileWriter fw;
-      protected IFeatureClass mMySelf;
-      private IFeature myFeature;
-      protected IFeatureLayer myFeatureLayer;
-      private IField myField;
-      private IMap myMap;
-      private object myObject;
-      protected IWorkspaceName wsName;
-      protected IDatasetName dsName;
-      protected IFeatureClassName outShapeFileName;
-      protected string myPath;
-      protected string myFileName;
-      protected string mTypeOfMap;
-      private string mChangeType;
-      private string fullFileName;
-      private Hashtable myHash;
-      
-      #endregion
-
-      #region gettersAndSetters
-
-      public string ChangeType
+      public static IPolygon BuildHomeRangePolygon(Animal inAnimal, double stretchFactor)
       {
-         get { return mChangeType; }
-         set { mChangeType = value; }
+         const int numberOfPoints = 30;
+         IPointCollection boundaryPoints = new PolygonClass();
+         IPointCollection myPoints = new MultipointClass();
+         double[] anglesList = new double[numberOfPoints];
+         RandomNumbers rn = RandomNumbers.getInstance();
+         IGeometry geom = null;
+         double angle = 0;
+         double radius = 0;
+         IPoint tempPoint;
+         object missing = Type.Missing;
+
+
+         geom = (IGeometry)boundaryPoints;
+
+
+         for (int i = 0; i < numberOfPoints; i++)
+         {
+            anglesList[i] = (rn.getUniformRandomNum() * Math.PI * 2);
+         }
+         System.Array.Sort(anglesList);
+         //go backwards to get clockwise polygon for external ring
+         for (int i = numberOfPoints - 1; i >= 0; i--)
+         {
+            tempPoint = new PointClass();
+            angle = anglesList[i];
+            //radius is slightly larger than needed for home range to compensate for not being a circle
+            radius = Math.Sqrt(1000000 * inAnimal.HomeRangeArea / Math.PI) * rn.getPositiveNormalRandomNum(1.2, .1) * stretchFactor;
+            tempPoint.X = inAnimal.HomeRangeCenter.X + radius * Math.Cos(angle);
+            tempPoint.Y = inAnimal.HomeRangeCenter.Y + radius * Math.Sin(angle);
+            boundaryPoints.AddPoint(tempPoint, ref missing, ref missing);
+         }
+
+         return boundaryPoints as PolygonClass;
       }
 
-      public DateTime BeginTime
+      public static IFeatureClass getMap(string path, string fileName)
       {
-         get { return mBeginTime; }
-         set { mBeginTime = value; }
-      }
-
-      public string FullFileName
-      {
-         get { return fullFileName; }
-         set { this.fullFileName = value; }
-      }
-      public string TypeOfMap
-      {
-         get { return mTypeOfMap; }
-         set  { mTypeOfMap = value; }
-      }
-
-      public IFeatureClass mySelf
-      {
-         get { return mMySelf; }
-         set { mMySelf = value; }
-      }
-      public string Path
-      {
-         get { return this.myPath; }
-         set {this.myPath = value;}
-      }
-      
-      #endregion
-
-      #region constructors
-      public Map()
-      {
-         buildLogger();
-         outShapeFileName = new FeatureClassNameClass();
-         wsName = new WorkspaceNameClass();
-         myHash = new Hashtable();
-         this.myFeatureLayer = new FeatureLayerClass();
-         this.myMap = new MapClass();
-         this.myFeature = null;
-        
-      }
-    
-      public Map(string path,string fileName,IGeometryDef inGeoDef,IFields inFieldsCollection):this()
-      {
-        
+         IFeatureClass ifc = null;
+         string newPath = path + "\\" + fileName;
          try
          {
-            myPath = path;
-            myFileName = fileName;
-            IWorkspaceFactory shpWkspFactory = new ShapefileWorkspaceFactoryClass();
-            IFeatureWorkspace shapeWksp = null;
-            IPropertySet connectionProperty = new PropertySetClass();
-            IGeometryDefEdit geoDef = new GeometryDefClass();
-            IFieldsEdit fieldsEdit = (IFieldsEdit)inFieldsCollection;
-            
-            connectionProperty.SetProperty ("DATABASE",path);
-            shapeWksp = (IFeatureWorkspace) shpWkspFactory.Open(connectionProperty,0);
-            this.mySelf = shapeWksp.CreateFeatureClass(fileName,fieldsEdit,null,null,esriFeatureType.esriFTSimple,"Shape","");
-
-
+            IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
+            IFeatureWorkspace featureWorkspace=null;
+            featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(newPath,0);
+            ifc = featureWorkspace.OpenFeatureClass(fileName);
          }
          catch(System.Exception ex)
          {
-           
-            if (ex.Source == "ESRI.ArcGIS.Geodatabase")
-            {
-               //mErrMessage = "That Directory is full with maps already";
-               throw new System.Exception("That Directory is full with maps already");
-            }
-#if DEBUG
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return ifc;
+      }
+
+      public static IFeatureClass openFeatureClass(string path,string fileName)
+      {
+         IName name=null;
+         try
+         {
+            // Create the workspace name object
+            IWorkspaceName workspaceName = new WorkspaceNameClass();
+            workspaceName.PathName = path;
+            workspaceName.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapefileWorkspaceFactory";
+
+            // Create the feature class name object
+            IDatasetName datasetName = new FeatureClassNameClass();
+            datasetName.Name          = fileName;
+            datasetName.WorkspaceName = workspaceName;
+
+            // Open the feature class
+            name = (IName) datasetName;
+		
+            
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
             FileWriter.FileWriter.WriteErrorFile(ex);
-           
          }
-        
+         // Return FeaureClass
+         return (IFeatureClass) name.Open();
+
       }
 
-     
-      public Map(IFeatureClass inSelf):this()
-      {
-         mMySelf = inSelf;
-      }
-      public Map(IFeatureClass inSelf, string fullName):this()
-      {
-         mMySelf = inSelf;
-         this.fullFileName = fullName;
-      }
-      
-      #endregion
+		#endregion Static Methods 
 
-      #region publicMethods
-      public void getMap()
-      {
-      }
-      /********************************************************************************
-       *   Function name   : getCrossOverInfo
-       *   Description     : If the movement of an animal is going to cross from one
-       *                     polygon to another we need to know how far he would
-       *                     go in one polygon, where the animal would cross.
-       * 
-       * // how much do I like the polygon i am in and how much do I like the other polygon
-       *   Return type     : crossOverInfo data structre for returning the data cleanly
-       *   Argument        : IPoint startPoint  movement starting point
-       *   Argument        : IPoint endPoint    movement endiing point
-       *  
-       * ********************************************************************************/
+		#region Public Methods (25) 
+
       public void addDay()
       {
          fw.writeLine("inside add day for " + this.mySelf.AliasName + " adding a day to the start time");
          this.BeginTime = this.BeginTime.AddDays(1);
       }
-      public void addYear()
-      {
-         fw.writeLine("inside add year for " + this.mySelf.AliasName + " adding a year to the start time");
-         fw.writeLine("before adding year = " + this.BeginTime.ToShortDateString());
-         this.BeginTime = this.BeginTime.AddYears(1);
-         fw.writeLine("after adding year = " + this.BeginTime.ToShortDateString());
-      }
+
       public void addField(string name,esriFieldType type)
       {
          IFieldEdit fieldEdit;
@@ -171,6 +120,236 @@ namespace PAZ_Dispersal
          fieldEdit.Type_2 = type;//esriFieldType.esriFieldTypeSmallInteger;
          this.mySelf.AddField(fieldEdit);
 
+
+      }
+
+      public void addYear()
+      {
+         fw.writeLine("inside add year for " + this.mySelf.AliasName + " adding a year to the start time");
+         fw.writeLine("before adding year = " + this.BeginTime.ToShortDateString());
+         this.BeginTime = this.BeginTime.AddYears(1);
+         fw.writeLine("after adding year = " + this.BeginTime.ToShortDateString());
+      }
+
+      public void disovleFeatures(string fieldName)
+      {
+         ITable myTable = null;
+         IDatasetName dsName = null;
+         IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
+         IFeatureClassName fcn = new FeatureClassNameClass();
+         try
+         { 
+            fcn.FeatureType=this.mySelf.FeatureType;
+            fcn.ShapeType = this.mySelf.ShapeType;
+            fcn.ShapeFieldName = this.mySelf.ShapeFieldName;
+
+            dsName=(IDatasetName)fcn;
+            dsName.Name = "testDisolove";
+            dsName.WorkspaceName=this.getWorkspaceName();
+           
+            myTable = this.getTable();
+            if (myTable.FindField(fieldName) >= 0)
+            {
+               ITable t = bgp.Dissolve(myTable,false,fieldName,"Dissolve.Shape,Minimum."+fieldName,dsName);
+            }
+            else
+            {
+#if debug
+               System.Windows.Forms.MessageBox.Show(fieldName + " can not be found for dissolve");
+#endif
+            }
+
+
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+        
+         
+         
+         
+
+
+      }
+
+      public void dissolvePolygons(string inFieldName)
+      {
+         try
+         {
+            IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
+            fw.writeLine("inside map mergepolygons clear out any exsiting layers");
+            this.myMap.ClearLayers();
+            fw.writeLine("make the feature class layer and add to map");
+            this.myFeatureLayer = (IFeatureLayer)getLayer();
+            ITable t = (ITable) this.myFeatureLayer;
+            fw.writeLine("now work on the workspace thing");
+            IWorkspaceName wsName = getWorkspaceName();
+            IFeatureClassName outShapeFileName = new FeatureClassNameClass();
+            outShapeFileName.FeatureType = mMySelf.FeatureType;
+            outShapeFileName.ShapeType = mMySelf.ShapeType;
+            outShapeFileName.ShapeFieldName = mMySelf.ShapeFieldName;
+            IDatasetName dsName=(IDatasetName)outShapeFileName;
+            dsName.Name = this.myFileName;
+            dsName.WorkspaceName = wsName;
+
+            t = bgp.Dissolve(t,false,inFieldName,"Dissolve.Shape",dsName);
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+      public double getAllAvailableArea(int inAnimalID, string sex)
+      {
+         IArea a;
+         //HACK remove after testing
+         int numFeature = 0;
+         double area = 0;double d = 0;
+         IFeatureCursor search = null;
+         fw.writeLine("inside getAllAvailableArea for animal id " + inAnimalID.ToString() + " who is " + sex);
+         try
+         {
+            IFeature f = null;
+            
+            IQueryFilter qf = new QueryFilterClass();
+            if (sex.ToUpper() == "MALE")
+               qf.WhereClause = "OCCUP_MALE = '" + inAnimalID.ToString() + "'";
+            else
+               qf.WhereClause = "OCCUP_FEMA = '" + inAnimalID.ToString() + "'";
+            
+            fw.writeLine("so my cursor where clause is " + qf.WhereClause);
+            search = this.mySelf.Search(qf,false);
+            fw.writeLine("just filled the cursor");
+            
+            f = search.NextFeature();
+            while (f != null)
+            {
+               
+               a = (IArea)f.ShapeCopy;
+               d = a.Area /(1000000);
+               area += d;
+               fw.writeLine("working on feature number " + numFeature.ToString());
+               fw.writeLine("that feature has " + a.Area.ToString());
+               fw.writeLine("so after area/(1000000) value is " + d.ToString());
+               fw.writeLine("so current total area is " + area.ToString());
+              
+               f = search.NextFeature();
+            }
+
+
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         finally
+         {
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(search);
+         }
+         return area;
+      }
+
+      /********************************************************************************
+       *  Function name   : getAllValuesForSinglePolygon
+       *  Description     : finds the specific polygon requested.  Then loops throug
+       *                    all the fields in the database row for that polygon.
+       *                    and adds them to the hash table with the name as the key
+       *                    and the value as an objec.  The calling methos must know 
+       *                    how to convert the object based on the names.
+       *  Return type     : Hashtable 
+       *  Argument        : int inPolyIndex
+       * *******************************************************************************/
+      public Hashtable getAllValuesForSinglePolygon(int inPolyIndex)
+      {
+         fw.writeLine("inside getAllValuesForSinglePolygon for poly index" + inPolyIndex.ToString());
+         fw.writeLine("my map name is " + this.mySelf.AliasName);
+         try
+         {
+            //clear out the hashtable
+            this.myHash.Clear();
+          
+              
+            //get the feature
+            myFeature = this.mySelf.GetFeature(inPolyIndex);
+            //loop through all the fields in the database
+            for(int i=0;i<myFeature.Fields.FieldCount;i++)
+            {
+               myField = myFeature.Fields.get_Field(i);
+               //do not want the two fields that esri adds
+               if ((myField.Type != esriFieldType.esriFieldTypeGeometry) &&
+                  (myField.Type != esriFieldType.esriFieldTypeOID))
+               {
+                  fw.writeLine("getting the value for " + myField.Name);
+                  fw.writeLine("the value is " + myFeature.get_Value(i).ToString());
+                  this.myHash.Add(myField.Name,myFeature.get_Value(i));
+               }
+            }
+         }
+        
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         fw.writeLine("leaving getAllValuesForSinglePolygon");
+         return this.myHash;
+	
+      }
+
+      public double getArea(IPoint inPoint)
+      {
+         double d = -1;
+         IFeature tempPoly = null;
+         IArea tempArea;
+         int polyIndex = -1;
+         try
+         {
+            polyIndex = this.getCurrentPolygon(inPoint);
+            tempPoly = this.mySelf.GetFeature(polyIndex);
+            tempArea = tempPoly.Shape as IArea;
+            d = tempArea.Area;  
+
+         }
+         catch(System.Exception ex)
+         {
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show (ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return d;
+      }
+
+      public double getAvailableArea(int inPolyIndex)
+      {
+         double area = 0;
+         try
+         {
+            IFeature f = this.mySelf.GetFeature(inPolyIndex);
+            IArea a = (IArea)f.ShapeCopy;
+            area = a.Area/(1000^2);
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return area;
 
       }
 
@@ -247,6 +426,7 @@ namespace PAZ_Dispersal
          }
          return coInfo;
       }
+
       public crossOverInfo getCrossOverInfo(IPoint startPoint,IPoint endPoint,ref int curPolyIndex, ref int newPolyIndex)
       {
          crossOverInfo coInfo = new crossOverInfo();
@@ -387,441 +567,6 @@ namespace PAZ_Dispersal
          return coInfo;
       }
 
-      public void disovleFeatures(string fieldName)
-      {
-         ITable myTable = null;
-         IDatasetName dsName = null;
-         IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
-         IFeatureClassName fcn = new FeatureClassNameClass();
-         try
-         { 
-            fcn.FeatureType=this.mySelf.FeatureType;
-            fcn.ShapeType = this.mySelf.ShapeType;
-            fcn.ShapeFieldName = this.mySelf.ShapeFieldName;
-
-            dsName=(IDatasetName)fcn;
-            dsName.Name = "testDisolove";
-            dsName.WorkspaceName=this.getWorkspaceName();
-           
-            myTable = this.getTable();
-            if (myTable.FindField(fieldName) >= 0)
-            {
-               ITable t = bgp.Dissolve(myTable,false,fieldName,"Dissolve.Shape,Minimum."+fieldName,dsName);
-            }
-            else
-            {
-#if debug
-               System.Windows.Forms.MessageBox.Show(fieldName + " can not be found for dissolve");
-#endif
-            }
-
-
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-        
-         
-         
-         
-
-
-      }
-      public bool hasFeatures()
-      {
-         return this.mySelf.FeatureCount(null) > 0;
-      }
-      public double getArea(IPoint inPoint)
-      {
-         double d = -1;
-         IFeature tempPoly = null;
-         IArea tempArea;
-         int polyIndex = -1;
-         try
-         {
-            polyIndex = this.getCurrentPolygon(inPoint);
-            tempPoly = this.mySelf.GetFeature(polyIndex);
-            tempArea = tempPoly.Shape as IArea;
-            d = tempArea.Area;  
-
-         }
-         catch(System.Exception ex)
-         {
-#if DEBUG
-            System.Windows.Forms.MessageBox.Show (ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return d;
-      }
-      //      public void GetMoveModifiers(int PolyIndex,ref double MVL,ref double MSL, ref double PerceptionModifier, ref double EnergyUsed)
-      //      {
-      //         MVL = 1;
-      //         MSL = 1;
-      //         EnergyUsed = 1;
-      //         // PerceptionModifier = 1;
-      //         IFeature currPoly = null;
-      //         currPoly = this.mySelf.GetFeature(PolyIndex);
-      //         IRowBuffer rowBuf =(IRowBuffer)currPoly;
-      //         IField field = null;
-      //         
-      //         // fw.writeLine("");
-      //         for(int i=0;i<rowBuf.Fields.FieldCount;i++)
-      //         {
-      //            field = rowBuf.Fields.get_Field(i);
-      //            switch (field.Name)
-      //            {
-      //               case "MVL":
-      //                  MVL = MVL * System.Convert.ToDouble(rowBuf.get_Value(i));
-      //                  break;
-      //               case "MSL":
-      //                  MSL = MSL * System.Convert.ToDouble(rowBuf.get_Value(i));
-      //                  break;
-      //               case "ENERGYUSED":
-      //                  EnergyUsed = EnergyUsed * System.Convert.ToDouble(rowBuf.get_Value(i));
-      //                  break;
-      //               default:
-      //                  break;
-      //            }//end switch
-      //         }//end looping through the fields
-      //      }
-      //
-      //      public void GetFoodData(IPoint location,ref double chance,ref double mean, ref double sd)
-      //      {
-      //         IFeature currPoly = null;
-      //         IField field = null;
-      //         int currPolyIndex = 0;
-      //
-      //     
-      //         try
-      //         {
-      //            currPolyIndex = this.getCurrentPolygon(location);
-      //            fw.writeLine("inside get food data on map looking for the polygon at index " + currPolyIndex.ToString());
-      //            //currPolyIndex--;
-      //            currPoly = this.mySelf.GetFeature(currPolyIndex);
-      //            IRowBuffer rowBuf =(IRowBuffer)currPoly;
-      //         
-      //            // fw.writeLine("");
-      //            for(int i=0;i<rowBuf.Fields.FieldCount;i++)
-      //            {
-      //               field = rowBuf.Fields.get_Field(i);
-      //               switch (field.Name)
-      //               {
-      //                  case "PROBCAP":
-      //                     chance = System.Convert.ToDouble(rowBuf.get_Value(i));
-      //                     break;
-      //                  case "X_SIZE":
-      //                     mean = System.Convert.ToDouble(rowBuf.get_Value(i));
-      //                     break;
-      //                  case "SD_SIZE":
-      //                     sd = System.Convert.ToDouble(rowBuf.get_Value(i));
-      //                     break;
-      //                  default:
-      //                     break;
-      //               }//end switch
-      //            }//end looping through the fields
-      //        
-      //            fw.writeLine("leaving getfood with the following values");
-      //            fw.writeLine("chance =  " + chance.ToString());
-      //            fw.writeLine("x size = " + mean.ToString());
-      //            fw.writeLine("sd size = " + sd.ToString());
-      //         }
-      //         catch(System.Exception ex)
-      //         {
-      //            FileWriter.FileWriter.WriteErrorFile(ex);
-      //         }
-      //         
-      //      }
-      //      public void GetRiskModifier(int PolyIndex,ref double risk)
-      //      {
-      //         IFeature currPoly = null;
-      //         IField field = null;
-      //         IRowBuffer rowBuf = null;
-      //
-      //         try
-      //         {
-      //            currPoly = this.mySelf.GetFeature(PolyIndex);
-      //            rowBuf =(IRowBuffer)currPoly;
-      //            for(int i=0;i<rowBuf.Fields.FieldCount;i++)
-      //            {
-      //               field = rowBuf.Fields.get_Field(i);
-      //               if (field.Name == "RISK")
-      //               {
-      //                  risk = risk * System.Convert.ToDouble(rowBuf.get_Value(i));
-      //                  break;
-      //               }
-      //            }
-      //         }
-      //         catch(System.Exception ex)
-      //         {
-      //            FileWriter.FileWriter.WriteErrorFile(ex);
-      //         }
-      //      }
-
-
-     
-      /********************************************************************************
-       *   Function name   : makeNewMap
-       *   Description     : 
-       *   Return type     : void 
-       * ********************************************************************************/
-     
-       
-      public static IFeatureClass getMap(string path, string fileName)
-      {
-         IFeatureClass ifc = null;
-         string newPath = path + "\\" + fileName;
-         try
-         {
-            IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
-            IFeatureWorkspace featureWorkspace=null;
-            featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(newPath,0);
-            ifc = featureWorkspace.OpenFeatureClass(fileName);
-         }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return ifc;
-      }
-
-      public void getNumResidents(out int numMales, out int numFemales)
-      {
-         numFemales = 0;
-         numMales = 0;
-         fw.writeLine("inside getNumResidents for map " + this.mySelf.AliasName);
-         try
-         {
-            
-            numMales = this.getNumRes("male");
-            numFemales = this.getNumRes("female");
-
-         }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-         }
-      }
-      public static IFeatureClass openFeatureClass(string path,string fileName)
-      {
-         IName name=null;
-         try
-         {
-            // Create the workspace name object
-            IWorkspaceName workspaceName = new WorkspaceNameClass();
-            workspaceName.PathName = path;
-            workspaceName.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapefileWorkspaceFactory";
-
-            // Create the feature class name object
-            IDatasetName datasetName = new FeatureClassNameClass();
-            datasetName.Name          = fileName;
-            datasetName.WorkspaceName = workspaceName;
-
-            // Open the feature class
-            name = (IName) datasetName;
-		
-            
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         // Return FeaureClass
-         return (IFeatureClass) name.Open();
-
-      }
-
-      /********************************************************************************
-       *   Function name   : pointInPolygon
-       *   Description     : checks to see if the point is in the specific polygon
-       *   Return type     : bool   true if it is and false otherwise
-       *   Argument        : IPoint inPoint  the point we are concerned about
-       *   Argument        : int inPolygonIndex index of the polygon to look in
-       * ********************************************************************************/
-      public bool pointInPolygon(IPoint inPoint, int inPolygonIndex)
-      {
-         bool success = false;
-         IFeature tempPoly = null;
-         IPolygon searchPoly = null;
-         IRelationalOperator relOp = null;
-         fw.writeLine("");
-         fw.writeLine("inside pointInPolygon checking to see if the point is in the polygon");
-         fw.writeLine("point is at x = " + inPoint.X.ToString() + " y = " + inPoint.Y.ToString() );
-         fw.writeLine("the polygon checking is " + inPolygonIndex);
-         fw.writeLine("the map is " + this.mySelf.AliasName);
-         try
-         {
-            //if it was less then zero it can not be on the map
-            if(inPolygonIndex>=0)
-            {
-               //cast the point object into the relational operator 
-               relOp = (IRelationalOperator)inPoint;
-               tempPoly = this.mySelf.GetFeature(inPolygonIndex);
-               //get feature returns an IFeature object so we need to cast it
-               //to an IGeometry type to use the IRelationalOperator in this
-               //case we are going to cast it to a polygon
-               searchPoly = (IPolygon)tempPoly.ShapeCopy;
-               if (searchPoly != null)
-               {
-                  bool inside = relOp.Within(searchPoly);
-                  bool touches =  relOp.Touches(searchPoly);
-                  //HACK
-                  if(relOp.Within(searchPoly)|| relOp.Touches(searchPoly))
-                  {
-                     success = true;
-                  }
-               }
-            }
-         }
-         catch(System.Exception ex)
-         {
-           
-            FileWriter.FileWriter.WriteErrorFile(ex);
-   
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-         }
-         
-         fw.writeLine("leaving with a value of " + success.ToString());
-         fw.writeLine("");
-         return success;
-        
-
-      }
-      
-      /********************************************************************************
-       *  Function name   : getAllValuesForSinglePolygon
-       *  Description     : finds the specific polygon requested.  Then loops throug
-       *                    all the fields in the database row for that polygon.
-       *                    and adds them to the hash table with the name as the key
-       *                    and the value as an objec.  The calling methos must know 
-       *                    how to convert the object based on the names.
-       *  Return type     : Hashtable 
-       *  Argument        : int inPolyIndex
-       * *******************************************************************************/
-      
-
-      public Hashtable getAllValuesForSinglePolygon(int inPolyIndex)
-      {
-         fw.writeLine("inside getAllValuesForSinglePolygon for poly index" + inPolyIndex.ToString());
-         fw.writeLine("my map name is " + this.mySelf.AliasName);
-         try
-         {
-            //clear out the hashtable
-            this.myHash.Clear();
-          
-              
-            //get the feature
-            myFeature = this.mySelf.GetFeature(inPolyIndex);
-            //loop through all the fields in the database
-            for(int i=0;i<myFeature.Fields.FieldCount;i++)
-            {
-               myField = myFeature.Fields.get_Field(i);
-               //do not want the two fields that esri adds
-               if ((myField.Type != esriFieldType.esriFieldTypeGeometry) &&
-                  (myField.Type != esriFieldType.esriFieldTypeOID))
-               {
-                  fw.writeLine("getting the value for " + myField.Name);
-                  fw.writeLine("the value is " + myFeature.get_Value(i).ToString());
-                  this.myHash.Add(myField.Name,myFeature.get_Value(i));
-               }
-            }
-         }
-        
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         fw.writeLine("leaving getAllValuesForSinglePolygon");
-         return this.myHash;
-	
-      }
-      
-      public double getAvailableArea(int inPolyIndex)
-      {
-         double area = 0;
-         try
-         {
-            IFeature f = this.mySelf.GetFeature(inPolyIndex);
-            IArea a = (IArea)f.ShapeCopy;
-            area = a.Area/(1000^2);
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return area;
-
-      }
-      public double getAllAvailableArea(int inAnimalID, string sex)
-      {
-         IArea a;
-         //HACK remove after testing
-         int numFeature = 0;
-         double area = 0;double d = 0;
-         IFeatureCursor search = null;
-         fw.writeLine("inside getAllAvailableArea for animal id " + inAnimalID.ToString() + " who is " + sex);
-         try
-         {
-            IFeature f = null;
-            
-            IQueryFilter qf = new QueryFilterClass();
-            if (sex.ToUpper() == "MALE")
-               qf.WhereClause = "OCCUP_MALE = '" + inAnimalID.ToString() + "'";
-            else
-               qf.WhereClause = "OCCUP_FEMA = '" + inAnimalID.ToString() + "'";
-            
-            fw.writeLine("so my cursor where clause is " + qf.WhereClause);
-            search = this.mySelf.Search(qf,false);
-            fw.writeLine("just filled the cursor");
-            
-            f = search.NextFeature();
-            while (f != null)
-            {
-               
-               a = (IArea)f.ShapeCopy;
-               d = a.Area /(1000000);
-               area += d;
-               fw.writeLine("working on feature number " + numFeature.ToString());
-               fw.writeLine("that feature has " + a.Area.ToString());
-               fw.writeLine("so after area/(1000000) value is " + d.ToString());
-               fw.writeLine("so current total area is " + area.ToString());
-              
-               f = search.NextFeature();
-            }
-
-
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         finally
-         {
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(search);
-         }
-         return area;
-      }
       public void GetInitialAnimalAttributes(out InitialAnimalAttributes [] outAttributes)
       {
          IPoint tmpPoint = null;
@@ -890,7 +635,7 @@ namespace PAZ_Dispersal
 
         
       }
-      
+
       public void GetInitialResidentInformation(out InitialAnimalAttributes [] outInfo)
       { 
          outInfo = null;
@@ -974,6 +719,7 @@ namespace PAZ_Dispersal
          }
          
       }
+
       public IFeatureLayer getLayer()
       {
          myMap.ClearLayers();
@@ -984,6 +730,11 @@ namespace PAZ_Dispersal
          return (IFeatureLayer)l;
 
       }
+
+      public void getMap()
+      {
+      }
+
       public object getNamedValueForSinglePolygon(int inPolyIndex,string inName)
       {
          this.myObject=null;
@@ -1010,6 +761,27 @@ namespace PAZ_Dispersal
 
       }
 
+      public void getNumResidents(out int numMales, out int numFemales)
+      {
+         numFemales = 0;
+         numMales = 0;
+         fw.writeLine("inside getNumResidents for map " + this.mySelf.AliasName);
+         try
+         {
+            
+            numMales = this.getNumRes("male");
+            numFemales = this.getNumRes("female");
+
+         }
+         catch(System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+         }
+      }
+
       public ITable getTable()
       {
          ITable t;
@@ -1017,7 +789,6 @@ namespace PAZ_Dispersal
          return t;
       }
 
-      
       public IWorkspaceName getWorkspaceName()
       {
          IWorkspaceName wsName=null;
@@ -1033,36 +804,71 @@ namespace PAZ_Dispersal
          }
          return wsName;
       }
-      public void dissolvePolygons(string inFieldName)
+
+      public bool hasFeatures()
       {
+         return this.mySelf.FeatureCount(null) > 0;
+      }
+
+      /********************************************************************************
+       *   Function name   : pointInPolygon
+       *   Description     : checks to see if the point is in the specific polygon
+       *   Return type     : bool   true if it is and false otherwise
+       *   Argument        : IPoint inPoint  the point we are concerned about
+       *   Argument        : int inPolygonIndex index of the polygon to look in
+       * ********************************************************************************/
+      public bool pointInPolygon(IPoint inPoint, int inPolygonIndex)
+      {
+         bool success = false;
+         IFeature tempPoly = null;
+         IPolygon searchPoly = null;
+         IRelationalOperator relOp = null;
+         fw.writeLine("");
+         fw.writeLine("inside pointInPolygon checking to see if the point is in the polygon");
+         fw.writeLine("point is at x = " + inPoint.X.ToString() + " y = " + inPoint.Y.ToString() );
+         fw.writeLine("the polygon checking is " + inPolygonIndex);
+         fw.writeLine("the map is " + this.mySelf.AliasName);
          try
          {
-            IBasicGeoprocessor bgp = new BasicGeoprocessorClass();
-            fw.writeLine("inside map mergepolygons clear out any exsiting layers");
-            this.myMap.ClearLayers();
-            fw.writeLine("make the feature class layer and add to map");
-            this.myFeatureLayer = (IFeatureLayer)getLayer();
-            ITable t = (ITable) this.myFeatureLayer;
-            fw.writeLine("now work on the workspace thing");
-            IWorkspaceName wsName = getWorkspaceName();
-            IFeatureClassName outShapeFileName = new FeatureClassNameClass();
-            outShapeFileName.FeatureType = mMySelf.FeatureType;
-            outShapeFileName.ShapeType = mMySelf.ShapeType;
-            outShapeFileName.ShapeFieldName = mMySelf.ShapeFieldName;
-            IDatasetName dsName=(IDatasetName)outShapeFileName;
-            dsName.Name = this.myFileName;
-            dsName.WorkspaceName = wsName;
-
-            t = bgp.Dissolve(t,false,inFieldName,"Dissolve.Shape",dsName);
+            //if it was less then zero it can not be on the map
+            if(inPolygonIndex>=0)
+            {
+               //cast the point object into the relational operator 
+               relOp = (IRelationalOperator)inPoint;
+               tempPoly = this.mySelf.GetFeature(inPolygonIndex);
+               //get feature returns an IFeature object so we need to cast it
+               //to an IGeometry type to use the IRelationalOperator in this
+               //case we are going to cast it to a polygon
+               searchPoly = (IPolygon)tempPoly.ShapeCopy;
+               if (searchPoly != null)
+               {
+                  bool inside = relOp.Within(searchPoly);
+                  bool touches =  relOp.Touches(searchPoly);
+                  //HACK
+                  if(relOp.Within(searchPoly)|| relOp.Touches(searchPoly))
+                  {
+                     success = true;
+                  }
+               }
+            }
          }
          catch(System.Exception ex)
          {
+           
+            FileWriter.FileWriter.WriteErrorFile(ex);
+   
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
          }
+         
+         fw.writeLine("leaving with a value of " + success.ToString());
+         fw.writeLine("");
+         return success;
+        
+
       }
+
       public void removeAllPolygons()
       {
          try
@@ -1090,6 +896,7 @@ namespace PAZ_Dispersal
          }
          
       }
+
       public void removeAllPolygons(ref IFeatureClass inFeatureClass)
       {
          IFeatureCursor tmpCur;
@@ -1109,6 +916,7 @@ namespace PAZ_Dispersal
 
 
       }
+
       public void removeCertainPolygons(string fieldName,string fieldValue)
       {
          IQueryFilter qf = new QueryFilterClass();
@@ -1160,8 +968,142 @@ namespace PAZ_Dispersal
          fw.writeLine("leaving resetFields");
       }
 
-  
+		#endregion Public Methods 
+
+
+      #region privateData
+      private DateTime mBeginTime;
+      protected FileWriter.FileWriter fw;
+      protected IFeatureClass mMySelf;
+      private IFeature myFeature;
+      protected IFeatureLayer myFeatureLayer;
+      private IField myField;
+      private IMap myMap;
+      private object myObject;
+      protected IWorkspaceName wsName;
+      protected IDatasetName dsName;
+      protected IFeatureClassName outShapeFileName;
+      protected string myPath;
+      protected string myFileName;
+      protected string mTypeOfMap;
+      private string mChangeType;
+      private string fullFileName;
+      private Hashtable myHash;
+      
       #endregion
+
+      #region gettersAndSetters
+
+      public string ChangeType
+      {
+         get { return mChangeType; }
+         set { mChangeType = value; }
+      }
+
+      public DateTime BeginTime
+      {
+         get { return mBeginTime; }
+         set { mBeginTime = value; }
+      }
+
+      public string FullFileName
+      {
+         get { return fullFileName; }
+         set { this.fullFileName = value; }
+      }
+      public string TypeOfMap
+      {
+         get { return mTypeOfMap; }
+         set  { mTypeOfMap = value; }
+      }
+
+      public IFeatureClass mySelf
+      {
+         get { return mMySelf; }
+         set { mMySelf = value; }
+      }
+      public string Path
+      {
+         get { return this.myPath; }
+         set {this.myPath = value;}
+      }
+      
+      #endregion
+
+      #region constructors
+      public Map()
+      {
+         buildLogger();
+         outShapeFileName = new FeatureClassNameClass();
+         wsName = new WorkspaceNameClass();
+         myHash = new Hashtable();
+         this.myFeatureLayer = new FeatureLayerClass();
+         this.myMap = new MapClass();
+         this.myFeature = null;
+        
+      }
+    
+      public Map(string path,string fileName,IGeometryDef inGeoDef,IFields inFieldsCollection):this()
+      {
+        
+         try
+         {
+            myPath = path;
+            myFileName = fileName;
+            IWorkspaceFactory shpWkspFactory = new ShapefileWorkspaceFactoryClass();
+            IFeatureWorkspace shapeWksp = null;
+            IPropertySet connectionProperty = new PropertySetClass();
+            IGeometryDefEdit geoDef = new GeometryDefClass();
+            IFieldsEdit fieldsEdit = (IFieldsEdit)inFieldsCollection;
+            
+            connectionProperty.SetProperty ("DATABASE",path);
+            shapeWksp = (IFeatureWorkspace) shpWkspFactory.Open(connectionProperty,0);
+            this.mySelf = shapeWksp.CreateFeatureClass(fileName,fieldsEdit,null,null,esriFeatureType.esriFTSimple,"Shape","");
+
+
+         }
+         catch(System.Exception ex)
+         {
+           
+            if (ex.Source == "ESRI.ArcGIS.Geodatabase")
+            {
+               //mErrMessage = "That Directory is full with maps already";
+               throw new System.Exception("That Directory is full with maps already");
+            }
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+           
+         }
+        
+      }
+
+     
+      public Map(IFeatureClass inSelf):this()
+      {
+         mMySelf = inSelf;
+      }
+      public Map(IFeatureClass inSelf, string fullName):this()
+      {
+         mMySelf = inSelf;
+         this.fullFileName = fullName;
+      }
+      
+      #endregion      /********************************************************************************
+      /**********************************************************************************
+       *   Function name   : getCrossOverInfo
+       *   Description     : If the movement of an animal is going to cross from one
+       *                     polygon to another we need to know how far he would
+       *                     go in one polygon, where the animal would cross.
+       * 
+       * // how much do I like the polygon i am in and how much do I like the other polygon
+       *   Return type     : crossOverInfo data structre for returning the data cleanly
+       *   Argument        : IPoint startPoint  movement starting point
+       *   Argument        : IPoint endPoint    movement endiing point
+       *  
+       * ********************************************************************************/
+
 
       #region privateMethods
 

@@ -63,7 +63,7 @@ namespace PAZ_Dispersal
       //information about George at this current timestep
       private bool hadCloseCall;
       private bool goingHome; 
-      private PointClass myLocation;
+      private IPoint myLocation;
       private int mMoveIndex;    //index of the polygon on the move map
       private int mRiskIndex;       //index of the polygon on the risk index
       private int mFoodIndex;       //index of the polygon on the food index
@@ -344,20 +344,21 @@ namespace PAZ_Dispersal
 	
       private bool findHome()
       {
-         IFeatureClass fc = null;
+         string myMapName;
          bool success = false;
          try
          {
-            fw.writeLine("inside find home calling to get the time step map");
-            //fc = this.MapManager.getTimeStepMap(this.IdNum.ToString());
-            if (fc != null)
+            fw.writeLine("inside find home calling to get the name of my memory map");
+            myMapName = this.MapManager.getAnimalMapName(this.IdNum);
+            if (myMapName != null)
             {
                fw.writeLine("now setting the home range center");
-               success=this.HomeRangeFinder.setHomeRangeCenter(this,fc);
+               success = this.HomeRangeFinder.setHomeRangeCenter(this, myMapName);
                fw.writeLine("that returned " + success.ToString());
+               this.MapManager.BuildHomeRange(this);
             }
          }
-         catch(System.Exception ex)
+          catch(System.Exception ex)
          {
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
@@ -369,13 +370,7 @@ namespace PAZ_Dispersal
 
       }
       
-      private bool isSuitable(int polyRef)
-      {  
-         bool suitable = false;
-         return suitable;
-
-
-      }
+     
       private void move(ref double percentTimeStep)
       {
          fw.writeLine("inside move calling myMover Move passing myself as well");
@@ -514,7 +509,7 @@ namespace PAZ_Dispersal
          this.durationID=0;
          this.hadCloseCall = false;
          this.goingHome = false;
-        
+         
       }
      
 
@@ -648,6 +643,7 @@ namespace PAZ_Dispersal
                if (timeToLookForHome && !this.goingHome)
                {
                   fw.writeLine("yes it is time to look for a home calling find home");
+                  
                   if( findHome())
                   {
                      this.mTextFileWriter.addLine("I have found a home and I am going to it");
@@ -668,7 +664,7 @@ namespace PAZ_Dispersal
                   if(distToHome < this.mPerceptionDist)
                   {
                      fw.writeLine("ok we are home now setting the location = home range center");
-                     this.Location = this.HomeRangeCenter;
+                     this.Location = this.HomeRangeCenter as PointClass;
                      fw.writeLine("now building the home range");
                      //this.MapManager.makeHomeRange(this);
                      status = "resident";
@@ -681,8 +677,10 @@ namespace PAZ_Dispersal
                //Tuesday, July 15, 2008 move back to end of step
                if(this.IsAsleep == false)
                {
-                  //fw.writeLine("adding a new eligible home site to the collection PredationRisk is " + PredationRisk.ToString());
-                  this.mMySites.addSite(new EligibleHomeSite(this.mCaptureFood,this.mPredationRisk,this.myLocation.X,this.myLocation.Y),ref fw);
+                  if (isSiteGood())
+                  {
+                     this.mMySites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y), ref fw);
+                  }
                }
 
                if(this.goingHome && this.IsAsleep == false)
@@ -704,9 +702,13 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }// end of doTimeStep
-      public IPoint getLocation(int stepNum)
+      public PointClass GetEligibleStep(int stepNum)
       {
-         return this.mPath.getPointByIndex(stepNum);
+         IPoint p = new PointClass();
+         EligibleHomeSite ehs = MySites[stepNum] as EligibleHomeSite;
+         p.X = ehs.X;
+         p.Y = ehs.Y;
+        return p as PointClass;
       }
       public string getLocation_XY()
       {
@@ -742,6 +744,39 @@ namespace PAZ_Dispersal
          }
          return isSuitable && isAvailable;
       }
+
+      public bool isSiteGood()
+      {
+
+         bool isSuitable = false;
+         bool isAvailable = false;
+
+         try
+         {
+            fw.writeLine("inside is site good for animal " + this.IdNum.ToString());
+            fw.writeLine("checking against social index number " + this.mSocialIndex.ToString());
+            isSuitable = this.MapManager.isSuitable(this.mSocialIndex, ref fw);
+            //if it is occupied it is not available
+            if (isSuitable)
+            {
+               isAvailable = !this.MapManager.isOccupied(this.mSocialIndex, this.sex, ref fw);
+            }
+            fw.writeLine("is Suitable returned " + isSuitable.ToString());
+            fw.writeLine("is available returned " + isAvailable.ToString());
+
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return isSuitable && isAvailable;
+      }
+
+
+
       public void setInitialValues(DateTime currTime)
       {
          try
@@ -1016,7 +1051,7 @@ namespace PAZ_Dispersal
          set { myIdNum = value; }
       }
 
-      public PointClass Location
+      public IPoint Location
       {
          get { return myLocation; }
          set 

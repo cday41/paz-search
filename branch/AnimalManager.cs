@@ -381,7 +381,7 @@ namespace PAZ_Dispersal
 
                r.IdNum = this.Count + 1;
                r.Location = inResAttributes[i].Location;
-               r.HomeRangeCenter = r.Location;
+               r.HomeRangeCenter = r.Location as PointClass; ;
                r.MyAttributes.OriginalID = inResAttributes[i].OrginalID;
                this.Add(r);
             }

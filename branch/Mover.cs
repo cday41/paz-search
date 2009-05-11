@@ -78,8 +78,8 @@ namespace PAZ_Dispersal
 		
       public virtual void move(ref double percentTimeStep, Animal inA)		
       {
-         PointClass there = null;
-         PointClass here = null;
+         IPoint there = null;
+         IPoint here = null;
          crossOverInfo co;
          try
          {

@@ -264,7 +264,7 @@ namespace PAZ_Dispersal
       {
          
          DataManipulator dm = new DataManipulator();
-         dm.CreateEmptyFeatureClass(path, "CurrStep.shp");
+         dm.CreateEmptyFeatureClass(path + "\\CurrStep.shp","polygon");
          if(this.mMapManager != null)
          this.mMapManager.CurrStepPath = path + "\\CurrStep.shp";
 

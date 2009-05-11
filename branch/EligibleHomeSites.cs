@@ -22,6 +22,8 @@
 
 using System;
 using System.IO;
+using System.Collections.Generic;
+
 
 
 namespace PAZ_Dispersal
@@ -31,33 +33,67 @@ namespace PAZ_Dispersal
    /// </summary>
    public class EligibleHomeSites:System.Collections.ArrayList
    {
+
+		#region Fields (1) 
+
+
       private FileWriter.FileWriter fw;
+
+		#endregion Fields 
+
+		#region Constructors (1) 
+
       public EligibleHomeSites()
       {
          this.buildLogger();
       }
 
-      public void addSite(EligibleHomeSite inSite)
+		#endregion Constructors 
+
+		#region Private Methods (5) 
+
+      private void resetRank()
       {
-         this.Add(inSite);
+         int i = 0;
+         int j = 1;
+
+        for(i=0,j=1; j< this.Count; i++,j++)
+         {
+            if(this.getSite(j).SuitableSite)
+            {
+               this.getSite(j).Rank = this.getSite(i).Rank + this.getSite(j).Rank;
+            }
+        }
+         //sometimes it will only be .9999999999999987 and the random number could
+         //conviebly be .9999999999989 so eliminate any chance.
+         this.getSite(this.Count-1).Rank = 1.0;
+
       }
-      public void addSite(EligibleHomeSite inSite, ref FileWriter.FileWriter fw)
+
+      private void setRanges(double inDouble)
       {
-         fw.writeLine("adding an eligible home site");
-         fw.writeLine("X = " + inSite.X.ToString() + " Y= " +inSite.Y.ToString());
-         fw.writeLine("Food = " + inSite.Food.ToString() + " Risk = " + inSite.Risk.ToString());
-         this.Add(inSite);
-         fw.writeLine("now there are " + this.Count.ToString() + " sites to choose from");
-      }
-      public EligibleHomeSite getSite (int index)
-      {
-         EligibleHomeSite ehs =null;
+         double d = 0;
          try
          {
-            if (this.Count>0)
+            fw.writeLine("now setting the ranges based on the total rankings = " + inDouble.ToString());
+            fw.writeLine("starting the loop");
+            foreach(EligibleHomeSite ehs in this)
             {
-               ehs = this[index]as EligibleHomeSite;
+               if(ehs.SuitableSite)
+               {  
+                  fw.writeLine(ehs.X.ToString() + ehs.Y.ToString() + " is eligble site raw rank is " + ehs.Rank.ToString());
+                  ehs.Rank = ehs.Rank / inDouble;
+                  fw.writeLine("after adjusting rank is " + ehs.Rank.ToString());
+                  d+=ehs.Rank;
+               }
             }
+            
+            
+            fw.writeLine("total rank is " + d.ToString());
+            this.sortByRank();
+            this.resetRank();
+            
+
          }
          catch(System.Exception ex)
          {
@@ -66,7 +102,43 @@ namespace PAZ_Dispersal
 #endif
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
-         return ehs;
+      }
+
+      private void sortByFood()
+      {
+         EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Food;
+         this.Sort();
+      }
+
+      private void sortByRank()
+      {
+          EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Rank;
+         this.Sort();
+
+      }
+
+      private void sortByRisk()
+      {
+         EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Risk;
+         this.Sort();
+      }
+
+		#endregion Private Methods 
+
+		#region Public Methods (7) 
+
+      public void addSite(EligibleHomeSite inSite)
+      {
+         this.Add(inSite);
+      }
+
+      public void addSite(EligibleHomeSite inSite, ref FileWriter.FileWriter fw)
+      {
+         fw.writeLine("adding an eligible home site");
+         fw.writeLine("X = " + inSite.X.ToString() + " Y= " +inSite.Y.ToString());
+         fw.writeLine("Food = " + inSite.Food.ToString() + " Risk = " + inSite.Risk.ToString());
+         this.Add(inSite);
+         fw.writeLine("now there are " + this.Count.ToString() + " sites to choose from");
       }
 
       public EligibleHomeSite getFirstSuitableSite()
@@ -93,6 +165,43 @@ namespace PAZ_Dispersal
          }
          return ehs;
       }
+
+      public EligibleHomeSite getSite (int index)
+      {
+         EligibleHomeSite ehs =null;
+         try
+         {
+            if (this.Count>0)
+            {
+               ehs = this[index]as EligibleHomeSite;
+            }
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return ehs;
+      }
+
+      public List<EligibleHomeSite> getQualifiedSites()
+      {
+         RandomNumbers rn = RandomNumbers.getInstance();
+         double luckyNumber = rn.getUniformRandomNum();
+         List<EligibleHomeSite> qualifyingSites = new List<EligibleHomeSite>();
+         foreach (EligibleHomeSite ehs in this)
+         {
+            if (luckyNumber >= ehs.Rank)
+            {
+               qualifyingSites.Add(ehs);
+            }
+         }
+         return qualifyingSites;
+
+      }
+
       public void setComboRank(double distanceFactor)
       {
          double d=0;
@@ -139,6 +248,7 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
+
       public void setFoodRank(double distanceFactor)
       {
          double d=0;
@@ -205,76 +315,10 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-      
-    
-      public void sortByFood()
-      {
-         EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Food;
-         this.Sort();
-      }
-      public void sortByRisk()
-      {
-         EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Risk;
-         this.Sort();
-      }
-      public void sortByRank()
-      {
-          EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Rank;
-         this.Sort();
 
-      }
+		#endregion Public Methods 
 
-      private void setRanges(double inDouble)
-      {
-         double d = 0;
-         try
-         {
-            fw.writeLine("now setting the ranges based on the total rankings = " + inDouble.ToString());
-            fw.writeLine("starting the loop");
-            foreach(EligibleHomeSite ehs in this)
-            {
-               if(ehs.SuitableSite)
-               {  
-                  fw.writeLine(ehs.X.ToString() + ehs.Y.ToString() + " is eligble site raw rank is " + ehs.Rank.ToString());
-                  ehs.Rank = ehs.Rank / inDouble;
-                  fw.writeLine("after adjusting rank is " + ehs.Rank.ToString());
-                  d+=ehs.Rank;
-               }
-            }
-            
-            
-            fw.writeLine("total rank is " + d.ToString());
-            this.sortByRank();
-            this.resetRank();
-            
-
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
-
-      private void resetRank()
-      {
-         int i = 0;
-         int j = 1;
-
-        for(i=0,j=1; j< this.Count; i++,j++)
-         {
-            if(this.getSite(j).SuitableSite)
-            {
-               this.getSite(j).Rank = this.getSite(i).Rank + this.getSite(j).Rank;
-            }
-        }
-         //sometimes it will only be .9999999999999987 and the random number could
-         //conviebly be .9999999999989 so eliminate any chance.
-         this.getSite(this.Count-1).Rank = 1.0;
-
-      }
+		#region Protected Methods (1) 
 
       protected void buildLogger()
       {
@@ -303,6 +347,11 @@ namespace PAZ_Dispersal
          {
             fw = new FileWriter.EmptyFileWriter();
          }
-      }//end of buildLogger
+      }
+
+		#endregion Protected Methods 
+
+//end of buildLogger
+
    }
 }
