@@ -324,10 +324,29 @@ private MapManager()
          return dt;
       }
 
-      private void EditNewSocialMap(string inNewSocialMapFileName, string sex, string inAnimalID)
+      private void EditNewHomeRangeUnion(string inUnionSocialMapPath, string sex, string inAnimalID)
       {
-         IFeatureClass fc = myDataManipulator.GetNewlyAddedToSocialMapPolygons(inNewSocialMapFileName,this.mOutMapPath + "temp.shp");
+         int sexIndex;
+         IFeatureCursor updateCurr;
+         IFeature feat;
+         IQueryFilter qf = new QueryFilterClass();
+         qf.WhereClause = "FID_availa >= 0";
 
+         IFeatureClass fc = myDataManipulator.GetFeatureClass(inUnionSocialMapPath);
+         if (sex.Equals("male", StringComparison.CurrentCultureIgnoreCase))
+            sexIndex = fc.FindField("OCCUP_MALE");
+         else
+            sexIndex = fc.FindField("OCCUP_FEMA");
+
+         updateCurr = fc.Update(qf, true);
+         while((feat = updateCurr.NextFeature()) != null)
+         {
+            feat.set_Value(sexIndex,inAnimalID);
+            feat.Store();
+         }
+         updateCurr.Flush();
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
+         
       }
 
       private string[] getStartTimes(string[] inOutMaps, string mapType)
@@ -410,6 +429,8 @@ private MapManager()
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
+
+     
 
 
       /********************************************************************************
@@ -561,7 +582,7 @@ private MapManager()
             {
                //if the first time through then we only need to add it to the map
                fw.writeLine("Calling Copy to Animal Map since it is the first time step");
-               this.myDataManipulator.CopyToAnimalMap(mapPath, clipPath);
+               this.myDataManipulator.CopyToAnotherlMap(mapPath, clipPath);
                this.myDataManipulator.Dissolve(mapPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
             }
             else
@@ -574,7 +595,7 @@ private MapManager()
             
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             this.removeAnimalMap(this.myAnimalMaps[AnimalID].mySelf);
-            this.myDataManipulator.CopyToAnimalMap(mapPath, dissolvePath);
+            this.myDataManipulator.CopyToAnotherlMap(mapPath, dissolvePath);
             this.removeExtraFiles(clipPath);
             this.removeExtraFiles(unionPath);
             this.removeExtraFiles(timeStepPath);
@@ -607,12 +628,18 @@ private MapManager()
          try
          {
             string currSocialMapPath = this.SocialMap.FullFileName;
-            string newSocialMapPath = this.OutMapPath + "\\NewSocial" + inAnimal.IdNum.ToString() + ".shp";
-
+            string newUnionSocialMapPath = this.OutMapPath + "\\tempUnionSocial" + inAnimal.IdNum.ToString() + ".shp";
+            string newTempPolyGonPath = this.OutMapPath + "\\tempPolyGon" + inAnimal.IdNum.ToString() + ".shp";
+            string newTempSocialMapPath = this.OutMapPath + "\\tempSocial" + inAnimal.IdNum.ToString() + ".shp";
+            string newSocialMapPath = this.OutMapPath  + "\\NewSocialMap" + inAnimal.IdNum.ToString() + ".shp";
             HomeRangeBuilder hrb = new HomeRangeBuilder();
             string NewHomeRangeFileName = hrb.BuildHomeRange(inAnimal, currSocialMapPath);
-            this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newSocialMapPath);
-            this.EditNewSocialMap(newSocialMapPath, inAnimal.Sex, inAnimal.IdNum.ToString());
+            this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
+            this.EditNewHomeRangeUnion(newUnionSocialMapPath, inAnimal.Sex, inAnimal.IdNum.ToString());
+            IFeatureClass newFC =  this.myDataManipulator.DissolveAndReturn(newUnionSocialMapPath, newSocialMapPath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
+            this.SocialMap = null;
+            this.SocialMap = new Map(newFC, newSocialMapPath);
+            
          }
          catch(System.Exception ex)
          {

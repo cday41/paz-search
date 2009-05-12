@@ -378,11 +378,11 @@ namespace PAZ_Dispersal
          this.ClipFeatures("clipFrom", "clipFeature", outFileName);
       }
 
-      public void CopyToAnimalMap(string AnimalMapPath, string ClippedMapPath)
+      public void CopyToAnotherlMap(string NewMapPath, string OldMapPath)
       {
          int num = 0;
-         this.MakeLayer(ClippedMapPath, this.tempLayer1);
-         this.CopyFeaturesToFeatureClass(this.tempLayer1, AnimalMapPath);
+         this.MakeLayer(OldMapPath, this.tempLayer1);
+         this.CopyFeaturesToFeatureClass(this.tempLayer1, NewMapPath);
       }
 
       public void CreateEmptyFeatureClass(string dirName, string fileName, string FeatureType)
@@ -429,6 +429,36 @@ namespace PAZ_Dispersal
          this.MakeLayer(inFile, this.tempLayer1);
          this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
       }
+
+      public IFeatureClass GetFeatureClass(string inFileName)
+      {
+         IFeatureClass ifc = null;
+         try
+         {
+            string path;
+            string fileName;
+            this.GetPathAndFileName(inFileName, out path, out fileName);
+            IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
+            IFeatureWorkspace featureWorkspace = null;
+            featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(path, 0);
+            ifc = featureWorkspace.OpenFeatureClass(fileName);
+         }
+         catch (COMException COMEx)
+         {
+            FileWriter.FileWriter.WriteErrorFile(COMEx);
+            System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(), "COM Error: " + COMEx.ErrorCode.ToString());
+         }
+
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            System.Windows.Forms.MessageBox.Show(ex.Source + " ");//+ ex.InnerException.ToString());
+         }
+
+         return ifc;
+      }
+
+
 
       public IFeatureClass DissolveAndReturn(string inFile, string outFile, string FieldNames)
       {
