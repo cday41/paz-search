@@ -355,7 +355,7 @@ namespace PAZ_Dispersal
                fw.writeLine("now setting the home range center");
                success = this.HomeRangeFinder.setHomeRangeCenter(this, myMapName);
                fw.writeLine("that returned " + success.ToString());
-               this.MapManager.BuildHomeRange(this);
+              
             }
          }
           catch(System.Exception ex)
@@ -666,7 +666,7 @@ namespace PAZ_Dispersal
                      fw.writeLine("ok we are home now setting the location = home range center");
                      this.Location = this.HomeRangeCenter as PointClass;
                      fw.writeLine("now building the home range");
-                     //this.MapManager.makeHomeRange(this);
+                     this.MapManager.BuildHomeRange(this);
                      status = "resident";
                      if (doTextOutput)
                         this.mTextFileWriter.addLine("Found Home at " + this.myLocation.X.ToString() + " and " + this.myLocation.Y.ToString());
