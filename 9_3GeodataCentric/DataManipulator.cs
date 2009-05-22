@@ -42,6 +42,8 @@ namespace PAZ_Dispersal
       public DataManipulator()
       {
          myProcessor = new Geoprocessor();
+         myProcessor.LogHistory = true;
+         myProcessor.TemporaryMapLayers = true;
          fw = FileWriter.FileWriter.getDataLogger(@"C:\DataLogger.log");
          tempLayer1 = "\\layer1";
          tempLayer2 = "\\layer2";
@@ -252,12 +254,12 @@ namespace PAZ_Dispersal
             fw.writeLine("inside run process");
             fw.writeLine("the process I want to run is " + inProcess.ToolName);
             fw.writeLine("the tool box is " + toolbox);
-            myProcessor.OverwriteOutput = true;
+            //myProcessor.OverwriteOutput = true;
             IGeoProcessorResult result = (IGeoProcessorResult)myProcessor.Execute(inProcess, null);
             IGPUtilities util = new GPUtilitiesClass();
             util.DecodeFeatureLayer(result.GetOutput(0), out fc, out qf);
             ReturnMessages(myProcessor);
-            myProcessor.RemoveToolbox(toolbox);
+          //  myProcessor.RemoveToolbox(toolbox);
          }
          catch (Exception ex)
          {
@@ -267,13 +269,21 @@ namespace PAZ_Dispersal
          return fc;
       }
 
-      private void SelectByValue(string inLayerName, string whereClause)
+      private bool SelectByValue(string inLayerName, string whereClause)
       {
+         bool FindAny = false;
+         IQueryFilter qf = new QueryFilterClass();
+         qf.WhereClause = whereClause;
          SelectLayerByAttribute selectByValue = new SelectLayerByAttribute();
          selectByValue.in_layer_or_view = inLayerName;
          selectByValue.selection_type = "NEW_SELECTION";
          selectByValue.where_clause = whereClause;
-         this.RunProcess(selectByValue, null);
+         IFeatureClass fc = this.RunProcessGetFeatureClass(selectByValue, null);
+         IFeatureCursor curr = fc.Search(qf, true);
+         if (curr.NextFeature() != null)
+            FindAny = true;
+         return FindAny;
+
       }
 
       
@@ -476,9 +486,14 @@ namespace PAZ_Dispersal
          string path = System.IO.Path.GetDirectoryName(inFileName);
          string sqlWhereClause = this.buildSexBasedWhereClause(sex);
          this.MakeLayer(inFileName, this.selectLayer);
-         this.SelectByValue(this.selectLayer, sqlWhereClause);
-         this.CopyFeaturesToFeatureClass(this.selectLayer, path + outFileName);
-         return this.GetFeatureClass(path, outFileName);
+         if(this.SelectByValue(this.selectLayer, sqlWhereClause))
+         
+         {
+            this.CopyFeaturesToFeatureClass(this.selectLayer, path + outFileName);
+            return this.GetFeatureClass(path, outFileName);
+         }
+         else
+            return null;
       }
 
       public IFeatureClass GetNewlyAddedToSocialMapPolygons(string inFileName, string outFileName)
@@ -526,6 +541,16 @@ namespace PAZ_Dispersal
             System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
          }
          return result;
+      }
+
+      public void RemoveExtraFields(string inFullFilePath, string ListOfFields)
+      {
+         DeleteField d = new DeleteField();
+         this.MakeLayer(inFullFilePath, this.tempLayer1);
+         d.in_table = this.tempLayer1;
+         d.drop_field = ListOfFields;
+         this.RunProcess(d,null);
+
       }
 
       public bool UnionAnimalClipData(string inAnimalPath, string inClipPath, string outPutFileName)

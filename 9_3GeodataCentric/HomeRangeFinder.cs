@@ -41,6 +41,8 @@ namespace PAZ_Dispersal
       protected System.Collections.ArrayList myPolygons;
       IFeatureClass myAvailableAreas;
       string myAvailableAreaFileName;
+      string myAvailableAreaFileExtension;
+      int fileNameIndex;
 
       #endregion Fields
 
@@ -51,7 +53,10 @@ namespace PAZ_Dispersal
          this.buildLogger();
          rn = RandomNumbers.getInstance();
          this.myDataManipulator = new DataManipulator();
-         myAvailableAreaFileName = @"\tempAvailable.shp";
+         myAvailableAreaFileName = @"\tempAvailable";
+         myAvailableAreaFileExtension = ".shp";
+         fileNameIndex = 0;
+
       }
 
       #endregion Constructors
@@ -108,15 +113,18 @@ namespace PAZ_Dispersal
       {
          IPoint currPoint = new PointClass();
          int count=0;
-
+         fw.writeLine("inside choose chooseHomeRangeCenter in the HomeRangeFinde class");
+         fw.writeLine("we have " + inQualifiedSites.Count.ToString() + " sites to work with");
          foreach (EligibleHomeSite ehs in inQualifiedSites)
          {
             currPoint.X = ehs.X;
             currPoint.Y = ehs.Y;
             count++;
+            fw.writeLine("calling get area");
             if (this.getArea(currPoint) >= minHomeRangeArea)
             {
                break;
+               fw.writeLine("had enough area we are out of here");
             }
          }
          if (count < inQualifiedSites.Count)
@@ -131,6 +139,7 @@ namespace PAZ_Dispersal
          IPolygon searchPoly = null;
          IRelationalOperator relOp = null;
          IFeatureCursor searchCurr = null;
+         fw.writeLine("inside get area of the home range finder class for point X = " + inPoint.X.ToString() + " and Y = " + inPoint.Y.ToString());
          try
          {
             relOp = (IRelationalOperator)inPoint;
@@ -156,6 +165,7 @@ namespace PAZ_Dispersal
             System.Runtime.InteropServices.Marshal.ReleaseComObject(searchPoly);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(searchCurr);
          }
+         fw.writeLine("leaving with an area of " + area.ToString());
          return area;
 
       }
@@ -352,9 +362,14 @@ namespace PAZ_Dispersal
          return;
       }
 
-      protected void setSuitableSites(Animal inA, string inFileName)
+      protected bool setSuitableSites(Animal inA, string inFileName)
       {
-         myAvailableAreas = this.myDataManipulator.GetSuitablePolygons(inFileName, inA.Sex, this.myAvailableAreaFileName);
+         bool result = false;
+         this.fileNameIndex++;
+         myAvailableAreas = this.myDataManipulator.GetSuitablePolygons(inFileName, inA.Sex, this.myAvailableAreaFileName + this.fileNameIndex.ToString() + this.myAvailableAreaFileExtension);
+         if (myAvailableAreas != null)
+            result = true;
+         return result;
       }
 
 //      protected int setSutitableSites(Animal inAnimal, IFeatureClass inAnmialMemoryMap)

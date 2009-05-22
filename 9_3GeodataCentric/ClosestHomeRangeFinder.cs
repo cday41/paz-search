@@ -40,20 +40,31 @@ namespace PAZ_Dispersal
          PointClass currEligibleSite=null;
          try
          {
+            fw.writeLine("inside setHomeRangeCenter in the ClosestHomeRangeFinder");
+            fw.writeLine(" for Animal Number " + inAnimal.IdNum.ToString() + " and the file name is " + fileName);
             string sex = inAnimal.Sex;
-            this.setSuitableSites(inAnimal, fileName);
-            double requiredArea = inAnimal.HomeRangeArea;
-            for (index = inAnimal.MySites.Count-1; index >= 0; index--)
+            //make sure there are available sites
+            fw.writeLine("checking to see if there are any suitable sites");
+            if (setSuitableSites(inAnimal, fileName))
             {
-               currEligibleSite = inAnimal.GetEligibleStep(index);
-               if (this.getArea(currEligibleSite) >= requiredArea)
+               fw.writeLine("there are " + inAnimal.MySites.Count.ToString() + " sites to work with ");
+               double requiredArea = inAnimal.HomeRangeArea;
+               fw.writeLine("we need " + requiredArea.ToString() );
+               for (index = inAnimal.MySites.Count - 1; index >= 0; index--)
                {
-
-                  inAnimal.HomeRangeCenter = currEligibleSite;
-                  
-                  success = true;
-                  break;
+                  fw.writeLine("looking at site number " + index.ToString());
+                  currEligibleSite = inAnimal.GetEligibleStep(index);
+                  if (this.getArea(currEligibleSite) >= requiredArea)
+                  {
+                     inAnimal.HomeRangeCenter = currEligibleSite;
+                     success = true;
+                     break;
+                  }
                }
+            }
+            else
+            {
+               fw.writeLine("must not have been");
             }
 
            

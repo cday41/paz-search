@@ -66,7 +66,7 @@ namespace PAZ_Dispersal
          myHourlyModifiers = HourlyModifierCollection.GetUniqueInstance();
          myDailyModifiers = DailyModiferCollection.GetUniqueInstance();
          mElapsedTimeBetweenTimeStep = 0;
-         this.makeTempMap(@"C:\MapTest");
+     //    this.makeTempMap(@"C:\MapTest");
          fw.writeLine("back in sim manager with a modifier count of " + myHourlyModifiers.Count.ToString());
       }
 
@@ -262,11 +262,9 @@ namespace PAZ_Dispersal
       { bool success = true;
       try
       {
-         
-         DataManipulator dm = new DataManipulator();
-         dm.CreateEmptyFeatureClass(path + "\\CurrStep.shp","polygon");
-         if(this.mMapManager != null)
-         this.mMapManager.CurrStepPath = path + "\\CurrStep.shp";
+
+         this.MapManager.MakeCurrStepMap(path);
+
 
       }
       

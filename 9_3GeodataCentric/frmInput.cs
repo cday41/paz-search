@@ -268,7 +268,7 @@ namespace PAZ_Dispersal
       private void InitializeComponent()
       {
          this.components = new System.ComponentModel.Container();
-          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInput));
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmInput));
          this.tabControl = new System.Windows.Forms.TabControl();
          this.tabTime = new System.Windows.Forms.TabPage();
          this.btnLoadXML = new System.Windows.Forms.Button();
@@ -497,13 +497,13 @@ namespace PAZ_Dispersal
          // nudWakeTime
          // 
          this.nudWakeTime.Location = new System.Drawing.Point(16, 224);
-          this.nudWakeTime.Maximum = new decimal(new int[] {
-                                                                    23,
-                                                                    0,
-                                                                    0,
-                                                                    0});
+         this.nudWakeTime.Maximum = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
          this.nudWakeTime.Name = "nudWakeTime";
-          this.nudWakeTime.Size = new System.Drawing.Size(120, 20);
+         this.nudWakeTime.Size = new System.Drawing.Size(120, 20);
          this.nudWakeTime.TabIndex = 5;
          // 
          // label19
@@ -511,7 +511,7 @@ namespace PAZ_Dispersal
          this.label19.AutoSize = true;
          this.label19.Location = new System.Drawing.Point(16, 200);
          this.label19.Name = "label19";
-          this.label19.Size = new System.Drawing.Size(110, 13);
+         this.label19.Size = new System.Drawing.Size(110, 13);
          this.label19.TabIndex = 16;
          this.label19.Text = "Initial Wake Up (0-23)";
          // 
@@ -521,7 +521,7 @@ namespace PAZ_Dispersal
          this.label33.Enabled = false;
          this.label33.Location = new System.Drawing.Point(432, 200);
          this.label33.Name = "label33";
-          this.label33.Size = new System.Drawing.Size(115, 13);
+         this.label33.Size = new System.Drawing.Size(115, 13);
          this.label33.TabIndex = 15;
          this.label33.Text = "End Date of Simulation";
          // 
@@ -541,7 +541,7 @@ namespace PAZ_Dispersal
          this.label34.AutoSize = true;
          this.label34.Location = new System.Drawing.Point(16, 88);
          this.label34.Name = "label34";
-          this.label34.Size = new System.Drawing.Size(118, 13);
+         this.label34.Size = new System.Drawing.Size(118, 13);
          this.label34.TabIndex = 13;
          this.label34.Text = "Start Date of Simulation";
          // 
@@ -549,7 +549,7 @@ namespace PAZ_Dispersal
          // 
          this.SimStartDate.Location = new System.Drawing.Point(16, 104);
          this.SimStartDate.Name = "SimStartDate";
-          this.SimStartDate.Size = new System.Drawing.Size(200, 20);
+         this.SimStartDate.Size = new System.Drawing.Size(200, 20);
          this.SimStartDate.TabIndex = 1;
          // 
          // label35
@@ -557,7 +557,7 @@ namespace PAZ_Dispersal
          this.label35.AutoSize = true;
          this.label35.Location = new System.Drawing.Point(232, 88);
          this.label35.Name = "label35";
-          this.label35.Size = new System.Drawing.Size(114, 13);
+         this.label35.Size = new System.Drawing.Size(114, 13);
          this.label35.TabIndex = 11;
          this.label35.Text = "Number of years to run";
          // 
@@ -574,7 +574,7 @@ namespace PAZ_Dispersal
          this.label36.AutoSize = true;
          this.label36.Location = new System.Drawing.Point(232, 200);
          this.label36.Name = "label36";
-          this.label36.Size = new System.Drawing.Size(179, 13);
+         this.label36.Size = new System.Drawing.Size(179, 13);
          this.label36.TabIndex = 9;
          this.label36.Text = "Minutes between time steps per day.";
          // 
@@ -591,7 +591,7 @@ namespace PAZ_Dispersal
          this.label37.Enabled = false;
          this.label37.Location = new System.Drawing.Point(432, 152);
          this.label37.Name = "label37";
-          this.label37.Size = new System.Drawing.Size(103, 13);
+         this.label37.Size = new System.Drawing.Size(103, 13);
          this.label37.TabIndex = 7;
          this.label37.Text = "End Date of Season";
          // 
@@ -613,7 +613,7 @@ namespace PAZ_Dispersal
          this.label38.AutoSize = true;
          this.label38.Location = new System.Drawing.Point(232, 152);
          this.label38.Name = "label38";
-          this.label38.Size = new System.Drawing.Size(138, 13);
+         this.label38.Size = new System.Drawing.Size(138, 13);
          this.label38.TabIndex = 5;
          this.label38.Text = "Number of days in a season";
          // 
@@ -630,7 +630,7 @@ namespace PAZ_Dispersal
          this.label39.AutoSize = true;
          this.label39.Location = new System.Drawing.Point(16, 152);
          this.label39.Name = "label39";
-          this.label39.Size = new System.Drawing.Size(106, 13);
+         this.label39.Size = new System.Drawing.Size(106, 13);
          this.label39.TabIndex = 2;
          this.label39.Text = "Start Date of Season";
          // 
@@ -640,7 +640,7 @@ namespace PAZ_Dispersal
          this.dtpSeasonStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
          this.dtpSeasonStartDate.Location = new System.Drawing.Point(16, 168);
          this.dtpSeasonStartDate.Name = "dtpSeasonStartDate";
-          this.dtpSeasonStartDate.Size = new System.Drawing.Size(200, 20);
+         this.dtpSeasonStartDate.Size = new System.Drawing.Size(200, 20);
          this.dtpSeasonStartDate.TabIndex = 3;
          this.myToolTip.SetToolTip(this.dtpSeasonStartDate, "Some Stuff");
          // 
@@ -681,7 +681,7 @@ namespace PAZ_Dispersal
          this.label3.AutoSize = true;
          this.label3.Location = new System.Drawing.Point(16, 40);
          this.label3.Name = "label3";
-          this.label3.Size = new System.Drawing.Size(95, 13);
+         this.label3.Size = new System.Drawing.Size(95, 13);
          this.label3.TabIndex = 6;
          this.label3.Text = "Distance in Meters";
          // 
@@ -712,7 +712,7 @@ namespace PAZ_Dispersal
          this.label20.AutoSize = true;
          this.label20.Location = new System.Drawing.Point(320, 40);
          this.label20.Name = "label20";
-          this.label20.Size = new System.Drawing.Size(73, 13);
+         this.label20.Size = new System.Drawing.Size(73, 13);
          this.label20.TabIndex = 5;
          this.label20.Text = "Risky to Safe ";
          // 
@@ -720,7 +720,7 @@ namespace PAZ_Dispersal
          // 
          this.txtSafeToRisky.Location = new System.Drawing.Point(176, 56);
          this.txtSafeToRisky.Name = "txtSafeToRisky";
-          this.txtSafeToRisky.Size = new System.Drawing.Size(100, 20);
+         this.txtSafeToRisky.Size = new System.Drawing.Size(100, 20);
          this.txtSafeToRisky.TabIndex = 10;
          this.myToolTip.SetToolTip(this.txtSafeToRisky, "example: (Roll of Dice – Observed Risk) < 0.000001");
          // 
@@ -729,7 +729,7 @@ namespace PAZ_Dispersal
          this.label12.AutoSize = true;
          this.label12.Location = new System.Drawing.Point(176, 40);
          this.label12.Name = "label12";
-          this.label12.Size = new System.Drawing.Size(70, 13);
+         this.label12.Size = new System.Drawing.Size(70, 13);
          this.label12.TabIndex = 4;
          this.label12.Text = "Safe to Risky";
          // 
@@ -737,7 +737,7 @@ namespace PAZ_Dispersal
          // 
          this.txtRiskyToSafe.Location = new System.Drawing.Point(320, 56);
          this.txtRiskyToSafe.Name = "txtRiskyToSafe";
-          this.txtRiskyToSafe.Size = new System.Drawing.Size(100, 20);
+         this.txtRiskyToSafe.Size = new System.Drawing.Size(100, 20);
          this.txtRiskyToSafe.TabIndex = 11;
          this.myToolTip.SetToolTip(this.txtRiskyToSafe, "Example: (Roll of Dice – Observed Risk) > 0.0001");
          // 
@@ -745,7 +745,7 @@ namespace PAZ_Dispersal
          // 
          this.txtSearchForageTrigger.Location = new System.Drawing.Point(24, 56);
          this.txtSearchForageTrigger.Name = "txtSearchForageTrigger";
-          this.txtSearchForageTrigger.Size = new System.Drawing.Size(100, 20);
+         this.txtSearchForageTrigger.Size = new System.Drawing.Size(100, 20);
          this.txtSearchForageTrigger.TabIndex = 9;
          // 
          // label21
@@ -753,7 +753,7 @@ namespace PAZ_Dispersal
          this.label21.AutoSize = true;
          this.label21.Location = new System.Drawing.Point(24, 40);
          this.label21.Name = "label21";
-          this.label21.Size = new System.Drawing.Size(115, 13);
+         this.label21.Size = new System.Drawing.Size(115, 13);
          this.label21.TabIndex = 0;
          this.label21.Text = "Search/Forage Trigger";
          // 
@@ -777,7 +777,7 @@ namespace PAZ_Dispersal
          this.label24.AutoSize = true;
          this.label24.Location = new System.Drawing.Point(88, 32);
          this.label24.Name = "label24";
-          this.label24.Size = new System.Drawing.Size(55, 13);
+         this.label24.Size = new System.Drawing.Size(55, 13);
          this.label24.TabIndex = 19;
          this.label24.Text = "Mean Amt";
          // 
@@ -786,7 +786,7 @@ namespace PAZ_Dispersal
          this.label23.AutoSize = true;
          this.label23.Location = new System.Drawing.Point(296, 32);
          this.label23.Name = "label23";
-          this.label23.Size = new System.Drawing.Size(73, 13);
+         this.label23.Size = new System.Drawing.Size(73, 13);
          this.label23.TabIndex = 18;
          this.label23.Text = "Standard Dev";
          // 
@@ -843,7 +843,7 @@ namespace PAZ_Dispersal
          this.label8.AutoSize = true;
          this.label8.Location = new System.Drawing.Point(328, 40);
          this.label8.Name = "label8";
-          this.label8.Size = new System.Drawing.Size(60, 13);
+         this.label8.Size = new System.Drawing.Size(60, 13);
          this.label8.TabIndex = 5;
          this.label8.Text = "Min Energy";
          // 
@@ -852,7 +852,7 @@ namespace PAZ_Dispersal
          this.label7.AutoSize = true;
          this.label7.Location = new System.Drawing.Point(24, 40);
          this.label7.Name = "label7";
-          this.label7.Size = new System.Drawing.Size(67, 13);
+         this.label7.Size = new System.Drawing.Size(67, 13);
          this.label7.TabIndex = 4;
          this.label7.Text = "Initial Energy";
          // 
@@ -860,7 +860,7 @@ namespace PAZ_Dispersal
          // 
          this.txtMinEnergy.Location = new System.Drawing.Point(328, 56);
          this.txtMinEnergy.Name = "txtMinEnergy";
-          this.txtMinEnergy.Size = new System.Drawing.Size(100, 20);
+         this.txtMinEnergy.Size = new System.Drawing.Size(100, 20);
          this.txtMinEnergy.TabIndex = 2;
          this.myToolTip.SetToolTip(this.txtMinEnergy, "The min amount of energy before starvation");
          // 
@@ -869,7 +869,7 @@ namespace PAZ_Dispersal
          this.label2.AutoSize = true;
          this.label2.Location = new System.Drawing.Point(176, 40);
          this.label2.Name = "label2";
-          this.label2.Size = new System.Drawing.Size(63, 13);
+         this.label2.Size = new System.Drawing.Size(63, 13);
          this.label2.TabIndex = 3;
          this.label2.Text = "Max Energy";
          // 
@@ -877,7 +877,7 @@ namespace PAZ_Dispersal
          // 
          this.txtMaxEnergy.Location = new System.Drawing.Point(184, 56);
          this.txtMaxEnergy.Name = "txtMaxEnergy";
-          this.txtMaxEnergy.Size = new System.Drawing.Size(100, 20);
+         this.txtMaxEnergy.Size = new System.Drawing.Size(100, 20);
          this.txtMaxEnergy.TabIndex = 1;
          this.myToolTip.SetToolTip(this.txtMaxEnergy, "Max amount of energy the species can hold");
          // 
@@ -885,7 +885,7 @@ namespace PAZ_Dispersal
          // 
          this.txtInitialEnergy.Location = new System.Drawing.Point(24, 56);
          this.txtInitialEnergy.Name = "txtInitialEnergy";
-          this.txtInitialEnergy.Size = new System.Drawing.Size(100, 20);
+         this.txtInitialEnergy.Size = new System.Drawing.Size(100, 20);
          this.txtInitialEnergy.TabIndex = 0;
          this.myToolTip.SetToolTip(this.txtInitialEnergy, "Iniatial amount of energy for day one");
          // 
@@ -1006,7 +1006,7 @@ namespace PAZ_Dispersal
          this.txtFemaleHomeRangeArea.Name = "txtFemaleHomeRangeArea";
          this.txtFemaleHomeRangeArea.Size = new System.Drawing.Size(112, 20);
          this.txtFemaleHomeRangeArea.TabIndex = 1;
-          this.txtFemaleHomeRangeArea.Validating += new System.ComponentModel.CancelEventHandler(this.txtFemaleHomeRangeArea_Validating);
+         this.txtFemaleHomeRangeArea.Validating += new System.ComponentModel.CancelEventHandler(this.txtFemaleHomeRangeArea_Validating);
          // 
          // txtMaleHomeRangeArea
          // 
@@ -1014,7 +1014,7 @@ namespace PAZ_Dispersal
          this.txtMaleHomeRangeArea.Name = "txtMaleHomeRangeArea";
          this.txtMaleHomeRangeArea.Size = new System.Drawing.Size(112, 20);
          this.txtMaleHomeRangeArea.TabIndex = 0;
-          this.txtMaleHomeRangeArea.Validating += new System.ComponentModel.CancelEventHandler(this.txtMaleHomeRangeArea_Validating);
+         this.txtMaleHomeRangeArea.Validating += new System.ComponentModel.CancelEventHandler(this.txtMaleHomeRangeArea_Validating);
          // 
          // label6
          // 
@@ -1063,7 +1063,7 @@ namespace PAZ_Dispersal
          // 
          this.rdoCombo.Location = new System.Drawing.Point(208, 56);
          this.rdoCombo.Name = "rdoCombo";
-          this.rdoCombo.Size = new System.Drawing.Size(104, 24);
+         this.rdoCombo.Size = new System.Drawing.Size(104, 24);
          this.rdoCombo.TabIndex = 10;
          this.rdoCombo.Text = "Combo";
          // 
@@ -1071,7 +1071,7 @@ namespace PAZ_Dispersal
          // 
          this.rdoBestFood.Location = new System.Drawing.Point(208, 24);
          this.rdoBestFood.Name = "rdoBestFood";
-          this.rdoBestFood.Size = new System.Drawing.Size(104, 24);
+         this.rdoBestFood.Size = new System.Drawing.Size(104, 24);
          this.rdoBestFood.TabIndex = 9;
          this.rdoBestFood.Text = "Best Food";
          // 
@@ -1079,7 +1079,7 @@ namespace PAZ_Dispersal
          // 
          this.rdoRisk.Location = new System.Drawing.Point(24, 56);
          this.rdoRisk.Name = "rdoRisk";
-          this.rdoRisk.Size = new System.Drawing.Size(104, 24);
+         this.rdoRisk.Size = new System.Drawing.Size(104, 24);
          this.rdoRisk.TabIndex = 8;
          this.rdoRisk.Text = "Least Risk";
          // 
@@ -1088,7 +1088,7 @@ namespace PAZ_Dispersal
          this.rdoClosest.Checked = true;
          this.rdoClosest.Location = new System.Drawing.Point(24, 24);
          this.rdoClosest.Name = "rdoClosest";
-          this.rdoClosest.Size = new System.Drawing.Size(104, 24);
+         this.rdoClosest.Size = new System.Drawing.Size(104, 24);
          this.rdoClosest.TabIndex = 5;
          this.rdoClosest.TabStop = true;
          this.rdoClosest.Text = "Closest ";
@@ -1312,7 +1312,7 @@ namespace PAZ_Dispersal
          // 
          // lblModifiers
          // 
-          this.lblModifiers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.lblModifiers.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
          this.lblModifiers.Location = new System.Drawing.Point(320, 24);
          this.lblModifiers.Name = "lblModifiers";
          this.lblModifiers.Size = new System.Drawing.Size(400, 328);
@@ -1399,6 +1399,7 @@ namespace PAZ_Dispersal
          // 
          // btnTabSimOK
          // 
+         this.btnTabSimOK.Enabled = false;
          this.btnTabSimOK.Location = new System.Drawing.Point(496, 320);
          this.btnTabSimOK.Name = "btnTabSimOK";
          this.btnTabSimOK.Size = new System.Drawing.Size(152, 32);
@@ -1461,7 +1462,7 @@ namespace PAZ_Dispersal
          this.label18.AutoSize = true;
          this.label18.Location = new System.Drawing.Point(248, 144);
          this.label18.Name = "label18";
-          this.label18.Size = new System.Drawing.Size(83, 13);
+         this.label18.Size = new System.Drawing.Size(83, 13);
          this.label18.TabIndex = 9;
          this.label18.Text = "SD of Litter Size";
          // 
@@ -1499,7 +1500,7 @@ namespace PAZ_Dispersal
          this.label25.AutoSize = true;
          this.label25.Location = new System.Drawing.Point(24, 48);
          this.label25.Name = "label25";
-          this.label25.Size = new System.Drawing.Size(208, 13);
+         this.label25.Size = new System.Drawing.Size(208, 13);
          this.label25.TabIndex = 4;
          this.label25.Text = "% Chance Resident dieing in one time step";
          // 
@@ -1508,7 +1509,7 @@ namespace PAZ_Dispersal
          this.label14.AutoSize = true;
          this.label14.Location = new System.Drawing.Point(248, 48);
          this.label14.Name = "label14";
-          this.label14.Size = new System.Drawing.Size(262, 13);
+         this.label14.Size = new System.Drawing.Size(262, 13);
          this.label14.TabIndex = 3;
          this.label14.Text = "%Chance Resident dieing between Dispersal Seasons";
          // 
@@ -1519,7 +1520,7 @@ namespace PAZ_Dispersal
          this.txtResDieBetweenSeason.Size = new System.Drawing.Size(152, 20);
          this.txtResDieBetweenSeason.TabIndex = 2;
          this.myToolTip.SetToolTip(this.txtResDieBetweenSeason, "Since we skip the time steps between dispersal seasons we need to estimate the ch" +
-            "ance of survival on another level");
+                 "ance of survival on another level");
          // 
          // txtResDieTimeStep
          // 
@@ -1534,7 +1535,7 @@ namespace PAZ_Dispersal
          this.label15.AutoSize = true;
          this.label15.Location = new System.Drawing.Point(24, 96);
          this.label15.Name = "label15";
-          this.label15.Size = new System.Drawing.Size(128, 13);
+         this.label15.Size = new System.Drawing.Size(128, 13);
          this.label15.TabIndex = 4;
          this.label15.Text = "% Chance Female Breeds";
          // 
@@ -1543,7 +1544,7 @@ namespace PAZ_Dispersal
          this.label16.AutoSize = true;
          this.label16.Location = new System.Drawing.Point(248, 96);
          this.label16.Name = "label16";
-          this.label16.Size = new System.Drawing.Size(144, 13);
+         this.label16.Size = new System.Drawing.Size(144, 13);
          this.label16.TabIndex = 3;
          this.label16.Text = "%Chance Offspring is Female";
          // 
@@ -1552,7 +1553,7 @@ namespace PAZ_Dispersal
          this.label17.AutoSize = true;
          this.label17.Location = new System.Drawing.Point(24, 144);
          this.label17.Name = "label17";
-          this.label17.Size = new System.Drawing.Size(83, 13);
+         this.label17.Size = new System.Drawing.Size(83, 13);
          this.label17.TabIndex = 3;
          this.label17.Text = "Mean Litter Size";
          // 
@@ -1560,28 +1561,28 @@ namespace PAZ_Dispersal
          // 
          this.label11.Location = new System.Drawing.Point(0, 0);
          this.label11.Name = "label11";
-          this.label11.Size = new System.Drawing.Size(100, 23);
+         this.label11.Size = new System.Drawing.Size(100, 23);
          this.label11.TabIndex = 0;
          // 
          // label9
          // 
          this.label9.Location = new System.Drawing.Point(0, 0);
          this.label9.Name = "label9";
-          this.label9.Size = new System.Drawing.Size(100, 23);
+         this.label9.Size = new System.Drawing.Size(100, 23);
          this.label9.TabIndex = 0;
          // 
          // label5
          // 
          this.label5.Location = new System.Drawing.Point(0, 0);
          this.label5.Name = "label5";
-          this.label5.Size = new System.Drawing.Size(100, 23);
+         this.label5.Size = new System.Drawing.Size(100, 23);
          this.label5.TabIndex = 0;
          // 
          // groupBox2
          // 
          this.groupBox2.Location = new System.Drawing.Point(0, 0);
          this.groupBox2.Name = "groupBox2";
-          this.groupBox2.Size = new System.Drawing.Size(200, 100);
+         this.groupBox2.Size = new System.Drawing.Size(200, 100);
          this.groupBox2.TabIndex = 0;
          this.groupBox2.TabStop = false;
          // 
@@ -1589,42 +1590,42 @@ namespace PAZ_Dispersal
          // 
          this.label1.Location = new System.Drawing.Point(0, 0);
          this.label1.Name = "label1";
-          this.label1.Size = new System.Drawing.Size(100, 23);
+         this.label1.Size = new System.Drawing.Size(100, 23);
          this.label1.TabIndex = 0;
          // 
          // label13
          // 
          this.label13.Location = new System.Drawing.Point(0, 0);
          this.label13.Name = "label13";
-          this.label13.Size = new System.Drawing.Size(100, 23);
+         this.label13.Size = new System.Drawing.Size(100, 23);
          this.label13.TabIndex = 0;
          // 
          // btnAddHourModifier
          // 
          this.btnAddHourModifier.Location = new System.Drawing.Point(0, 0);
          this.btnAddHourModifier.Name = "btnAddHourModifier";
-          this.btnAddHourModifier.Size = new System.Drawing.Size(75, 23);
+         this.btnAddHourModifier.Size = new System.Drawing.Size(75, 23);
          this.btnAddHourModifier.TabIndex = 0;
          // 
          // dateTimePicker1
          // 
          this.dateTimePicker1.Location = new System.Drawing.Point(0, 0);
          this.dateTimePicker1.Name = "dateTimePicker1";
-          this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+         this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
          this.dateTimePicker1.TabIndex = 0;
          // 
          // btnNext
          // 
          this.btnNext.Location = new System.Drawing.Point(0, 0);
          this.btnNext.Name = "btnNext";
-          this.btnNext.Size = new System.Drawing.Size(75, 23);
+         this.btnNext.Size = new System.Drawing.Size(75, 23);
          this.btnNext.TabIndex = 0;
          // 
          // txtRiskySafeThreshold
          // 
          this.txtRiskySafeThreshold.Location = new System.Drawing.Point(0, 0);
          this.txtRiskySafeThreshold.Name = "txtRiskySafeThreshold";
-          this.txtRiskySafeThreshold.Size = new System.Drawing.Size(100, 20);
+         this.txtRiskySafeThreshold.Size = new System.Drawing.Size(100, 20);
          this.txtRiskySafeThreshold.TabIndex = 0;
          // 
          // label4
@@ -1639,7 +1640,7 @@ namespace PAZ_Dispersal
          // 
          this.txtVision.Location = new System.Drawing.Point(50, 56);
          this.txtVision.Name = "txtVision";
-          this.txtVision.Size = new System.Drawing.Size(100, 20);
+         this.txtVision.Size = new System.Drawing.Size(100, 20);
          this.txtVision.TabIndex = 0;
          this.myToolTip.SetToolTip(this.txtVision, "The farthest the animal can see in meters");
          // 
@@ -1647,7 +1648,7 @@ namespace PAZ_Dispersal
          // 
          this.lblHourMods.Location = new System.Drawing.Point(0, 0);
          this.lblHourMods.Name = "lblHourMods";
-          this.lblHourMods.Size = new System.Drawing.Size(100, 23);
+         this.lblHourMods.Size = new System.Drawing.Size(100, 23);
          this.lblHourMods.TabIndex = 0;
          // 
          // frmInput
@@ -1663,22 +1664,22 @@ namespace PAZ_Dispersal
          this.tabControl.ResumeLayout(false);
          this.tabTime.ResumeLayout(false);
          this.groupBox13.ResumeLayout(false);
-          this.groupBox13.PerformLayout();
+         this.groupBox13.PerformLayout();
          ((System.ComponentModel.ISupportInitialize)(this.nudWakeTime)).EndInit();
          this.tabSpecies.ResumeLayout(false);
          this.groupBox10.ResumeLayout(false);
-          this.groupBox10.PerformLayout();
+         this.groupBox10.PerformLayout();
          this.groupBox4.ResumeLayout(false);
-          this.groupBox4.PerformLayout();
+         this.groupBox4.PerformLayout();
          this.groupBox3.ResumeLayout(false);
-          this.groupBox3.PerformLayout();
+         this.groupBox3.PerformLayout();
          this.groupBox1.ResumeLayout(false);
-          this.groupBox1.PerformLayout();
+         this.groupBox1.PerformLayout();
          this.tabHomeRange.ResumeLayout(false);
          this.groupBox12.ResumeLayout(false);
-          this.groupBox12.PerformLayout();
+         this.groupBox12.PerformLayout();
          this.groupBox8.ResumeLayout(false);
-          this.groupBox8.PerformLayout();
+         this.groupBox8.PerformLayout();
          this.groupBox11.ResumeLayout(false);
          this.tabMap.ResumeLayout(false);
          this.grpTime.ResumeLayout(false);
@@ -1687,7 +1688,7 @@ namespace PAZ_Dispersal
          this.groupBox14.ResumeLayout(false);
          this.groupBox7.ResumeLayout(false);
          this.groupBox5.ResumeLayout(false);
-          this.groupBox5.PerformLayout();
+         this.groupBox5.PerformLayout();
          this.ResumeLayout(false);
 
       }
@@ -2743,6 +2744,7 @@ namespace PAZ_Dispersal
          string startYear;
          try
          {
+            this.Cursor = Cursors.WaitCursor;
 #if DEBUG
             this.fdbCommon.SelectedPath = @"C:\map";
             string [] files;
@@ -2758,11 +2760,7 @@ namespace PAZ_Dispersal
             this.fdbCommon.ShowNewFolderButton=true;
             if (this.fdbCommon.ShowDialog() == DialogResult.OK)
             {
-               if (!mySimManager.makeTempMap(this.fdbCommon.SelectedPath))
-               {
-                  System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
-                  this.mySimManager.ErrMessage = "";
-               }
+               
                //this will help use group the maps by year run 
                startYear = this.mySimManager.StartSeasonDate.Year.ToString();
                this.mySimManager.MapManager.OutMapPath = this.fdbCommon.SelectedPath + '\\' + startYear;
@@ -2771,7 +2769,11 @@ namespace PAZ_Dispersal
                   System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage,"Error");
                   this.mySimManager.ErrMessage = "";
                }
-               
+               if (!mySimManager.MapManager.MakeCurrStepMap(this.fdbCommon.SelectedPath))
+               {
+                  System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
+                  this.mySimManager.ErrMessage = "";
+               }
 
             }
 
@@ -2780,6 +2782,8 @@ namespace PAZ_Dispersal
          {
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
+         this.btnTabSimOK.Enabled = true;
+         this.Cursor = Cursors.Default;
          
       }
 

@@ -25,6 +25,7 @@ namespace PAZ_Dispersal
 
       public string BuildHomeRange(Animal inAnimal, string currSocialFileName)
       {
+         string returnVal = "";
          double minArea = 0;
          bool success = false;
          double stretchFactor = 1.0;
@@ -45,26 +46,36 @@ namespace PAZ_Dispersal
             this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
             fw.writeLine("now get all the good polygons from the clip to meassure the area");
             IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
-            minArea = this.getArea(fc);
-            fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeArea.ToString() );
-            MapManager.RemoveFiles(homeRangeFileName);
-            MapManager.RemoveFiles(clipPath);
-            index++;
-            if (minArea < inAnimal.HomeRangeArea)
+            if (fc != null)
             {
-               stretchFactor += .1;
-               MapManager.RemoveFiles(availablePolygonsFileName);
-               fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
+               minArea = this.getArea(fc);
+               fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeArea.ToString());
+               MapManager.RemoveFiles(homeRangeFileName);
+               index++;
+               if (minArea < inAnimal.HomeRangeArea)
+               {
+                  stretchFactor += .1;
+                  MapManager.RemoveFiles(availablePolygonsFileName);
+                  fc = null;
+                  //MapManager.RemoveFiles(clipPath);
+                  fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
+               }
+               else
+               {
+               }
+               fw.writeLine("leaving with a file name of " + path + availablePolygonsFileName);
+               returnVal = path + availablePolygonsFileName;
             }
             else
             {
+               returnVal = "No Home Found";
             }
          }
 
          System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
 
-         fw.writeLine("leaving with a file name of " + path + availablePolygonsFileName);
-         return path + availablePolygonsFileName;
+         fw.writeLine("leaving with a file name of " + returnVal);
+         return returnVal;
       }
 
       private void buildPathNames(string path,string multiplier)
@@ -125,11 +136,15 @@ namespace PAZ_Dispersal
          
          try
          {
+            fw.writeLine("inside get area for a feature class");
             currsor = inFC.Search(null, true);
             while ((currFeat = currsor.NextFeature()) != null)
             {
+               fw.writeLine("inside loop looking at " + currFeat.OID.ToString());
                areaGetter = (IArea)currFeat.ShapeCopy;
+               fw.writeLine("that polygon has " + areaGetter.Area.ToString());
                area += areaGetter.Area;
+               fw.writeLine("so total area is now " + area.ToString());
             }
             //area is in meters we are measuring in km so divide by 1000^2
             area = areaGetter.Area / (1000000);
@@ -155,8 +170,10 @@ namespace PAZ_Dispersal
          string st = System.Windows.Forms.Application.StartupPath;
          if (File.Exists(st + @"\logFile.dat"))
          {
+            int peek;
             sr = new StreamReader(st + @"\logFile.dat");
-            while (sr.Peek() > -1)
+            peek = sr.Peek();
+            while (peek > -1)
             {
                s = sr.ReadLine();
                if (s.IndexOf("HomeRangeLogPath") == 0)
@@ -165,6 +182,7 @@ namespace PAZ_Dispersal
                   foundPath = true;
                   break;
                }
+               peek = sr.Peek();
             }
             sr.Close();
 
