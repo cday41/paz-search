@@ -434,6 +434,16 @@ namespace PAZ_Dispersal
 
       }
 
+      public void DeleteAllFeatures2(string inFileName)
+      {
+         this.MakeLayer(inFileName, this.tempLayer1);
+         Delete d = new Delete();
+         d.in_data = this.tempLayer1;
+         this.RunProcess(d,null);
+         
+
+      }
+
       public void Dissolve(string inFile, string outFile, string FieldNames)
       {
          this.MakeLayer(inFile, this.tempLayer1);

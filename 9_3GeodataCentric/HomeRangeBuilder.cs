@@ -147,8 +147,8 @@ namespace PAZ_Dispersal
                fw.writeLine("so total area is now " + area.ToString());
             }
             //area is in meters we are measuring in km so divide by 1000^2
-            area = areaGetter.Area / (1000000);
-            // fw.writeLine("total area is " + area.ToString() + " kilometers");
+            area = area / (1000000);
+            fw.writeLine("total area is " + area.ToString() + " kilometers");
          }
          catch (System.Exception ex)
          {

@@ -32,6 +32,7 @@ using System.IO;
 using DesignByContract;
 using System.Collections;
 using System;
+using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 
@@ -67,7 +68,7 @@ private static MapManager uniqueInstance;
 
 		#endregion Static Fields 
 
-		#region Fields (24) 
+		#region Fields (25) 
 
 
       private AnimalMap[] myAnimalMaps;
@@ -77,8 +78,8 @@ private static MapManager uniqueInstance;
       private string mOutMapPath;
 
       private int errNumber;
-      private int SocialIndex;
       private int numHomeRanges;
+      private int SocialIndex;
 
       private DataManipulator myDataManipulator;
       private DateTime mCurrTime;
@@ -244,7 +245,6 @@ private MapManager()
 
       }
 
-
       private void buildLogger()
       {
          string s;
@@ -274,7 +274,6 @@ private MapManager()
          }
 
       }
-
 
       private DateTime createStartTime(string time, string typeOfTime)
       {
@@ -351,8 +350,6 @@ private MapManager()
          
       }
 
-     
-
       private void initializeErrMessages()
       {
          errMessages = new System.Collections.Specialized.StringCollection();
@@ -388,18 +385,40 @@ private MapManager()
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-
-      private void removeAnimalMap(IFeatureClass inFC)
+     
+      private string makeNewMapPath(string oldMapPath, string timeStep)
       {
-         IDataset ds = null;
+         StringBuilder sb = new StringBuilder();
+         sb.Append(System.IO.Path.GetDirectoryName(oldMapPath) + "\\");
+         sb.Append(System.IO.Path.GetFileNameWithoutExtension(oldMapPath));
+         sb.Append(timeStep + ".shp");
+         return sb.ToString();
+
+      }
+
+      private void removeAnimalMap(string oldMapPath)
+      {
+        
          try
-         {
-            ds = inFC as IDataset;
-            if (ds.CanDelete()) ds.Delete();
+         { 
+            fw.writeLine("");
+            fw.writeLine("Inside removeAnimalMap " + oldMapPath);
+            string currDir = System.IO.Path.GetDirectoryName(oldMapPath);
+            string oldFileName = System.IO.Path.GetFileNameWithoutExtension(oldMapPath);
+            string pattern = oldFileName + "*";
+            string [] files = Directory.GetFiles(currDir,pattern);
+            for (int i=0; i< files.Length; i++)
+            {
+               if(oldFileName.Equals(System.IO.Path.GetFileNameWithoutExtension(files[i])))
+               {
+                  File.Delete(files[i]);
+               }
+            }
          }
+
          catch (Exception)
          {
-            
+            fw.writeLine("Exectional Fail");
             throw;
          }
 
@@ -429,9 +448,6 @@ private MapManager()
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-
-     
-
 
       /********************************************************************************
        *  Function name   : validateNFieldPointMap
@@ -554,7 +570,7 @@ private MapManager()
 
 		#endregion Private Methods 
 
-		#region Public Methods (38) 
+		#region Public Methods (39) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
@@ -563,10 +579,17 @@ private MapManager()
             
             
             string mapPath = this.myAnimalMaps[AnimalID].FullFileName;
+            string newMapPath = this.makeNewMapPath(mapPath, timeStep.ToString());
             string clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+
+            fw.writeLine("the  current animal map is " + mapPath);
+            fw.writeLine("the  current clip map is " + clipPath);
+            fw.writeLine("the  current union map is " + unionPath);
+            fw.writeLine("the  current temp timeStep map is " + timeStepPath);
+            fw.writeLine("the  current dissolve map is " + dissolvePath);
       
             fw.writeLine("inside AddTimeSteps for ManManager the animal id is " + AnimalID.ToString());
             fw.writeLine("time step is " + timeStep.ToString());
@@ -592,15 +615,20 @@ private MapManager()
                this.myDataManipulator.UnionAnimalClipData(mapPath,clipPath,unionPath);
                this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
             }
-            fw.writeLine("Now calling dissovle maps");
+
+            fw.writeLine("now make the new animal map");
+            this.myAnimalMaps[AnimalID].mySelf = this.myDataManipulator.CreateEmptyFeatureClass(newMapPath, "polygon");
+            this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
             
             fw.writeLine("now we need to move the dissovled back to the orginal map");
-            this.removeAnimalMap(this.myAnimalMaps[AnimalID].mySelf);
-            this.myDataManipulator.CopyToAnotherlMap(mapPath, dissolvePath);
-            //this.removeExtraFiles(clipPath);
-            //this.removeExtraFiles(unionPath);
-            //this.removeExtraFiles(timeStepPath);
-            //this.removeExtraFiles(dissolvePath);
+            fw.writeLine("now going to copy " + dissolvePath + " to " + newMapPath);
+            this.myDataManipulator.CopyToAnotherlMap(newMapPath, dissolvePath);
+            fw.writeLine("time to remove those extra files");
+            this.removeExtraFiles(clipPath);
+            this.removeExtraFiles(unionPath);
+            this.removeExtraFiles(timeStepPath);
+            this.removeExtraFiles(dissolvePath);
+            this.removeAnimalMap(mapPath);
 
 
          }

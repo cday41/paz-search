@@ -139,14 +139,15 @@ namespace PAZ_Dispersal
          IPolygon searchPoly = null;
          IRelationalOperator relOp = null;
          IFeatureCursor searchCurr = null;
+         IFeature feat = null;
          fw.writeLine("inside get area of the home range finder class for point X = " + inPoint.X.ToString() + " and Y = " + inPoint.Y.ToString());
          try
          {
             relOp = (IRelationalOperator)inPoint;
 
             searchCurr = myAvailableAreas.Search(null, true);
-            IFeature feat = searchCurr.NextFeature();
-            while (feat != null)
+             
+            while ((feat = searchCurr.NextFeature()) != null)
             {
                searchPoly = feat.Shape as IPolygon;
                if (relOp.Within(searchPoly))
