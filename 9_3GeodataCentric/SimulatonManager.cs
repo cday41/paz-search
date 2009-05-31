@@ -253,7 +253,7 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
            
          }
-         
+         fw.writeLine("Done making intital maps");
          return success;
 
       }

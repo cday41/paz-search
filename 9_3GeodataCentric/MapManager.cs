@@ -201,7 +201,7 @@ private MapManager()
 
 		#endregion Static Methods 
 
-		#region Private Methods (11) 
+		#region Private Methods (12) 
 
       private void AddFirstMemoryPoly(int AnimalID, IPolygon inPoly1, IPolygon inPoly2)
       {
@@ -385,13 +385,12 @@ private MapManager()
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-     
-      private string makeNewMapPath(string oldMapPath, string timeStep)
+
+      private string makeNewMapPath(string oldMapPath, string timeStep, string inAnimalID)
       {
          StringBuilder sb = new StringBuilder();
          sb.Append(System.IO.Path.GetDirectoryName(oldMapPath) + "\\");
-         sb.Append(System.IO.Path.GetFileNameWithoutExtension(oldMapPath));
-         sb.Append(timeStep + ".shp");
+         sb.Append(inAnimalID + timeStep + ".shp");
          return sb.ToString();
 
       }
@@ -579,11 +578,12 @@ private MapManager()
             
             
             string mapPath = this.myAnimalMaps[AnimalID].FullFileName;
-            string newMapPath = this.makeNewMapPath(mapPath, timeStep.ToString());
+            string newMapPath = this.makeNewMapPath(mapPath, timeStep.ToString(),AnimalID.ToString());
             string clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+
 
             fw.writeLine("the  current animal map is " + mapPath);
             fw.writeLine("the  current clip map is " + clipPath);
@@ -613,22 +613,26 @@ private MapManager()
             {
                fw.writeLine("Calling update the animal map");
                this.myDataManipulator.UnionAnimalClipData(mapPath,clipPath,unionPath);
-               this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
+               this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA"); 
+               this.myAnimalMaps[AnimalID].removeAllPolygons();
+               
             }
 
             fw.writeLine("now make the new animal map");
-            this.myAnimalMaps[AnimalID].mySelf = this.myDataManipulator.CreateEmptyFeatureClass(newMapPath, "polygon");
-            this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
+            //this.myAnimalMaps[AnimalID].mySelf = this.myDataManipulator.CreateEmptyFeatureClass(newMapPath, "polygon");
+            //this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
+
+            this.makeMapCopies(System.IO.Path.GetDirectoryName(dissolvePath), System.IO.Path.GetFileNameWithoutExtension(dissolvePath), System.IO.Path.GetDirectoryName(mapPath), System.IO.Path.GetFileNameWithoutExtension(newMapPath));
             
             fw.writeLine("now we need to move the dissovled back to the orginal map");
-            fw.writeLine("now going to copy " + dissolvePath + " to " + newMapPath);
-            this.myDataManipulator.CopyToAnotherlMap(newMapPath, dissolvePath);
+            fw.writeLine("now going to copy " + dissolvePath + " to " + mapPath);
+            //this.myDataManipulator.CopyToAnotherlMap(mapPath, dissolvePath);
             fw.writeLine("time to remove those extra files");
             this.removeExtraFiles(clipPath);
             this.removeExtraFiles(unionPath);
             this.removeExtraFiles(timeStepPath);
             this.removeExtraFiles(dissolvePath);
-            this.removeAnimalMap(mapPath);
+           // this.removeAnimalMap(mapPath);
 
 
          }

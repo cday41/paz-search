@@ -13,7 +13,7 @@ namespace PAZ_Dispersal
    public class Map
    {
 
-		#region Static Methods (2) 
+		#region Static Methods (3) 
 
       public static IPolygon BuildHomeRangePolygon(Animal inAnimal, double stretchFactor)
       {
@@ -731,9 +731,7 @@ namespace PAZ_Dispersal
 
       }
 
-      public void getMap()
-      {
-      }
+      
 
       public object getNamedValueForSinglePolygon(int inPolyIndex,string inName)
       {

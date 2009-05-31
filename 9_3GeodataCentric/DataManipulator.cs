@@ -391,6 +391,7 @@ namespace PAZ_Dispersal
       public void CopyToAnotherlMap(string NewMapPath, string OldMapPath)
       {
          int num = 0;
+       //  this.CheckLock(OldMapPath);
          this.MakeLayer(OldMapPath, this.tempLayer1);
          this.CopyFeaturesToFeatureClass(this.tempLayer1, NewMapPath);
       }
