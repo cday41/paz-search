@@ -638,6 +638,7 @@ namespace PAZ_Dispersal
                      {
                         a.MoveIndex = b.MoveIndex;
                      }
+                     
                      a.setInitialValues(currTime);
                      b = a;
                   }

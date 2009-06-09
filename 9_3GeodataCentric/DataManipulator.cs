@@ -18,7 +18,7 @@ namespace PAZ_Dispersal
    class DataManipulator
    {
 
-      #region Fields (5)
+		#region Fields (6) 
 
 
       string tempLayer1;
@@ -51,9 +51,9 @@ namespace PAZ_Dispersal
          pointLayer = "\\point_lyr";
       }
 
-      #endregion Constructors
+		#endregion Constructors 
 
-      #region Private Methods (15)
+		#region Private Methods (15) 
 
       private void AddPolyGon(IFeatureClass inFC, IPolygon inPoly)
       {
@@ -63,6 +63,18 @@ namespace PAZ_Dispersal
          feature.Store();
          System.Runtime.InteropServices.Marshal.ReleaseComObject(feature);
 
+      }
+
+      private void AddPointsToEmptyFeatureClass(IFeatureClass inFC, List<IPoint> inPoints)
+      {
+         IFeature feature;
+         foreach (IPoint p in inPoints)
+         {
+            feature = inFC.CreateFeature();
+            feature.Shape = p;
+            feature.Store();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(feature);
+         }
       }
 
       private string buildSexBasedWhereClause(string inSex)
@@ -92,28 +104,6 @@ namespace PAZ_Dispersal
          cf.in_features = inLayer;
          cf.out_feature_class = RecievingFeatureClass;
          RunProcess(cf, null);
-      }
-
-      public IFeatureClass CreateEmptyFeatureClass(string inFileName, string featureType)
-      {
-         IFeatureClass fc = null;
-         try
-         {
-            string path;
-            string fileName;
-            this.GetPathAndFileName(inFileName, out path, out fileName);
-            CreateFeatureclass cf = new CreateFeatureclass();
-            cf.out_path = path;
-            cf.out_name = fileName;
-            cf.geometry_type = featureType.ToUpper();
-            fc = this.RunProcessGetFeatureClass(cf, null);
-         }
-         catch (System.Runtime.InteropServices.COMException ex)
-         {
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return fc;
       }
 
       private void DissolveFeatures(string layerName, string outName, string fieldName)
@@ -286,8 +276,6 @@ namespace PAZ_Dispersal
 
       }
 
-      
-
       private void UnionFeatures(string LayerList, string fc)
       {
          fw.writeLine("inside UnionFeatures going to make " + fc);
@@ -305,6 +293,8 @@ namespace PAZ_Dispersal
 
 		#endregion Private Methods 
 
+		#region Public Methods (18) 
+
       public IFeatureClass AddHomeRangePolyGon(string outFileName, IPolygon inHomeRange)
       {
 
@@ -313,6 +303,22 @@ namespace PAZ_Dispersal
          return fc;
 
       }
+
+      //public ITable BuildHomeRangeSelectTable(List<IPoint> inPoints, IFeatureClass currSocialMap)
+      //{
+      //   IFeatureClass pointMap = this.CreateEmptyFeatureClass(@"C:\\map\tempHomePoints", "Point");
+      //   this.AddPointsToEmptyFeatureClass(pointMap, inPoints);
+      //   this.MakeLayer(currSocialMap,this.tempLayer1);
+      //   this.MakeLayer(pointMap,this.tempLayer2);
+      //   ITable outTable = new TableClass();
+      //   GenerateNearTable gnt = new GenerateNearTable();
+      //   gnt.in_features = this.tempLayer1;
+      //   gnt.near_features = this.tempLayer2;
+      //   gnt.out_table = outTable;
+      //   this.RunProcess(gnt, null);
+
+
+      //}
 
       public void CheckLock(string inFile)
       {
@@ -396,6 +402,28 @@ namespace PAZ_Dispersal
          this.CopyFeaturesToFeatureClass(this.tempLayer1, NewMapPath);
       }
 
+      public IFeatureClass CreateEmptyFeatureClass(string inFileName, string featureType)
+      {
+         IFeatureClass fc = null;
+         try
+         {
+            string path;
+            string fileName;
+            this.GetPathAndFileName(inFileName, out path, out fileName);
+            CreateFeatureclass cf = new CreateFeatureclass();
+            cf.out_path = path;
+            cf.out_name = fileName;
+            cf.geometry_type = featureType.ToUpper();
+            fc = this.RunProcessGetFeatureClass(cf, null);
+         }
+         catch (System.Runtime.InteropServices.COMException ex)
+         {
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return fc;
+      }
+
       public void CreateEmptyFeatureClass(string dirName, string fileName, string FeatureType)
       {
          try
@@ -451,6 +479,16 @@ namespace PAZ_Dispersal
          this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
       }
 
+      public IFeatureClass DissolveAndReturn(string inFile, string outFile, string FieldNames)
+      {
+         this.MakeLayer(inFile, this.tempLayer1);
+         this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
+         string path;
+         string fileName;
+         this.GetPathAndFileName(outFile,out path, out fileName);
+         return this.GetFeatureClass(path, fileName);
+      }
+
       public IFeatureClass GetFeatureClass(string inFileName)
       {
          IFeatureClass ifc = null;
@@ -479,16 +517,17 @@ namespace PAZ_Dispersal
          return ifc;
       }
 
-
-
-      public IFeatureClass DissolveAndReturn(string inFile, string outFile, string FieldNames)
+      public IFeatureClass GetNewlyAddedToSocialMapPolygons(string inFileName, string outFileName)
       {
-         this.MakeLayer(inFile, this.tempLayer1);
-         this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
          string path;
          string fileName;
-         this.GetPathAndFileName(outFile,out path, out fileName);
+         this.GetPathAndFileName(outFileName,out path,out fileName);
+         this.MakeLayer(inFileName,this.selectLayer);
+         string sqlWhereClause = "FID_availa >= 0";
+         this.SelectByValue(this.selectLayer, sqlWhereClause);
+         this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
          return this.GetFeatureClass(path, fileName);
+
       }
 
       public IFeatureClass GetSuitablePolygons(string inFileName, string sex, string outFileName)
@@ -505,19 +544,6 @@ namespace PAZ_Dispersal
          }
          else
             return null;
-      }
-
-      public IFeatureClass GetNewlyAddedToSocialMapPolygons(string inFileName, string outFileName)
-      {
-         string path;
-         string fileName;
-         this.GetPathAndFileName(outFileName,out path,out fileName);
-         this.MakeLayer(inFileName,this.selectLayer);
-         string sqlWhereClause = "FID_availa >= 0";
-         this.SelectByValue(this.selectLayer, sqlWhereClause);
-         this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
-         return this.GetFeatureClass(path, fileName);
-
       }
 
       public bool MakeDissolvedTimeStep(string inFullFilePath, string dissovlePath, IPolygon inPoly1, IPolygon inPoly2)
@@ -592,7 +618,7 @@ namespace PAZ_Dispersal
          this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
       }
 
-		
+		#endregion Public Methods 
 
    }
 

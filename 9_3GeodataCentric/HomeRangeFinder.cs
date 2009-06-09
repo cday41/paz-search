@@ -39,11 +39,11 @@ namespace PAZ_Dispersal
       protected FileWriter.FileWriter fw;
       protected RandomNumbers rn = null;
       protected System.Collections.ArrayList myPolygons;
-      IFeatureClass myAvailableAreas;
+      protected IFeatureClass myAvailableAreas;
       string myAvailableAreaFileName;
       string myAvailableAreaFileExtension;
       int fileNameIndex;
-
+      private MapManager myMapManager;
       #endregion Fields
 
       #region Constructors (1)
@@ -56,6 +56,7 @@ namespace PAZ_Dispersal
          myAvailableAreaFileName = @"\tempAvailable";
          myAvailableAreaFileExtension = ".shp";
          fileNameIndex = 0;
+         this.myMapManager = MapManager.GetUniqueInstance();
 
       }
 
@@ -114,17 +115,20 @@ namespace PAZ_Dispersal
          IPoint currPoint = new PointClass();
          int count=0;
          fw.writeLine("inside choose chooseHomeRangeCenter in the HomeRangeFinde class");
-         fw.writeLine("we have " + inQualifiedSites.Count.ToString() + " sites to work with");
-         foreach (EligibleHomeSite ehs in inQualifiedSites)
+         fw.writeLine("we have " + inQualifiedSites.Count.ToString() + " points that were qualified to work with");
+         fw.writeLine("");
          {
-            currPoint.X = ehs.X;
-            currPoint.Y = ehs.Y;
-            count++;
-            fw.writeLine("calling get area");
-            if (this.getArea(currPoint) >= minHomeRangeArea)
+            foreach (EligibleHomeSite ehs in inQualifiedSites)
             {
-               break;
-               fw.writeLine("had enough area we are out of here");
+               currPoint.X = ehs.X;
+               currPoint.Y = ehs.Y;
+               count++;
+               fw.writeLine("calling get area");
+               if (this.getArea(currPoint) >= minHomeRangeArea)
+               {
+                  break;
+                  fw.writeLine("had enough area we are out of here");
+               }
             }
          }
          if (count < inQualifiedSites.Count)
@@ -132,6 +136,7 @@ namespace PAZ_Dispersal
          else
             return null;
       }
+
 
       protected double getArea(IPoint inPoint)
       {
@@ -145,7 +150,7 @@ namespace PAZ_Dispersal
          {
             relOp = (IRelationalOperator)inPoint;
 
-            searchCurr = myAvailableAreas.Search(null, true);
+            searchCurr = this.myMapManager.SocialMap.mySelf.Search(null, true);
              
             while ((feat = searchCurr.NextFeature()) != null)
             {
@@ -372,6 +377,9 @@ namespace PAZ_Dispersal
             result = true;
          return result;
       }
+
+
+   
 
 //      protected int setSutitableSites(Animal inAnimal, IFeatureClass inAnmialMemoryMap)
 //      {

@@ -32,6 +32,44 @@ namespace PAZ_Dispersal
 
       }
 
+      private double getArea(IPoint inPoint)
+      {
+         double area = 0;
+         IPolygon searchPoly = null;
+         IRelationalOperator relOp = null;
+         IFeatureCursor searchCurr = null;
+         IFeature feat = null;
+         fw.writeLine("inside get area of the home range finder class for point X = " + inPoint.X.ToString() + " and Y = " + inPoint.Y.ToString());
+         try
+         {
+            relOp = (IRelationalOperator)inPoint;
+
+            searchCurr = myAvailableAreas.Search(null, true);
+
+            while ((feat = searchCurr.NextFeature()) != null)
+            {
+               searchPoly = feat.Shape as IPolygon;
+               if (relOp.Within(searchPoly))
+               {
+                  area = this.getArea(searchPoly);
+                  break;
+               }
+            }
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         finally
+         {
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(searchPoly);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(searchCurr);
+         }
+         fw.writeLine("leaving with an area of " + area.ToString());
+         return area;
+
+      }
+
       public override bool setHomeRangeCenter(Animal inAnimal, string fileName)
       {
          bool success = false;

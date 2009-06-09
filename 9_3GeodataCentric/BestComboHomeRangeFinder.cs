@@ -98,6 +98,7 @@ namespace PAZ_Dispersal
          base.setDistance(inAnimal);
          inAnimal.MySites.setComboRank(inAnimal.DistanceWeight);
          List<EligibleHomeSite> qs = inAnimal.MySites.getQualifiedSites();
+
          inAnimal.HomeRangeCenter = base.chooseHomeRangeCenter(qs, inAnimal.HomeRangeArea) as PointClass;
          if (inAnimal.HomeRangeCenter == null)
             foundHomeRange = false;

@@ -202,6 +202,22 @@ namespace PAZ_Dispersal
 
       }
 
+      public List<Point> getPoints()
+      {
+         RandomNumbers rn = RandomNumbers.getInstance();
+         double luckyNumber = rn.getUniformRandomNum();
+         List<Point> qualifyingSites = new List<Point>();
+         foreach (EligibleHomeSite ehs in this)
+         {
+            if (luckyNumber >= ehs.Rank)
+            {
+               Point p = new Point(ehs.X, ehs.Y);
+               qualifyingSites.Add(p);
+            }
+         }
+         return qualifyingSites;
+      }
+
       public void setComboRank(double distanceFactor)
       {
          double d=0;
@@ -210,6 +226,12 @@ namespace PAZ_Dispersal
          double maxRisk = 0.0;
          double foodValue = 0.0;
          double riskValue = 0.0;
+
+         if (this.Count <= 0)
+         {
+            int i = 0;
+         }
+
 
          this.sortByFood();
          maxFood = this.getSite(0).Food;

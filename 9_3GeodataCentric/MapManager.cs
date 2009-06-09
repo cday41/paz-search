@@ -614,7 +614,7 @@ private MapManager()
                fw.writeLine("Calling update the animal map");
                this.myDataManipulator.UnionAnimalClipData(mapPath,clipPath,unionPath);
                this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA"); 
-               this.myAnimalMaps[AnimalID].removeAllPolygons();
+               //this.myAnimalMaps[AnimalID].removeAllPolygons();
                
             }
 
@@ -628,10 +628,10 @@ private MapManager()
             fw.writeLine("now going to copy " + dissolvePath + " to " + mapPath);
             //this.myDataManipulator.CopyToAnotherlMap(mapPath, dissolvePath);
             fw.writeLine("time to remove those extra files");
-            this.removeExtraFiles(clipPath);
-            this.removeExtraFiles(unionPath);
-            this.removeExtraFiles(timeStepPath);
-            this.removeExtraFiles(dissolvePath);
+            //this.removeExtraFiles(clipPath);
+            //this.removeExtraFiles(unionPath);
+            //this.removeExtraFiles(timeStepPath);
+            //this.removeExtraFiles(dissolvePath);
            // this.removeAnimalMap(mapPath);
 
 
