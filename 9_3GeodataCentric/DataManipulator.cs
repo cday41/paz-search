@@ -190,6 +190,7 @@ namespace PAZ_Dispersal
       // Function for returning the tool messages.
       private void ReturnMessages(Geoprocessor gp)
       {
+          bool hasError = false;
          try
          {
             if (gp.MessageCount > 0)
@@ -199,10 +200,14 @@ namespace PAZ_Dispersal
                   string s = gp.GetMessage(Count);
                   if (s.Contains("ERROR") || s.Contains("WARNING"))
                   {
-                     this.fw.writeLine(s);
-                     System.Windows.Forms.MessageBox.Show("Error in DataManipulator");
+                      hasError = true;
+                    
                   }
                   this.fw.writeLine(s);
+                  if (hasError)
+                  {
+                      System.Windows.Forms.MessageBox.Show("Error in DataManipulator");
+                  }
                   
                }
             }
@@ -396,8 +401,6 @@ namespace PAZ_Dispersal
 
       public void CopyToAnotherlMap(string NewMapPath, string OldMapPath)
       {
-         int num = 0;
-       //  this.CheckLock(OldMapPath);
          this.MakeLayer(OldMapPath, this.tempLayer1);
          this.CopyFeaturesToFeatureClass(this.tempLayer1, NewMapPath);
       }

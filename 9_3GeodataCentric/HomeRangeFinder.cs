@@ -113,6 +113,7 @@ namespace PAZ_Dispersal
       protected IPoint chooseHomeRangeCenter(List<EligibleHomeSite> inQualifiedSites, double minHomeRangeArea)
       {
          IPoint currPoint = new PointClass();
+         double luckyNumber = rn.getUniformRandomNum();
          int count=0;
          fw.writeLine("inside choose chooseHomeRangeCenter in the HomeRangeFinde class");
          fw.writeLine("we have " + inQualifiedSites.Count.ToString() + " points that were qualified to work with");
@@ -126,8 +127,9 @@ namespace PAZ_Dispersal
                fw.writeLine("calling get area");
                if (this.getArea(currPoint) >= minHomeRangeArea)
                {
-                  break;
+                 
                   fw.writeLine("had enough area we are out of here");
+                   break;
                }
             }
          }

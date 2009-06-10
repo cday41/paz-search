@@ -614,25 +614,20 @@ private MapManager()
                fw.writeLine("Calling update the animal map");
                this.myDataManipulator.UnionAnimalClipData(mapPath,clipPath,unionPath);
                this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA"); 
-               //this.myAnimalMaps[AnimalID].removeAllPolygons();
+               this.myAnimalMaps[AnimalID].removeAllPolygons();
                
             }
 
             fw.writeLine("now make the new animal map");
-            //this.myAnimalMaps[AnimalID].mySelf = this.myDataManipulator.CreateEmptyFeatureClass(newMapPath, "polygon");
-            //this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
 
             this.makeMapCopies(System.IO.Path.GetDirectoryName(dissolvePath), System.IO.Path.GetFileNameWithoutExtension(dissolvePath), System.IO.Path.GetDirectoryName(mapPath), System.IO.Path.GetFileNameWithoutExtension(newMapPath));
-            
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             fw.writeLine("now going to copy " + dissolvePath + " to " + mapPath);
-            //this.myDataManipulator.CopyToAnotherlMap(mapPath, dissolvePath);
             fw.writeLine("time to remove those extra files");
-            //this.removeExtraFiles(clipPath);
-            //this.removeExtraFiles(unionPath);
-            //this.removeExtraFiles(timeStepPath);
-            //this.removeExtraFiles(dissolvePath);
-           // this.removeAnimalMap(mapPath);
+            this.removeExtraFiles(clipPath);
+            this.removeExtraFiles(unionPath);
+            this.removeExtraFiles(timeStepPath);
+            this.removeExtraFiles(dissolvePath);
 
 
          }

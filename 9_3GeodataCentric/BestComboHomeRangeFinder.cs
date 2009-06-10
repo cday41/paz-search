@@ -42,61 +42,13 @@ namespace PAZ_Dispersal
 
 		#region Overridden Methods (1) 
 
-//      public override bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
-//      {
-//         bool success = false;
-//         int numSuitableSites = 0;
-//         try
-//         {
-//            fw.writeLine("inside setHomeRangeCenter for BestComboHomeRangeFinder");
 
-//            fw.writeLine("calling get setSutitableSites");
-//            numSuitableSites = setSutitableSites(inAnimal, inAnmialMemoryMap);
-//            switch (numSuitableSites)
-//            {
-//               //nothing found so out of here
-//               case 0:
-//                  fw.writeLine("no spots were found");
-//                  break;
-//               //only one found so that is easy
-//               case 1:
-//                  fw.writeLine("found only one so that is it");
-//                  success = true;
-//                  EligibleHomeSite ehs;
-//                  IPoint p;
-//                  p = new PointClass();
-//                  ehs = inAnimal.MySites.getFirstSuitableSite();
-//                  p.X = ehs.X;
-//                  p.Y = ehs.Y;
-//                  inAnimal.HomeRangeCenter = p as PointClass;
-//                  break;
-//               //multiple sites are eligible so go get the needed data
-//               default:
-//                  fw.writeLine("multiple eligible spots where found so now fill eligble spots with ranking criteria");
-//                  base.setDistance(inAnimal);
-//                  inAnimal.MySites.setComboRank(inAnimal.DistanceWeight);
-//                  inAnimal.HomeRangeCenter = base.getHomeRangeCenter(inAnimal.MySites) as PointClass;
-//                  success = true;
-//                  break;
-//            }
-//         }
-//         catch (System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//         fw.writeLine("leaving BestComboHomeRangeFinder setHomeRangeCenter with a value of " + success.ToString());
-//         return success;
-
-//      }
 
       public override bool setHomeRangeCenter(Animal inAnimal, string inFileName)
       {
          bool foundHomeRange = false;
          base.setDistance(inAnimal);
-         inAnimal.MySites.setComboRank(inAnimal.DistanceWeight);
+         //inAnimal.MySites.setComboRank(inAnimal);
          List<EligibleHomeSite> qs = inAnimal.MySites.getQualifiedSites();
 
          inAnimal.HomeRangeCenter = base.chooseHomeRangeCenter(qs, inAnimal.HomeRangeArea) as PointClass;
@@ -108,6 +60,57 @@ namespace PAZ_Dispersal
       } 
 
 		#endregion Overridden Methods 
+
+       public void setComboRank(Animal inA)
+       {
+           double d = 0;
+           double adjustDistance = 0;
+           double maxFood = 0.0;
+           double maxRisk = 0.0;
+           double foodValue = 0.0;
+           double riskValue = 0.0;
+
+          
+
+           //set up to sort by food first
+           EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Food;
+           inA.MySites.Sort();
+           maxFood = inA.MySites.getSite(0).Food;
+           EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Risk;
+           maxRisk = inA.MySites.getSite(0).Risk;
+           fw.writeLine("inside setComboRank with a distance factor of " + inA.DistanceWeight.ToString());
+           fw.writeLine("max food was " + maxFood.ToString());
+           fw.writeLine("max Risk was " + maxRisk.ToString());
+           try
+           {
+               foreach (EligibleHomeSite ehs in inA.MySites)
+               {
+                   if (ehs.SuitableSite)
+                   {
+                       adjustDistance = Math.Pow(ehs.DistanceFromCurrLocation, (1 / inA.DistanceWeight));
+                       fw.writeLine(ehs.X.ToString() + " " + ehs.Y.ToString() + " site is eligible");
+                       fw.writeLine("the distance from current location is " + ehs.DistanceFromCurrLocation.ToString());
+                       fw.writeLine("so adjusted distace value is " + adjustDistance.ToString());
+                       fw.writeLine("this sites food value is " + ehs.Food.ToString());
+                       fw.writeLine("this sites risk value is " + ehs.Risk.ToString());
+                       foodValue = ehs.Food / maxFood;
+                       fw.writeLine("food value is " + foodValue.ToString());
+                       riskValue = (1 - ehs.Risk / maxRisk);
+                       fw.writeLine("risk value is " + riskValue.ToString());
+                       ehs.Rank = (foodValue + riskValue) / adjustDistance;
+                       d += ehs.Rank;
+                   }
+               }
+               inA.MySites.setRanges(d);
+           }
+           catch (System.Exception ex)
+           {
+#if (DEBUG)
+               System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+               FileWriter.FileWriter.WriteErrorFile(ex);
+           }
+       }
 
    }
 }

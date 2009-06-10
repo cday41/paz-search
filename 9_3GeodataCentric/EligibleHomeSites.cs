@@ -70,7 +70,7 @@ namespace PAZ_Dispersal
 
       }
 
-      private void setRanges(double inDouble)
+      public void setRanges(double inDouble)
       {
          double d = 0;
          try
@@ -218,58 +218,7 @@ namespace PAZ_Dispersal
          return qualifyingSites;
       }
 
-      public void setComboRank(double distanceFactor)
-      {
-         double d=0;
-         double adjustDistance = 0;
-         double maxFood = 0.0;
-         double maxRisk = 0.0;
-         double foodValue = 0.0;
-         double riskValue = 0.0;
-
-         if (this.Count <= 0)
-         {
-            int i = 0;
-         }
-
-
-         this.sortByFood();
-         maxFood = this.getSite(0).Food;
-         this.sortByRisk();
-         maxRisk = this.getSite(0).Risk;
-         fw.writeLine("inside setComboRank with a distance factor of " + distanceFactor.ToString());
-         fw.writeLine("max food was " + maxFood.ToString());
-         fw.writeLine("max Risk was " + maxRisk.ToString());
-         try
-         {
-            foreach(EligibleHomeSite ehs in this)
-            {
-               if(ehs.SuitableSite)
-               {
-                  adjustDistance = Math.Pow(ehs.DistanceFromCurrLocation,(1/distanceFactor));
-                  fw.writeLine(ehs.X.ToString() + " " + ehs.Y.ToString() + " site is eligible");
-                  fw.writeLine("the distance from current location is " + ehs.DistanceFromCurrLocation.ToString() );
-                  fw.writeLine("so adjusted distace value is " + adjustDistance.ToString());
-                  fw.writeLine("this sites food value is " + ehs.Food.ToString());
-                  fw.writeLine("this sites risk value is " + ehs.Risk.ToString());
-                  foodValue = ehs.Food/maxFood;
-                  fw.writeLine("food value is " + foodValue.ToString());
-                  riskValue = (1-ehs.Risk/maxRisk);
-                  fw.writeLine("risk value is " + riskValue.ToString());
-                  ehs.Rank = (foodValue + riskValue) / adjustDistance;
-                  d+= ehs.Rank;
-               }
-            }
-            setRanges(d);
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
+      
 
       public void setFoodRank(double distanceFactor)
       {

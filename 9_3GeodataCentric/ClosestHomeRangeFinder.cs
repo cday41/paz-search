@@ -74,7 +74,6 @@ namespace PAZ_Dispersal
       {
          bool success = false;
          int index;
-         double polyArea;
          PointClass currEligibleSite=null;
          try
          {
