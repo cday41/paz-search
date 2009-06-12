@@ -587,33 +587,7 @@ namespace PAZ_Dispersal
                   //Wednesday, March 05, 2008 moved after calculating the the temp percent to accurately capture the value.
                   if (doTextOutput)
                   {
-                      fw.writeLine("start writing text output");
-                      string s = this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY);
-                      fw.writeLine("the output will be " + s);
-                      if (mTextFileWriter != null)
-                      {
-                          mTextFileWriter.addLine(s, fw);
-                      }
-                      else
-                      {
-                          Thread.Sleep(300);
-                          int i = 0;
-                          while(mTextFileWriter == null && i < 100000)
-                          {
-                              i++;
-                              Thread.Sleep(300);
-                          }
-                          if (mTextFileWriter != null)
-                          {
-                              mTextFileWriter.addLine(s, fw);
-                              mTextFileWriter.addLine("looped " + i.ToString() + " times");
-                          }
-                          else
-                          {
-                              fw.writeLine("text writer bailed");
-                          }
-                      }
-                        fw.writeLine("done writing text output");
+                      mTextFileWriter.addLine(this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY));
                   }
                  
                   loseEnergy(tempPercentTimeStep);
@@ -640,7 +614,7 @@ namespace PAZ_Dispersal
                   timeToLookForHome = this.mHomeRangeTrigger.timeToLookForHome(this);
                }
             
-               if (timeToLookForHome && !this.goingHome)
+               if (timeToLookForHome && !this.goingHome && this.MySites.Count > 0)
                {
                   fw.writeLine("yes it is time to look for a home calling find home");
                   

@@ -49,7 +49,7 @@ namespace PAZ_Dispersal
       public EligibleHomeSite(double inFood, double inRisk, double inX, double inY)
       {
          mDistanceFromCurrLocation = 0;
-         mSuitableSite = false;
+         mSuitableSite = true;
          mFood=inFood;
          mRisk=inRisk;
          mX=inX;

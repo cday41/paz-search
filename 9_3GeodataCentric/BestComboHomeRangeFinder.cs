@@ -48,7 +48,7 @@ namespace PAZ_Dispersal
       {
          bool foundHomeRange = false;
          base.setDistance(inAnimal);
-         //inAnimal.MySites.setComboRank(inAnimal);
+         this.setComboRank(inAnimal);
          List<EligibleHomeSite> qs = inAnimal.MySites.getQualifiedSites();
 
          inAnimal.HomeRangeCenter = base.chooseHomeRangeCenter(qs, inAnimal.HomeRangeArea) as PointClass;
@@ -71,11 +71,12 @@ namespace PAZ_Dispersal
            double riskValue = 0.0;
 
           
-
+           
            //set up to sort by food first
            EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Food;
            inA.MySites.Sort();
            maxFood = inA.MySites.getSite(0).Food;
+           //get the risk data now
            EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Risk;
            maxRisk = inA.MySites.getSite(0).Risk;
            fw.writeLine("inside setComboRank with a distance factor of " + inA.DistanceWeight.ToString());
@@ -85,8 +86,6 @@ namespace PAZ_Dispersal
            {
                foreach (EligibleHomeSite ehs in inA.MySites)
                {
-                   if (ehs.SuitableSite)
-                   {
                        adjustDistance = Math.Pow(ehs.DistanceFromCurrLocation, (1 / inA.DistanceWeight));
                        fw.writeLine(ehs.X.ToString() + " " + ehs.Y.ToString() + " site is eligible");
                        fw.writeLine("the distance from current location is " + ehs.DistanceFromCurrLocation.ToString());
@@ -98,8 +97,8 @@ namespace PAZ_Dispersal
                        riskValue = (1 - ehs.Risk / maxRisk);
                        fw.writeLine("risk value is " + riskValue.ToString());
                        ehs.Rank = (foodValue + riskValue) / adjustDistance;
+                       fw.writeLine("final rank is " + ehs.Rank.ToString());
                        d += ehs.Rank;
-                   }
                }
                inA.MySites.setRanges(d);
            }

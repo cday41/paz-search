@@ -79,13 +79,10 @@ namespace PAZ_Dispersal
             fw.writeLine("starting the loop");
             foreach(EligibleHomeSite ehs in this)
             {
-               if(ehs.SuitableSite)
-               {  
                   fw.writeLine(ehs.X.ToString() + ehs.Y.ToString() + " is eligble site raw rank is " + ehs.Rank.ToString());
                   ehs.Rank = ehs.Rank / inDouble;
                   fw.writeLine("after adjusting rank is " + ehs.Rank.ToString());
                   d+=ehs.Rank;
-               }
             }
             
             

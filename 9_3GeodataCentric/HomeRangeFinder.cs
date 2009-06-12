@@ -124,7 +124,9 @@ namespace PAZ_Dispersal
                currPoint.X = ehs.X;
                currPoint.Y = ehs.Y;
                count++;
+               fw.writeLine("this sites rank is " + ehs.Rank.ToString());
                fw.writeLine("calling get area");
+
                if (this.getArea(currPoint) >= minHomeRangeArea)
                {
                  
