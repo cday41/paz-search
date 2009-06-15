@@ -77,7 +77,7 @@ namespace PAZ_Dispersal
 
       public override bool setHomeRangeCenter(Animal inAnimal, string inFileName)
       {
-         bool foundHomeRange = false;
+         bool foundHomeRange = true;
          base.setDistance(inAnimal);
          inAnimal.MySites.setFoodRank(inAnimal.DistanceWeight);
          List<EligibleHomeSite> qs = inAnimal.MySites.getQualifiedSites();

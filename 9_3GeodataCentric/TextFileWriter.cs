@@ -1,71 +1,82 @@
 using System.IO;
+using System.Collections.Specialized;
 namespace PAZ_Dispersal
 {
    public class TextFileWriter
    {
+
+      #region Fields (2)
+
+
       private string mOutPath;
+      private StringCollection sc;
       private System.IO.StreamWriter sw;
+
+      #endregion Fields
+
+      #region Constructors (1)
+
       public TextFileWriter(string path, string fileName)
       {
          mOutPath = path;
+         sc = new StringCollection();
          if (mOutPath != null)
          {
-            if (! System.IO.Directory.Exists(mOutPath))
+            if (!System.IO.Directory.Exists(mOutPath))
             {
                System.IO.Directory.CreateDirectory(mOutPath);
             }
-            
-            sw = new StreamWriter(mOutPath + "\\" + fileName + ".txt",true);
+
+            sw = new StreamWriter(mOutPath + "\\" + fileName + ".txt", true);
             sw.WriteLine("Year,Day,Time,George #, X, Y, Asleep,Behavior Mode,Energy Level,Risk,ProbFoodCap,MVL,MSL,PercptionDist,Percent Step");
          }
       }
-      public void addLine(string inValue,FileWriter.FileWriter inFw)
+
+      #endregion Constructors
+
+      #region Properties (1)
+
+
+      public string OutPath
       {
-          try
-          {
-              inFw.writeLine("inside addline checking if sw is null");
-              if (sw != null)
-              {
-                  inFw.writeLine("sw was not null");
-                  sw.WriteLine(inValue);
-                  sw.Flush();
-              }
-          }
-          catch (System.Exception ex)
-          {
-
-              FileWriter.FileWriter.WriteErrorFile(ex);
-          }
+         get { return mOutPath; }
+         set { mOutPath = value; }
       }
-       public void addLine(string inValue)
-       {
-           try
-           {
-              
-               if (sw != null)
-               {
-                   sw.WriteLine(inValue);
-                   sw.Flush();
-               }
-           }
-           catch (System.Exception ex)
-           {
 
-               FileWriter.FileWriter.WriteErrorFile(ex);
-           }
-       }
+
+      #endregion Properties
+
+      #region Public Methods (3)
+
+      public void WriteOutTimeStep()
+      {
+         foreach (string s in this.sc)
+         {
+            this.sw.WriteLine(s);
+         }
+         this.sc.Clear();
+      }
+
+      public void addLine(string inValue)
+      {
+         try
+         {
+            this.sw.WriteLine(inValue);
+            
+         }
+         catch (System.Exception ex)
+         {
+
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
 
       public void close()
       {
          sw.Close();
       }
 
-      
-      public string OutPath
-		{
-			get { return mOutPath; }
-			set { mOutPath = value; }
-		}
+      #endregion Public Methods
 
    }
 }

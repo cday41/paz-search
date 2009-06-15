@@ -614,7 +614,6 @@ private MapManager()
                fw.writeLine("Calling update the animal map");
                this.myDataManipulator.UnionAnimalClipData(mapPath,clipPath,unionPath);
                this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA"); 
-               this.myAnimalMaps[AnimalID].removeAllPolygons();
                
             }
 

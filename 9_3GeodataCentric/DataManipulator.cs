@@ -584,7 +584,7 @@ namespace PAZ_Dispersal
       }
 
       public void RemoveExtraFields(string inFullFilePath, string ListOfFields)
-      {
+       {
          DeleteField d = new DeleteField();
          this.MakeLayer(inFullFilePath, this.tempLayer1);
          d.in_table = this.tempLayer1;
