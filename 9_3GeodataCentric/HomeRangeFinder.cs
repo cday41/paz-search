@@ -376,6 +376,7 @@ namespace PAZ_Dispersal
       {
          bool result = false;
          this.fileNameIndex++;
+         this.myDataManipulator.CreateStepMap(inFileName, inA.MySites.getPoints());
          myAvailableAreas = this.myDataManipulator.GetSuitablePolygons(inFileName, inA.Sex, this.myAvailableAreaFileName + this.fileNameIndex.ToString() + this.myAvailableAreaFileExtension);
          if (myAvailableAreas != null)
             result = true;

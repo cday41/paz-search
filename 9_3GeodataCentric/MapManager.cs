@@ -620,6 +620,7 @@ private MapManager()
             fw.writeLine("now make the new animal map");
 
             this.makeMapCopies(System.IO.Path.GetDirectoryName(dissolvePath), System.IO.Path.GetFileNameWithoutExtension(dissolvePath), System.IO.Path.GetDirectoryName(mapPath), System.IO.Path.GetFileNameWithoutExtension(newMapPath));
+            this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             fw.writeLine("now going to copy " + dissolvePath + " to " + mapPath);
             fw.writeLine("time to remove those extra files");

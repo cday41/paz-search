@@ -97,6 +97,25 @@ namespace PAZ_Dispersal
          RunProcess(c, null);
       }
 
+      private IFeatureClass CreateEmptyFeatureClass(string path, string fileName, string featureType)
+      {
+         IFeatureClass fc = null;
+         try
+         {
+            CreateFeatureclass cf = new CreateFeatureclass();
+            cf.out_path = path;
+            cf.out_name = fileName;
+            cf.geometry_type = featureType.ToUpper();
+            fc = this.RunProcessGetFeatureClass(cf, null);
+         }
+         catch (System.Runtime.InteropServices.COMException ex)
+         {
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return fc;
+      }
+
       private void CopyFeaturesToFeatureClass(string inLayer, string RecievingFeatureClass)
       {
 
@@ -249,12 +268,10 @@ namespace PAZ_Dispersal
             fw.writeLine("inside run process");
             fw.writeLine("the process I want to run is " + inProcess.ToolName);
             fw.writeLine("the tool box is " + toolbox);
-            //myProcessor.OverwriteOutput = true;
             IGeoProcessorResult result = (IGeoProcessorResult)myProcessor.Execute(inProcess, null);
             IGPUtilities util = new GPUtilitiesClass();
             util.DecodeFeatureLayer(result.GetOutput(0), out fc, out qf);
             ReturnMessages(myProcessor);
-          //  myProcessor.RemoveToolbox(toolbox);
          }
          catch (Exception ex)
          {
@@ -427,23 +444,34 @@ namespace PAZ_Dispersal
          return fc;
       }
 
-      public void CreateEmptyFeatureClass(string dirName, string fileName, string FeatureType)
-      {
-         try
-         {
-            CreateFeatureclass cf = new CreateFeatureclass();
-            cf.out_path = dirName;
-            cf.out_name = fileName;
-            cf.geometry_type = FeatureType.ToUpper();
-            this.RunProcess(cf, null);
-         }
-         catch (System.Runtime.InteropServices.COMException ex)
-         {
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
+      //public void CreateEmptyFeatureClass(string dirName, string fileName, string FeatureType)
+      //{
+      //   try
+      //   {
+      //      CreateFeatureclass cf = new CreateFeatureclass();
+      //      cf.out_path = dirName;
+      //      cf.out_name = fileName;
+      //      cf.geometry_type = FeatureType.ToUpper();
+      //      this.RunProcess(cf, null);
+      //   }
+      //   catch (System.Runtime.InteropServices.COMException ex)
+      //   {
+      //      System.Windows.Forms.MessageBox.Show(ex.Message);
+      //      FileWriter.FileWriter.WriteErrorFile(ex);
+      //   }
+        
    
 
+      //}
+
+      public void CreateStepMap(string inFilePath, List<IPoint> inSteps)
+      {
+         string path;
+         string fileName;
+         this.GetPathAndFileName(inFilePath, out path, out fileName);
+         IFeatureClass fc = this.CreateEmptyFeatureClass(path, "Step.shp", "point");
+         this.AddPointsToEmptyFeatureClass(fc, inSteps);
+         this.makeHomeRangeSelectionMap(path + "\\" + "Step.shp", inFilePath);
       }
 
       public void DeleteAllFeatures(string inFileName)
@@ -540,7 +568,6 @@ namespace PAZ_Dispersal
          string sqlWhereClause = this.buildSexBasedWhereClause(sex);
          this.MakeLayer(inFileName, this.selectLayer);
          if(this.SelectByValue(this.selectLayer, sqlWhereClause))
-         
          {
             this.CopyFeaturesToFeatureClass(this.selectLayer, path + outFileName);
             return this.GetFeatureClass(path, outFileName);
@@ -583,6 +610,18 @@ namespace PAZ_Dispersal
          return result;
       }
 
+      public void makeHomeRangeSelectionMap(string stepMapName, string animalMemoryMapName)
+      {
+         this.MakeLayer(stepMapName, this.tempLayer1);
+         this.MakeLayer(animalMemoryMapName, this.tempLayer2);
+         SpatialJoin sj = new SpatialJoin();
+         sj.target_features = this.tempLayer1;
+         sj.join_features = this.tempLayer2;
+         sj.match_option = "IS_WITHIN";
+         sj.out_feature_class = @"C:\Map\bob.shp";
+         this.RunProcess(sj, null);
+
+      }
       public void RemoveExtraFields(string inFullFilePath, string ListOfFields)
        {
          DeleteField d = new DeleteField();

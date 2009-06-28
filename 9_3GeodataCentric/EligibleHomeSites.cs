@@ -23,6 +23,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using ESRI.ArcGIS.Geometry;
 
 
 
@@ -202,18 +203,18 @@ namespace PAZ_Dispersal
 
       }
 
-      public List<Point> getPoints()
+      public List<IPoint> getPoints()
       {
-         RandomNumbers rn = RandomNumbers.getInstance();
-         double luckyNumber = rn.getUniformRandomNum();
-         List<Point> qualifyingSites = new List<Point>();
+         
+         List<IPoint> qualifyingSites = new List<IPoint>();
          foreach (EligibleHomeSite ehs in this)
          {
-            if (luckyNumber >= ehs.Rank)
-            {
-               Point p = new Point(ehs.X, ehs.Y);
+          
+               IPoint p = new PointClass();
+               p.X = ehs.X;
+               p.Y = ehs.Y;
                qualifyingSites.Add(p);
-            }
+           
          }
          return qualifyingSites;
       }
