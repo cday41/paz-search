@@ -422,6 +422,15 @@ namespace PAZ_Dispersal
          this.CopyFeaturesToFeatureClass(this.tempLayer1, NewMapPath);
       }
 
+      public int GetRowCount(string inFileName)
+      {
+         GetCount gc = new GetCount();
+         this.MakeLayer(inFileName, this.tempLayer1);
+         gc.in_rows = this.tempLayer1;
+         this.RunProcess(gc, null);
+         return gc.row_count;
+      }
+
       public IFeatureClass CreateEmptyFeatureClass(string inFileName, string featureType)
       {
          IFeatureClass fc = null;
@@ -614,11 +623,12 @@ namespace PAZ_Dispersal
       {
          this.MakeLayer(stepMapName, this.tempLayer1);
          this.MakeLayer(animalMemoryMapName, this.tempLayer2);
+         string path = System.IO.Path.GetDirectoryName(animalMemoryMapName);
          SpatialJoin sj = new SpatialJoin();
          sj.target_features = this.tempLayer1;
          sj.join_features = this.tempLayer2;
          sj.match_option = "IS_WITHIN";
-         sj.out_feature_class = @"C:\Map\bob.shp";
+         sj.out_feature_class = path + "\\HomeSteps.shp";
          this.RunProcess(sj, null);
 
       }

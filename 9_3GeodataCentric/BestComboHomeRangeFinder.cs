@@ -47,14 +47,16 @@ namespace PAZ_Dispersal
       public override bool setHomeRangeCenter(Animal inAnimal, string inFileName)
       {
          bool foundHomeRange = false;
+         // this will tell us if we have any suitable sites to work with if so there will be
+         // a point map made in the Animal's home directory with the name HomeSteps.shp
+
+         if(this.setSuitableSites(inAnimal,inFileName))
+         {
+            //now see if any of them have enough area  
+         }
          base.setDistance(inAnimal);
          this.setComboRank(inAnimal);
-         List<EligibleHomeSite> qs = inAnimal.MySites.getQualifiedSites();
-
-         inAnimal.HomeRangeCenter = base.chooseHomeRangeCenter(qs, inAnimal.HomeRangeArea) as PointClass;
-         if (inAnimal.HomeRangeCenter == null)
-            foundHomeRange = false;
-
+         
          return foundHomeRange;
          
       } 

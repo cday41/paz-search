@@ -77,6 +77,31 @@ namespace PAZ_Dispersal
          }
       }
 
+      private List<int> GetPolyIndexes(string inFileName)
+      {
+         int fieldIndex;
+         int currValue;
+         List<int> outList = new List<int>();
+         IFeatureClass fc = myDataManipulator.GetFeatureClass(inFileName);
+         IFeatureCursor curr = fc.Search(null, false);
+         IFeature feat = curr.NextFeature();
+         fieldIndex = feat.Fields.FindFieldByAliasName("Id");
+         while (feat != null)
+         {
+            currValue = System.Convert.ToInt16(feat.get_Value(fieldIndex));
+            if (!outList.Contains(currValue))
+            {
+               outList.Add(currValue);
+            }
+            feat = curr.NextFeature();
+         }
+
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
+         return outList;
+
+      }
+
       #endregion Private Methods
 
       #region Protected Methods (10)
@@ -280,13 +305,7 @@ namespace PAZ_Dispersal
 
       }
 
-      protected IFeatureCursor getSuitablePolygons(IFeatureClass inFeatures)
-      {
-
-         IQueryFilter qf = new QueryFilterClass();
-         qf.WhereClause = "Available = 1";
-         return inFeatures.Search(qf, false);
-      }
+     
 
       protected void makeArrayOfPolygons(IFeatureCursor inFC)
       {
@@ -374,68 +393,49 @@ namespace PAZ_Dispersal
 
       protected bool setSuitableSites(Animal inA, string inFileName)
       {
-         bool result = false;
-         this.fileNameIndex++;
+         int rowCount;
+         
+         fw.writeLine("inside setSuitableSites for animal number " + inA.IdNum.ToString());
+         fw.writeLine("inFileName is " + inFileName);
+         fw.writeLine("calling datamanipulator create step map");
+         //this will create a point map in the animals home dir with a name of HomeSteps.shp
          this.myDataManipulator.CreateStepMap(inFileName, inA.MySites.getPoints());
-         myAvailableAreas = this.myDataManipulator.GetSuitablePolygons(inFileName, inA.Sex, this.myAvailableAreaFileName + this.fileNameIndex.ToString() + this.myAvailableAreaFileExtension);
-         if (myAvailableAreas != null)
-            result = true;
-         return result;
+         //now make sure there are points in the map
+         fw.writeLine("now see if there were any steps that met the conditions");
+         string path = System.IO.Path.GetDirectoryName(inFileName);
+         rowCount = myDataManipulator.GetRowCount(path + "\\HomeSteps.shp");
+         if (rowCount > 0)
+         {
+            fw.writeLine("ok there were " + rowCount.ToString() + " steps that are eligible");
+            return true;
+         }
+         else
+         {
+            fw.writeLine("no steps where eligible");
+            return false;
+         }
+
+
+         
       }
 
+      protected bool setSuitablePolygons(double minAreaNeeded, string inFileName)
+      {
+         List<int> myPolyIndexes = this.GetPolyIndexes(inFileName);
+         if (myPolyIndexes.Count > 0)
+         {
+            return true;
+         }
+         else
+         {
+            return false;
+         }
 
+
+      }
    
 
-//      protected int setSutitableSites(Animal inAnimal, IFeatureClass inAnmialMemoryMap)
-//      {
-//         IFeatureCursor fc = null;
-//         int suitableSites = 0;
-//         int currStep;
-//         double polyArea;
-//         IPolygon currPoly;
-//         EligibleHomeSite ehs;
-//         PointClass p = new PointClass();
-//         try
-//         {
-//            Check.Require(inAnmialMemoryMap != null, "InAnimalMap is null in ClosetHomeRanage finder");
-//            fw.writeLine("inside the getSuitablePoints in the BestFoodHomeRangeFinder for george number " + inAnimal.IdNum.ToString());
-//            fw.writeLine("making the feature class and feature cursor");
-//            //fc = this.getSuitablePolygons(inAnmialMemoryMap);
-//            fw.writeLine("now calling make array of polygons");
-//            makeArrayOfPolygons(fc);
-//            fw.writeLine("now loop through the sites");
-//            for (currStep = inAnimal.MySites.Count - 1; currStep >= 0; currStep--)
-//            {
-//               ehs = inAnimal.MySites.getSite(currStep);
-//               p.X = ehs.X;
-//               p.Y = ehs.Y;
-//               fw.writeLine("current site is x = " + ehs.X.ToString() + " y = " + ehs.Y.ToString());
-//               currPoly = this.getPolygon(p);
-//               if (currPoly != null)//if null was not in a suitable polygon
-//               {
-//                  polyArea = this.getArea(currPoly);
-//                  fw.writeLine("current polygon is " + polyArea.ToString());
-//                  fw.writeLine("george needs " + inAnimal.HomeRangeArea.ToString());
-//                  if (polyArea >= inAnimal.HomeRangeArea)
-//                  {
-//                     fw.writeLine("ok big enough area so add it to the list");
-//                     fw.writeLine("X = " + p.X.ToString() + " Y + " + p.Y.ToString());
-//                     ehs.SuitableSite = true;
-//                     suitableSites++;
-//                  }//end if large enough
-//               }//end if not occupied
-//            }//end for loop
-//         }//end try
-//         catch (System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//         fw.writeLine("leaving setSutitableSites with " + suitableSites.ToString());
-//         return suitableSites;
-//      }
+
 
       #endregion Protected Methods
 

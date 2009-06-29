@@ -84,7 +84,7 @@ namespace PAZ_Dispersal
             fw.writeLine("checking to see if there are any suitable sites");
             if (setSuitableSites(inAnimal, fileName))
             {
-               fw.writeLine("there are " + inAnimal.MySites.Count.ToString() + " sites to work with ");
+              
                double requiredArea = inAnimal.HomeRangeArea;
                fw.writeLine("we need " + requiredArea.ToString() );
                for (index = inAnimal.MySites.Count - 1; index >= 0; index--)
