@@ -82,7 +82,7 @@ namespace PAZ_Dispersal
          int fieldIndex;
          int currValue;
          List<int> outList = new List<int>();
-         IFeatureClass fc = myDataManipulator.GetFeatureClass(inFileName);
+         IFeatureClass fc = this.myDataManipulator.GetFeatureClass(inFileName);
          IFeatureCursor curr = fc.Search(null, false);
          IFeature feat = curr.NextFeature();
          fieldIndex = feat.Fields.FindFieldByAliasName("Id");
@@ -414,23 +414,51 @@ namespace PAZ_Dispersal
             fw.writeLine("no steps where eligible");
             return false;
          }
-
-
-         
       }
 
-      protected bool setSuitablePolygons(double minAreaNeeded, string inFileName)
+      protected bool setSuitablePolygons(double minAreaNeeded, string inStepFileName, string inAnimalMemoryMap)
       {
-         List<int> myPolyIndexes = this.GetPolyIndexes(inFileName);
+         
+         List<int> myPolyIndexes = this.GetPolyIndexes(inStepFileName);
          if (myPolyIndexes.Count > 0)
          {
-            return true;
+            int fieldIndex;
+            IFeatureClass fc = myDataManipulator.GetFeatureClass(inAnimalMemoryMap);
+            IFeatureCursor curr = null;
+            IFeature feat = null;
+            IPolygon currPoly;
+            IQueryFilter qf = new QueryFilterClass();
+            for (int i = 0; i < myPolyIndexes.Count; i++)
+            {
+               qf.WhereClause = "Shape = " + myPolyIndexes[i].ToString();
+               curr = fc.Search(null, false);
+               feat = curr.NextFeature();
+               IFields f = feat.Fields;
+               for (int h=0; h< f.FieldCount; h++)
+               {
+                  IField f1 = f.get_Field(h);
+              
+                  Console.WriteLine(f1.AliasName);
+               }
+               currPoly = feat.ShapeCopy as IPolygon;
+               if (this.getArea(currPoly) > minAreaNeeded)
+               {
+                  int j = 0;
+               }
+
+            }
+
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
+            
+
+            
          }
          else
          {
             return false;
          }
-
+         return true;
 
       }
    

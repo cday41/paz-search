@@ -53,6 +53,11 @@ namespace PAZ_Dispersal
          if(this.setSuitableSites(inAnimal,inFileName))
          {
             //now see if any of them have enough area  
+            String path = System.IO.Path.GetDirectoryName(inFileName);
+            if(this.setSuitablePolygons(inAnimal.HomeRangeArea,path + "\\HomeSteps.shp",inFileName))
+            {
+               int i = 0;
+            }
          }
          base.setDistance(inAnimal);
          this.setComboRank(inAnimal);
