@@ -25,57 +25,57 @@ namespace PAZ_Dispersal
 
       public string BuildHomeRange(Animal inAnimal, string currSocialFileName)
       {
-         string returnVal = "";
-         double minArea = 0;
-         bool success = false;
-         double stretchFactor = 1.0;
-         int index = 0;
-         IPolygon tempPoly = null;
-         fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
-         fw.writeLine("the current social map is " + currSocialFileName);
-         string path = System.IO.Path.GetDirectoryName(inAnimal.MapManager.getAnimalMapName(inAnimal.IdNum));
-         while (minArea < inAnimal.HomeRangeArea)
-         {
-            fw.writeLine("inside loop for making the polygon");
-            this.buildPathNames(path, index.ToString());
-            fw.writeLine("going to call buildHomeRangePolygon with a stretch factor of " + stretchFactor.ToString());
-            tempPoly = this.buildHomeRangePolygon(inAnimal, stretchFactor);
-            fw.writeLine("now add it to a feature class");
-            this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
-            fw.writeLine("now clip it against the current social map");
-            this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
-            fw.writeLine("now get all the good polygons from the clip to meassure the area");
-            IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
-            if (fc != null)
-            {
-               minArea = this.getArea(fc);
-               fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeArea.ToString());
-               MapManager.RemoveFiles(homeRangeFileName);
-               index++;
-               if (minArea < inAnimal.HomeRangeArea)
-               {
-                  stretchFactor += .1;
-                  MapManager.RemoveFiles(availablePolygonsFileName);
-                  fc = null;
-                  //MapManager.RemoveFiles(clipPath);
-                  fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
-               }
-               else
-               {
-               }
-               fw.writeLine("leaving with a file name of " + path + availablePolygonsFileName);
-               returnVal = path + availablePolygonsFileName;
-            }
-            else
-            {
-               returnVal = "No Home Found";
-            }
-         }
+      //   string returnVal = "";
+      //   double minArea = 0;
+      //   bool success = false;
+      //   double stretchFactor = 1.0;
+      //   int index = 0;
+      //   IPolygon tempPoly = null;
+      //   fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
+      //   fw.writeLine("the current social map is " + currSocialFileName);
+      //   string path = System.IO.Path.GetDirectoryName(inAnimal.MapManager.getAnimalMapName(inAnimal.IdNum));
+      //   while (minArea < inAnimal.HomeRangeArea)
+      //   {
+      //      fw.writeLine("inside loop for making the polygon");
+      //      this.buildPathNames(path, index.ToString());
+      //      fw.writeLine("going to call buildHomeRangePolygon with a stretch factor of " + stretchFactor.ToString());
+      //      tempPoly = this.buildHomeRangePolygon(inAnimal, stretchFactor);
+      //      fw.writeLine("now add it to a feature class");
+      //      this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
+      //      fw.writeLine("now clip it against the current social map");
+      //      this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
+      //      fw.writeLine("now get all the good polygons from the clip to meassure the area");
+      //      IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
+      //      if (fc != null)
+      //      {
+      //         minArea = this.getArea(fc);
+      //         fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeArea.ToString());
+      //         MapManager.RemoveFiles(homeRangeFileName);
+      //         index++;
+      //         if (minArea < inAnimal.HomeRangeArea)
+      //         {
+      //            stretchFactor += .1;
+      //            MapManager.RemoveFiles(availablePolygonsFileName);
+      //            fc = null;
+      //            //MapManager.RemoveFiles(clipPath);
+      //            fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
+      //         }
+      //         else
+      //         {
+      //         }
+      //         fw.writeLine("leaving with a file name of " + path + availablePolygonsFileName);
+      //         returnVal = path + availablePolygonsFileName;
+      //      }
+      //      else
+      //      {
+      //         returnVal = "No Home Found";
+      //      }
+      //   }
 
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
+      //   System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
 
-         fw.writeLine("leaving with a file name of " + returnVal);
-         return returnVal;
+      //   fw.writeLine("leaving with a file name of " + returnVal);
+         return "returnVal";
       }
 
       private void buildPathNames(string path,string multiplier)

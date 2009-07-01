@@ -33,7 +33,7 @@ namespace PAZ_Dispersal
    {
 
       #region Fields (4)
-
+      const string homeRangePolygonFileName = "\\SuitablePolygons.shp";
 
       private DataManipulator myDataManipulator;
       protected FileWriter.FileWriter fw;
@@ -416,48 +416,27 @@ namespace PAZ_Dispersal
          }
       }
 
-      protected bool setSuitablePolygons(double minAreaNeeded, string inStepFileName, string inAnimalMemoryMap)
+      protected bool setSuitablePolygons(double minAreaNeeded, string inAnimalSex, string inAnimalMemoryMap)
       {
-         
-         List<int> myPolyIndexes = this.GetPolyIndexes(inStepFileName);
-         if (myPolyIndexes.Count > 0)
+         string tempFileName = System.IO.Path.GetDirectoryName(inAnimalMemoryMap) + homeRangePolygonFileName;
+         IFeatureClass fc = myDataManipulator.GetSuitablePolygons(inAnimalMemoryMap, inAnimalSex, tempFileName);
+         IFeatureCursor curr = null;
+         IFeature feat = null;
+         IPolygon currPoly;
+
+         curr = fc.Search(null, false);
+         feat = curr.NextFeature();
+         while (feat != null)
          {
-            int fieldIndex;
-            IFeatureClass fc = myDataManipulator.GetFeatureClass(inAnimalMemoryMap);
-            IFeatureCursor curr = null;
-            IFeature feat = null;
-            IPolygon currPoly;
-            IQueryFilter qf = new QueryFilterClass();
-            for (int i = 0; i < myPolyIndexes.Count; i++)
+            currPoly = feat.ShapeCopy as IPolygon;
+            if (this.getArea(currPoly) > minAreaNeeded)
             {
-               qf.WhereClause = "Shape = " + myPolyIndexes[i].ToString();
-               curr = fc.Search(null, false);
-               feat = curr.NextFeature();
-               IFields f = feat.Fields;
-               for (int h=0; h< f.FieldCount; h++)
-               {
-                  IField f1 = f.get_Field(h);
-              
-                  Console.WriteLine(f1.AliasName);
-               }
-               currPoly = feat.ShapeCopy as IPolygon;
-               if (this.getArea(currPoly) > minAreaNeeded)
-               {
-                  int j = 0;
-               }
-
+               int i = 0;
             }
-
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
-            
-
-            
+            feat = curr.NextFeature();
          }
-         else
-         {
-            return false;
-         }
+         return true;
+
          return true;
 
       }

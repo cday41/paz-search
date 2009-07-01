@@ -458,7 +458,7 @@ namespace PAZ_Dispersal
          string path;
          string fileName;
          this.GetPathAndFileName(inFilePath, out path, out fileName);
-         IFeatureClass fc = this.CreateEmptyFeatureClass(path, "Step.shp", "point");
+         IFeatureClass fc = this.CreateEmptyFeatureClass(path + "\\Step.shp", "point");
          this.AddPointsToEmptyFeatureClass(fc, inSteps);
          this.makeHomeRangeSelectionMap(path + "\\" + "Step.shp", inFilePath);
       }
@@ -553,16 +553,17 @@ namespace PAZ_Dispersal
       public IFeatureClass GetSuitablePolygons(string inFileName, string sex, string outFileName)
       {
 
-         string path = System.IO.Path.GetDirectoryName(inFileName);
+         IFeatureClass fc = null;
          string sqlWhereClause = this.buildSexBasedWhereClause(sex);
          this.MakeLayer(inFileName, this.selectLayer);
          if(this.SelectByValue(this.selectLayer, sqlWhereClause))
-         {
-            this.CopyFeaturesToFeatureClass(this.selectLayer, path + outFileName);
-            return this.GetFeatureClass(path, outFileName);
+         {  
+            this.AddField("TEXT", "delete", null, this.selectLayer);
+            this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
+            fc = this.GetFeatureClass(outFileName);
          }
-         else
-            return null;
+         return fc;
+           
       }
 
       public bool MakeDissolvedTimeStep(string inFullFilePath, string dissovlePath, IPolygon inPoly1, IPolygon inPoly2)
@@ -583,7 +584,7 @@ namespace PAZ_Dispersal
             this.MakeLayer(inFullFilePath, this.tempLayer1);
             fw.writeLine("Calling check lock");
             this.DissolveFeatures(this.tempLayer1, dissovlePath, "Id");
-            this.RemoveAllPolygons(ref fc);
+           // this.removeAllPolygons(ref fc);
             
          }
          catch (System.Exception ex)

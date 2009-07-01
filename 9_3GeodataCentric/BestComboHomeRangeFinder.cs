@@ -51,10 +51,11 @@ namespace PAZ_Dispersal
          // a point map made in the Animal's home directory with the name HomeSteps.shp
 
          if(this.setSuitableSites(inAnimal,inFileName))
+        // if(this.setSuitableSites(inAnimal,inFileName))
          {
             //now see if any of them have enough area  
             String path = System.IO.Path.GetDirectoryName(inFileName);
-            if(this.setSuitablePolygons(inAnimal.HomeRangeArea,path + "\\HomeSteps.shp",inFileName))
+            if(this.setSuitablePolygons(inAnimal.HomeRangeArea,inAnimal.Sex,inFileName))
             {
                int i = 0;
             }
