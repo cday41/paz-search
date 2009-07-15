@@ -48,91 +48,29 @@ namespace PAZ_Dispersal
    /// </summary>
    public class MapManager
    {
+		#region Public Members (50) 
 
-		#region Enums (1) 
+		#region Fields (5) 
 
-      private enum ERR
-      {
-         WRONG_TYPE_OF_SHAPE_FILE,
-         CAN_NOT_FIND_REQUIRED_FIELD,
-         NO_FILES_FOUND_IN_DIRECTORY,
-         DIRECTORY_ALREADY_IN_USE,
-         NO_DIRECTORY_FOUND
-      }
-
-		#endregion Enums 
-
-		#region Static Fields (1) 
-
-private static MapManager uniqueInstance;
-
-		#endregion Static Fields 
-
-		#region Fields (25) 
-
-
-      private AnimalMap[] myAnimalMaps;
-
-      private string _currStepPath;
-      private string errFileName;
-      private string mOutMapPath;
-
-      private int errNumber;
-      private int numHomeRanges;
-      private int SocialIndex;
-
-      private DataManipulator myDataManipulator;
-      private DateTime mCurrTime;
-      private FileWriter.FileWriter fw;
-      private Hashtable myHash;
-      //  = new ShapefileWorkspaceFactory();
-      private IFeatureWorkspace featureWrkSpace;
-      //      public  int myMaps;
-      private IWorkspace wrkSpace;
-      private IWorkspaceFactory wrkSpaceFactory;
-      private Map myDispersalMap = null;
-      private Map myFoodMap = null;
-      private Map myMoveMap = null;
-      private Map myPredationMap = null;
-      private Map mySocialMap = null;
       public Maps myDispersalMaps = null;
       public Maps myFoodMaps = null;
       public Maps myMoveMaps = null;
       public Maps myPredationMaps = null;
       public Maps mySocialMaps = null;
-      private System.Collections.Specialized.StringCollection errMessages;
 
 		#endregion Fields 
-
-		#region Constructors (1) 
-
-private MapManager()
-      {
-         //check on whether we are going to log or not
-         this.buildLogger();
-         // get the error messages ready         
-         initializeErrMessages();
-         myDataManipulator = new DataManipulator();
-         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
-         this.myFoodMaps = new Maps("Food");
-         this.myMoveMaps = new Maps("Move");
-         this.myPredationMaps = new Maps("Predation");
-         this.mySocialMaps = new Maps("Social");
-         this.myDispersalMaps = new Maps("Dispersal");
-         SocialIndex = 0;
-         numHomeRanges = 0;
-
-      }
-
-		#endregion Constructors 
-
 		#region Properties (4) 
-
 
       public string CurrStepPath
       {
          get { return _currStepPath; }
          set { _currStepPath = value; }
+      }
+
+      public DateTime CurrTime
+      {
+         get { return mCurrTime; }
+         set { mCurrTime = value; }
       }
 
       public string OutMapPath
@@ -145,431 +83,14 @@ private MapManager()
          }
       }
 
-
-      public DateTime CurrTime
-      {
-         get { return mCurrTime; }
-         set { mCurrTime = value; }
-      }
-
       public Map SocialMap
       {
          get { return mySocialMap; }
          set { mySocialMap = value; }
       }
 
-
 		#endregion Properties 
-
-		#region Static Methods (2) 
-
-      public static MapManager GetUniqueInstance()
-      {
-
-         if (uniqueInstance == null)
-         {
-            uniqueInstance = new MapManager();
-         }
-         return uniqueInstance;
-      }
-
-      public static void RemoveFiles(string FullFilePath)
-      {
-
-         string[] fileNames;
-         string currDir = System.IO.Path.GetDirectoryName(FullFilePath);
-         string fileName = System.IO.Path.GetFileNameWithoutExtension(FullFilePath);
-         string compareFileName;
-         bool success = true;
-         try
-         {
-            fileNames = Directory.GetFiles(currDir);
-            for (int i = 0; i < fileNames.Length; i++)
-            {
-               compareFileName =  System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
-               if (compareFileName.Equals(fileName,StringComparison.CurrentCultureIgnoreCase))
-               {
-                  File.Delete(fileNames[i]);
-               }
-            }
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
-
-		#endregion Static Methods 
-
-		#region Private Methods (12) 
-
-      private void AddFirstMemoryPoly(int AnimalID, IPolygon inPoly1, IPolygon inPoly2)
-      {
-         try
-         {
-            this.myAnimalMaps[AnimalID].addPolygon(inPoly1);
-            this.myAnimalMaps[AnimalID].addPolygon(inPoly2);
-
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
-
-      private void addNewPoly(Map inMap, IPolygon inPoly)
-      {
-         IFeature feature = null;
-         IFields fields;
-         int index = 0;
-
-
-         //now add the one we want
-         try
-         {
-            feature = inMap.mySelf.CreateFeature();
-            fields = feature.Fields;
-            index = fields.FindField("CurrTime");
-            if (index >= 0)
-               feature.set_Value(index, 1);
-            index = fields.FindField("OCCUP_MALE");
-            
-            feature.Shape = inPoly;
-            feature.Store();
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-
-
-      }
-
-      private void buildLogger()
-      {
-         string s;
-         StreamReader sr;
-         bool foundPath = false;
-         string path = System.Windows.Forms.Application.StartupPath;
-         if (File.Exists(path + "\\logFile.dat"))
-         {
-            sr = new StreamReader(path + "\\logFile.dat");
-            while (sr.Peek() > -1)
-            {
-               s = sr.ReadLine();
-               if (s.IndexOf("MapManagerPath") == 0)
-               {
-                  fw = FileWriter.FileWriter.getMapManagerLogger(s.Substring(s.IndexOf(" ")));
-
-                  foundPath = true;
-                  break;
-               }
-            }
-            sr.Close();
-
-         }
-         if (!foundPath)
-         {
-            fw = new FileWriter.EmptyFileWriter();
-         }
-
-      }
-
-      private DateTime createStartTime(string time, string typeOfTime)
-      {
-         string[] s;
-         DateTime dt = DateTime.Today;
-         try
-         {
-            switch (typeOfTime)
-            {
-               case "daily":
-                  s = time.Split('/');
-                  int day = System.Convert.ToInt32(s[1]);
-                  int month = System.Convert.ToInt32(s[0]);
-                  int year = System.Convert.ToInt32(s[2]);
-                  dt = new DateTime(year, month, day);
-                  break;
-               case "hourly":
-                  dt = DateTime.Today;
-                  //the time is in the format of 7:32 PM
-                  //so split it up and deal with it you wancker
-                  s = time.Split(':');
-                  dt = dt.AddHours(System.Convert.ToInt32(s[0]));
-                  dt = dt.AddMinutes(System.Convert.ToInt32(s[1].Substring(0, 2)));
-                  if (time.IndexOf("PM") > 0)
-                     dt = dt.AddHours(12);
-                  break;
-               case "yearly":
-                  dt = DateTime.Today;
-                  dt = dt.AddYears(System.Convert.ToInt32(time) - dt.Year);
-                  break;
-               case "static":
-                  dt = DateTime.Today;
-                  dt = dt.AddYears(System.Convert.ToInt32(time) - dt.Year);
-                  break;
-               default:
-                  throw new SystemException("Bad type of time in Map Manager createStartTime");
-
-            }
-
-         }
-         catch (System.Exception ex)
-         {
-#if DEBUG
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-
-         return dt;
-      }
-
-      private void EditNewHomeRangeUnion(string inUnionSocialMapPath, string sex, string inAnimalID)
-      {
-         int sexIndex;
-         IFeatureCursor updateCurr;
-         IFeature feat;
-         IQueryFilter qf = new QueryFilterClass();
-         qf.WhereClause = "FID_availa >= 0";
-
-         IFeatureClass fc = myDataManipulator.GetFeatureClass(inUnionSocialMapPath);
-         if (sex.Equals("male", StringComparison.CurrentCultureIgnoreCase))
-            sexIndex = fc.FindField("OCCUP_MALE");
-         else
-            sexIndex = fc.FindField("OCCUP_FEMA");
-
-         updateCurr = fc.Update(qf, true);
-         while((feat = updateCurr.NextFeature()) != null)
-         {
-            feat.set_Value(sexIndex,inAnimalID);
-            feat.Store();
-         }
-         updateCurr.Flush();
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-         
-      }
-
-      private void initializeErrMessages()
-      {
-         errMessages = new System.Collections.Specialized.StringCollection();
-         this.errMessages.Add("Wrong type of shape file");
-         this.errMessages.Add("Required field not found for this shape file.");
-         this.errMessages.Add("No files found in directory");
-         this.errMessages.Add("That directory is all ready in use");
-         this.errMessages.Add("That directory is not available");
-         errNumber = -1;
-
-      }
-
-      private void makeMapCopies(string orgPath, string orgFileName, string newPath, string newFileName)
-      {
-         string[] fileNames;
-         string extension;
-         try
-         {
-            if (!Directory.Exists(newPath))
-               Directory.CreateDirectory(newPath);
-            fileNames = Directory.GetFiles(orgPath, orgFileName + "*");
-            for (int i = 0; i < fileNames.Length; i++)
-            {
-               extension = fileNames[i].Substring(fileNames[i].Length - 4, 4);
-               File.Copy(fileNames[i], newPath + "\\" + newFileName + extension, true);
-            }
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
-
-      private string makeNewMapPath(string oldMapPath, string timeStep, string inAnimalID)
-      {
-         StringBuilder sb = new StringBuilder();
-         sb.Append(System.IO.Path.GetDirectoryName(oldMapPath) + "\\");
-         sb.Append(inAnimalID + timeStep + ".shp");
-         return sb.ToString();
-
-      }
-
-      private void removeAnimalMap(string oldMapPath)
-      {
-        
-         try
-         { 
-            fw.writeLine("");
-            fw.writeLine("Inside removeAnimalMap " + oldMapPath);
-            string currDir = System.IO.Path.GetDirectoryName(oldMapPath);
-            string oldFileName = System.IO.Path.GetFileNameWithoutExtension(oldMapPath);
-            string pattern = oldFileName + "*";
-            string [] files = Directory.GetFiles(currDir,pattern);
-            for (int i=0; i< files.Length; i++)
-            {
-               if(oldFileName.Equals(System.IO.Path.GetFileNameWithoutExtension(files[i])))
-               {
-                  File.Delete(files[i]);
-               }
-            }
-         }
-
-         catch (Exception)
-         {
-            fw.writeLine("Exectional Fail");
-            throw;
-         }
-
-      }
-
-      private void removeTimeStepMaps(string AnimalID)
-      {
-         string[] fileNames;
-         try
-         {
-            //use the animal id because each animal has its own sub folder based
-            //on its name.
-            fileNames = Directory.GetFiles(mOutMapPath + "\\" + AnimalID, "TimeStep" + "*");
-            for (int i = 0; i < fileNames.Length; i++)
-            {
-#if ! pat
-               File.Delete(fileNames[i]);
-#endif
-            }
-
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
-
-      /********************************************************************************
-       *  Function name   : validateNFieldPointMap
-       *  Description     : Will check to make sure it is a valid point shape file and 
-       *                    has the required number of fields
-       *  Return type     : bool 
-       *  Argument        : string [] inMapFileNames the names of the map files to validate
-       *  Argument        : int NumFields  the number of fields the maps should have
-       * *******************************************************************************/
-      private bool validateNFieldPointMap(string[] inMapFileNames, string[] inFieldNames)
-      {
-         int i;
-         int found = -1;
-         bool result;
-         string fileName;
-         IFeatureClass myShapefile = null;
-
-
-         Check.Require(inFieldNames.Length > 0, "No field names to check in validateNFieldPointMap");
-         Check.Require(inMapFileNames.Length > 0, "No files to check in validateNFieldPointMap");
-
-         result = true;//assume we are good to go
-         fw.writeLine("inside validateNFieldPointMap going to look for " + inFieldNames.Length.ToString() + " fields");
-         fw.writeLine("set the feature workspace");
-         featureWrkSpace = (IFeatureWorkspace)this.wrkSpace;
-         for (i = 0; i < inMapFileNames.GetLength(0); i++)
-         {
-            fileName = System.IO.Path.GetFileNameWithoutExtension(inMapFileNames[i]);
-            fw.writeLine("found " + inMapFileNames[i]);
-
-            //create the feature_class
-            myShapefile = this.featureWrkSpace.OpenFeatureClass(fileName);
-            fw.writeLine("now check for correct type of shape file");
-            if (myShapefile.ShapeType.ToString() == "esriGeometryPoint")
-            {
-
-               fw.writeLine("must be a point now check for the required field names");
-               for (int j = 0; j < inFieldNames.Length; j++)
-               {
-                  fw.writeLine("looking for " + inFieldNames[j]);
-                  found = myShapefile.Fields.FindField(inFieldNames[j]);
-                  fw.writeLine("the result from the find field is " + found.ToString());
-                  if (found < 0)
-                  {
-                     this.errNumber = (int)ERR.CAN_NOT_FIND_REQUIRED_FIELD;
-                     fw.writeLine("did not find " + inFieldNames[j] + "  so set result = false and bail from loop");
-                     this.errFileName = fileName;
-                     result = false;
-                     break;
-                  }
-               }//end checking for correct field names
-            }
-            else
-            {
-               fw.writeLine("wrong type of shape file so set result to false and bail out of here");
-               result = false;
-               this.errNumber = (int)ERR.WRONG_TYPE_OF_SHAPE_FILE;
-               this.errFileName = fileName;
-            }//end checking to see if it is a point file 
-         }//end loop
-         fw.writeLine("leaving validateNFieldPolylMap with a value of " + result.ToString());
-         return result;
-      }
-
-      private bool validateNFieldPolylMap(string[] inMapFileNames, string[] inFieldNames)
-      {
-         int i;
-         int found = -1;
-         bool result;
-         string fileName;
-         IFeatureClass myShapefile = null;
-
-
-         Check.Require(inFieldNames.Length > 0, "No field names to check in ValidatePolyMap");
-         Check.Require(inMapFileNames.Length > 0, "No files to check in validateNFieldPolylMap");
-
-         result = true;//assume we are good to go
-         fw.writeLine("inside validateNFieldPolylMap going to look for " + inFieldNames.Length.ToString() + " fields");
-         fw.writeLine("set the feature workspace");
-         featureWrkSpace = (IFeatureWorkspace)this.wrkSpace;
-         for (i = 0; i < inMapFileNames.GetLength(0); i++)
-         {
-            fileName = System.IO.Path.GetFileNameWithoutExtension(inMapFileNames[i]);
-            fw.writeLine("found " + inMapFileNames[i]);
-
-            //create the feature_class
-            myShapefile = this.featureWrkSpace.OpenFeatureClass(fileName);
-            fw.writeLine("now check for correct type of shape file");
-            if (myShapefile.ShapeType.ToString() == "esriGeometryPolygon")
-            {
-
-               fw.writeLine("must be a polygon now check for the required field names");
-               for (int j = 0; j < inFieldNames.Length; j++)
-               {
-                  fw.writeLine("looking for " + inFieldNames[j]);
-                  found = myShapefile.Fields.FindField(inFieldNames[j]);
-                  fw.writeLine("the result from the find field is " + found.ToString());
-                  if (found < 0)
-                  {
-                     this.errNumber = (int)ERR.CAN_NOT_FIND_REQUIRED_FIELD;
-                     fw.writeLine("did not find " + inFieldNames[j] + "  so set result = false and bail from loop");
-                     this.errFileName = fileName;
-                     result = false;
-                     break;
-
-                  }//end checking for correct field names
-               }
-            }
-            else
-            {
-               fw.writeLine("wrong type of shape file so set result to false and bail out of here");
-               result = false;
-               this.errNumber = (int)ERR.WRONG_TYPE_OF_SHAPE_FILE;
-               this.errFileName = fileName;
-            }//end checking to see if it is a polygon file 
-         }//end loop
-         fw.writeLine("leaving validateNFieldPolylMap with a value of " + result.ToString());
-         return result;
-      }
-
-		#endregion Private Methods 
-
-		#region Public Methods (39) 
+		#region Methods (41) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
@@ -698,6 +219,15 @@ private MapManager()
    }
       }
 
+      public void changeMaps(DateTime now)
+      {
+         mySocialMaps.changeMap(now);
+         myFoodMaps.changeMap(now);
+         myPredationMaps.changeMap(now);
+         myMoveMaps.changeMap(now);
+         myDispersalMaps.changeMap(now);
+      }
+
       public void changeMaps(DateTime now, AnimalManager am)
       {
          fw.writeLine("inside changeMaps (DateTime now,AnimalManager am)");
@@ -707,15 +237,6 @@ private MapManager()
          myPredationMaps.changeMap(now);
          myMoveMaps.changeMap(now);
          myDispersalMaps.changeMap(now, am);
-      }
-
-      public void changeMaps(DateTime now)
-      {
-         mySocialMaps.changeMap(now);
-         myFoodMaps.changeMap(now);
-         myPredationMaps.changeMap(now);
-         myMoveMaps.changeMap(now);
-         myDispersalMaps.changeMap(now);
       }
 
       public IFeatureClass getAnimalMap(int index)
@@ -923,6 +444,9 @@ private MapManager()
          int PolyIndex = 0;
          fw.writeLine("inside get inital map data");
          fw.writeLine("getting move modifiers now");
+         fw.writeLine("Animal number is " + inA.IdNum.ToString());
+         fw.writeLine("The animals location is " + inA.getLocation_XY());
+
 
          PolyIndex = this.myMoveMap.getCurrentPolygon(inA.Location);
          if (PolyIndex >= 0)
@@ -1140,6 +664,16 @@ private MapManager()
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
          return geoDef;
+      }
+
+      public static MapManager GetUniqueInstance()
+      {
+
+         if (uniqueInstance == null)
+         {
+            uniqueInstance = new MapManager();
+         }
+         return uniqueInstance;
       }
 
       public bool isOccupied(IPoint inPoint)
@@ -1573,6 +1107,32 @@ private MapManager()
 
       }
 
+      public static void RemoveFiles(string FullFilePath)
+      {
+
+         string[] fileNames;
+         string currDir = System.IO.Path.GetDirectoryName(FullFilePath);
+         string fileName = System.IO.Path.GetFileNameWithoutExtension(FullFilePath);
+         string compareFileName;
+         bool success = true;
+         try
+         {
+            fileNames = Directory.GetFiles(currDir);
+            for (int i = 0; i < fileNames.Length; i++)
+            {
+               compareFileName =  System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
+               if (compareFileName.Equals(fileName,StringComparison.CurrentCultureIgnoreCase))
+               {
+                  File.Delete(fileNames[i]);
+               }
+            }
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
       public void setUpNewYearsMaps(DateTime now, AnimalManager am)
       {
          fw.writeLine("inside setUpNewYearsMaps (DateTime now,AnimalManager am)");
@@ -1582,106 +1142,6 @@ private MapManager()
          myPredationMaps.changeMap(now);
          myMoveMaps.changeMap(now);
          myDispersalMaps.setUpNewYearDispersalMap(now, am);
-      }
-
-      /********************************************************************************
-       *  Function name   : validateMap
-       *  Description     : the traffic cop for validating the different types of imput
-       *                    maps we need to run the simulation
-       *  Return type     : bool 
-       *  Argument        : string inMapName  name of map we are validating
-       *  Argument        : string inMapDir   directory where we can find the maps
-       * *******************************************************************************/
-      public bool validateMap(string inmapType, ref string inFilename, string inPath)
-      {
-         bool success;
-         string mapType = inmapType;
-         fw.writeLine("inside validate Map for Map Manager ");
-         fw.writeLine("the map name is " + inmapType);
-         fw.writeLine("the dir is " + inPath);
-         success = false;
-         if (Directory.Exists(inPath))
-         {
-            fw.writeLine("ok the directory exsits so now open the workspace");
-            this.wrkSpace = this.wrkSpaceFactory.OpenFromFile(inPath, 0);
-            string[] fileNames;
-            string[] fieldNames;
-
-            fw.writeLine("the directory exists now get all the file names in the dir");
-            fileNames = Directory.GetFiles(inPath, "*.shp");
-            fw.writeLine("there were " + fileNames.Length.ToString() + " files found");
-            if (fileNames.GetLength(0) > 0)
-            {
-               switch (inmapType)
-               {
-                  case "Social":
-                     fw.writeLine("inside case under Social");
-                     fieldNames = new string[3];
-                     fieldNames[0] = "Suitabilit";
-                     fieldNames[1] = "OCCUP_MALE";
-                     fieldNames[2] = "OCCUP_FEMA";
-                     break;
-                  case "Food":
-                     fw.writeLine("inside case under Food");
-                     fieldNames = new string[3];
-                     fieldNames[0] = "PROBCAP";
-                     fieldNames[1] = "X_SIZE";
-                     fieldNames[2] = "SD_SIZE";
-                     break;
-                  case "Predation":
-                     fw.writeLine("inside case under Predation");
-                     fieldNames = new string[1];
-                     fieldNames[0] = "RISK";
-                     break;
-                  case "Dispersal":
-                     fw.writeLine("inside case under Dispersal");
-                     fieldNames = new string[3];
-                     fieldNames[0] = "RELEASESIT";
-                     fieldNames[1] = "MALES";
-                     fieldNames[2] = "FEMS";
-                     break;
-                  case "Move":
-                     fw.writeLine("inside case under Move");
-                     fieldNames = new string[5];
-                     fieldNames[0] = "MVL";
-                     fieldNames[1] = "MSL";
-                     fieldNames[2] = "ENERGYUSED";
-                     fieldNames[3] = "CROSSING";
-                     fieldNames[4] = "PR_X";
-                     break;
-                  default:
-                     fw.writeLine("bombed with invalid name ");
-                     System.Windows.Forms.MessageBox.Show("Not a valid map type" + inmapType);
-                     return false;
-               }// end switch on map name
-               success = validateNFieldPolylMap(fileNames, fieldNames);
-               if (success)
-               {
-                  inFilename = fileNames[0];
-               }
-               if (fileNames.Length > 1)
-               {
-                  fw.writeLine("More than one map in directory.  Used first (alphabetically) one.");
-               }
-
-            }
-            else // no files in dir
-            {
-               fw.writeLine("did not find any shape files");
-               this.errNumber = (int)ERR.NO_FILES_FOUND_IN_DIRECTORY;
-               this.errFileName = inPath;
-            }
-         }
-         else//directory does not exsit
-         {
-            this.errNumber = (int)ERR.NO_DIRECTORY_FOUND;
-            this.errFileName = inPath;
-            fw.writeLine("directory does not exist");
-            success = false;
-         }
-
-         fw.writeLine("leaving validateMap with a value of " + success);
-         return success;
       }
 
       public bool validateMap(string inMapName, string inMapDir)
@@ -1796,6 +1256,106 @@ private MapManager()
          return success;
       }
 
+      /********************************************************************************
+       *  Function name   : validateMap
+       *  Description     : the traffic cop for validating the different types of imput
+       *                    maps we need to run the simulation
+       *  Return type     : bool 
+       *  Argument        : string inMapName  name of map we are validating
+       *  Argument        : string inMapDir   directory where we can find the maps
+       * *******************************************************************************/
+      public bool validateMap(string inmapType, ref string inFilename, string inPath)
+      {
+         bool success;
+         string mapType = inmapType;
+         fw.writeLine("inside validate Map for Map Manager ");
+         fw.writeLine("the map name is " + inmapType);
+         fw.writeLine("the dir is " + inPath);
+         success = false;
+         if (Directory.Exists(inPath))
+         {
+            fw.writeLine("ok the directory exsits so now open the workspace");
+            this.wrkSpace = this.wrkSpaceFactory.OpenFromFile(inPath, 0);
+            string[] fileNames;
+            string[] fieldNames;
+
+            fw.writeLine("the directory exists now get all the file names in the dir");
+            fileNames = Directory.GetFiles(inPath, "*.shp");
+            fw.writeLine("there were " + fileNames.Length.ToString() + " files found");
+            if (fileNames.GetLength(0) > 0)
+            {
+               switch (inmapType)
+               {
+                  case "Social":
+                     fw.writeLine("inside case under Social");
+                     fieldNames = new string[3];
+                     fieldNames[0] = "Suitabilit";
+                     fieldNames[1] = "OCCUP_MALE";
+                     fieldNames[2] = "OCCUP_FEMA";
+                     break;
+                  case "Food":
+                     fw.writeLine("inside case under Food");
+                     fieldNames = new string[3];
+                     fieldNames[0] = "PROBCAP";
+                     fieldNames[1] = "X_SIZE";
+                     fieldNames[2] = "SD_SIZE";
+                     break;
+                  case "Predation":
+                     fw.writeLine("inside case under Predation");
+                     fieldNames = new string[1];
+                     fieldNames[0] = "RISK";
+                     break;
+                  case "Dispersal":
+                     fw.writeLine("inside case under Dispersal");
+                     fieldNames = new string[3];
+                     fieldNames[0] = "RELEASESIT";
+                     fieldNames[1] = "MALES";
+                     fieldNames[2] = "FEMS";
+                     break;
+                  case "Move":
+                     fw.writeLine("inside case under Move");
+                     fieldNames = new string[5];
+                     fieldNames[0] = "MVL";
+                     fieldNames[1] = "MSL";
+                     fieldNames[2] = "ENERGYUSED";
+                     fieldNames[3] = "CROSSING";
+                     fieldNames[4] = "PR_X";
+                     break;
+                  default:
+                     fw.writeLine("bombed with invalid name ");
+                     System.Windows.Forms.MessageBox.Show("Not a valid map type" + inmapType);
+                     return false;
+               }// end switch on map name
+               success = validateNFieldPolylMap(fileNames, fieldNames);
+               if (success)
+               {
+                  inFilename = fileNames[0];
+               }
+               if (fileNames.Length > 1)
+               {
+                  fw.writeLine("More than one map in directory.  Used first (alphabetically) one.");
+               }
+
+            }
+            else // no files in dir
+            {
+               fw.writeLine("did not find any shape files");
+               this.errNumber = (int)ERR.NO_FILES_FOUND_IN_DIRECTORY;
+               this.errFileName = inPath;
+            }
+         }
+         else//directory does not exsit
+         {
+            this.errNumber = (int)ERR.NO_DIRECTORY_FOUND;
+            this.errFileName = inPath;
+            fw.writeLine("directory does not exist");
+            success = false;
+         }
+
+         fw.writeLine("leaving validateMap with a value of " + success);
+         return success;
+      }
+
       public void writeXMLTriggers(ref XmlTextWriter xw)
       {
          mySocialMaps.writeXMLTriggers(ref xw);
@@ -1805,7 +1365,440 @@ private MapManager()
          myDispersalMaps.writeXMLTriggers(ref xw);
       }
 
-		#endregion Public Methods 
+		#endregion Methods 
 
+		#endregion Public Members 
+
+		#region Non-Public Members (35) 
+
+		#region Fields (21) 
+
+      private string _currStepPath;
+      private string errFileName;
+      private System.Collections.Specialized.StringCollection errMessages;
+      private int errNumber;
+      //  = new ShapefileWorkspaceFactory();
+      private IFeatureWorkspace featureWrkSpace;
+      private FileWriter.FileWriter fw;
+      private DateTime mCurrTime;
+      private string mOutMapPath;
+      private AnimalMap[] myAnimalMaps;
+      private DataManipulator myDataManipulator;
+      private Map myDispersalMap = null;
+      private Map myFoodMap = null;
+      private Hashtable myHash;
+      private Map myMoveMap = null;
+      private Map myPredationMap = null;
+      private Map mySocialMap = null;
+      private int numHomeRanges;
+      private int SocialIndex;
+private static MapManager uniqueInstance;
+      //      public  int myMaps;
+      private IWorkspace wrkSpace;
+      private IWorkspaceFactory wrkSpaceFactory;
+
+		#endregion Fields 
+		#region Enums (1) 
+
+      private enum ERR
+      {
+         WRONG_TYPE_OF_SHAPE_FILE,
+         CAN_NOT_FIND_REQUIRED_FIELD,
+         NO_FILES_FOUND_IN_DIRECTORY,
+         DIRECTORY_ALREADY_IN_USE,
+         NO_DIRECTORY_FOUND
+      }
+
+		#endregion Enums 
+		#region Constructors (1) 
+
+private MapManager()
+      {
+         //check on whether we are going to log or not
+         this.buildLogger();
+         // get the error messages ready         
+         initializeErrMessages();
+         myDataManipulator = new DataManipulator();
+         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
+         this.myFoodMaps = new Maps("Food");
+         this.myMoveMaps = new Maps("Move");
+         this.myPredationMaps = new Maps("Predation");
+         this.mySocialMaps = new Maps("Social");
+         this.myDispersalMaps = new Maps("Dispersal");
+         SocialIndex = 0;
+         numHomeRanges = 0;
+
+      }
+
+		#endregion Constructors 
+		#region Methods (12) 
+
+      private void AddFirstMemoryPoly(int AnimalID, IPolygon inPoly1, IPolygon inPoly2)
+      {
+         try
+         {
+            this.myAnimalMaps[AnimalID].addPolygon(inPoly1);
+            this.myAnimalMaps[AnimalID].addPolygon(inPoly2);
+
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+      private void addNewPoly(Map inMap, IPolygon inPoly)
+      {
+         IFeature feature = null;
+         IFields fields;
+         int index = 0;
+
+
+         //now add the one we want
+         try
+         {
+            feature = inMap.mySelf.CreateFeature();
+            fields = feature.Fields;
+            index = fields.FindField("CurrTime");
+            if (index >= 0)
+               feature.set_Value(index, 1);
+            index = fields.FindField("OCCUP_MALE");
+            
+            feature.Shape = inPoly;
+            feature.Store();
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+
+
+      }
+
+      private void buildLogger()
+      {
+         string s;
+         StreamReader sr;
+         bool foundPath = false;
+         string path = System.Windows.Forms.Application.StartupPath;
+         if (File.Exists(path + "\\logFile.dat"))
+         {
+            sr = new StreamReader(path + "\\logFile.dat");
+            while (sr.Peek() > -1)
+            {
+               s = sr.ReadLine();
+               if (s.IndexOf("MapManagerPath") == 0)
+               {
+                  fw = FileWriter.FileWriter.getMapManagerLogger(s.Substring(s.IndexOf(" ")));
+
+                  foundPath = true;
+                  break;
+               }
+            }
+            sr.Close();
+
+         }
+         if (!foundPath)
+         {
+            fw = new FileWriter.EmptyFileWriter();
+         }
+
+      }
+
+      private DateTime createStartTime(string time, string typeOfTime)
+      {
+         string[] s;
+         DateTime dt = DateTime.Today;
+         try
+         {
+            switch (typeOfTime)
+            {
+               case "daily":
+                  s = time.Split('/');
+                  int day = System.Convert.ToInt32(s[1]);
+                  int month = System.Convert.ToInt32(s[0]);
+                  int year = System.Convert.ToInt32(s[2]);
+                  dt = new DateTime(year, month, day);
+                  break;
+               case "hourly":
+                  dt = DateTime.Today;
+                  //the time is in the format of 7:32 PM
+                  //so split it up and deal with it you wancker
+                  s = time.Split(':');
+                  dt = dt.AddHours(System.Convert.ToInt32(s[0]));
+                  dt = dt.AddMinutes(System.Convert.ToInt32(s[1].Substring(0, 2)));
+                  if (time.IndexOf("PM") > 0)
+                     dt = dt.AddHours(12);
+                  break;
+               case "yearly":
+                  dt = DateTime.Today;
+                  dt = dt.AddYears(System.Convert.ToInt32(time) - dt.Year);
+                  break;
+               case "static":
+                  dt = DateTime.Today;
+                  dt = dt.AddYears(System.Convert.ToInt32(time) - dt.Year);
+                  break;
+               default:
+                  throw new SystemException("Bad type of time in Map Manager createStartTime");
+
+            }
+
+         }
+         catch (System.Exception ex)
+         {
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+
+         return dt;
+      }
+
+      private void EditNewHomeRangeUnion(string inUnionSocialMapPath, string sex, string inAnimalID)
+      {
+         int sexIndex;
+         IFeatureCursor updateCurr;
+         IFeature feat;
+         IQueryFilter qf = new QueryFilterClass();
+         qf.WhereClause = "FID_availa >= 0";
+
+         IFeatureClass fc = myDataManipulator.GetFeatureClass(inUnionSocialMapPath);
+         if (sex.Equals("male", StringComparison.CurrentCultureIgnoreCase))
+            sexIndex = fc.FindField("OCCUP_MALE");
+         else
+            sexIndex = fc.FindField("OCCUP_FEMA");
+
+         updateCurr = fc.Update(qf, true);
+         while((feat = updateCurr.NextFeature()) != null)
+         {
+            feat.set_Value(sexIndex,inAnimalID);
+            feat.Store();
+         }
+         updateCurr.Flush();
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
+         
+      }
+
+      private void initializeErrMessages()
+      {
+         errMessages = new System.Collections.Specialized.StringCollection();
+         this.errMessages.Add("Wrong type of shape file");
+         this.errMessages.Add("Required field not found for this shape file.");
+         this.errMessages.Add("No files found in directory");
+         this.errMessages.Add("That directory is all ready in use");
+         this.errMessages.Add("That directory is not available");
+         errNumber = -1;
+
+      }
+
+      private void makeMapCopies(string orgPath, string orgFileName, string newPath, string newFileName)
+      {
+         string[] fileNames;
+         string extension;
+         try
+         {
+            if (!Directory.Exists(newPath))
+               Directory.CreateDirectory(newPath);
+            fileNames = Directory.GetFiles(orgPath, orgFileName + "*");
+            for (int i = 0; i < fileNames.Length; i++)
+            {
+               extension = fileNames[i].Substring(fileNames[i].Length - 4, 4);
+               File.Copy(fileNames[i], newPath + "\\" + newFileName + extension, true);
+            }
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+      private string makeNewMapPath(string oldMapPath, string timeStep, string inAnimalID)
+      {
+         StringBuilder sb = new StringBuilder();
+         sb.Append(System.IO.Path.GetDirectoryName(oldMapPath) + "\\");
+         sb.Append(inAnimalID + timeStep + ".shp");
+         return sb.ToString();
+
+      }
+
+      private void removeAnimalMap(string oldMapPath)
+      {
+        
+         try
+         { 
+            fw.writeLine("");
+            fw.writeLine("Inside removeAnimalMap " + oldMapPath);
+            string currDir = System.IO.Path.GetDirectoryName(oldMapPath);
+            string oldFileName = System.IO.Path.GetFileNameWithoutExtension(oldMapPath);
+            string pattern = oldFileName + "*";
+            string [] files = Directory.GetFiles(currDir,pattern);
+            for (int i=0; i< files.Length; i++)
+            {
+               if(oldFileName.Equals(System.IO.Path.GetFileNameWithoutExtension(files[i])))
+               {
+                  File.Delete(files[i]);
+               }
+            }
+         }
+
+         catch (Exception)
+         {
+            fw.writeLine("Exectional Fail");
+            throw;
+         }
+
+      }
+
+      private void removeTimeStepMaps(string AnimalID)
+      {
+         string[] fileNames;
+         try
+         {
+            //use the animal id because each animal has its own sub folder based
+            //on its name.
+            fileNames = Directory.GetFiles(mOutMapPath + "\\" + AnimalID, "TimeStep" + "*");
+            for (int i = 0; i < fileNames.Length; i++)
+            {
+#if ! pat
+               File.Delete(fileNames[i]);
+#endif
+            }
+
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+      /********************************************************************************
+       *  Function name   : validateNFieldPointMap
+       *  Description     : Will check to make sure it is a valid point shape file and 
+       *                    has the required number of fields
+       *  Return type     : bool 
+       *  Argument        : string [] inMapFileNames the names of the map files to validate
+       *  Argument        : int NumFields  the number of fields the maps should have
+       * *******************************************************************************/
+      private bool validateNFieldPointMap(string[] inMapFileNames, string[] inFieldNames)
+      {
+         int i;
+         int found = -1;
+         bool result;
+         string fileName;
+         IFeatureClass myShapefile = null;
+
+
+         Check.Require(inFieldNames.Length > 0, "No field names to check in validateNFieldPointMap");
+         Check.Require(inMapFileNames.Length > 0, "No files to check in validateNFieldPointMap");
+
+         result = true;//assume we are good to go
+         fw.writeLine("inside validateNFieldPointMap going to look for " + inFieldNames.Length.ToString() + " fields");
+         fw.writeLine("set the feature workspace");
+         featureWrkSpace = (IFeatureWorkspace)this.wrkSpace;
+         for (i = 0; i < inMapFileNames.GetLength(0); i++)
+         {
+            fileName = System.IO.Path.GetFileNameWithoutExtension(inMapFileNames[i]);
+            fw.writeLine("found " + inMapFileNames[i]);
+
+            //create the feature_class
+            myShapefile = this.featureWrkSpace.OpenFeatureClass(fileName);
+            fw.writeLine("now check for correct type of shape file");
+            if (myShapefile.ShapeType.ToString() == "esriGeometryPoint")
+            {
+
+               fw.writeLine("must be a point now check for the required field names");
+               for (int j = 0; j < inFieldNames.Length; j++)
+               {
+                  fw.writeLine("looking for " + inFieldNames[j]);
+                  found = myShapefile.Fields.FindField(inFieldNames[j]);
+                  fw.writeLine("the result from the find field is " + found.ToString());
+                  if (found < 0)
+                  {
+                     this.errNumber = (int)ERR.CAN_NOT_FIND_REQUIRED_FIELD;
+                     fw.writeLine("did not find " + inFieldNames[j] + "  so set result = false and bail from loop");
+                     this.errFileName = fileName;
+                     result = false;
+                     break;
+                  }
+               }//end checking for correct field names
+            }
+            else
+            {
+               fw.writeLine("wrong type of shape file so set result to false and bail out of here");
+               result = false;
+               this.errNumber = (int)ERR.WRONG_TYPE_OF_SHAPE_FILE;
+               this.errFileName = fileName;
+            }//end checking to see if it is a point file 
+         }//end loop
+         fw.writeLine("leaving validateNFieldPolylMap with a value of " + result.ToString());
+         return result;
+      }
+
+      private bool validateNFieldPolylMap(string[] inMapFileNames, string[] inFieldNames)
+      {
+         int i;
+         int found = -1;
+         bool result;
+         string fileName;
+         IFeatureClass myShapefile = null;
+
+
+         Check.Require(inFieldNames.Length > 0, "No field names to check in ValidatePolyMap");
+         Check.Require(inMapFileNames.Length > 0, "No files to check in validateNFieldPolylMap");
+
+         result = true;//assume we are good to go
+         fw.writeLine("inside validateNFieldPolylMap going to look for " + inFieldNames.Length.ToString() + " fields");
+         fw.writeLine("set the feature workspace");
+         featureWrkSpace = (IFeatureWorkspace)this.wrkSpace;
+         for (i = 0; i < inMapFileNames.GetLength(0); i++)
+         {
+            fileName = System.IO.Path.GetFileNameWithoutExtension(inMapFileNames[i]);
+            fw.writeLine("found " + inMapFileNames[i]);
+
+            //create the feature_class
+            myShapefile = this.featureWrkSpace.OpenFeatureClass(fileName);
+            fw.writeLine("now check for correct type of shape file");
+            if (myShapefile.ShapeType.ToString() == "esriGeometryPolygon")
+            {
+
+               fw.writeLine("must be a polygon now check for the required field names");
+               for (int j = 0; j < inFieldNames.Length; j++)
+               {
+                  fw.writeLine("looking for " + inFieldNames[j]);
+                  found = myShapefile.Fields.FindField(inFieldNames[j]);
+                  fw.writeLine("the result from the find field is " + found.ToString());
+                  if (found < 0)
+                  {
+                     this.errNumber = (int)ERR.CAN_NOT_FIND_REQUIRED_FIELD;
+                     fw.writeLine("did not find " + inFieldNames[j] + "  so set result = false and bail from loop");
+                     this.errFileName = fileName;
+                     result = false;
+                     break;
+
+                  }//end checking for correct field names
+               }
+            }
+            else
+            {
+               fw.writeLine("wrong type of shape file so set result to false and bail out of here");
+               result = false;
+               this.errNumber = (int)ERR.WRONG_TYPE_OF_SHAPE_FILE;
+               this.errFileName = fileName;
+            }//end checking to see if it is a polygon file 
+         }//end loop
+         fw.writeLine("leaving validateNFieldPolylMap with a value of " + result.ToString());
+         return result;
+      }
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
    }
 }

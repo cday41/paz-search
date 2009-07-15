@@ -10,18 +10,18 @@ namespace PAZ_Dispersal
    
    public sealed class DailyModiferCollection:System.Collections.SortedList
    {
-      int currIndex;
-      private DateTime mNextStartDate;
-      private static DailyModiferCollection uniqueInstance;
-      private DailyModiferCollection()
-      {
-         currIndex = 0;
-      }
-   
-      public void reset()
-      {
-         currIndex = 0;
-      }
+		#region Public Members (6) 
+
+		#region Properties (1) 
+
+     public DateTime NextStartDate
+		{
+			get { return mNextStartDate; }
+			set { mNextStartDate = value; }
+		}
+
+		#endregion Properties 
+		#region Methods (5) 
 
       public void advanceOneYear()
       {  
@@ -34,15 +34,6 @@ namespace PAZ_Dispersal
          }
       }
 
-      public static DailyModiferCollection GetUniqueInstance()
-      {
-         if(uniqueInstance == null) 
-         { 
-            uniqueInstance = new DailyModiferCollection();
-         }
-         return uniqueInstance;
-      }
-      
       public DailyModifier getFirst()
       {
          DailyModifier nextDM;
@@ -59,6 +50,7 @@ namespace PAZ_Dispersal
          return (DailyModifier)this.GetByIndex(0);
          
       }
+
       public DailyModifier getNext()
       {
          DailyModifier dm;
@@ -76,11 +68,43 @@ namespace PAZ_Dispersal
          this.mNextStartDate = nextDM.StartDate;
          return dm;
       }
-     public DateTime NextStartDate
-		{
-			get { return mNextStartDate; }
-			set { mNextStartDate = value; }
-		}
 
+      public static DailyModiferCollection GetUniqueInstance()
+      {
+         if(uniqueInstance == null) 
+         { 
+            uniqueInstance = new DailyModiferCollection();
+         }
+         return uniqueInstance;
+      }
+
+      public void reset()
+      {
+         currIndex = 0;
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
+		#region Fields (3) 
+
+      int currIndex;
+      private DateTime mNextStartDate;
+      private static DailyModiferCollection uniqueInstance;
+
+		#endregion Fields 
+		#region Constructors (1) 
+
+      private DailyModiferCollection()
+      {
+         currIndex = 0;
+      }
+
+		#endregion Constructors 
+
+		#endregion Non-Public Members 
    }
 }

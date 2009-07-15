@@ -7,22 +7,10 @@ namespace PAZ_Dispersal
    /// </summary>
    public class ResidentAttributes
    {
-      private double mResidentTimeStepRisk;
-      private double mResidentYearlyRisk;
-      private double mPercentBreed;
-      private double mNumChildernMean;
-      private double mNumChildernSD;
-      private string mOrginalID;
-      
-      private double mPercentFemale;
+		#region Public Members (2) 
 
-      public ResidentAttributes()
-      {
-         mResidentTimeStepRisk=0;
-         mResidentYearlyRisk=0;
-         mPercentBreed=0;
-         mPercentFemale=0;
-      }
+		#region Constructors (2) 
+
       public ResidentAttributes(double inTimeRisk,
          double inYearRisk,
          double inPercentBreed,
@@ -37,6 +25,36 @@ namespace PAZ_Dispersal
          mNumChildernMean = inMeanLitterSize;
          mNumChildernSD=inSDLitterSize;
       }
+
+      public ResidentAttributes()
+      {
+         mResidentTimeStepRisk=0;
+         mResidentYearlyRisk=0;
+         mPercentBreed=0;
+         mPercentFemale=0;
+      }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (7) 
+
+		#region Fields (7) 
+
+      private double mNumChildernMean;
+      private double mNumChildernSD;
+      private string mOrginalID;
+      private double mPercentBreed;
+      private double mPercentFemale;
+      private double mResidentTimeStepRisk;
+      private double mResidentYearlyRisk;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
+
+
       #region gettersAndSetters
 
       public string OriginalID
@@ -84,6 +102,5 @@ namespace PAZ_Dispersal
          set  { mResidentYearlyRisk = value; }
       }
       #endregion
-
    }
 }

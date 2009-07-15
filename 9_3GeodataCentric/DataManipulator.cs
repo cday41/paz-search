@@ -17,19 +17,7 @@ namespace PAZ_Dispersal
 {
    class DataManipulator
    {
-
-		#region Fields (6) 
-
-
-      string tempLayer1;
-      string tempLayer2;
-      string selectLayer;
-      string pointLayer;
-
-      FileWriter.FileWriter fw;
-      Geoprocessor myProcessor;
-
-		#endregion Fields 
+		#region Public Members (25) 
 
 		#region Constructors (2) 
 
@@ -52,8 +40,8 @@ namespace PAZ_Dispersal
       }
 
 		#endregion Constructors 
+		#region Methods (23) 
 
-		#region Private Methods (16) 
       public void AddField(string dataType, string fieldName, object value, string layerToAddFieldTo)
       {
          AddField af = new AddField();
@@ -62,6 +50,374 @@ namespace PAZ_Dispersal
          af.field_type = dataType;
          this.RunProcess(af, null);
       }
+
+      public IFeatureClass AddHomeRangePolyGon(string outFileName, IPolygon inHomeRange)
+      {
+
+         IFeatureClass fc = this.CreateEmptyFeatureClass(outFileName, "polygon");
+         this.AddPolyGon(fc, inHomeRange);
+         return fc;
+
+      }
+
+      public void CleanUnionResults(string UnionPath)
+      {
+         IFeatureClass fc;
+         IQueryFilter qf;
+         int SUITABILIT;
+         int OCCUP_MALE;
+         int OCCUP_FEMA;
+         int SUITABIL_1;
+         int OCCUP_MA_1;
+         int OCCUP_FE_1;
+         string suitValue;
+         string occMale;
+         string occFemale;
+
+         GetFeatureClassFromFileName(UnionPath, out fc, out qf);
+         IField field = fc.Fields.get_Field(2);
+         qf.WhereClause = field.AliasName + " = -1";
+         IFeatureCursor curr = fc.Update(qf, false);
+         SUITABILIT = curr.FindField("SUITABILIT");
+         OCCUP_MALE = curr.FindField("OCCUP_MALE");
+         OCCUP_FEMA = curr.FindField("OCCUP_FEMA");
+         SUITABIL_1 = curr.FindField("SUITABIL_1");
+         OCCUP_MA_1 = curr.FindField("OCCUP_MA_1");
+         OCCUP_FE_1 = curr.FindField("OCCUP_FE_1");
+
+         IFeature feat = curr.NextFeature();
+         while (feat != null)
+         {
+            suitValue = feat.get_Value(SUITABIL_1).ToString();
+            occMale = feat.get_Value(OCCUP_MA_1).ToString();
+            occFemale = feat.get_Value(OCCUP_FE_1).ToString();
+
+            feat.set_Value(SUITABILIT, suitValue);
+            feat.set_Value(OCCUP_MALE, occMale);
+            feat.set_Value(OCCUP_FEMA, occFemale);
+
+            feat.Store();
+            feat = curr.NextFeature();
+         }
+         curr.Flush();
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
+      }
+
+      public void Clip(string inFileNameClipFrom, string inFileNameClipFeature, string outFileName)
+      {
+         
+         this.MakeLayer(inFileNameClipFrom, "clipFrom");
+         this.MakeLayer(inFileNameClipFeature, "clipFeature");
+         this.ClipFeatures("clipFrom", "clipFeature", outFileName);
+      }
+
+      public void CopyToAnotherlMap(string NewMapPath, string OldMapPath)
+      {
+         this.MakeLayer(OldMapPath, this.tempLayer1);
+         this.CopyFeaturesToFeatureClass(this.tempLayer1, NewMapPath);
+      }
+
+      public IFeatureClass CreateEmptyFeatureClass(string inFileName, string featureType)
+      {
+         IFeatureClass fc = null;
+         try
+         {
+            string path;
+            string fileName;
+            this.GetPathAndFileName(inFileName, out path, out fileName);
+            CreateFeatureclass cf = new CreateFeatureclass();
+            cf.out_path = path;
+            cf.out_name = fileName;
+            cf.geometry_type = featureType.ToUpper();
+            fc = this.RunProcessGetFeatureClass(cf, null);
+         }
+         catch (System.Runtime.InteropServices.COMException ex)
+         {
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return fc;
+      }
+
+      //public void DeleteAllFeatures(string inPointFileName)
+      //{
+      //   IFeatureClass fc;
+      //   IQueryFilter qf;
+      //   GetFeatureClassFromFileName(inPointFileName, out fc, out qf);
+      //   IFeatureCursor curr = fc.Update(null, false);
+      //   IFeature feat = curr.NextFeature();
+      //   while (feat != null)
+      //   {
+      //      feat.Delete();
+      //      feat = curr.NextFeature();
+      //   }
+      //   curr.Flush();
+
+      //   System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
+      //   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+      //   System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
+
+      //}
+      public void CreateStepMap(string inFilePath, List<IPoint> inSteps)
+      {
+         string path;
+         string fileName;
+         this.GetPathAndFileName(inFilePath, out path, out fileName);
+         IFeatureClass fc = this.CreateEmptyFeatureClass(path + "\\Step.shp", "point");
+         this.AddPointsToEmptyFeatureClass(fc, inSteps);
+         //this.makeHomeRangeSelectionMap(path + "\\" + "Step.shp", inFilePath);
+      }
+
+      public void DeleteAllFeatures(string inFileName)
+      {
+         IFeatureClass fc;
+         IQueryFilter qf;
+         GetFeatureClassFromFileName(inFileName, out fc, out qf);
+         IFeatureCursor curr = fc.Update(null, false);
+         IFeature feat = curr.NextFeature();
+         while (feat != null)
+         {
+            feat.Delete();
+            feat = curr.NextFeature();
+         }
+         curr.Flush();
+
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
+
+      }
+
+      public void DeleteAllFeatures2(string inFileName)
+      {
+         this.MakeLayer(inFileName, this.tempLayer1);
+         Delete d = new Delete();
+         d.in_data = this.tempLayer1;
+         this.RunProcess(d,null);
+         
+
+      }
+
+      public void Dissolve(string inFile, string outFile, string FieldNames)
+      {
+         this.MakeLayer(inFile, this.tempLayer1);
+         this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
+      }
+
+      public IFeatureClass DissolveAndReturn(string inFile, string outFile, string FieldNames)
+      {
+         this.MakeLayer(inFile, this.tempLayer1);
+         this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
+         string path;
+         string fileName;
+         this.GetPathAndFileName(outFile,out path, out fileName);
+         return this.GetFeatureClass(path, fileName);
+      }
+
+      public IFeatureClass GetFeatureClass(string inFileName)
+      {
+         IFeatureClass ifc = null;
+         try
+         {
+            string path;
+            string fileName;
+            this.GetPathAndFileName(inFileName, out path, out fileName);
+            IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
+            IFeatureWorkspace featureWorkspace = null;
+            featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(path, 0);
+            ifc = featureWorkspace.OpenFeatureClass(fileName);
+         }
+         catch (COMException COMEx)
+         {
+            FileWriter.FileWriter.WriteErrorFile(COMEx);
+            System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(), "COM Error: " + COMEx.ErrorCode.ToString());
+         }
+
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            System.Windows.Forms.MessageBox.Show(ex.Source + " ");//+ ex.InnerException.ToString());
+         }
+
+         return ifc;
+      }
+
+      public IFeatureClass GetNewlyAddedToSocialMapPolygons(string inFileName, string outFileName)
+      {
+         string path;
+         string fileName;
+         this.GetPathAndFileName(outFileName,out path,out fileName);
+         this.MakeLayer(inFileName,this.selectLayer);
+         string sqlWhereClause = "FID_availa >= 0";
+         this.SelectByValue(this.selectLayer, sqlWhereClause);
+         this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
+         return this.GetFeatureClass(path, fileName);
+
+      }
+
+      public int GetRowCount(string inFileName)
+      {
+         GetCount gc = new GetCount();
+         this.MakeLayer(inFileName, this.tempLayer1);
+         gc.in_rows = this.tempLayer1;
+         this.RunProcess(gc, null);
+         return gc.row_count;
+      }
+
+      public IFeatureClass GetSuitablePolygons(string inFileName, string sex, string outFileName)
+      {
+
+         IFeatureClass fc = null;
+         string sqlWhereClause = this.buildSexBasedWhereClause(sex);
+         this.MakeLayer(inFileName, this.selectLayer);
+         if(this.SelectByValue(this.selectLayer, sqlWhereClause))
+         {  
+            this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
+            fc = this.GetFeatureClass(outFileName);
+         }
+         return fc;
+           
+      }
+
+      public IFeatureClass IntersectFeatures(string inFeaturesNames, string outFeatureName)
+      {
+         Intersect i = new Intersect();
+         i.in_features = inFeaturesNames;
+         i.out_feature_class = outFeatureName;
+         return this.RunProcessGetFeatureClass(i, null);
+      }
+
+      public void JoinLayers(string layerName1, string layerName2)
+      {
+       
+         SpatialJoin sj = new SpatialJoin();
+         sj.target_features = layerName1;
+         sj.join_features = layerName2;
+         sj.out_feature_class = @"C:\map\stepmaps.shp";
+         sj.match_option = "IS_WITHIN";
+         this.RunProcess(sj, null);
+         //return fc;
+      }
+
+      public bool MakeDissolvedTimeStep(string inFullFilePath, string dissovlePath, IPolygon inPoly1, IPolygon inPoly2)
+      {
+         IFeatureClass fc = null;
+         string path;
+         string fileName;
+         bool result = true;
+         try
+         {
+            fw.writeLine("inside MakeDissolvedTimeStep");
+            fw.writeLine("file name is " + inFullFilePath);
+            fw.writeLine("dissolvePath is " + dissovlePath);
+            fw.writeLine("clean up the current step map");
+            this.DeleteAllFeatures(inFullFilePath);
+            GetPathAndFileName(inFullFilePath, out path, out fileName);
+            fc = this.GetFeatureClass(path, fileName);
+            this.AddPolyGon(fc, inPoly1);
+            this.AddPolyGon(fc, inPoly2);
+            this.MakeLayer(inFullFilePath, this.tempLayer1);
+            fw.writeLine("Calling check lock");
+            this.DissolveFeatures(this.tempLayer1, dissovlePath, "Id");
+           
+            
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            result = false;
+         }
+         finally
+         {
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+         }
+         return result;
+      }
+
+      public void makeHomeRangeSelectionMap(string stepMapName, string animalMemoryMapName)
+      {
+         this.MakeLayer(stepMapName, this.tempLayer1);
+         this.MakeLayer(animalMemoryMapName, this.tempLayer2);
+         string path = System.IO.Path.GetDirectoryName(animalMemoryMapName);
+         SpatialJoin sj = new SpatialJoin();
+         sj.target_features = this.tempLayer1;
+         sj.join_features = this.tempLayer2;
+         sj.match_option = "IS_WITHIN";
+         sj.out_feature_class = path + "\\HomeSteps.shp";
+         this.RunProcess(sj, null);
+
+      }
+
+      public void RemoveExtraFields(string inFullFilePath, string ListOfFields)
+       {
+         DeleteField d = new DeleteField();
+         this.MakeLayer(inFullFilePath, this.tempLayer1);
+         d.in_table = this.tempLayer1;
+         d.drop_field = ListOfFields;
+         this.RunProcess(d,null);
+
+      }
+
+      public IFeatureClass SetSuitableSteps(string inPointFileName, List<IPoint> inPoints, string inMemoryMap)
+      {
+
+         IFeatureClass fc = null;
+         fc = this.CreateEmptyFeatureClass(inPointFileName,"point");
+         this.AddPointsToEmptyFeatureClass(fc, inPoints);
+         this.MakeLayer(inPointFileName, this.tempLayer1);
+         this.MakeLayer(inMemoryMap, this.tempLayer2);
+         this.JoinLayers(this.tempLayer1, this.tempLayer2);
+         return fc;
+      }
+
+      public bool UnionAnimalClipData(string inAnimalPath, string inClipPath, string outPutFileName)
+      {
+         bool result = true;
+
+         try
+         {
+            fw.writeLine("");
+            fw.writeLine("inside UnionAnimalClipData for " + inAnimalPath);
+            this.MakeLayer(inAnimalPath, this.tempLayer1);
+            this.MakeLayer(inClipPath, this.tempLayer2);
+            this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
+            this.CleanUnionResults(outPutFileName);
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            result = false;
+         }
+         return result;
+      }
+
+      public void UnionHomeRange(string inTempHomeRangePath, string inSocialMapPath, string outPutFileName)
+      {
+         this.MakeLayer(inTempHomeRangePath, this.tempLayer1);
+         this.MakeLayer(inSocialMapPath, this.tempLayer2);
+         this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (22) 
+
+		#region Fields (6) 
+
+      FileWriter.FileWriter fw;
+      Geoprocessor myProcessor;
+      string pointLayer;
+      string selectLayer;
+      string tempLayer1;
+      string tempLayer2;
+
+		#endregion Fields 
+		#region Methods (16) 
+
       private void AddPointsToEmptyFeatureClass(IFeatureClass inFC, List<IPoint> inPoints)
       {
          IFeature feature;
@@ -166,18 +522,6 @@ namespace PAZ_Dispersal
 
       }
 
-      public void JoinLayers(string layerName1, string layerName2)
-      {
-       
-         SpatialJoin sj = new SpatialJoin();
-         sj.target_features = layerName1;
-         sj.join_features = layerName2;
-         sj.out_feature_class = @"C:\map\stepmaps.shp";
-         sj.match_option = "IS_WITHIN";
-         this.RunProcess(sj, null);
-         //return fc;
-      }
-
       private void MakeLayer(string inFileName, string outLayerName)
       {
          MakeFeatureLayer makefeaturelayer = new MakeFeatureLayer();
@@ -217,7 +561,7 @@ namespace PAZ_Dispersal
                for (int Count = 0; Count <= gp.MessageCount - 1; Count++)
                {
                   string s = gp.GetMessage(Count);
-                  if (s.Contains("ERROR") || s.Contains("WARNING"))
+                  if (s.Contains("ERROR"))
                   {
                       hasError = true;
                     
@@ -316,342 +660,9 @@ namespace PAZ_Dispersal
          fw.writeLine("back from runprocess");
       }
 
-		#endregion Private Methods 
+		#endregion Methods 
 
-		#region Public Methods (18) 
-
-      public IFeatureClass AddHomeRangePolyGon(string outFileName, IPolygon inHomeRange)
-      {
-
-         IFeatureClass fc = this.CreateEmptyFeatureClass(outFileName, "polygon");
-         this.AddPolyGon(fc, inHomeRange);
-         return fc;
-
-      }
-
-     
-
-      public void CleanUnionResults(string UnionPath)
-      {
-         IFeatureClass fc;
-         IQueryFilter qf;
-         int SUITABILIT;
-         int OCCUP_MALE;
-         int OCCUP_FEMA;
-         int SUITABIL_1;
-         int OCCUP_MA_1;
-         int OCCUP_FE_1;
-         string suitValue;
-         string occMale;
-         string occFemale;
-
-         GetFeatureClassFromFileName(UnionPath, out fc, out qf);
-         IField field = fc.Fields.get_Field(2);
-         qf.WhereClause = field.AliasName + " = -1";
-         IFeatureCursor curr = fc.Update(qf, false);
-         SUITABILIT = curr.FindField("SUITABILIT");
-         OCCUP_MALE = curr.FindField("OCCUP_MALE");
-         OCCUP_FEMA = curr.FindField("OCCUP_FEMA");
-         SUITABIL_1 = curr.FindField("SUITABIL_1");
-         OCCUP_MA_1 = curr.FindField("OCCUP_MA_1");
-         OCCUP_FE_1 = curr.FindField("OCCUP_FE_1");
-
-         IFeature feat = curr.NextFeature();
-         while (feat != null)
-         {
-            suitValue = feat.get_Value(SUITABIL_1).ToString();
-            occMale = feat.get_Value(OCCUP_MA_1).ToString();
-            occFemale = feat.get_Value(OCCUP_FE_1).ToString();
-
-            feat.set_Value(SUITABILIT, suitValue);
-            feat.set_Value(OCCUP_MALE, occMale);
-            feat.set_Value(OCCUP_FEMA, occFemale);
-
-            feat.Store();
-            feat = curr.NextFeature();
-         }
-         curr.Flush();
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
-      }
-
-      public void Clip(string inFileNameClipFrom, string inFileNameClipFeature, string outFileName)
-      {
-         
-         this.MakeLayer(inFileNameClipFrom, "clipFrom");
-         this.MakeLayer(inFileNameClipFeature, "clipFeature");
-         this.ClipFeatures("clipFrom", "clipFeature", outFileName);
-      }
-
-      public void CopyToAnotherlMap(string NewMapPath, string OldMapPath)
-      {
-         this.MakeLayer(OldMapPath, this.tempLayer1);
-         this.CopyFeaturesToFeatureClass(this.tempLayer1, NewMapPath);
-      }
-
-      public int GetRowCount(string inFileName)
-      {
-         GetCount gc = new GetCount();
-         this.MakeLayer(inFileName, this.tempLayer1);
-         gc.in_rows = this.tempLayer1;
-         this.RunProcess(gc, null);
-         return gc.row_count;
-      }
-
-      public IFeatureClass CreateEmptyFeatureClass(string inFileName, string featureType)
-      {
-         IFeatureClass fc = null;
-         try
-         {
-            string path;
-            string fileName;
-            this.GetPathAndFileName(inFileName, out path, out fileName);
-            CreateFeatureclass cf = new CreateFeatureclass();
-            cf.out_path = path;
-            cf.out_name = fileName;
-            cf.geometry_type = featureType.ToUpper();
-            fc = this.RunProcessGetFeatureClass(cf, null);
-         }
-         catch (System.Runtime.InteropServices.COMException ex)
-         {
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return fc;
-      }
-
-      public IFeatureClass SetSuitableSteps(string inPointFileName, List<IPoint> inPoints, string inMemoryMap)
-      {
-
-         IFeatureClass fc = null;
-         fc = this.CreateEmptyFeatureClass(inPointFileName,"point");
-         this.AddPointsToEmptyFeatureClass(fc, inPoints);
-         this.MakeLayer(inPointFileName, this.tempLayer1);
-         this.MakeLayer(inMemoryMap, this.tempLayer2);
-         this.JoinLayers(this.tempLayer1, this.tempLayer2);
-         return fc;
-      }
-
-      //public void DeleteAllFeatures(string inPointFileName)
-      //{
-      //   IFeatureClass fc;
-      //   IQueryFilter qf;
-      //   GetFeatureClassFromFileName(inPointFileName, out fc, out qf);
-      //   IFeatureCursor curr = fc.Update(null, false);
-      //   IFeature feat = curr.NextFeature();
-      //   while (feat != null)
-      //   {
-      //      feat.Delete();
-      //      feat = curr.NextFeature();
-      //   }
-      //   curr.Flush();
-
-      //   System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
-      //   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-      //   System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-
-      //}
-
-      public void CreateStepMap(string inFilePath, List<IPoint> inSteps)
-      {
-         string path;
-         string fileName;
-         this.GetPathAndFileName(inFilePath, out path, out fileName);
-         IFeatureClass fc = this.CreateEmptyFeatureClass(path + "\\Step.shp", "point");
-         this.AddPointsToEmptyFeatureClass(fc, inSteps);
-         this.makeHomeRangeSelectionMap(path + "\\" + "Step.shp", inFilePath);
-      }
-
-      public void DeleteAllFeatures(string inFileName)
-      {
-         IFeatureClass fc;
-         IQueryFilter qf;
-         GetFeatureClassFromFileName(inFileName, out fc, out qf);
-         IFeatureCursor curr = fc.Update(null, false);
-         IFeature feat = curr.NextFeature();
-         while (feat != null)
-         {
-            feat.Delete();
-            feat = curr.NextFeature();
-         }
-         curr.Flush();
-
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-
-      }
-
-      public void DeleteAllFeatures2(string inFileName)
-      {
-         this.MakeLayer(inFileName, this.tempLayer1);
-         Delete d = new Delete();
-         d.in_data = this.tempLayer1;
-         this.RunProcess(d,null);
-         
-
-      }
-
-      public void Dissolve(string inFile, string outFile, string FieldNames)
-      {
-         this.MakeLayer(inFile, this.tempLayer1);
-         this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
-      }
-
-      public IFeatureClass DissolveAndReturn(string inFile, string outFile, string FieldNames)
-      {
-         this.MakeLayer(inFile, this.tempLayer1);
-         this.DissolveFeatures(this.tempLayer1, outFile, FieldNames);
-         string path;
-         string fileName;
-         this.GetPathAndFileName(outFile,out path, out fileName);
-         return this.GetFeatureClass(path, fileName);
-      }
-
-      public IFeatureClass GetFeatureClass(string inFileName)
-      {
-         IFeatureClass ifc = null;
-         try
-         {
-            string path;
-            string fileName;
-            this.GetPathAndFileName(inFileName, out path, out fileName);
-            IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
-            IFeatureWorkspace featureWorkspace = null;
-            featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(path, 0);
-            ifc = featureWorkspace.OpenFeatureClass(fileName);
-         }
-         catch (COMException COMEx)
-         {
-            FileWriter.FileWriter.WriteErrorFile(COMEx);
-            System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(), "COM Error: " + COMEx.ErrorCode.ToString());
-         }
-
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-            System.Windows.Forms.MessageBox.Show(ex.Source + " ");//+ ex.InnerException.ToString());
-         }
-
-         return ifc;
-      }
-
-      public IFeatureClass GetNewlyAddedToSocialMapPolygons(string inFileName, string outFileName)
-      {
-         string path;
-         string fileName;
-         this.GetPathAndFileName(outFileName,out path,out fileName);
-         this.MakeLayer(inFileName,this.selectLayer);
-         string sqlWhereClause = "FID_availa >= 0";
-         this.SelectByValue(this.selectLayer, sqlWhereClause);
-         this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
-         return this.GetFeatureClass(path, fileName);
-
-      }
-
-      public IFeatureClass GetSuitablePolygons(string inFileName, string sex, string outFileName)
-      {
-
-         IFeatureClass fc = null;
-         string sqlWhereClause = this.buildSexBasedWhereClause(sex);
-         this.MakeLayer(inFileName, this.selectLayer);
-         if(this.SelectByValue(this.selectLayer, sqlWhereClause))
-         {  
-            this.AddField("TEXT", "delete", null, this.selectLayer);
-            this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
-            fc = this.GetFeatureClass(outFileName);
-         }
-         return fc;
-           
-      }
-
-      public bool MakeDissolvedTimeStep(string inFullFilePath, string dissovlePath, IPolygon inPoly1, IPolygon inPoly2)
-      {
-         IFeatureClass fc = null;
-         string path;
-         string fileName;
-         bool result = true;
-         try
-         {
-            fw.writeLine("inside MakeDissolvedTimeStep");
-            fw.writeLine("file name is " + inFullFilePath);
-            fw.writeLine("dissolvePath is " + dissovlePath);
-            GetPathAndFileName(inFullFilePath, out path, out fileName);
-            fc = this.GetFeatureClass(path, fileName);
-            this.AddPolyGon(fc, inPoly1);
-            this.AddPolyGon(fc, inPoly2);
-            this.MakeLayer(inFullFilePath, this.tempLayer1);
-            fw.writeLine("Calling check lock");
-            this.DissolveFeatures(this.tempLayer1, dissovlePath, "Id");
-           // this.removeAllPolygons(ref fc);
-            
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-            result = false;
-         }
-         finally
-         {
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-         }
-         return result;
-      }
-
-      public void makeHomeRangeSelectionMap(string stepMapName, string animalMemoryMapName)
-      {
-         this.MakeLayer(stepMapName, this.tempLayer1);
-         this.MakeLayer(animalMemoryMapName, this.tempLayer2);
-         string path = System.IO.Path.GetDirectoryName(animalMemoryMapName);
-         SpatialJoin sj = new SpatialJoin();
-         sj.target_features = this.tempLayer1;
-         sj.join_features = this.tempLayer2;
-         sj.match_option = "IS_WITHIN";
-         sj.out_feature_class = path + "\\HomeSteps.shp";
-         this.RunProcess(sj, null);
-
-      }
-      public void RemoveExtraFields(string inFullFilePath, string ListOfFields)
-       {
-         DeleteField d = new DeleteField();
-         this.MakeLayer(inFullFilePath, this.tempLayer1);
-         d.in_table = this.tempLayer1;
-         d.drop_field = ListOfFields;
-         this.RunProcess(d,null);
-
-      }
-
-      public bool UnionAnimalClipData(string inAnimalPath, string inClipPath, string outPutFileName)
-      {
-         bool result = true;
-
-         try
-         {
-            fw.writeLine("");
-            fw.writeLine("inside UnionAnimalClipData for " + inAnimalPath);
-            this.MakeLayer(inAnimalPath, this.tempLayer1);
-            this.MakeLayer(inClipPath, this.tempLayer2);
-            this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
-            this.CleanUnionResults(outPutFileName);
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-            result = false;
-         }
-         return result;
-      }
-
-      public void UnionHomeRange(string inTempHomeRangePath, string inSocialMapPath, string outPutFileName)
-      {
-         this.MakeLayer(inTempHomeRangePath, this.tempLayer1);
-         this.MakeLayer(inSocialMapPath, this.tempLayer2);
-         this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
-      }
-
-		#endregion Public Methods 
-
+		#endregion Non-Public Members 
    }
 
   

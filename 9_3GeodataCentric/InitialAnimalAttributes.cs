@@ -8,10 +8,9 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class InitialAnimalAttributes
 	{
-      private char mySex;
-      private IPoint myLocation;
-      private int myNumToMake;
-      private string myOrginalID;
+		#region Public Members (2) 
+
+		#region Constructors (1) 
 
 		public InitialAnimalAttributes()
 		{
@@ -19,12 +18,35 @@ namespace PAZ_Dispersal
          myLocation = new PointClass();
          myNumToMake = 0;
 		}
+
+		#endregion Constructors 
+		#region Methods (1) 
+
       public void setPointValues(IPoint inP)
       {
          myLocation.X = inP.X;
          myLocation.Y = inP.Y;
 
       }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
+		#region Fields (4) 
+
+      private IPoint myLocation;
+      private int myNumToMake;
+      private string myOrginalID;
+      private char mySex;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
+
+
       #region getters and setters
       public string OrginalID
       {
@@ -49,7 +71,5 @@ namespace PAZ_Dispersal
 			set { myNumToMake = value; }
 		}
       #endregion
-
-     
 	}
 }

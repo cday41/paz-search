@@ -7,9 +7,16 @@ namespace PAZ_Dispersal
 	/// </summary>
 	internal sealed class CraptasticXmlException : System.ApplicationException
 	{
+		#region Public Members (1) 
+
+		#region Constructors (1) 
+
 		public CraptasticXmlException (string msg):base(msg)
 		{
 		}
 
+		#endregion Constructors 
+
+		#endregion Public Members 
 	}
 }

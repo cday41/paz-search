@@ -7,9 +7,34 @@ namespace PAZ_Dispersal
    /// </summary>
    public struct Duration
    {
-      private string mType;
       private double mMeanAmt;
       private double mStandardDeviation;
+      private string mType;
+      public double MeanAmt
+      {
+         get { return mMeanAmt; }
+         set 
+         { 
+            mMeanAmt = value;
+            if(mMeanAmt > 24)
+               mMeanAmt = 24;
+         }
+      }
+      public double StandardDeviation
+      {
+         get { return mStandardDeviation; }
+         set 
+         { 
+            mStandardDeviation = value;
+            if (mStandardDeviation > 24)
+               mStandardDeviation = 24;
+         }
+      }
+      public string Type
+      {
+         get { return mType; }
+         set { mType = value; }
+      }
       public Duration(string inType,double inMean,double inSD)
       {
          mType = inType;
@@ -21,33 +46,5 @@ namespace PAZ_Dispersal
          if (mStandardDeviation > 24)
             mStandardDeviation = 24;
       }
-      public string Type
-      {
-         get { return mType; }
-         set { mType = value; }
-      }
-
-      public double MeanAmt
-      {
-         get { return mMeanAmt; }
-         set 
-         { 
-            mMeanAmt = value;
-            if(mMeanAmt > 24)
-               mMeanAmt = 24;
-         }
-      }
-
-      public double StandardDeviation
-      {
-         get { return mStandardDeviation; }
-         set 
-         { 
-            mStandardDeviation = value;
-            if (mStandardDeviation > 24)
-               mStandardDeviation = 24;
-         }
-      }
-
    }
 }

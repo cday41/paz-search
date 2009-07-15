@@ -20,18 +20,9 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class MapSwapTrigger:ICloneable
 	{
-		private int mYearGrp;
-		private int mSeasonGrp;
-		private int mDayGrp;
-		private string mStartMonth;
-		private string mStartDay;
-		private string mStartHour;
-		private string mStartMinute;
-		private System.DateTime mStartDate;
-      private System.DateTime mOriginalStartDate;
-		private string mPath;
-		private string mFilename;
-      private mTriggerType mMyTriggerType;
+		#region Public Members (4) 
+
+		#region Enums (1) 
 
       //For some reason the enum has to be made public to access
       //through a property.  But you can not see it from outside the 
@@ -44,19 +35,18 @@ namespace PAZ_Dispersal
          HOURLY
       }
 
+		#endregion Enums 
+		#region Constructors (1) 
 
-		public MapSwapTrigger()
+public MapSwapTrigger()
 		{
 			//
 			// TODO: Add constructor logic here
 			//
 		}
 
-      public override string ToString()
-      {
-         return mStartDate.ToShortDateString() + " " + mStartDate.ToShortTimeString() + " " + mFilename + " " + this.mMyTriggerType.ToString();
-      }
-
+		#endregion Constructors 
+		#region Methods (2) 
 
       public void setTriggerType(int numYears,int numDays, int numHours)
       {
@@ -70,7 +60,38 @@ namespace PAZ_Dispersal
             this.mMyTriggerType = mTriggerType.STATIC;
       }
 
-		#region getters and setters	
+      public override string ToString()
+      {
+         return mStartDate.ToShortDateString() + " " + mStartDate.ToShortTimeString() + " " + mFilename + " " + this.mMyTriggerType.ToString();
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (12) 
+
+		#region Fields (12) 
+
+		private int mDayGrp;
+		private string mFilename;
+      private mTriggerType mMyTriggerType;
+      private System.DateTime mOriginalStartDate;
+		private string mPath;
+		private int mSeasonGrp;
+		private System.DateTime mStartDate;
+		private string mStartDay;
+		private string mStartHour;
+		private string mStartMinute;
+		private string mStartMonth;
+		private int mYearGrp;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
+
+
+#region getters and setters	
 
       public mTriggerType MyTriggerType
 		{
@@ -146,7 +167,6 @@ namespace PAZ_Dispersal
 
 		#endregion
 
-
         #region ICloneable Members
 
         public object Clone()
@@ -155,6 +175,5 @@ namespace PAZ_Dispersal
         }
 
         #endregion
-
     }
 }

@@ -1,3 +1,4 @@
+#define ZeroOnly
 using ESRI.ArcGIS.Geometry;
 using System.Collections;
 using System.Collections.Specialized;
@@ -10,6 +11,7 @@ namespace PAZ_Dispersal
 {
    public class AnimalManager : System.Collections.ArrayList
    {
+		#region Public Members (1) 
 
 		#region Constructors (1) 
 
@@ -30,10 +32,13 @@ namespace PAZ_Dispersal
       //   mResidentAttributes = new ResidentAttributes();
 
       }
-      
+
 		#endregion Constructors 
 
-      
+		#endregion Public Members 
+
+
+
       #region member variables
       private string myErrMessage;
       private FileWriter.FileWriter fw;
@@ -216,8 +221,9 @@ namespace PAZ_Dispersal
             for (int i = 0; i < this.Count; i++)
             {
                a = (Animal) this[i];
-#if (DEBUG)
-               //if (a.IdNum == 0)
+#if (ZeroOnly)
+               if (a.IdNum == 0)
+               {
 #endif
                a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
                //check to see if they died if they did remove them from the list
@@ -243,7 +249,10 @@ namespace PAZ_Dispersal
                   status = "";
                }
             }
+            }
+#if ZeroOnly
          }
+#endif
         
          catch (System.Exception ex)
          {

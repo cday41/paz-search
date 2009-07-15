@@ -5,36 +5,35 @@
  *                by Rank.  Stupid cut and paste.
  * ***************************************************************************/
 using System;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
+using ESRI.ArcGIS.Geometry;
 namespace PAZ_Dispersal
 {
    /// <summary>
    /// //holds the information about areas we have visited
    /// </summary>
    public class EligibleHomeSite : IComparable
-
    {
+		#region Public Members (5) 
+
+		#region Enums (1) 
+
       public enum SortMethod
       {Food = 0,Risk = 1,Rank = 2};
-      #region private members
-      private bool   mSuitableSite;
-      private double mDistanceFromCurrLocation;
-      private double mRank;
-      private double mFood;
-      private double mRisk;
-      private double mX;
-      private double mY;
-      private static SortMethod _sortOrder;
-      #endregion
 
-      public EligibleHomeSite()
+		#endregion Enums 
+		#region Constructors (4) 
+
+      public EligibleHomeSite(double inFood, double inRisk, double inX, double inY)
       {
          mDistanceFromCurrLocation = 0;
-         mSuitableSite = false;
-         mFood=0;
-         mRisk=0;
-         mX=0;
-         mY=0;
+         mSuitableSite = true;
+         mFood=inFood;
+         mRisk=inRisk;
+         mX=inX;
+         mY=inY;
       }
 
       public EligibleHomeSite(double inX, double inY)
@@ -46,18 +45,43 @@ namespace PAZ_Dispersal
          mX=inX;
          mY=inY;
       }
-      public EligibleHomeSite(double inFood, double inRisk, double inX, double inY)
+
+      public EligibleHomeSite(IPoint inP)
       {
          mDistanceFromCurrLocation = 0;
-         mSuitableSite = true;
-         mFood=inFood;
-         mRisk=inRisk;
-         mX=inX;
-         mY=inY;
+         mSuitableSite = false;
+         mFood = 0;
+         mRisk = 0;
+         mX = inP.X;
+         mY = inP.Y;
       }
 
-      
+      public EligibleHomeSite()
+      {
+         mDistanceFromCurrLocation = 0;
+         mSuitableSite = false;
+         mFood=0;
+         mRisk=0;
+         mX=0;
+         mY=0;
+      }
 
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+
+
+      #region private members
+      private bool   mSuitableSite;
+      private double mDistanceFromCurrLocation;
+      private double mRank;
+      private double mFood;
+      private double mRisk;
+      private double mX;
+      private double mY;
+      private static SortMethod _sortOrder;
+      #endregion
 
       #region getters and setters
       public double DistanceFromCurrLocation
@@ -153,7 +177,81 @@ namespace PAZ_Dispersal
       }
 
       #endregion
+   }
 
-      
-  }
+   public class CompareByLocation : IComparer<EligibleHomeSite>
+   {
+
+
+      #region IComparer<EligibleHomeSite> Members
+
+      public int Compare(EligibleHomeSite x, EligibleHomeSite y)
+      {
+         System.IO.StreamWriter sw = new System.IO.StreamWriter(@"C:\output\temp.txt",true);
+         sw.WriteLine("Inside Compare");
+         sw.WriteLine("x.x = " + x.X.ToString() + " x.y = " + x.Y.ToString());
+         sw.WriteLine("y.x = " + y.X.ToString() + " y.y = " + y.Y.ToString());
+         if (x == null)
+         {
+            sw.WriteLine("x was null");
+            return -1;
+         }
+         if (y == null)
+         {
+            sw.WriteLine("y was null");
+            return 1;
+         }
+         if (x.X > y.X || x.Y > y.Y)
+         {
+            sw.WriteLine("x was larger");
+            return 1;
+         }
+         if (x.X < y.X || x.Y < y.Y)
+         {
+            sw.WriteLine("y was larger");
+            return -1;
+         }
+         if (x.X == y.X && x.Y == y.Y)
+         {
+            sw.WriteLine("they were equal");
+            return 0;
+         }
+         else
+            return 1;
+
+           
+      }
+
+      #endregion
+   }
+
+   public class SiteComparer : IEqualityComparer<EligibleHomeSite>
+   {
+		#region Public Members (2) 
+
+		#region Methods (2) 
+
+      public bool Equals(EligibleHomeSite x, EligibleHomeSite y)
+      {
+         // try to get around the rounding issue
+         Int64 xx = System.Convert.ToInt64(x.X * 1000);
+         Int64 xy = System.Convert.ToInt64(x.Y * 1000);
+         Int64 yx = System.Convert.ToInt64(y.X * 1000);
+         Int64 yy = System.Convert.ToInt64(y.Y * 1000);
+         return (xx == yx && xy == yy);
+      }
+
+      public int GetHashCode(EligibleHomeSite obj)
+      {
+         //since we are only interested in the x,y location.
+         //that is the hash code we want.
+         Int64 xx = System.Convert.ToInt64(obj.X * 1000);
+         Int64 xy = System.Convert.ToInt64(obj.Y * 1000);
+         return (xx + xy).GetHashCode();
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+   }
 }

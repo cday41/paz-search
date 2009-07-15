@@ -4,17 +4,9 @@ namespace PAZ_Dispersal
 {
    public class TextFileWriter
    {
+		#region Public Members (5) 
 
-      #region Fields (2)
-
-
-      private string mOutPath;
-      private StringCollection sc;
-      private System.IO.StreamWriter sw;
-
-      #endregion Fields
-
-      #region Constructors (1)
+		#region Constructors (1) 
 
       public TextFileWriter(string path, string fileName)
       {
@@ -32,10 +24,8 @@ namespace PAZ_Dispersal
          }
       }
 
-      #endregion Constructors
-
-      #region Properties (1)
-
+		#endregion Constructors 
+		#region Properties (1) 
 
       public string OutPath
       {
@@ -43,19 +33,8 @@ namespace PAZ_Dispersal
          set { mOutPath = value; }
       }
 
-
-      #endregion Properties
-
-      #region Public Methods (3)
-
-      public void WriteOutTimeStep()
-      {
-         foreach (string s in this.sc)
-         {
-            this.sw.WriteLine(s);
-         }
-         this.sc.Clear();
-      }
+		#endregion Properties 
+		#region Methods (3) 
 
       public void addLine(string inValue)
       {
@@ -76,7 +55,29 @@ namespace PAZ_Dispersal
          sw.Close();
       }
 
-      #endregion Public Methods
+      public void WriteOutTimeStep()
+      {
+         foreach (string s in this.sc)
+         {
+            this.sw.WriteLine(s);
+         }
+         this.sc.Clear();
+      }
 
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (3) 
+
+		#region Fields (3) 
+
+      private string mOutPath;
+      private StringCollection sc;
+      private System.IO.StreamWriter sw;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
    }
 }

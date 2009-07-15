@@ -8,13 +8,18 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class InitialResidentInfo
 	{
-      private IPoint mLocation;
-      private string mSex;
+		#region Public Members (3) 
+
+		#region Constructors (1) 
+
 		public InitialResidentInfo()
 		{
 			mLocation = null;
          mSex = null;
 		}
+
+		#endregion Constructors 
+		#region Properties (2) 
 
      public IPoint Location
 		{
@@ -28,5 +33,19 @@ namespace PAZ_Dispersal
 			set  { mSex = value; }
 		}
 
+		#endregion Properties 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (2) 
+
+		#region Fields (2) 
+
+      private IPoint mLocation;
+      private string mSex;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
 	}
 }

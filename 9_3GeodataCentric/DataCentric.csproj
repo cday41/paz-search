@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,6 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataCentric</RootNamespace>
     <AssemblyName>DataCentric</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,11 +37,11 @@
     <Reference Include="AspNetMMCExt" />
     <Reference Include="bobResize, Version=1.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bobResize\bin\bobResize.dll</HintPath>
+      <HintPath>..\Round_2\Utilities\bobResize\bin\bobResize.dll</HintPath>
     </Reference>
     <Reference Include="DesignbyContract1, Version=1.0.2353.14804, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>DesignByContract\bin\Debug\DesignbyContract1.dll</HintPath>
+      <HintPath>..\Round_2\Utilities\DesignbyContract1\bin\Debug\DesignbyContract1.dll</HintPath>
     </Reference>
     <Reference Include="ESRI.ArcGIS.AnalysisTools, Version=9.3.0.1770, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="ESRI.ArcGIS.ArcMap, Version=9.3.0.1770, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
@@ -54,17 +60,18 @@
     <Reference Include="ESRI.ArcGIS.System, Version=9.3.0.1770, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=MSIL" />
     <Reference Include="FileWriter, Version=1.0.2962.19798, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>FileWriter\bin\Debug\FileWriter.dll</HintPath>
+      <HintPath>..\Round_2\Utilities\FileWriter\bin\Debug\FileWriter.dll</HintPath>
     </Reference>
     <Reference Include="inputBox, Version=1.0.2705.17677, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>InputBox\bin\Debug\inputBox.dll</HintPath>
+      <HintPath>..\Round_2\Utilities\inputBox\bin\Debug\inputBox.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics, Version=0.3.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>MathNet\bin\MathNet.Numerics.dll</HintPath>
+      <HintPath>..\Round_2\Utilities\MathNet.Numerics-v0.3\bin\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
@@ -72,7 +79,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="txtBoxArray, Version=1.0.2704.26301, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>txtBoxArray\bin\Debug\txtBoxArray.dll</HintPath>
+      <HintPath>..\Round_2\Utilities\txtBoxArray\bin\Debug\txtBoxArray.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +105,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HomeRangeBuilder.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BeamMeHomeScottyMover.cs" />
     <Compile Include="BehaviorModifier.cs" />
     <Compile Include="BestComboHomeRangeFinder.cs" />
@@ -170,25 +176,6 @@
       <DependentUpon>frmYearlyForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="RandomNumbers.cs" />
     <Compile Include="RandomWCMover.cs" />
     <Compile Include="Resident.cs" />
@@ -205,6 +192,9 @@
     <Compile Include="TemporalModifiers.cs" />
     <Compile Include="TextFileWriter.cs" />
     <Compile Include="TimeHomeRangeTrigger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

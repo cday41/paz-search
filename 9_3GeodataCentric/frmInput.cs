@@ -35,6 +35,87 @@ namespace PAZ_Dispersal
    /// </summary>
    public class frmInput : System.Windows.Forms.Form
    {
+		#region Public Members (1) 
+
+		#region Constructors (1) 
+
+      public frmInput()
+      {
+          try
+          {
+         //
+         // Required for Windows Form Designer support
+         //
+         InitializeComponent();
+
+         //trash out any former error files
+         if (System.IO.File.Exists(@"C:\DispersalError.log"))
+            System.IO.File.Delete(@"C:\DispersalError.log");
+        
+         this.buildLogger();
+         this.tabControl.Width = this.Width;
+         myMapManager = MapManager.GetUniqueInstance();
+         mySimManager = new SimulatonManager();
+         mySimManager.MapManager = myMapManager;
+         HideTabPage(this.tabSpecies);
+         HideTabPage(this.tabModify);
+         HideTabPage(this.tabSim);
+         HideTabPage(this.tabHomeRange);
+         HideTabPage(this.tabMap);
+         this.speciesText = new TextBoxArray();
+         this.simulationText = new TextBoxArray();
+         this.homeRangeText = new TextBoxArray();
+         this.timeText = new TextBoxArray();
+         buildTextBoxes(this.tabSpecies, ref this.speciesText);
+         buildTextBoxes(this.tabSim, ref this.simulationText);
+         buildTextBoxes(this.tabHomeRange, ref this.homeRangeText);
+         buildTextBoxes(this.tabTime,ref this.timeText);
+          }
+          catch (SystemException ex)
+          {
+              FileWriter.FileWriter.WriteErrorFile(ex);
+          }
+
+         
+         
+      }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (1) 
+
+		#region Methods (1) 
+
+      private void btnParameterFile_Click(object sender, System.EventArgs e)
+      {
+         try
+         {	//this.sfdCommon = new SaveFileDialog();
+            //fw.writeLine("inside frmInput.loadMap called from button " + mapType + " map click event");
+            this.sfdCommon.Filter = "XML Files *.xml|*.xml";
+            this.sfdCommon.Title = "Browse for Parameter File";
+				
+            if (this.sfdCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {  
+               this.parameterFilePath = this.sfdCommon.FileName;
+            }
+         }
+         catch (InvalidMapException ime)
+         {
+            MessageBox.Show(ime.Message);
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+
+
       #region private members
       private string socialDir = "";
       private string foodDir = "";
@@ -203,46 +284,7 @@ namespace PAZ_Dispersal
       private System.Windows.Forms.TextBox txtMaleDistMod;
       private System.ComponentModel.IContainer components;
       #endregion
-      public frmInput()
-      {
-          try
-          {
-         //
-         // Required for Windows Form Designer support
-         //
-         InitializeComponent();
 
-         //trash out any former error files
-         if (System.IO.File.Exists(@"C:\DispersalError.log"))
-            System.IO.File.Delete(@"C:\DispersalError.log");
-        
-         this.buildLogger();
-         this.tabControl.Width = this.Width;
-         myMapManager = MapManager.GetUniqueInstance();
-         mySimManager = new SimulatonManager();
-         mySimManager.MapManager = myMapManager;
-         HideTabPage(this.tabSpecies);
-         HideTabPage(this.tabModify);
-         HideTabPage(this.tabSim);
-         HideTabPage(this.tabHomeRange);
-         HideTabPage(this.tabMap);
-         this.speciesText = new TextBoxArray();
-         this.simulationText = new TextBoxArray();
-         this.homeRangeText = new TextBoxArray();
-         this.timeText = new TextBoxArray();
-         buildTextBoxes(this.tabSpecies, ref this.speciesText);
-         buildTextBoxes(this.tabSim, ref this.simulationText);
-         buildTextBoxes(this.tabHomeRange, ref this.homeRangeText);
-         buildTextBoxes(this.tabTime,ref this.timeText);
-          }
-          catch (SystemException ex)
-          {
-              FileWriter.FileWriter.WriteErrorFile(ex);
-          }
-
-         
-         
-      }
       #region WindowsCode
       /// <summary>
       /// Clean up any resources being used.
@@ -1694,14 +1736,11 @@ namespace PAZ_Dispersal
       }
       
       #endregion
-   
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		
-
 		#endregion
-      
+
 		#region tabcocde
 		private void HideTabPage(TabPage tp)
 		{
@@ -1754,9 +1793,9 @@ namespace PAZ_Dispersal
 
       }
    
-      #endregion 
-      
-      #region textBoxCode
+      #endregion
+
+       #region textBoxCode
       private void buildTextBoxes(Control inControl, ref TextBoxArray myTextBoxes)
       {  
          try
@@ -1971,7 +2010,7 @@ namespace PAZ_Dispersal
       
      
       #endregion
-     
+
       #region tabmapcode
       private void btnSocialMaps_Click(object sender, System.EventArgs e)
       {
@@ -2600,9 +2639,9 @@ namespace PAZ_Dispersal
          }
          return success;
       }
-      #endregion 
+      #endregion
 
-      #region tab home range code
+       #region tab home range code
       private void rdoNumSteps_CheckedChanged(object sender, System.EventArgs e)
       {
          if (this.rdoNumSteps.Checked)
@@ -2851,6 +2890,7 @@ namespace PAZ_Dispersal
 
 		
       #endregion
+
       #region private methods
       private void button1_Click(object sender, System.EventArgs e)
       {
@@ -2939,6 +2979,7 @@ namespace PAZ_Dispersal
 
       }
       #endregion
+
       #region xmlcode
 		
       private void writeXML(string fileName)
@@ -3203,13 +3244,11 @@ namespace PAZ_Dispersal
          xw.WriteEndElement();//end of output element
          xw.WriteEndElement();//end of Simulation tab element
          #endregion
-
          xw.WriteEndElement();//end of Data
          xw.WriteEndDocument();
          xw.Flush();
          xw.Close();
       }//end of writeXML
-
       private void btnLoadXML_Click(object sender, System.EventArgs e)
       {
          string path;
@@ -3234,9 +3273,7 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
          ofd.Filter = "";
-		
       }//end of btnLoadXML_Click
-
       private void loadXML(string file)
       {
          try
@@ -3356,10 +3393,7 @@ namespace PAZ_Dispersal
          kids.MoveNext();
          disDir = kids.Current.Value;
          this.btnDispersal_Click(null,null);
-			
-
       }
-
       private void finishMapTab()
       {
          this.myMapManager.changeMaps(this.mySimManager.StartSimulationDate);
@@ -3377,7 +3411,6 @@ namespace PAZ_Dispersal
             MessageBox.Show(this.mySimManager.ErrMessage);
          }
       }
-
       private void loadSpeciesTab (XPathNodeIterator nit)
       {
          XPathNodeIterator temp = nit.Current.Select("//EnergyParameters/InitialEnergy");
@@ -3397,10 +3430,8 @@ namespace PAZ_Dispersal
          //		this.mySimManager.AnimalManager.AnimalAttributes.WakeUpTime  = System.Double.Parse(temp.Current.Value);
          //this.dtpWakeUp.Text = temp.Current.Value + ":00";
          //		MessageBox.Show("Name = " + temp.Current.Name + "\nValue = " + temp.Current.Value);
-
          temp = nit.Current.Select("//ActivityDurations/*");
          loadActivityDurations(temp);
-
          temp = nit.Current.Select("//BehavioralTriggers/txtRiskyToSafe");
          temp.MoveNext();
          this.txtRiskyToSafe.Text  = temp.Current.Value;
@@ -3450,7 +3481,6 @@ namespace PAZ_Dispersal
 
          }
       }
-
       private void loadHomeRangeTab(XPathNodeIterator nit)
       {
          XPathNodeIterator temp = nit.Current.Select("//HomeRangeArea[@gender=\"male\"]");
@@ -3481,20 +3511,17 @@ namespace PAZ_Dispersal
          temp = nit.Current.Select("//txtTriggerNum");
          temp.MoveNext();
          this.txtTriggerNum.Text = temp.Current.Value;
-
          temp = nit.Current.Select("//MaleDistanceModifierWeight[@gender=\"male\"]");
          if(temp.MoveNext())
             this.txtMaleDistMod.Text = temp.Current.Value;
          else
             MessageBox.Show("Error looking for tag MaleDistanceModifierWeight" );
-
          temp = nit.Current.Select("//FemaleDistanceModifierWeight[@gender=\"female\"]");
          if(temp.MoveNext())
             this.txtFemaleDistMod.Text = temp.Current.Value;
          else
             MessageBox.Show("Error looking for tag FemaleDistanceModifierWeight" );
          this.btnHomeRange.PerformClick();
-
       }
       private void loadMovementTab(XPathNodeIterator nit)
       {
@@ -3625,7 +3652,6 @@ namespace PAZ_Dispersal
             this.mySimManager.addHourlyModifier(hm);
             this.lblModifiers.Text = this.lblModifiers.Text + "Hourly Modifer Created" + System.Environment.NewLine;
          }//end of while
-
          this.btnMoveOK.PerformClick();
       }
       private void loadSimulationTab(XPathNodeIterator nit)
@@ -3656,8 +3682,6 @@ namespace PAZ_Dispersal
          temp = nit.Current.Select("//TextOutput");
          temp.MoveNext();
          this.chkTextOutPut.Checked = System.Boolean.Parse(temp.Current.Value);
-        
-         
          if(! this.mySimManager.makeInitialAnimalMaps())
          {
             System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage,"Error");
@@ -3669,36 +3693,8 @@ namespace PAZ_Dispersal
             this.mySimManager.ErrMessage = "";
          }
          //btnTabSimOK.PerformClick();*/
-
       }
-
       #endregion
-
-      private void btnParameterFile_Click(object sender, System.EventArgs e)
-      {
-         try
-         {	//this.sfdCommon = new SaveFileDialog();
-            //fw.writeLine("inside frmInput.loadMap called from button " + mapType + " map click event");
-            this.sfdCommon.Filter = "XML Files *.xml|*.xml";
-            this.sfdCommon.Title = "Browse for Parameter File";
-				
-            if (this.sfdCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {  
-               this.parameterFilePath = this.sfdCommon.FileName;
-            }
-         }
-         catch (InvalidMapException ime)
-         {
-            MessageBox.Show(ime.Message);
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-
-      }
-
-
    }
 			
 }

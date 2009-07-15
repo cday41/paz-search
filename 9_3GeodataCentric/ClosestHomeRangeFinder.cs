@@ -14,10 +14,9 @@ namespace PAZ_Dispersal
    /// </summary>
    public sealed class ClosestHomeRangeFinder : HomeRangeFinder
    {
-      #region private member variables
+		#region Public Members (2) 
 
-      static ClosestHomeRangeFinder uniqueInstance;
-      #endregion
+		#region Methods (2) 
 
       public static ClosestHomeRangeFinder getInstance()
       {
@@ -27,10 +26,69 @@ namespace PAZ_Dispersal
          }
          return uniqueInstance;
       }
+
+      public override bool setHomeRangeCenter(Animal inAnimal, string fileName)
+      {
+         bool success = false;
+         int index;
+         PointClass currEligibleSite=null;
+         try
+         {
+            fw.writeLine("inside setHomeRangeCenter in the ClosestHomeRangeFinder");
+            fw.writeLine(" for Animal Number " + inAnimal.IdNum.ToString() + " and the file name is " + fileName);
+            string sex = inAnimal.Sex;
+            //make sure there are available sites
+            fw.writeLine("checking to see if there are any suitable sites");
+            if (setSuitableSites(inAnimal, fileName))
+            {
+              
+               double requiredArea = inAnimal.HomeRangeArea;
+               fw.writeLine("we need " + requiredArea.ToString() );
+               for (index = inAnimal.MyVisitedSites.SiteCount - 1; index >= 0; index--)
+               {
+                  fw.writeLine("looking at site number " + index.ToString());
+                  currEligibleSite = inAnimal.GetEligibleStep(index);
+                  if (this.getArea(currEligibleSite) >= requiredArea)
+                  {
+                     inAnimal.HomeRangeCenter = currEligibleSite;
+                     success = true;
+                     break;
+                  }
+               }
+            }
+            else
+            {
+               fw.writeLine("must not have been");
+            }
+
+           
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         fw.writeLine("leaving setHomeRangeCenter with a value of " + success.ToString());
+         return success;
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (2) 
+
+		#region Constructors (1) 
+
       private ClosestHomeRangeFinder()
       {
 
       }
+
+		#endregion Constructors 
+		#region Methods (1) 
 
       private double getArea(IPoint inPoint)
       {
@@ -70,51 +128,14 @@ namespace PAZ_Dispersal
 
       }
 
-      public override bool setHomeRangeCenter(Animal inAnimal, string fileName)
-      {
-         bool success = false;
-         int index;
-         PointClass currEligibleSite=null;
-         try
-         {
-            fw.writeLine("inside setHomeRangeCenter in the ClosestHomeRangeFinder");
-            fw.writeLine(" for Animal Number " + inAnimal.IdNum.ToString() + " and the file name is " + fileName);
-            string sex = inAnimal.Sex;
-            //make sure there are available sites
-            fw.writeLine("checking to see if there are any suitable sites");
-            if (setSuitableSites(inAnimal, fileName))
-            {
-              
-               double requiredArea = inAnimal.HomeRangeArea;
-               fw.writeLine("we need " + requiredArea.ToString() );
-               for (index = inAnimal.MySites.Count - 1; index >= 0; index--)
-               {
-                  fw.writeLine("looking at site number " + index.ToString());
-                  currEligibleSite = inAnimal.GetEligibleStep(index);
-                  if (this.getArea(currEligibleSite) >= requiredArea)
-                  {
-                     inAnimal.HomeRangeCenter = currEligibleSite;
-                     success = true;
-                     break;
-                  }
-               }
-            }
-            else
-            {
-               fw.writeLine("must not have been");
-            }
+		#endregion Methods 
 
-           
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         fw.writeLine("leaving setHomeRangeCenter with a value of " + success.ToString());
-         return success;
-      }
+		#endregion Non-Public Members 
+
+
+      #region private member variables
+
+      static ClosestHomeRangeFinder uniqueInstance;
+      #endregion
    }
 }

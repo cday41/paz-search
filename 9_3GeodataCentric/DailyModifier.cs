@@ -7,7 +7,10 @@ namespace PAZ_Dispersal
    /// </summary>
    public class DailyModifier : Modifier
    {
-      private DateTime mStartDate;
+		#region Public Members (2) 
+
+		#region Properties (1) 
+
       [CategoryAttribute("Daily Modifer Start Setting"), 
       DescriptionAttribute("Sets the day of the year this modifier should take effect")]
       public DateTime StartDate
@@ -16,12 +19,27 @@ namespace PAZ_Dispersal
 			set { mStartDate = value; }
 		}
 
+		#endregion Properties 
+		#region Methods (1) 
+
       public void advanceOneYear()
       {  
          mStartDate = mStartDate.AddYears(1);
 
       }
 
+		#endregion Methods 
 
+		#endregion Public Members 
+
+		#region Non-Public Members (1) 
+
+		#region Fields (1) 
+
+      private DateTime mStartDate;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
    }
 }

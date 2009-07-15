@@ -46,6 +46,226 @@ namespace PAZ_Dispersal
 {
    public  class Animal
    {
+		#region Public Members (34) 
+
+		#region Properties (34) 
+
+      public AnimalAtributes AnimalAtributes
+      {
+         get { return mAnimalAtributes; }
+         set { mAnimalAtributes = value; }
+      }
+
+      public AnimalManager AnimalManager
+      {
+         get { return mAnimalManager; }
+         set  { mAnimalManager = value; }
+      }
+
+      public double CaptureFood
+      {
+         get { return mCaptureFood; }
+         set { mCaptureFood = value; }
+      }
+
+      public double CurrEnergy
+      {
+         get { return mCurrEnergy; }
+         set { mCurrEnergy = value; }
+      }
+
+      public double DistanceMean
+      {
+         get { return mDistanceMean; }
+         set { mDistanceMean = value; }
+      }
+
+      public double DistanceSE
+      {
+         get { return mDistanceSE; }
+         set { mDistanceSE = value; }
+      }
+
+      public double DistanceWeight
+      {
+         get { return mDistanceWeight; }
+         set  { mDistanceWeight = value; }
+      }
+
+      public double EnergyUsed
+      {
+         get { return mEnergyUsed; }
+         set { mEnergyUsed = value; }
+      }
+
+      public string FileNamePrefix
+      {
+         get {return fileNamePrefix;}
+      }
+
+      public int FoodIndex
+		{
+			get { return mFoodIndex; }
+			set  { mFoodIndex = value; }
+		}
+
+      public double FoodMeanSize
+		{
+			get { return mFoodMeanSize; }
+			set  { mFoodMeanSize = value; }
+		}
+
+      public double FoodSD_Size
+		{
+			get { return mFoodSD_Size; }
+			set  { mFoodSD_Size = value; }
+		}
+
+      public Modifier GenderModifier
+      {
+         get { return mGenderModifier; }
+         set { mGenderModifier = value; }
+      }
+
+      public double Heading
+      {
+         get { return mHeading; }
+         set  { mHeading = value; }
+      }
+
+      public double HomeRangeArea
+      {
+         get { return mHomeRangeArea; }
+         set { mHomeRangeArea = value; }
+      }
+
+      public PointClass HomeRangeCenter
+      {
+         get { return mHomeRangeCenter; }
+         set { mHomeRangeCenter = value; }
+      }
+
+      public IHomeRangeFinder HomeRangeFinder
+      {
+         get { return mHomeRangeFinder; }
+         set  { mHomeRangeFinder = value; }
+      }
+
+      public IHomeRangeTrigger HomeRangeTrigger
+      {
+         get { return mHomeRangeTrigger; }
+         set { mHomeRangeTrigger = value; }
+      }
+
+      public int IdNum
+      {
+         get { return myIdNum; }
+         set { myIdNum = value; }
+      }
+
+      public bool IsDead
+      {
+         get { return mIsDead; }
+         set { mIsDead = value; }
+      }
+
+      public IPoint Location
+      {
+         get { return myLocation; }
+         set 
+         {
+            myLocation = value;
+            this.mPath.add(myLocation);
+            // fw.writeLine("current polygon is " + this.mPolygonIndex.ToString());
+            // this.mPolygonIndex = this.MapManager.getCurrPolygon(myLocation);   
+            // fw.writeLine("new polygon is " + this.mPolygonIndex.ToString());
+         }
+      }
+
+      public MapManager MapManager
+      {
+         get { return mMapManager; }
+         set { mMapManager = value; }
+      }
+
+      public int MoveIndex
+		{
+			get { return mMoveIndex; }
+			set  { mMoveIndex = value; }
+		}
+
+      public double MoveSpeed
+      {
+         get { return this.mMoveSpeed; }
+         set { mMoveSpeed = value; }
+      }
+
+      public double MoveTurtosity
+      {
+         get { return this.mMoveTurtosity; }
+         set { mMoveTurtosity = value; }
+      }
+
+      public Mover myMover
+      {
+         get{ return mMover;}
+         set{mMover = value;}         
+      }
+
+      public EligibleHomeSites MyVisitedSites
+      {
+         get { return mMyVisitedSites; }
+         set  { mMyVisitedSites = value; }
+      }
+
+      public double PerceptonModifier
+      {
+         get { return mPerceptonModifier; }
+         set { mPerceptonModifier = value; }
+      }
+
+      public double PredationRisk
+      {
+         get { return mPredationRisk; }
+         set { mPredationRisk = value; }
+      }
+
+      public int RiskIndex
+		{
+			get { return mRiskIndex; }
+			set  { mRiskIndex = value; }
+		}
+
+      public string Sex
+      {
+         get{return sex;}
+         set{sex = value;}
+      }
+
+      public int SocialIndex
+		{
+			get { return mSocialIndex; }
+			set  { mSocialIndex = value; }
+		}
+
+      public Modifier StateModifer
+      {
+         get { return mStateModifer; }
+         set { mStateModifer = value; }
+      }
+
+      public  TextFileWriter TextFileWriter
+      {
+         get { return mTextFileWriter; }
+         set { mTextFileWriter = value; }
+      }
+
+		#endregion Properties 
+
+		#endregion Public Members 
+
+
+
       #region privateMemberVariables
       
       //Map based values that adjust how George acts
@@ -109,7 +329,7 @@ namespace PAZ_Dispersal
       //moves george around the board
       private Mover mMover; 
       private IPointList mPath;
-      private EligibleHomeSites mMySites;
+      private EligibleHomeSites mMyVisitedSites;
 
       //logs out debugging information
       protected FileWriter.FileWriter fw;
@@ -502,7 +722,7 @@ namespace PAZ_Dispersal
          this.rn = RandomNumbers.getInstance();
          this.Heading = rn.getUniformRandomNum() * 2 * Math.PI;
          this.mPath = new IPointList();
-         this.mMySites = new EligibleHomeSites();
+         this.mMyVisitedSites = new EligibleHomeSites();
          this.mIsDead = false;
          this.IsAsleep = false;
          this.timeStep = -1;
@@ -544,7 +764,6 @@ namespace PAZ_Dispersal
             this.updateMyLocationValues();
             upDateTemporalModifiers(inHM, inDM); fw.writeLine("done updating temporal modifier now start loop for moving");
             this.upDateMyValues();
-
             while (percentTimeStep < 1 && !this.mIsDead)
             {
                //if(this.Location.X == 0) System.Windows.Forms.MessageBox.Show("No Location");
@@ -614,7 +833,7 @@ namespace PAZ_Dispersal
                   timeToLookForHome = this.mHomeRangeTrigger.timeToLookForHome(this);
                }
             
-               if (timeToLookForHome && !this.goingHome && this.MySites.Count > 0)
+               if (timeToLookForHome && !this.goingHome && this.MyVisitedSites.SiteCount > 0)
                {
                   fw.writeLine("yes it is time to look for a home calling find home");
                   
@@ -651,10 +870,10 @@ namespace PAZ_Dispersal
                //Tuesday, July 15, 2008 move back to end of step
                if(this.IsAsleep == false)
                {
-                  if (isSiteGood())
-                  {
-                     this.mMySites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y), ref fw);
-                  }
+                  //if (isSiteGood())
+                  //{
+                     this.mMyVisitedSites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y), ref fw);
+                  //}
                }
 
                if(this.goingHome && this.IsAsleep == false)
@@ -670,7 +889,6 @@ namespace PAZ_Dispersal
                }
             }
          }
-         
          catch(System.Exception ex)
          {
             FileWriter.FileWriter.WriteErrorFile(ex);
@@ -679,7 +897,7 @@ namespace PAZ_Dispersal
       public PointClass GetEligibleStep(int stepNum)
       {
          IPoint p = new PointClass();
-         EligibleHomeSite ehs = MySites[stepNum] as EligibleHomeSite;
+         EligibleHomeSite ehs = MyVisitedSites.getSite(stepNum) as EligibleHomeSite;
          p.X = ehs.X;
          p.Y = ehs.Y;
         return p as PointClass;
@@ -694,10 +912,8 @@ namespace PAZ_Dispersal
       }
       public bool isSiteGood(ref FileWriter.FileWriter inFw)
       {
-         
          bool isSuitable = false;
          bool isAvailable = false;
-         
          try
          {
             inFw.writeLine("inside is site good for animal " + this.IdNum.ToString());
@@ -707,7 +923,6 @@ namespace PAZ_Dispersal
             isAvailable = !this.MapManager.isOccupied(this.mSocialIndex,this.sex, ref inFw);
             inFw.writeLine("is Suitable returned " + isSuitable.ToString());
             inFw.writeLine("is available returned " + isAvailable.ToString());
-
          }
          catch(System.Exception ex)
          {
@@ -718,13 +933,10 @@ namespace PAZ_Dispersal
          }
          return isSuitable && isAvailable;
       }
-
       public bool isSiteGood()
       {
-
          bool isSuitable = false;
          bool isAvailable = false;
-
          try
          {
             fw.writeLine("inside is site good for animal " + this.IdNum.ToString());
@@ -737,7 +949,6 @@ namespace PAZ_Dispersal
             }
             fw.writeLine("is Suitable returned " + isSuitable.ToString());
             fw.writeLine("is available returned " + isAvailable.ToString());
-
          }
          catch (System.Exception ex)
          {
@@ -748,9 +959,6 @@ namespace PAZ_Dispersal
          }
          return isSuitable && isAvailable;
       }
-
-
-
       public void setInitialValues(DateTime currTime)
       {
          try
@@ -772,9 +980,7 @@ namespace PAZ_Dispersal
 #endif
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
-        
       }
-
       public void updateMemory()
       {
          try
@@ -800,57 +1006,41 @@ namespace PAZ_Dispersal
             LineClass line4 = new LineClass();
             PolygonClass memoryPolygon = new PolygonClass();
             object Missing = Type.Missing;
-
             //get angle from start to end
             angleMoved = System.Math.Atan((start.Y - end.Y)/(start.X-end.X));
             //rotate pi/2
             angleLeft = angleMoved + Math.PI/2;
             angleRight = angleMoved - Math.PI/2;
-			
             //step perceptionDistance forward and back
             startLeft.X = start.X+ this.mPerceptionDist * System.Math.Cos(angleLeft);
             startLeft.Y = start.Y+ mPerceptionDist * System.Math.Sin(angleLeft);
-
             startRight.X = start.X+ mPerceptionDist * System.Math.Cos(angleRight);
             startRight.Y = start.Y + mPerceptionDist * System.Math.Sin(angleRight);
-            			
             //repeat for end
             endLeft.X = end.X+ mPerceptionDist * System.Math.Cos(angleLeft);
             endLeft.Y = end.Y+ mPerceptionDist * System.Math.Sin(angleLeft);
-
             endRight.X = end.X+ mPerceptionDist * System.Math.Cos(angleRight);
             endRight.Y = end.Y+ mPerceptionDist * System.Math.Sin(angleRight);
-
-
             line1.FromPoint = startLeft;
             line1.ToPoint = endLeft;
-
             line2.FromPoint = endLeft;
             line2.ToPoint = endRight;
-
             line3.FromPoint = endRight;
             line3.ToPoint = startRight;
-
             line4.FromPoint = startRight;
             line4.ToPoint = startLeft;
-
             fw.writeLine("my current location is " + this.getLocation_XY());
             fw.writeLine("StartRight is x,y " + startRight.X.ToString() + " " + startRight.Y.ToString());
             fw.writeLine("startLeft is x,y " + startLeft.X.ToString() + " " + startLeft.Y.ToString());
             fw.writeLine("endRight is x,y " + endRight.X.ToString() + " " + endRight.Y.ToString());
             fw.writeLine("endLeft is x,y " + endLeft.X.ToString() + " " + endLeft.Y.ToString());
-
-             
-             
              memoryPolygon.SpatialReference = this.Location.SpatialReference;
             memoryPolygon.AddSegment((ISegment)line1, ref Missing,  ref Missing);
             memoryPolygon.AddSegment((ISegment)line2, ref Missing,  ref Missing);
             memoryPolygon.AddSegment((ISegment)line3, ref Missing,  ref Missing);
             memoryPolygon.AddSegment((ISegment)line4, ref Missing,  ref Missing);
-
             if (memoryPolygon.Area < 0.0)
                 memoryPolygon.ReverseOrientation();
-           
             to = (ITopologicalOperator)end;
             g = to.Buffer(mPerceptionDist);
             fw.writeLine("adding the step for time step " + this.timeStep.ToString());
@@ -861,23 +1051,18 @@ namespace PAZ_Dispersal
                this.setSocialIndex(end);
             }
          }
-
-        
          catch(System.Exception ex)
          {
             fw.writeLine("error look for error file");
            // System.Windows.Forms.MessageBox.Show(ex.StackTrace);
-            
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
-        
       }//end of updateMemory
       /********************************************************************************
        *   Function name   : dump
        *   Description     : 
        *   Return type     : virtual void 
        * ********************************************************************************/
-         
       public virtual void dump()
       {
          try
@@ -900,225 +1085,6 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-      
-
-      
       #endregion
-
-      #region gettersAndSetters
-      public AnimalManager AnimalManager
-      {
-         get { return mAnimalManager; }
-         set  { mAnimalManager = value; }
-      }
-
-      public bool IsDead
-      {
-         get { return mIsDead; }
-         set { mIsDead = value; }
-      }
-
-      public  TextFileWriter TextFileWriter
-      {
-         get { return mTextFileWriter; }
-         set { mTextFileWriter = value; }
-      }
-
-      public double CurrEnergy
-      {
-         get { return mCurrEnergy; }
-         set { mCurrEnergy = value; }
-      }
-
-      public double Heading
-      {
-         get { return mHeading; }
-         set  { mHeading = value; }
-      }
-
-      public MapManager MapManager
-      {
-         get { return mMapManager; }
-         set { mMapManager = value; }
-      }
-
-      public AnimalAtributes AnimalAtributes
-      {
-         get { return mAnimalAtributes; }
-         set { mAnimalAtributes = value; }
-               
-      }
-
-     
-      public double HomeRangeArea
-      {
-         get { return mHomeRangeArea; }
-         set { mHomeRangeArea = value; }
-      }
-
-      public double DistanceMean
-      {
-         get { return mDistanceMean; }
-         set { mDistanceMean = value; }
-      }
-
-      public double DistanceSE
-      {
-         get { return mDistanceSE; }
-         set { mDistanceSE = value; }
-      }
-
-      public double DistanceWeight
-      {
-         get { return mDistanceWeight; }
-         set  { mDistanceWeight = value; }
-      }
-
-      public Modifier StateModifer
-      {
-         get { return mStateModifer; }
-         set { mStateModifer = value; }
-      }
-
-
-
-      public int MoveIndex
-		{
-			get { return mMoveIndex; }
-			set  { mMoveIndex = value; }
-		}
-   
-      public int RiskIndex
-		{
-			get { return mRiskIndex; }
-			set  { mRiskIndex = value; }
-		}
-       
-      public int FoodIndex
-		{
-			get { return mFoodIndex; }
-			set  { mFoodIndex = value; }
-		}
-      
-      public int SocialIndex
-		{
-			get { return mSocialIndex; }
-			set  { mSocialIndex = value; }
-		}
-    
-
-      public Modifier GenderModifier
-      {
-         get { return mGenderModifier; }
-         set { mGenderModifier = value; }
-      }
-
-      public Mover myMover
-      {
-         get{ return mMover;}
-         set{mMover = value;}         
-      }//end of myMover property
-
-      public int IdNum
-      {
-         get { return myIdNum; }
-         set { myIdNum = value; }
-      }
-
-      public IPoint Location
-      {
-         get { return myLocation; }
-         set 
-         {
-            myLocation = value;
-            this.mPath.add(myLocation);
-            // fw.writeLine("current polygon is " + this.mPolygonIndex.ToString());
-            // this.mPolygonIndex = this.MapManager.getCurrPolygon(myLocation);   
-            // fw.writeLine("new polygon is " + this.mPolygonIndex.ToString());
-         }
-      }
-     
-      public double CaptureFood
-      {
-         get { return mCaptureFood; }
-         set { mCaptureFood = value; }
-      }
-
-      public double FoodMeanSize
-		{
-			get { return mFoodMeanSize; }
-			set  { mFoodMeanSize = value; }
-		}
-
-      public double FoodSD_Size
-		{
-			get { return mFoodSD_Size; }
-			set  { mFoodSD_Size = value; }
-		}
-
-      public double PredationRisk
-      {
-         get { return mPredationRisk; }
-         set { mPredationRisk = value; }
-      }
-
-      public double MoveSpeed
-      {
-         get { return this.mMoveSpeed; }
-         set { mMoveSpeed = value; }
-      }
-
-      public double MoveTurtosity
-      {
-         get { return this.mMoveTurtosity; }
-         set { mMoveTurtosity = value; }
-      }
-
-      public double EnergyUsed
-      {
-         get { return mEnergyUsed; }
-         set { mEnergyUsed = value; }
-      }
-
-      public double PerceptonModifier
-      {
-         get { return mPerceptonModifier; }
-         set { mPerceptonModifier = value; }
-      }
-      public PointClass HomeRangeCenter
-      {
-         get { return mHomeRangeCenter; }
-         set { mHomeRangeCenter = value; }
-      }
-      public IHomeRangeFinder HomeRangeFinder
-      {
-         get { return mHomeRangeFinder; }
-         set  { mHomeRangeFinder = value; }
-      }
-
-      public IHomeRangeTrigger HomeRangeTrigger
-      {
-         get { return mHomeRangeTrigger; }
-         set { mHomeRangeTrigger = value; }
-      }
-
-      public string Sex
-      {
-         get{return sex;}
-         set{sex = value;}
-      }
-      public string FileNamePrefix
-      {
-         get {return fileNamePrefix;}
-      }
-      public EligibleHomeSites MySites
-      {
-         get { return mMySites; }
-         set  { mMySites = value; }
-      }
-
-
-      #endregion
-	  
    }
 }

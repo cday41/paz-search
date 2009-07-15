@@ -8,19 +8,33 @@ namespace PAZ_Dispersal
    
    public sealed class TimeHomeRangeTrigger:IHomeRangeTrigger
    {
-      // private int numTimesCalled;
-      private int mNumTimesNeeded;
-      private int[] numTimesCalled;
-      private FileWriter.FileWriter fw;
-     
+		#region Public Members (1) 
+
+		#region Constructors (1) 
+
       public TimeHomeRangeTrigger(int numTimes,int numAnimals)
       {
          buildLogger();
          this.numTimesCalled = new int[numAnimals];
          this.mNumTimesNeeded = numTimes;
       }
-      
-      
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
+		#region Fields (3) 
+
+      private FileWriter.FileWriter fw;
+      // private int numTimesCalled;
+      private int mNumTimesNeeded;
+      private int[] numTimesCalled;
+
+		#endregion Fields 
+		#region Methods (1) 
+
       private void buildLogger()
       {
          string s;
@@ -49,7 +63,12 @@ namespace PAZ_Dispersal
          }
         
       }
-      
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+
+
       #region HomeRangeTrigger Members
 
       public int numTimes

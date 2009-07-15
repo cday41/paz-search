@@ -6,19 +6,25 @@ namespace PAZ_Dispersal
 {
    public class MemoryMap : Map
    {
-     
+		#region Public Members (2) 
+
+		#region Constructors (1) 
+
       public MemoryMap(IFeatureClass inSelf)
       {
          base.mySelf=inSelf;
          
 
       }
+
+		#endregion Constructors 
+		#region Methods (1) 
+
       /// <summary>
       /// When this map is first loaded we need to query the map and build the initial set of animals. 
       /// this will return an array of Initial Animal Attributes.
       /// </summary>
       /// 
-
       public new void  GetInitialAnimalAttributes(out InitialAnimalAttributes [] outAttributes)
       {
          IPoint tmpPoint = null;
@@ -86,6 +92,8 @@ namespace PAZ_Dispersal
         
       }
 
-      
+		#endregion Methods 
+
+		#endregion Public Members 
    }
 }

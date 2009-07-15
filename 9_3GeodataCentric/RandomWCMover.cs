@@ -11,19 +11,10 @@ namespace PAZ_Dispersal
    /// </summary>
    public class RandomWCMover:Mover
    {
-      RandomNumbers rn;
-      private static RandomWCMover r;
-      private RandomWCMover(): base()
-      {
-         rn = RandomNumbers.getInstance();
-      }
-      private RandomWCMover(System.Collections.ArrayList inPath,
-         double inBaseStepLength,
-         double inHeading,
-         double inTurnAngleVariability)
-         :base (inPath,inBaseStepLength,inHeading,inTurnAngleVariability){}
-      
-			
+		#region Public Members (3) 
+
+		#region Methods (3) 
+
       public static RandomWCMover getRandomWCMover()
       {
          if (r==null)
@@ -32,14 +23,47 @@ namespace PAZ_Dispersal
 
 
       }
-      public override double getTurnAngle(double rho)
-      {
-         return rn.getWrappedCauchy(rho);
-      }//end of getTurnAngle
+
+//end of getTurnAngle
       public override double getStepLength()
       {
          return this.baseStepLength;
-      }//end of getStepLength
+      }
 
+      public override double getTurnAngle(double rho)
+      {
+         return rn.getWrappedCauchy(rho);
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
+		#region Fields (2) 
+
+      private static RandomWCMover r;
+      RandomNumbers rn;
+
+		#endregion Fields 
+		#region Constructors (2) 
+
+      private RandomWCMover(System.Collections.ArrayList inPath,
+         double inBaseStepLength,
+         double inHeading,
+         double inTurnAngleVariability)
+         :base (inPath,inBaseStepLength,inHeading,inTurnAngleVariability){}
+
+      private RandomWCMover(): base()
+      {
+         rn = RandomNumbers.getInstance();
+      }
+
+		#endregion Constructors 
+
+		#endregion Non-Public Members 
+
+//end of getStepLength
    }//end of class
 }//end of namespace

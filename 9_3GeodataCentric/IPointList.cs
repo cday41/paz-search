@@ -9,29 +9,30 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class IPointList
 	{
-		private ArrayList mPoints;
+		#region Public Members (6) 
+
+		#region Constructors (1) 
 
 		public IPointList()
 		{
 			mPoints = new ArrayList();
 		}
 
+		#endregion Constructors 
+		#region Properties (1) 
+
 		public IPoint this[int i]
 		{
 			get {return (IPoint)mPoints[i];}
 			set {mPoints.Add(value);}
 		}
+
+		#endregion Properties 
+		#region Methods (4) 
+
 		public void add(IPoint inPoint)
 		{
 			mPoints.Add(inPoint); 
-		}
-		public IPoint getPointByIndex(int i)
-		{
-			return (IPoint)mPoints[i];
-		}
-		public int getLastIndex()
-		{
-			return this.mPoints.Count - 1;
 		}
 
       public int Count()
@@ -41,6 +42,28 @@ namespace PAZ_Dispersal
          return i;
       }
 
+		public int getLastIndex()
+		{
+			return this.mPoints.Count - 1;
+		}
 
+		public IPoint getPointByIndex(int i)
+		{
+			return (IPoint)mPoints[i];
+		}
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (1) 
+
+		#region Fields (1) 
+
+		private ArrayList mPoints;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
 	}
 }

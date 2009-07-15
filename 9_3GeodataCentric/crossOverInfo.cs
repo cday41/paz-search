@@ -7,45 +7,9 @@ namespace PAZ_Dispersal
 	
 	public class crossOverInfo
 	{
-      private PointClass mPoint;
-      private PointClass mNewPolyPoint;
-      private double mDistance;
-      private double mCurrPolyValue;
-      private double mNewPolyValue;
-      private bool onTheMap;
-      private bool changedPolys;
-      
-      public bool ChangedPolys
-      {
-         get {return changedPolys;}
-         set {changedPolys = value;}
-      }
-      public PointClass NewPolyPoint
-      {
-         get { return mNewPolyPoint; }
-         set { mNewPolyPoint = value; }
-      }
+		#region Public Members (8) 
 
-
-      public PointClass Point
-		{
-			get { return mPoint; }
-			set { mPoint = value; }
-		}
-
-      public double Distance
-		{
-			get { return mDistance; }
-			set { mDistance = value; }
-		}
-      public bool OnTheMap
-      {
-         get { return onTheMap; }
-         set { onTheMap = value; }
-      }
-
-      
-
+		#region Constructors (1) 
 
 		public crossOverInfo()
 		{
@@ -61,11 +25,32 @@ namespace PAZ_Dispersal
         
 		}
 
+		#endregion Constructors 
+		#region Properties (7) 
+
+      public bool ChangedPolys
+      {
+         get {return changedPolys;}
+         set {changedPolys = value;}
+      }
+
       public double CurrPolyValue
 		{
 			get { return mCurrPolyValue; }
 			set { mCurrPolyValue = value; }
 		}
+
+      public double Distance
+		{
+			get { return mDistance; }
+			set { mDistance = value; }
+		}
+
+      public PointClass NewPolyPoint
+      {
+         get { return mNewPolyPoint; }
+         set { mNewPolyPoint = value; }
+      }
 
       public double NewPolyValue
 		{
@@ -73,5 +58,36 @@ namespace PAZ_Dispersal
 			set { mNewPolyValue = value; }
 		}
 
+      public bool OnTheMap
+      {
+         get { return onTheMap; }
+         set { onTheMap = value; }
+      }
+
+      public PointClass Point
+		{
+			get { return mPoint; }
+			set { mPoint = value; }
+		}
+
+		#endregion Properties 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (7) 
+
+		#region Fields (7) 
+
+      private bool changedPolys;
+      private double mCurrPolyValue;
+      private double mDistance;
+      private PointClass mNewPolyPoint;
+      private double mNewPolyValue;
+      private PointClass mPoint;
+      private bool onTheMap;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
 	}
 }

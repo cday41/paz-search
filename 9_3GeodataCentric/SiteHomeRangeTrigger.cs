@@ -8,12 +8,9 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public sealed class SiteHomeRangeTrigger:IHomeRangeTrigger
 	{
-      private FileWriter.FileWriter fw;
-      private int mNumTimesNeeded;
-      //this will hold the number of good sites each animal has visited
-      //we are indexing by the animals id so goodSites[0] will hold the number of
-      //good sites animal 0 has witnessed
-      private int[] goodSites;
+		#region Public Members (1) 
+
+		#region Constructors (1) 
 
 		public SiteHomeRangeTrigger(int numTimes,int inNumAnimals)
 		{
@@ -22,6 +19,24 @@ namespace PAZ_Dispersal
          this.mNumTimesNeeded = numTimes;
          goodSites = new int[inNumAnimals];
       }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
+		#region Fields (3) 
+
+      private FileWriter.FileWriter fw;
+      //this will hold the number of good sites each animal has visited
+      //we are indexing by the animals id so goodSites[0] will hold the number of
+      //good sites animal 0 has witnessed
+      private int[] goodSites;
+      private int mNumTimesNeeded;
+
+		#endregion Fields 
+		#region Methods (1) 
 
       private void buildLogger()
       {
@@ -51,7 +66,12 @@ namespace PAZ_Dispersal
          }
         
       }
-      
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+
+
       #region HomeRangeTrigger Members
 
       public int numTimes

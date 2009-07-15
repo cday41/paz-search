@@ -11,10 +11,17 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class BestFoodHomeRangeFinder:HomeRangeFinder     
 	{
-      static BestFoodHomeRangeFinder uniqueInstance;
+		#region Public Members (2) 
+
+		#region Constructors (1) 
+
 		public BestFoodHomeRangeFinder()
 		{
       }
+
+		#endregion Constructors 
+		#region Methods (1) 
+
       public static BestFoodHomeRangeFinder getInstance()
       {
          if (uniqueInstance==null)
@@ -23,6 +30,22 @@ namespace PAZ_Dispersal
          }
          return uniqueInstance;
       }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (1) 
+
+		#region Fields (1) 
+
+      static BestFoodHomeRangeFinder uniqueInstance;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
+
+
       #region IHomeRangeFinder Members
 
 //      public override bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
@@ -48,7 +71,7 @@ namespace PAZ_Dispersal
 //                  EligibleHomeSite ehs;
 //                  IPoint p;
 //                  p = new PointClass();
-//                  ehs = inAnimal.MySites.getFirstSuitableSite();
+//                  ehs = inAnimal.MyVisitedSites.getFirstSuitableSite();
 //                  p.X = ehs.X;
 //                  p.Y = ehs.Y;
 //                  inAnimal.HomeRangeCenter = p as PointClass;
@@ -57,8 +80,8 @@ namespace PAZ_Dispersal
 //               default:
 //                  fw.writeLine("multiple eligible spots where found so now fill eligble spots with ranking criteria");
 //                  base.setDistance(inAnimal);
-//                  inAnimal.MySites.setFoodRank(inAnimal.DistanceWeight);
-//                  inAnimal.HomeRangeCenter = base.getHomeRangeCenter(inAnimal.MySites) as PointClass;
+//                  inAnimal.MyVisitedSites.setFoodRank(inAnimal.DistanceWeight);
+//                  inAnimal.HomeRangeCenter = base.getHomeRangeCenter(inAnimal.MyVisitedSites) as PointClass;
 //                  success = true;
 //                  break;
 //            }
@@ -79,8 +102,8 @@ namespace PAZ_Dispersal
       {
          bool foundHomeRange = true;
          base.setDistance(inAnimal);
-         inAnimal.MySites.setFoodRank(inAnimal.DistanceWeight);
-         List<EligibleHomeSite> qs = inAnimal.MySites.getQualifiedSites();
+         inAnimal.MyVisitedSites.setFoodRank(inAnimal.DistanceWeight);
+         List<EligibleHomeSite> qs = inAnimal.MyVisitedSites.getQualifiedSites();
          inAnimal.HomeRangeCenter = base.chooseHomeRangeCenter(qs, inAnimal.HomeRangeArea) as PointClass;
          if (inAnimal.HomeRangeCenter == null)
             foundHomeRange = false;
@@ -90,8 +113,5 @@ namespace PAZ_Dispersal
       } 
             
       #endregion
-
-    
-    
    }
 }

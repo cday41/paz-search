@@ -19,35 +19,75 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class frmMapSelectForm : System.Windows.Forms.Form
 	{
-      private MapSwapTrigger mMst;
-      private bool mCancel;
-      private string mapType;
-      private MapManager myMapManager;
-      private SimulatonManager mySimManager;
+		#region Non-Public Members (24) 
+
+		#region Fields (21) 
+
 		private System.Windows.Forms.Button btnBrowse;
-		private System.Windows.Forms.Label lblYear;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label lblMapType;
-		
-		
-      private System.Windows.Forms.OpenFileDialog ofdCommon;
-      private System.Windows.Forms.Label lblHour;
-      private System.Windows.Forms.Label lblDay;
-      private System.Windows.Forms.Label label4;
-      private System.Windows.Forms.DateTimePicker dtpStartTime;
-      private System.Windows.Forms.Label label5;
-      private System.Windows.Forms.Label lblDiscription;
-      private System.Windows.Forms.MonthCalendar calStartDate;
       private System.Windows.Forms.Button btnCancel;
+      private System.Windows.Forms.MonthCalendar calStartDate;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
 		private System.ComponentModel.Container components = null;
+      private System.Windows.Forms.DateTimePicker dtpStartTime;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label3;
+      private System.Windows.Forms.Label label4;
+      private System.Windows.Forms.Label label5;
+      private System.Windows.Forms.Label lblDay;
+      private System.Windows.Forms.Label lblDiscription;
+      private System.Windows.Forms.Label lblHour;
+		private System.Windows.Forms.Label lblMapType;
+		private System.Windows.Forms.Label lblYear;
+      private string mapType;
+      private bool mCancel;
+      private MapSwapTrigger mMst;
+      private MapManager myMapManager;
+      private SimulatonManager mySimManager;
+      private System.Windows.Forms.OpenFileDialog ofdCommon;
 
-	
-     
+		#endregion Fields 
+		#region Methods (3) 
+
+		private void btnBrowse_Click(object sender, System.EventArgs e)
+		{
+			
+			try
+			{
+				//fw.writeLine("inside frmInput.loadMap called from button " + mapType + " map click event");
+            this.ofdCommon.Filter = "Shape Files *.shp|*.shp";
+            this.ofdCommon.Title = "Browse for " + mapType + " MapManager";
+				
+				if (this.ofdCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				{  
+               mMst = new MapSwapTrigger();
+					mMst.Path = System.IO.Path.GetDirectoryName(this.ofdCommon.FileName);
+					mMst.Filename = System.IO.Path.GetFileNameWithoutExtension(this.ofdCommon.FileName);
+               mMst.StartDate = this.createDate();
+               mMst.OriginalStartDate = mMst.StartDate;
+               this.Hide();
+				}
+			}
+			catch (InvalidMapException ime)
+			{
+				MessageBox.Show(ime.Message);
+			}
+			catch (System.Exception ex)
+			{
+				FileWriter.FileWriter.WriteErrorFile(ex);
+			}
+
+
+		}
+
+      private void btnCancel_Click(object sender, System.EventArgs e)
+      {
+         mCancel = true;
+         this.Hide();
+      }
+
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
@@ -62,6 +102,11 @@ namespace PAZ_Dispersal
 			}
 			base.Dispose(disposing);
 		}
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+
 
 		#region Windows Form Designer generated code
 		/// <summary>
@@ -268,36 +313,6 @@ namespace PAZ_Dispersal
       }
       #endregion
 
-		private void btnBrowse_Click(object sender, System.EventArgs e)
-		{
-			
-			try
-			{
-				//fw.writeLine("inside frmInput.loadMap called from button " + mapType + " map click event");
-            this.ofdCommon.Filter = "Shape Files *.shp|*.shp";
-            this.ofdCommon.Title = "Browse for " + mapType + " MapManager";
-				
-				if (this.ofdCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-				{  
-               mMst = new MapSwapTrigger();
-					mMst.Path = System.IO.Path.GetDirectoryName(this.ofdCommon.FileName);
-					mMst.Filename = System.IO.Path.GetFileNameWithoutExtension(this.ofdCommon.FileName);
-               mMst.StartDate = this.createDate();
-               mMst.OriginalStartDate = mMst.StartDate;
-               this.Hide();
-				}
-			}
-			catch (InvalidMapException ime)
-			{
-				MessageBox.Show(ime.Message);
-			}
-			catch (System.Exception ex)
-			{
-				FileWriter.FileWriter.WriteErrorFile(ex);
-			}
-
-
-		}
       #region public methods
       public void fillDisplay(string year, string day, string hour)
       {
@@ -346,7 +361,7 @@ namespace PAZ_Dispersal
          }
       }
       #endregion
-		
+
       #region privateMethods
       private void fillDescriptionLabel()
       {
@@ -396,12 +411,6 @@ namespace PAZ_Dispersal
       }
       #endregion
 
-      private void btnCancel_Click(object sender, System.EventArgs e)
-      {
-         mCancel = true;
-         this.Hide();
-      }
-
       #region getters and setters
       public MapSwapTrigger Mst
 		{
@@ -415,6 +424,5 @@ namespace PAZ_Dispersal
 			set { mCancel = value; }
 		}
       #endregion
-
 	}
 }

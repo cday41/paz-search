@@ -17,6 +17,8 @@ namespace PAZ_Dispersal
    /// </summary>
    public abstract class Mover
    {
+
+
       #region privateMembers
       //private attributes
 		
@@ -55,7 +57,7 @@ namespace PAZ_Dispersal
          {
             buildLogger();
             myMapManager = MapManager.GetUniqueInstance();
-            fw.writeLine("has a path count of " + inPath.Count.ToString());
+            fw.writeLine("has a path Count of " + inPath.Count.ToString());
             fw.writeLine("turn angle of " + inTurnAngleVariability.ToString());
             fw.writeLine("heading is " + inHeading.ToString());
             fw.writeLine("base step length is " + inBaseStepLength.ToString());
@@ -188,7 +190,6 @@ namespace PAZ_Dispersal
                percentTimeStep = 1;
                return;
             }
-            
             fw.writeLine("percent time step is " + percentTimeStep.ToString());
             inA.updateMemory();
          }//end of try
@@ -197,7 +198,6 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }//end of catch
       }//end of move
-		
       public abstract double getTurnAngle(double turtosity);
       public abstract double getStepLength();
       #endregion

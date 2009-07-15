@@ -8,10 +8,17 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class BestRiskHomeRangeFinder :HomeRangeFinder
 	{
-      static BestRiskHomeRangeFinder uniqueInstance;
+		#region Public Members (2) 
+
+		#region Constructors (1) 
+
 		public BestRiskHomeRangeFinder()
 		{
 		}
+
+		#endregion Constructors 
+		#region Methods (1) 
+
       public static BestRiskHomeRangeFinder getInstance()
       {
          if (uniqueInstance==null)
@@ -20,6 +27,22 @@ namespace PAZ_Dispersal
          }
          return uniqueInstance;
       }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (1) 
+
+		#region Fields (1) 
+
+      static BestRiskHomeRangeFinder uniqueInstance;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
+
+
       #region IHomeRangeFinder Members
 //      public override bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
 //      {
@@ -44,7 +67,7 @@ namespace PAZ_Dispersal
 //                  EligibleHomeSite ehs;
 //                  IPoint p;
 //                  p = new PointClass();
-//                  ehs = inAnimal.MySites.getFirstSuitableSite();
+//                  ehs = inAnimal.MyVisitedSites.getFirstSuitableSite();
 //                  p.X = ehs.X;
 //                  p.Y = ehs.Y;
 //                  inAnimal.HomeRangeCenter = p as PointClass;
@@ -53,8 +76,8 @@ namespace PAZ_Dispersal
 //               default:
 //                  fw.writeLine("multiple eligible spots where found so now fill eligble spots with ranking criteria");
 //                  base.setDistance(inAnimal);
-//                  inAnimal.MySites.setRiskRank(inAnimal.DistanceWeight);
-//                  inAnimal.HomeRangeCenter = base.getHomeRangeCenter(inAnimal.MySites) as PointClass;
+//                  inAnimal.MyVisitedSites.setRiskRank(inAnimal.DistanceWeight);
+//                  inAnimal.HomeRangeCenter = base.getHomeRangeCenter(inAnimal.MyVisitedSites) as PointClass;
 //                  success = true;
 //                  break;
 //            }
