@@ -19,6 +19,7 @@
  ****************************************************************************/
 
 using System;
+using System.Linq;
 using DesignByContract;
 using System.IO;
 using ESRI.ArcGIS.Geodatabase;
@@ -31,9 +32,9 @@ namespace PAZ_Dispersal
    /// </summary>
    public class HomeRangeFinder : IHomeRangeFinder
    {
-		#region Non-Public Members (29) 
+		#region Non-Public Members (36) 
 
-		#region Fields (11) 
+		#region Fields (12) 
 
       int fileNameIndex;
       protected FileWriter.FileWriter fw;
@@ -46,6 +47,7 @@ namespace PAZ_Dispersal
       private MapManager myMapManager;
       protected System.Collections.ArrayList myPolygons;
       protected RandomNumbers rn = null;
+      protected List<EligibleHomeSite> siteList;
 
 		#endregion Fields 
 		#region Constructors (1) 
@@ -57,11 +59,12 @@ namespace PAZ_Dispersal
          this.myDataManipulator = new DataManipulator();
          this.fileNameIndex = 0;
          this.myMapManager = MapManager.GetUniqueInstance();
+         this.siteList = new List<EligibleHomeSite>();
 
       }
 
 		#endregion Constructors 
-		#region Methods (17) 
+		#region Methods (23) 
 
       protected void buildLogger()
       {
@@ -138,6 +141,51 @@ namespace PAZ_Dispersal
          System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
       }
 
+      protected bool FindHomeRange(Animal inAnimal, string inFileName)
+      {
+         fw.writeLine("");
+         fw.writeLine("inside FindHomeRange for animal number " + inAnimal.IdNum.ToString());
+         bool foundHome = false;
+         fw.writeLine("Going to remove the old files and site list if needed");
+         this.RemoveOldFiles(System.IO.Path.GetDirectoryName(inFileName));
+         this.siteList.Clear();
+
+         fw.writeLine("now make the step map");
+         // this will create a point map of all the steps in the animals memory.
+         // It will be made in the Animal's home directory with the name Step.shp
+         if (this.setSuitableSites(inAnimal, inFileName))
+         {
+            fw.writeLine("now make a map of suitable polygons from the animals memory");
+            //now see if any of the areas visited are eligible and large enough
+            //this will create a polygon map in the Animal's home directory with the name SuitablePolygons.shp
+            if (this.setSuitablePolygons(inAnimal.HomeRangeArea, inAnimal.Sex, inFileName))
+            {
+               fw.writeLine("must have been some suitable polygons now see if any of the steps where inside the suitable polygons");
+               // Now see if any of 
+               List<EligibleHomeSite> suitableSites = this.getSuitableSteps(inFileName);
+               if (suitableSites != null)
+               {
+                  fw.writeLine("must have been some so now pull those out of the animals memory");
+                  var q = inAnimal.MyVisitedSites.MySites.Intersect(suitableSites, new SiteComparer());
+                  //make sure there were some points
+                  if (q.Count() > 0)
+                  {
+                     fw.writeLine("there were " + q.Count().ToString() + " sites that were in good polygons");
+                     foundHome = true;
+                     foreach (EligibleHomeSite i in q)
+                     {
+                        this.siteList.Add(i);
+                     }
+                  }
+               }
+              
+            }
+         }
+         fw.writeLine("Leaving FindHomeRange for animal " + inAnimal.IdNum.ToString() + " with a value of " + foundHome.ToString());
+         return foundHome;
+         
+      }
+
       protected double getArea(IPoint inPoint)
       {
          double area = 0;
@@ -202,7 +250,7 @@ namespace PAZ_Dispersal
          return area;
       }
 
-      protected IPoint getHomeRangeCenter(List<EligibleHomeSite> inSites)
+      protected IPoint getHomeRangeCenter()
       {
          double luckyNumber = rn.getUniformRandomNum();
          IPoint p = null;
@@ -215,9 +263,9 @@ namespace PAZ_Dispersal
             //logValues(inEhs);
 
             //should set up some sort of binary search but wtf over budget already.
-            while (luckyNumber >= inSites[i++].Rank)
+            while (luckyNumber >= this.siteList[i++].Rank)
             {
-               fw.writeLine("current site rank is " + inSites[i].Rank.ToString());
+               fw.writeLine("current site rank is " + this.siteList[i].Rank.ToString());
             }
 
             //since the index is auto incremented we are one past after the comparison
@@ -228,9 +276,9 @@ namespace PAZ_Dispersal
 
 
             p = new PointClass();
-            p.X = inSites[i].X;
-            p.Y = inSites[i].Y;
-            fw.writeLine("site we chose has a rank of " + inSites[i].Rank.ToString());
+            p.X = this.siteList[i].X;
+            p.Y = this.siteList[i].Y;
+            fw.writeLine("site we chose has a rank of " + this.siteList[i].Rank.ToString());
          }
          catch (System.Exception ex)
          {
@@ -241,7 +289,6 @@ namespace PAZ_Dispersal
          }
          return p;
       }
-
 
       protected IPoint getHomeRangeCenter(EligibleHomeSites inEhs)
       {
@@ -371,9 +418,15 @@ namespace PAZ_Dispersal
          string outFileName = System.IO.Path.GetDirectoryName(inAnimalMemoryMap) +   myGoodStepsPointFileName;
          fw.writeLine("out file name is " + outFileName);
          fw.writeLine("calling intersect myDataManipulator.IntersectFeatures");
-         IFeatureClass fc =  myDataManipulator.IntersectFeatures(tempPolyFileName + " ; " + tempPointFileName, outFileName);
-         fw.writeLine("now get the list of points");
-         return (this.GetListOfPoints(fc));
+         
+         IFeatureClass fc = myDataManipulator.IntersectFeatures(tempPolyFileName + " ; " + tempPointFileName, outFileName, "ERROR 000953");
+         if (fc != null)
+         {
+            fw.writeLine("now get the list of points");
+            return (this.GetListOfPoints(fc));
+         }
+         else
+            return null;
       }
 
       private void logValues(EligibleHomeSites inEhs)
@@ -453,7 +506,31 @@ namespace PAZ_Dispersal
          curr.Flush();
       }
 
-      protected void setDistance(IPoint currLocation, List<EligibleHomeSite> inGoodSites)
+      private void RemoveOldFiles(string Path)
+      {
+         MapManager.RemoveFiles(Path + "\\Step.shp");
+         //MapManager.RemoveFiles(Path + homeRangePolygonFileName);
+         MapManager.RemoveFiles(Path + myGoodStepsPointFileName);
+      }
+
+      private void resetRank()
+      {
+         int i = 0;
+         int j = 1;
+
+         for (i = 0, j = 1; j < this.siteList.Count; i++, j++)
+         {
+            
+               this.siteList[j].Rank = this.siteList[i].Rank + this.siteList[j].Rank;
+            
+         }
+         //sometimes it will only be .9999999999999987 and the random number could
+         //conviebly be .9999999999989 so eliminate any chance.
+         this.siteList[this.siteList.Count - 1].Rank = 1.0;
+
+      }
+
+      protected void setDistance(IPoint currLocation)
       {
          IPoint p = new PointClass();
          double lineLength = 0;
@@ -466,20 +543,18 @@ namespace PAZ_Dispersal
             tempLine.FromPoint = currLocation;
             fw.writeLine("from point is X = " + currLocation.X.ToString() + " Y = " + currLocation.Y.ToString());
             fw.writeLine("now going to loop through and collect the distances.");
-            for (int i = 0; i < inGoodSites.Count; i++)
+            for (int i = 0; i < this.siteList.Count; i++)
             {
-               
-                  p.X = inGoodSites[i].X;
-                  p.Y = inGoodSites[i].Y;
-                  tempLine.ToPoint = p;
-                  //BC Saturday, February 16, 2008 moved value from tempLine.Length to lineLength because we can not modify
-                  // tempLine.Length (readOnly property) and was worried about divide by zero issue.
-                  lineLength = tempLine.Length;
-                  fw.writeLine("to  point is X = " + tempLine.ToPoint.X.ToString() + " Y = " + tempLine.ToPoint.Y.ToString());
-                  if (lineLength < 1) lineLength = 1;
-                  inGoodSites[i].DistanceFromCurrLocation = lineLength;
-                  fw.writeLine("the distance between them is " + lineLength);
-               
+               p.X = siteList[i].X;
+               p.Y = siteList[i].Y;
+               tempLine.ToPoint = p;
+               //BC Saturday, February 16, 2008 moved value from tempLine.Length to lineLength because we can not modify
+               // tempLine.Length (readOnly property) and was worried about divide by zero issue.
+               lineLength = tempLine.Length;
+               fw.writeLine("to  point is X = " + tempLine.ToPoint.X.ToString() + " Y = " + tempLine.ToPoint.Y.ToString());
+               if (lineLength < 1) lineLength = 1;
+               siteList[i].DistanceFromCurrLocation = lineLength;
+               fw.writeLine("the distance between them is " + lineLength);
             }
          }
          catch (System.Exception ex)
@@ -535,6 +610,39 @@ namespace PAZ_Dispersal
          return;
       }
 
+      protected void SetRanges(double inValue)
+      {
+         double d = 0;
+         try
+         {
+            fw.writeLine("now setting the ranges based on the total rankings = " + inValue.ToString());
+            fw.writeLine("starting the loop");
+            foreach (EligibleHomeSite ehs in this.siteList)
+            {
+
+               fw.writeLine(ehs.X.ToString() + ehs.Y.ToString() + " is eligble site raw rank is " + ehs.Rank.ToString());
+               ehs.Rank = ehs.Rank / inValue;
+               fw.writeLine("after adjusting rank is " + ehs.Rank.ToString());
+               d += ehs.Rank;
+
+            }
+
+
+            fw.writeLine("total rank is " + d.ToString());
+            this.sortByRank();
+            this.resetRank();
+
+
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
       protected bool setSuitablePolygons(double minAreaNeeded, string inAnimalSex, string inAnimalMemoryMap)
       {
          bool result = true;
@@ -543,12 +651,27 @@ namespace PAZ_Dispersal
             fw.writeLine("inside setSuitablePolygons");
             string tempFileName = System.IO.Path.GetDirectoryName(inAnimalMemoryMap) + homeRangePolygonFileName;
             IFeatureClass fc = myDataManipulator.GetSuitablePolygons(inAnimalMemoryMap, inAnimalSex, tempFileName);
-            this.myDataManipulator.AddField("TEXT", "Delete", null, tempFileName);
-            this.MarkPollygonsTooSmall(minAreaNeeded, fc);
-            this.DeleteTooSmallPolygons(fc);
-            //if there are no rows then there are not any suitable areas yet
-            if (this.myDataManipulator.GetRowCount(tempFileName) <= 0)
+            // if there are not any suitable polygons the feature class will be null 
+            fw.writeLine("ok check if there were any polygons that were suitable");
+            if (fc != null)
+            {
+               fw.writeLine("must have been, now add the delete field so we can measure the area and delete the small ones");
+               this.myDataManipulator.AddField("TEXT", "Delete", null, tempFileName);
+               fw.writeLine("now check each one to see if it is bigger then " + minAreaNeeded.ToString());
+               this.MarkPollygonsTooSmall(minAreaNeeded, fc);
+               fw.writeLine("now call delete too small");
+               this.DeleteTooSmallPolygons(fc);
+               fw.writeLine("now double check to see if there were any left");
+               //if there are no rows then there are not any suitable areas yet
+               fw.writeLine("after delete to small there are " + this.myDataManipulator.GetRowCount(tempFileName).ToString());
+               if (this.myDataManipulator.GetRowCount(tempFileName) <= 0)
+                  result = false;
+            }
+            else
+            {
+               fw.writeLine("evidently no suitable ones found");
                result = false;
+            }
 
          }
          catch (Exception ex)
@@ -556,6 +679,7 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
             result = false;
          }
+         fw.writeLine("leaving setSuitablePolygons with a value of " + result.ToString());
          return result;
 
       
@@ -582,6 +706,13 @@ namespace PAZ_Dispersal
          return result;
          
          
+      }
+
+      private void sortByRank()
+      {
+         EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Rank;
+         this.siteList.Sort();
+
       }
 
 		#endregion Methods 

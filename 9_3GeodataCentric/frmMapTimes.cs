@@ -12,9 +12,9 @@ namespace PAZ_Dispersal
    /// </summary>
    public class frmMapTimes : System.Windows.Forms.Form
    {
-      #region Public Members (2)
+		#region Public Members (3) 
 
-      #region Constructors (2)
+		#region Constructors (2) 
 
       public frmMapTimes(ref SimulatonManager inSimManager, ref MapSwapTrigger tmpMst, String mMapType)
          : this(ref inSimManager)
@@ -40,13 +40,22 @@ namespace PAZ_Dispersal
          this.mySimManager = sm;
       }
 
-      #endregion Constructors
+		#endregion Constructors 
+		#region Properties (1) 
 
-      #endregion Public Members
+      public string[] OutFileNamesAndStartTimes
+      {
+         get { return mOutFileNamesAndStartTimes; }
+         set { mOutFileNamesAndStartTimes = value; }
+      }
 
-      #region Non-Public Members (14)
+		#endregion Properties 
 
-      #region Fields (13)
+		#endregion Public Members 
+
+		#region Non-Public Members (15) 
+
+		#region Fields (14) 
 
       private System.Windows.Forms.Button btnDone;
       /// <summary>
@@ -62,11 +71,12 @@ namespace PAZ_Dispersal
       private System.Windows.Forms.Label lblSeason;
       private System.Windows.Forms.Label lblTimeInstr;
       private System.Windows.Forms.Label lblYear;
+      private string[] mOutFileNamesAndStartTimes;
       private MapSwapTrigger myMST;
       private SimulatonManager mySimManager;
 
-      #endregion Fields
-      #region Methods (1)
+		#endregion Fields 
+		#region Methods (1) 
 
       /// <summary>
       /// Clean up any resources being used.
@@ -83,10 +93,9 @@ namespace PAZ_Dispersal
          base.Dispose(disposing);
       }
 
-      #endregion Methods
+		#endregion Methods 
 
-      #endregion Non-Public Members
-      private string[] mOutFileNamesAndStartTimes;
+		#endregion Non-Public Members 
 
 
       #region Windows Form Designer generated code
@@ -258,10 +267,5 @@ namespace PAZ_Dispersal
 
 
       #endregion
-      public string[] OutFileNamesAndStartTimes
-      {
-         get { return mOutFileNamesAndStartTimes; }
-         set { mOutFileNamesAndStartTimes = value; }
-      }
    }
 }

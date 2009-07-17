@@ -1,4 +1,4 @@
-#define ZeroOnly
+//#define ZeroOnly
 using ESRI.ArcGIS.Geometry;
 using System.Collections;
 using System.Collections.Specialized;
@@ -222,7 +222,7 @@ namespace PAZ_Dispersal
             {
                a = (Animal) this[i];
 #if (ZeroOnly)
-               if (a.IdNum == 0)
+               if (a.IdNum == 3)
                {
 #endif
                a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);

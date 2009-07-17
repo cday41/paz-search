@@ -288,6 +288,13 @@ namespace PAZ_Dispersal
          i.out_feature_class = outFeatureName;
          return this.RunProcessGetFeatureClass(i, null);
       }
+      public IFeatureClass IntersectFeatures(string inFeaturesNames, string outFeatureName, string ignoreMessage)
+      {
+         Intersect i = new Intersect();
+         i.in_features = inFeaturesNames;
+         i.out_feature_class = outFeatureName;
+         return this.RunProcessGetFeatureClass(i, null,ignoreMessage);
+      }
 
       public void JoinLayers(string layerName1, string layerName2)
       {
@@ -348,6 +355,14 @@ namespace PAZ_Dispersal
          sj.out_feature_class = path + "\\HomeSteps.shp";
          this.RunProcess(sj, null);
 
+      }
+
+      public void MultiToSinglePart(string inFileName, string outFileName)
+      {
+         MultipartToSinglepart ms = new MultipartToSinglepart();
+         ms.in_features = inFileName;
+         ms.out_feature_class = outFileName;
+         this.RunProcess(ms, null);
       }
 
       public void RemoveExtraFields(string inFullFilePath, string ListOfFields)
@@ -582,6 +597,43 @@ namespace PAZ_Dispersal
          }
 
       }
+      
+      /// <summary>
+      /// Function for returning the tool messages.
+      /// </summary>
+      /// <param name="gp">The Geoprocessor to get the Messages from</param>
+      /// <param name="MessageToIgnore">Messages that we do not want to log as errors</param>
+      private void ReturnMessages(Geoprocessor gp, string MessageToIgnore)
+      {
+         bool hasError = false;
+         try
+         {
+            if (gp.MessageCount > 0)
+            {
+               for (int Count = 0; Count <= gp.MessageCount - 1; Count++)
+               {
+                  string s = gp.GetMessage(Count);
+                  if (s.Contains("ERROR")  && !s.Contains(MessageToIgnore))
+                  {
+                     hasError = true;
+
+                  }
+                  this.fw.writeLine(s);
+                  if (hasError)
+                  {
+                     hasError = false;
+                     System.Windows.Forms.MessageBox.Show("Error in DataManipulator");
+                  }
+
+               }
+            }
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+
+      }
 
       private void RunProcess(IGPProcess inProcess, ITrackCancel inCancel)
       {
@@ -627,6 +679,38 @@ namespace PAZ_Dispersal
          }
          return fc;
       }
+
+      private IFeatureClass RunProcessGetFeatureClass(IGPProcess inProcess, ITrackCancel inCancel, string ignoreMessage)
+      {
+         IFeatureClass fc = null;
+         IQueryFilter qf = null;
+         IGeoProcessorResult result = null;
+         IGPUtilities util = null;
+         try
+         {
+            string toolbox = inProcess.ToolboxName;
+            fw.writeLine("inside run process");
+            fw.writeLine("the process I want to run is " + inProcess.ToolName);
+            fw.writeLine("the tool box is " + toolbox);
+            myProcessor.OverwriteOutput = true;
+            result = (IGeoProcessorResult)myProcessor.Execute(inProcess, null);
+            //if result is null then there are no viable areas
+            if (result != null)
+            {
+               util = new GPUtilitiesClass();
+               util.DecodeFeatureLayer(result.GetOutput(0), out fc, out qf);
+               ReturnMessages(myProcessor, ignoreMessage);
+            }
+            
+         }
+         catch (Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            ReturnMessages(myProcessor);
+         }
+         return fc;
+      }
+
 
       private bool SelectByValue(string inLayerName, string whereClause)
       {

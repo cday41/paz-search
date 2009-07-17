@@ -859,21 +859,21 @@ namespace PAZ_Dispersal
                      fw.writeLine("ok we are home now setting the location = home range center");
                      this.Location = this.HomeRangeCenter as PointClass;
                      fw.writeLine("now building the home range");
-                     this.MapManager.BuildHomeRange(this);
-                     status = "resident";
-                     if (doTextOutput)
-                        this.mTextFileWriter.addLine("Found Home at " + this.myLocation.X.ToString() + " and " + this.myLocation.Y.ToString());
-                     // System.Windows.Forms.MessageBox.Show(this.IdNum.ToString() + " found a home kill the application and look at at the input social map ");
+                     // only change to resident if we were able to build the home range
+                     if (this.MapManager.BuildHomeRange(this))
+                     {
+                        status = "resident";
+                        if (doTextOutput)
+                           this.mTextFileWriter.addLine("Found Home at " + this.myLocation.X.ToString() + " and " + this.myLocation.Y.ToString());
+                        // System.Windows.Forms.MessageBox.Show(this.IdNum.ToString() + " found a home kill the application and look at at the input social map ");
+                     }
                   }
                }
                //Saturday, February 23, 2008 Move to before taking a step
                //Tuesday, July 15, 2008 move back to end of step
-               if(this.IsAsleep == false)
+               if (this.IsAsleep == false)
                {
-                  //if (isSiteGood())
-                  //{
-                     this.mMyVisitedSites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y), ref fw);
-                  //}
+                  this.mMyVisitedSites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y), ref fw);
                }
 
                if(this.goingHome && this.IsAsleep == false)

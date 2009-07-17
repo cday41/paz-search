@@ -48,68 +48,66 @@ namespace PAZ_Dispersal
 
       #region IHomeRangeFinder Members
 
-//      public override bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
-//      {
-//         bool success = false;
-//         int numSuitableSites = 0;
-//         try
-//         {
-//            fw.writeLine("inside setHomeRangeCenter for BestFoodHomeRangeFinder");
-         
-//            fw.writeLine("calling get setSutitableSites");
-//            numSuitableSites=setSutitableSites(inAnimal, inAnmialMemoryMap);
-//            switch (numSuitableSites) 
-//            {  
-//               //nothing found so out of here
-//               case 0: 
-//                  fw.writeLine("no spots were found");
-//                  break;
-//               //only one found so that is easy
-//               case 1: 
-//                  fw.writeLine("found only one so that is it");
-//                  success = true;
-//                  EligibleHomeSite ehs;
-//                  IPoint p;
-//                  p = new PointClass();
-//                  ehs = inAnimal.MyVisitedSites.getFirstSuitableSite();
-//                  p.X = ehs.X;
-//                  p.Y = ehs.Y;
-//                  inAnimal.HomeRangeCenter = p as PointClass;
-//                  break;
-//               //multiple sites are eligible so go get the needed data
-//               default:
-//                  fw.writeLine("multiple eligible spots where found so now fill eligble spots with ranking criteria");
-//                  base.setDistance(inAnimal);
-//                  inAnimal.MyVisitedSites.setFoodRank(inAnimal.DistanceWeight);
-//                  inAnimal.HomeRangeCenter = base.getHomeRangeCenter(inAnimal.MyVisitedSites) as PointClass;
-//                  success = true;
-//                  break;
-//            }
-//         }
-//         catch(System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//         fw.writeLine("leaving setHomeRangeCenter with a value of " + success.ToString());
-//         return success;
-         
-//      }
+      private void setFoodRank(double distanceFactor)
+      {
+         double d = 0;
+         double adjustDistance = 0;
+         fw.writeLine("inside setFoodRank with a distance factor of " + distanceFactor.ToString());
+         try
+         {
+            fw.writeLine("starting the loop through " + base.siteList.Count.ToString() + " sites");
+            foreach (EligibleHomeSite ehs in base.siteList)
+            {
+               if (ehs.SuitableSite)
+               {
+                  adjustDistance = Math.Pow(ehs.DistanceFromCurrLocation, (1 / distanceFactor));
+                  fw.writeLine(ehs.X.ToString() + " " + ehs.Y.ToString() + " site is eligible");
+                  fw.writeLine("the distance from current location is " + ehs.DistanceFromCurrLocation.ToString());
+                  fw.writeLine("so adjusted distace value is " + adjustDistance.ToString());
+                  fw.writeLine("the food value is " + ehs.Food.ToString());
+                  //BC Saturday, February 16, 2008 made chanage from (ehs.Rank = ehs.Food * adjustDistance)
+                  ehs.Rank = ehs.Food / adjustDistance;
+                  fw.writeLine("so its adjusted rank is " + ehs.Rank.ToString());
+                  d += ehs.Rank;
+               }
+            }
+            
+            base.SetRanges(d);
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
 
       public override bool setHomeRangeCenter(Animal inAnimal, string inFileName)
       {
          bool foundHomeRange = true;
-         base.setDistance(inAnimal);
-         inAnimal.MyVisitedSites.setFoodRank(inAnimal.DistanceWeight);
-         List<EligibleHomeSite> qs = inAnimal.MyVisitedSites.getQualifiedSites();
-         inAnimal.HomeRangeCenter = base.chooseHomeRangeCenter(qs, inAnimal.HomeRangeArea) as PointClass;
-         if (inAnimal.HomeRangeCenter == null)
+         
+         try
+         {
+            if (base.FindHomeRange(inAnimal, inFileName))
+            {
+               base.setDistance(inAnimal.Location);
+               this.setFoodRank(inAnimal.DistanceWeight);
+               inAnimal.HomeRangeCenter = base.getHomeRangeCenter() as PointClass;
+            }
+            else
+            {
+               foundHomeRange = false;
+            }
+         }
+         catch (Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
             foundHomeRange = false;
-
+         }
          return foundHomeRange;
 
+        
       } 
             
       #endregion

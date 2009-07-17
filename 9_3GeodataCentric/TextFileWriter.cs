@@ -20,6 +20,7 @@ namespace PAZ_Dispersal
             }
 
             sw = new StreamWriter(mOutPath + "\\" + fileName + ".txt", true);
+            sw.AutoFlush = true;
             sw.WriteLine("Year,Day,Time,George #, X, Y, Asleep,Behavior Mode,Energy Level,Risk,ProbFoodCap,MVL,MSL,PercptionDist,Percent Step");
          }
       }

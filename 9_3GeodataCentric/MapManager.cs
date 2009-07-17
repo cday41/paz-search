@@ -79,7 +79,7 @@ namespace PAZ_Dispersal
          set
          {
             mOutMapPath = value;
-            
+
          }
       }
 
@@ -96,10 +96,10 @@ namespace PAZ_Dispersal
       {
          try
          {
-            
-            
+
+
             string mapPath = this.myAnimalMaps[AnimalID].FullFileName;
-            string newMapPath = this.makeNewMapPath(mapPath, timeStep.ToString(),AnimalID.ToString());
+            string newMapPath = this.makeNewMapPath(mapPath, timeStep.ToString(), AnimalID.ToString());
             string clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
@@ -111,18 +111,18 @@ namespace PAZ_Dispersal
             fw.writeLine("the  current union map is " + unionPath);
             fw.writeLine("the  current temp timeStep map is " + timeStepPath);
             fw.writeLine("the  current dissolve map is " + dissolvePath);
-      
+
             fw.writeLine("inside AddTimeSteps for ManManager the animal id is " + AnimalID.ToString());
             fw.writeLine("time step is " + timeStep.ToString());
             fw.writeLine("calling MakeDissolvedTimeStep");
             this.myDataManipulator.MakeDissolvedTimeStep(this._currStepPath, timeStepPath, inPoly1, inPoly2);
-           
+
             fw.writeLine("back in AddTimeSteps now going to clip against the social map");
-            this.myDataManipulator.Clip(this.mySocialMap.FullFileName, timeStepPath, clipPath );
-            
+            this.myDataManipulator.Clip(this.mySocialMap.FullFileName, timeStepPath, clipPath);
+
             fw.writeLine("back from Clipping now update the Current Animal Map");
-             //this is to get the current occupied or not at this time because
-             // it could change over time.
+            //this is to get the current occupied or not at this time because
+            // it could change over time.
             if (timeStep == 0)
             {
                //if the first time through then we only need to add it to the map
@@ -133,9 +133,9 @@ namespace PAZ_Dispersal
             else
             {
                fw.writeLine("Calling update the animal map");
-               this.myDataManipulator.UnionAnimalClipData(mapPath,clipPath,unionPath);
-               this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA"); 
-               
+               this.myDataManipulator.UnionAnimalClipData(mapPath, clipPath, unionPath);
+               this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
+
             }
 
             fw.writeLine("now make the new animal map");
@@ -172,8 +172,9 @@ namespace PAZ_Dispersal
 
       }
 
-      public void BuildHomeRange(Animal inAnimal)
+      public bool BuildHomeRange(Animal inAnimal)
       {
+         bool result = true;
          try
          {
             fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
@@ -182,41 +183,58 @@ namespace PAZ_Dispersal
             string newUnionSocialMapPath = this.OutMapPath + "\\tempUnionSocial" + inAnimal.IdNum.ToString() + ".shp";
             string newTempPolyGonPath = this.OutMapPath + "\\tempPolyGon" + inAnimal.IdNum.ToString() + ".shp";
             string newTempSocialMapPath = this.OutMapPath + "\\tempSocial" + inAnimal.IdNum.ToString() + ".shp";
-            string newSocialMapPath = this.OutMapPath  + "\\NewSocialMap" + inAnimal.IdNum.ToString() + ".shp";
+            string newSocialMapPath = this.OutMapPath + "\\NewSocialMap" + inAnimal.IdNum.ToString() + ".shp";
+            string MulitToSinglePath = this.OutMapPath + "\\multiToSingle" + inAnimal.IdNum.ToString() + ".shp";
+
 
             fw.writeLine("Now making the home range builder");
             HomeRangeBuilder hrb = new HomeRangeBuilder();
             string NewHomeRangeFileName = hrb.BuildHomeRange(inAnimal, currSocialMapPath);
-            fw.writeLine("new home range name is " + NewHomeRangeFileName);
-            fw.writeLine("going to union it up and create " + newUnionSocialMapPath);
-            this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
-            fw.writeLine("now edit that map");
-            this.EditNewHomeRangeUnion(newUnionSocialMapPath, inAnimal.Sex, inAnimal.IdNum.ToString());
-            fw.writeLine("now call  myDataManipulator.CopyToAnotherlMap new map name is " + newTempSocialMapPath);
-            this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, newUnionSocialMapPath);
-            fw.writeLine("now call myDataManipulator.RemoveExtraFields");
-            this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1");
-            fw.writeLine("now calling myDataManipulator.DissolveAndReturn to make " + newSocialMapPath);
-            IFeatureClass newFC = this.myDataManipulator.DissolveAndReturn(newTempSocialMapPath, newSocialMapPath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
-            fw.writeLine("Remove the old social map and assign the new one to me");
-            this.SocialMap = null;
-            this.SocialMap = new Map(newFC, newSocialMapPath);
-            fw.writeLine("now blow away the temp maps for next time");
-            //this.removeExtraFiles(newUnionSocialMapPath);
-            //this.removeExtraFiles(newTempPolyGonPath);
-            //this.removeExtraFiles(newTempSocialMapPath);
-            //if (numHomeRanges > 2)//do not want to blow away the orginal data just the temp maps
-               //this.removeExtraFiles(currSocialMapPath);
-            numHomeRanges++;
-            
+            //make sure a new polygon was built
+            if (!NewHomeRangeFileName.Equals("No Home Found", StringComparison.CurrentCultureIgnoreCase))
+            {
+               fw.writeLine("new home range name is " + NewHomeRangeFileName);
+               fw.writeLine("going to union it up and create " + newUnionSocialMapPath);
+               this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
+               fw.writeLine("Since the union tool can create a MultiPart we need to explode it using the Multi to Single");
+               fw.writeLine("so the new map name will be " + MulitToSinglePath);
+               this.myDataManipulator.MultiToSinglePart(newUnionSocialMapPath, MulitToSinglePath);
+               fw.writeLine("now edit that map");
+               this.EditNewHomeRangeUnion(MulitToSinglePath, inAnimal.Sex, inAnimal.IdNum.ToString());
+               fw.writeLine("now call  myDataManipulator.CopyToAnother Map new map name is " + newTempSocialMapPath);
+               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, newUnionSocialMapPath);
+               fw.writeLine("now call myDataManipulator.RemoveExtraFields");
+               this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1");
+               fw.writeLine("now calling myDataManipulator.DissolveAndReturn to make " + newSocialMapPath);
+               IFeatureClass newFC = this.myDataManipulator.DissolveAndReturn(newTempSocialMapPath, newSocialMapPath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
+               fw.writeLine("Remove the old social map and assign the new one to me");
+               this.SocialMap = null;
+               this.SocialMap = new Map(newFC, newSocialMapPath);
+               fw.writeLine("now blow away the temp maps for next time");
+               this.removeExtraFiles(newUnionSocialMapPath);
+               this.removeExtraFiles(newTempPolyGonPath);
+               this.removeExtraFiles(newTempSocialMapPath);
+               this.removeExtraFiles(MulitToSinglePath);
+               if (numHomeRanges > 2)//do not want to blow away the orginal data just the temp maps
+                  this.removeExtraFiles(currSocialMapPath);
+               numHomeRanges++;
+            }
+            else
+            {
+               fw.writeLine("was not able to build a home range");
+               result = false;
+            }
+
          }
-         catch(System.Exception ex)
+         catch (System.Exception ex)
          {
+            result = false;
             FileWriter.FileWriter.WriteErrorFile(ex);
 #if DEBUG
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-   }
+         }
+         return result;
       }
 
       public void changeMaps(DateTime now)
@@ -232,7 +250,7 @@ namespace PAZ_Dispersal
       {
          fw.writeLine("inside changeMaps (DateTime now,AnimalManager am)");
          fw.writeLine("DateTime = " + now.ToShortDateString() + " " + now.ToShortTimeString());
-         
+
          myFoodMaps.changeMap(now);
          myPredationMaps.changeMap(now);
          myMoveMaps.changeMap(now);
@@ -536,32 +554,32 @@ namespace PAZ_Dispersal
 
       }
 
-//      public IFeatureClass getTimeStepMap(string AnimalID)
-//      {
-//         string[] fileNames;
-//         string path;
-//         IFeatureClass fc = null;
-//         try
-//         {
-//            fw.writeLine("inside getTimeStepMap for " + AnimalID);
-//            path = this.mOutMapPath + "\\" + AnimalID;
-//            fw.writeLine("full path for that animal is " + path);
-//            fw.writeLine("now get the file names");
-//            fileNames = Directory.GetFiles(path, "TimeStep*");
-//            fw.writeLine("we have " + fileNames.Length.ToString() + " files to look for ");
-//            fw.writeLine("calling Map openFeatureClass");
-//            fc = Map.openFeatureClass(path, System.IO.Path.GetFileNameWithoutExtension(fileNames[0]));
-//         }
-//         catch (System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//         return fc;
+      //      public IFeatureClass getTimeStepMap(string AnimalID)
+      //      {
+      //         string[] fileNames;
+      //         string path;
+      //         IFeatureClass fc = null;
+      //         try
+      //         {
+      //            fw.writeLine("inside getTimeStepMap for " + AnimalID);
+      //            path = this.mOutMapPath + "\\" + AnimalID;
+      //            fw.writeLine("full path for that animal is " + path);
+      //            fw.writeLine("now get the file names");
+      //            fileNames = Directory.GetFiles(path, "TimeStep*");
+      //            fw.writeLine("we have " + fileNames.Length.ToString() + " files to look for ");
+      //            fw.writeLine("calling Map openFeatureClass");
+      //            fc = Map.openFeatureClass(path, System.IO.Path.GetFileNameWithoutExtension(fileNames[0]));
+      //         }
+      //         catch (System.Exception ex)
+      //         {
+      //#if (DEBUG)
+      //            System.Windows.Forms.MessageBox.Show(ex.Message);
+      //#endif
+      //            FileWriter.FileWriter.WriteErrorFile(ex);
+      //         }
+      //         return fc;
 
-//      }
+      //      }
       public void getNumResidents(out int numMales, out int numFemales)
       {
          numMales = 0;
@@ -681,8 +699,8 @@ namespace PAZ_Dispersal
          bool occupied = true;
          int polyIndex = this.mySocialMap.getCurrentPolygon(inPoint);
          string s = this.mySocialMap.getNamedValueForSinglePolygon(polyIndex, "OCCUP_MALE").ToString();
-        
-         if (s.Equals("NONE",StringComparison.CurrentCultureIgnoreCase))
+
+         if (s.Equals("NONE", StringComparison.CurrentCultureIgnoreCase))
          {
             s = this.mySocialMap.getNamedValueForSinglePolygon(polyIndex, "OCCUP_FEMA").ToString();
 
@@ -773,13 +791,13 @@ namespace PAZ_Dispersal
                switch (inMapType)
                {
                   case "Social":
-                     
-                      
-                      fw.writeLine("inside case under Social loading the map");
+
+
+                     fw.writeLine("inside case under Social loading the map");
                      if (mySocialMap == null)
                      {
 
-                         mySocialMap = new Map(this.featureWrkSpace.OpenFeatureClass(fileName), fullName);
+                        mySocialMap = new Map(this.featureWrkSpace.OpenFeatureClass(fileName), fullName);
                      }
                      else
                      {
@@ -799,7 +817,7 @@ namespace PAZ_Dispersal
                      mySocialMap.TypeOfMap = "Social";
                      mySocialMap.Path = mOutMapPath;
                      //add the refernce to the map manipulator
-                    // this.myMapManipulator.SocialMap = this.mySocialMap;
+                     // this.myMapManipulator.SocialMap = this.mySocialMap;
                      break;
                   case "Food":
                      fw.writeLine("inside case under Food loading the map");
@@ -1120,8 +1138,8 @@ namespace PAZ_Dispersal
             fileNames = Directory.GetFiles(currDir);
             for (int i = 0; i < fileNames.Length; i++)
             {
-               compareFileName =  System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
-               if (compareFileName.Equals(fileName,StringComparison.CurrentCultureIgnoreCase))
+               compareFileName = System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
+               if (compareFileName.Equals(fileName, StringComparison.CurrentCultureIgnoreCase))
                {
                   File.Delete(fileNames[i]);
                }
@@ -1392,7 +1410,7 @@ namespace PAZ_Dispersal
       private Map mySocialMap = null;
       private int numHomeRanges;
       private int SocialIndex;
-private static MapManager uniqueInstance;
+      private static MapManager uniqueInstance;
       //      public  int myMaps;
       private IWorkspace wrkSpace;
       private IWorkspaceFactory wrkSpaceFactory;
@@ -1463,7 +1481,7 @@ private MapManager()
             if (index >= 0)
                feature.set_Value(index, 1);
             index = fields.FindField("OCCUP_MALE");
-            
+
             feature.Shape = inPoly;
             feature.Store();
          }
@@ -1570,14 +1588,14 @@ private MapManager()
             sexIndex = fc.FindField("OCCUP_FEMA");
 
          updateCurr = fc.Update(qf, true);
-         while((feat = updateCurr.NextFeature()) != null)
+         while ((feat = updateCurr.NextFeature()) != null)
          {
-            feat.set_Value(sexIndex,inAnimalID);
+            feat.set_Value(sexIndex, inAnimalID);
             feat.Store();
          }
          updateCurr.Flush();
          System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-         
+
       }
 
       private void initializeErrMessages()
@@ -1627,18 +1645,18 @@ private MapManager()
 
       private void removeAnimalMap(string oldMapPath)
       {
-        
+
          try
-         { 
+         {
             fw.writeLine("");
             fw.writeLine("Inside removeAnimalMap " + oldMapPath);
             string currDir = System.IO.Path.GetDirectoryName(oldMapPath);
             string oldFileName = System.IO.Path.GetFileNameWithoutExtension(oldMapPath);
             string pattern = oldFileName + "*";
-            string [] files = Directory.GetFiles(currDir,pattern);
-            for (int i=0; i< files.Length; i++)
+            string[] files = Directory.GetFiles(currDir, pattern);
+            for (int i = 0; i < files.Length; i++)
             {
-               if(oldFileName.Equals(System.IO.Path.GetFileNameWithoutExtension(files[i])))
+               if (oldFileName.Equals(System.IO.Path.GetFileNameWithoutExtension(files[i])))
                {
                   File.Delete(files[i]);
                }

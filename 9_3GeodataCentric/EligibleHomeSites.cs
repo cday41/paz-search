@@ -35,7 +35,7 @@ namespace PAZ_Dispersal
    /// </summary>
    public class EligibleHomeSites 
    {
-		#region Public Members (14) 
+		#region Public Members (15) 
 
 		#region Constructors (1) 
 
@@ -65,7 +65,7 @@ namespace PAZ_Dispersal
       }
 
 		#endregion Properties 
-		#region Methods (11) 
+		#region Methods (12) 
 
       public void addSite(EligibleHomeSite inSite)
       {
@@ -238,38 +238,7 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-      public void SetRanges(double inValue, List<EligibleHomeSite> inSites)
-      {
-         double d = 0;
-         try
-         {
-            fw.writeLine("now setting the ranges based on the total rankings = " + inValue.ToString());
-            fw.writeLine("starting the loop");
-            foreach (EligibleHomeSite ehs in inSites)
-            {
-               
-                  fw.writeLine(ehs.X.ToString() + ehs.Y.ToString() + " is eligble site raw rank is " + ehs.Rank.ToString());
-                  ehs.Rank = ehs.Rank / inValue;
-                  fw.writeLine("after adjusting rank is " + ehs.Rank.ToString());
-                  d += ehs.Rank;
-               
-            }
 
-
-            fw.writeLine("total rank is " + d.ToString());
-            this.sortByRank();
-            this.resetRank();
-
-
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
       public void setRanges(double inDouble)
       {
          double d = 0;
@@ -296,6 +265,39 @@ namespace PAZ_Dispersal
 
          }
          catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+      public void SetRanges(double inValue, List<EligibleHomeSite> inSites)
+      {
+         double d = 0;
+         try
+         {
+            fw.writeLine("now setting the ranges based on the total rankings = " + inValue.ToString());
+            fw.writeLine("starting the loop");
+            foreach (EligibleHomeSite ehs in inSites)
+            {
+               
+                  fw.writeLine(ehs.X.ToString() + ehs.Y.ToString() + " is eligble site raw rank is " + ehs.Rank.ToString());
+                  ehs.Rank = ehs.Rank / inValue;
+                  fw.writeLine("after adjusting rank is " + ehs.Rank.ToString());
+                  d += ehs.Rank;
+               
+            }
+
+
+            fw.writeLine("total rank is " + d.ToString());
+            this.sortByRank();
+            this.resetRank();
+
+
+         }
+         catch (System.Exception ex)
          {
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
