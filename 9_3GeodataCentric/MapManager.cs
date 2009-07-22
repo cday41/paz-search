@@ -97,16 +97,17 @@ namespace PAZ_Dispersal
          try
          {
 
-
-            string mapPath = this.myAnimalMaps[AnimalID].FullFileName;
-            string newMapPath = this.makeNewMapPath(mapPath, timeStep.ToString(), AnimalID.ToString());
+            
+            string currMapPath = this.myAnimalMaps[AnimalID].FullFileName;
+            string newMapPath = this.makeNewMapPath(currMapPath, timeStep.ToString(), AnimalID.ToString());
+            string oldMapPath = this.makeNewMapPath(currMapPath, (timeStep - 1).ToString(), AnimalID.ToString());
             string clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
 
 
-            fw.writeLine("the  current animal map is " + mapPath);
+            fw.writeLine("the  current animal map is " + currMapPath);
             fw.writeLine("the  current clip map is " + clipPath);
             fw.writeLine("the  current union map is " + unionPath);
             fw.writeLine("the  current temp timeStep map is " + timeStepPath);
@@ -127,28 +128,29 @@ namespace PAZ_Dispersal
             {
                //if the first time through then we only need to add it to the map
                fw.writeLine("Calling Copy to Animal Map since it is the first time step");
-               this.myDataManipulator.CopyToAnotherlMap(mapPath, clipPath);
-               this.myDataManipulator.Dissolve(mapPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
+               this.myDataManipulator.CopyToAnotherlMap(currMapPath, clipPath);
+               this.myDataManipulator.Dissolve(currMapPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
             }
             else
             {
                fw.writeLine("Calling update the animal map");
-               this.myDataManipulator.UnionAnimalClipData(mapPath, clipPath, unionPath);
+               this.myDataManipulator.UnionAnimalClipData(currMapPath, clipPath, unionPath);
                this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA");
 
             }
 
             fw.writeLine("now make the new animal map");
 
-            this.makeMapCopies(System.IO.Path.GetDirectoryName(dissolvePath), System.IO.Path.GetFileNameWithoutExtension(dissolvePath), System.IO.Path.GetDirectoryName(mapPath), System.IO.Path.GetFileNameWithoutExtension(newMapPath));
+            this.makeMapCopies(System.IO.Path.GetDirectoryName(dissolvePath), System.IO.Path.GetFileNameWithoutExtension(dissolvePath), System.IO.Path.GetDirectoryName(currMapPath), System.IO.Path.GetFileNameWithoutExtension(newMapPath));
             this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
             fw.writeLine("now we need to move the dissovled back to the orginal map");
-            fw.writeLine("now going to copy " + dissolvePath + " to " + mapPath);
+            fw.writeLine("now going to copy " + dissolvePath + " to " + currMapPath);
             fw.writeLine("time to remove those extra files");
             this.removeExtraFiles(clipPath);
             this.removeExtraFiles(unionPath);
             this.removeExtraFiles(timeStepPath);
             this.removeExtraFiles(dissolvePath);
+            this.removeExtraFiles(oldMapPath);
 
 
          }
@@ -1098,13 +1100,15 @@ namespace PAZ_Dispersal
          string[] fileNames;
          string currDir = System.IO.Path.GetDirectoryName(FullFilePath);
          string fileName = System.IO.Path.GetFileNameWithoutExtension(FullFilePath);
+         
          bool success = true;
          try
          {
             fileNames = Directory.GetFiles(currDir);
             for (int i = 0; i < fileNames.Length; i++)
             {
-               if (fileNames[i].IndexOf(fileName) > 0)
+               string delFileName = System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
+               if (delFileName.Equals(fileName,StringComparison.CurrentCultureIgnoreCase))
                {
 #if ! pat
                   File.Delete(fileNames[i]);

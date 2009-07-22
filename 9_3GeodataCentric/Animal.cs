@@ -731,8 +731,12 @@ namespace PAZ_Dispersal
          this.goingHome = false;
          
       }
-     
 
+      public void BuildTextWriter(string CurrYear,string OutPutDir)
+      {
+         this.buildFileNamePrefix(CurrYear);
+         this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+      }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM,DateTime currTime,bool doTextOutput,ref string status)
       {
@@ -968,8 +972,7 @@ namespace PAZ_Dispersal
             if (this.mMoveIndex < 0)
                setInitialLocaton();
             this.mPerceptionDist = this.AnimalAtributes.PerceptionDistance;
-            this.buildFileNamePrefix(currTime.Year.ToString());
-            this.TextFileWriter = new TextFileWriter(this.AnimalAtributes.OutPutDir,this.fileNamePrefix);
+            
             this.setSocialIndex(this.Location);
             this.mMapManager.GetInitialMapData(this);
          }
