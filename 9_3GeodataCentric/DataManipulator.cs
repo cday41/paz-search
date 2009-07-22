@@ -42,10 +42,10 @@ namespace PAZ_Dispersal
 		#endregion Constructors 
 		#region Methods (23) 
 
-      public void AddField(string dataType, string fieldName, object value, string layerToAddFieldTo)
+      public void AddField(string dataType, string fieldName, IFeatureClass inFeatureClass)
       {
          AddField af = new AddField();
-         af.in_table = layerToAddFieldTo;
+         af.in_table = inFeatureClass;
          af.field_name = fieldName;
          af.field_type = dataType;
          this.RunProcess(af, null);
