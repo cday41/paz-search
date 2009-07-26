@@ -31,7 +31,7 @@ namespace PAZ_Dispersal
       {
          bool success = false;
          int index;
-         PointClass currEligibleSite=null;
+         PointClass HomeSite =null;
          try
          {
             fw.writeLine("inside setHomeRangeCenter in the ClosestHomeRangeFinder");
@@ -39,22 +39,17 @@ namespace PAZ_Dispersal
             string sex = inAnimal.Sex;
             //make sure there are available sites
             fw.writeLine("checking to see if there are any suitable sites");
-            if (setSuitableSites(inAnimal, fileName))
+            if (base.FindHomeRange(inAnimal,fileName))
             {
-              
-               double requiredArea = inAnimal.HomeRangeArea;
-               fw.writeLine("we need " + requiredArea.ToString() );
-               for (index = inAnimal.MyVisitedSites.SiteCount - 1; index >= 0; index--)
-               {
-                  fw.writeLine("looking at site number " + index.ToString());
-                  currEligibleSite = inAnimal.GetEligibleStep(index);
-                  if (this.getArea(currEligibleSite) >= requiredArea)
-                  {
-                     inAnimal.HomeRangeCenter = currEligibleSite;
-                     success = true;
-                     break;
-                  }
-               }
+               fw.writeLine("must have been now set the distances and rank them");
+               base.setDistance(inAnimal);
+               HomeSite = new PointClass();
+               HomeSite.X = base.siteList[base.siteList.Count - 1].X;
+               HomeSite.Y = base.siteList[base.siteList.Count - 1].Y;
+               inAnimal.HomeRangeCenter = HomeSite;
+               success = true;
+               
+               
             }
             else
             {

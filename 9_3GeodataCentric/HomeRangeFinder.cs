@@ -582,22 +582,25 @@ namespace PAZ_Dispersal
             tempLine.FromPoint = inA.Location;
             fw.writeLine("from point is X = " + inA.Location.X.ToString() + " Y = " + inA.Location.Y.ToString());
             fw.writeLine("now going to loop through and collect the distances.");
-            for (int i = 0; i < inA.MyVisitedSites.SiteCount; i++)
+            for (int i = 0; i < this.siteList.Count; i++)
             {
-               if (inA.MyVisitedSites.getSite(i).SuitableSite)
-               {
-                  p.X = inA.MyVisitedSites.getSite(i).X;
-                  p.Y = inA.MyVisitedSites.getSite(i).Y;
+             
+              {
+                  p.X = this.siteList[i].X;
+                  p.Y = this.siteList[i].Y;
                   tempLine.ToPoint = p;
                   //BC Saturday, February 16, 2008 moved value from tempLine.Length to lineLength because we can not modify
                   // tempLine.Length (readOnly property) and was worried about divide by zero issue.
                   lineLength = tempLine.Length;
                   fw.writeLine("to  point is X = " + tempLine.ToPoint.X.ToString() + " Y = " + tempLine.ToPoint.Y.ToString());
                   if (lineLength < 1) lineLength = 1;
-                  inA.MyVisitedSites.getSite(i).DistanceFromCurrLocation = lineLength;
+                  this.siteList[i].DistanceFromCurrLocation = lineLength;
                   fw.writeLine("the distance between them is " + lineLength);
                }
             }
+
+            EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Dist;
+            this.siteList.Sort();
          }
          catch (System.Exception ex)
          {
