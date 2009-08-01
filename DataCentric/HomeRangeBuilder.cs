@@ -10,12 +10,10 @@ namespace PAZ_Dispersal
 {
    class HomeRangeBuilder
    {
-      DataManipulator myDataManipulator;
-      string clipPath;
-      string homeRangeFileName;
-      string dissolveHomeRangePolygon;
-      string availablePolygonsFileName;
-      FileWriter.FileWriter fw;
+		#region Public Members (2) 
+
+		#region Constructors (1) 
+
       public HomeRangeBuilder()
       {
          myDataManipulator = new DataManipulator();
@@ -23,11 +21,14 @@ namespace PAZ_Dispersal
 
       }
 
+		#endregion Constructors 
+		#region Methods (1) 
+
       public string BuildHomeRange(Animal inAnimal, string currSocialFileName)
       {
          string returnVal = "";
          double minArea = 0;
-         bool success = false;
+         //bool success = false;
          double stretchFactor = 1.0;
          int index = 0;
          IPolygon tempPoly = null;
@@ -45,10 +46,11 @@ namespace PAZ_Dispersal
             fw.writeLine("now clip it against the current social map");
             this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
             fw.writeLine("now get all the good polygons from the clip to meassure the area");
-            IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
+            IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex);
+            IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.availablePolygonsFileName, inAnimal.Sex);
             if (fc != null)
             {
-               minArea = this.getArea(fc);
+               minArea = this.getArea(fc2);
                fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeArea.ToString());
                MapManager.RemoveFiles(homeRangeFileName);
                index++;
@@ -56,7 +58,7 @@ namespace PAZ_Dispersal
                {
                   stretchFactor += .1;
                   MapManager.RemoveFiles(availablePolygonsFileName);
-                  fc = null;
+                  fc2 = null;
                   //MapManager.RemoveFiles(clipPath);
                   fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
                }
@@ -64,7 +66,7 @@ namespace PAZ_Dispersal
                {
                }
                fw.writeLine("leaving with a file name of " + path + availablePolygonsFileName);
-               returnVal = path + availablePolygonsFileName;
+               returnVal = availablePolygonsFileName;
             }
             else
             {
@@ -78,16 +80,24 @@ namespace PAZ_Dispersal
          return returnVal;
       }
 
-      private void buildPathNames(string path,string multiplier)
-      {
-        
-         homeRangeFileName = path + "\\HomeRangePolygon" + multiplier + ".shp";
-         clipPath = path + "\\clipHomeRange" + multiplier + ".shp";
-         availablePolygonsFileName = "\\availablePolygons" + multiplier + ".shp";
-         dissolveHomeRangePolygon = path + "\\dissolveHomeRangePolygon" + multiplier + ".shp";
+		#endregion Methods 
 
+		#endregion Public Members 
 
-      }
+		#region Non-Public Members (10) 
+
+		#region Fields (6) 
+
+      string availablePolygonsFileName;
+      string clipPath;
+      string dissolveHomeRangePolygon;
+      FileWriter.FileWriter fw;
+      string homeRangeFileName;
+      DataManipulator myDataManipulator;
+
+		#endregion Fields 
+		#region Methods (4) 
+
       private IPolygon buildHomeRangePolygon(Animal inAnimal, double stretchFactor)
       {
          const int numberOfPoints = 30;
@@ -127,6 +137,50 @@ namespace PAZ_Dispersal
 
          return returnPoly;
       }
+
+      protected void buildLogger()
+      {
+         string s;
+         StreamReader sr;
+         bool foundPath = false;
+
+         string st = System.Windows.Forms.Application.StartupPath;
+         if (File.Exists(st + @"\logFile.dat"))
+         {
+            int peek;
+            sr = new StreamReader(st + @"\logFile.dat");
+            peek = sr.Peek();
+            while (peek > -1)
+            {
+               s = sr.ReadLine();
+               if (s.IndexOf("HomeRangeLogPath") == 0)
+               {
+                  fw = FileWriter.FileWriter.getHomeRangeLogger(s.Substring(s.IndexOf(" ")));
+                  foundPath = true;
+                  break;
+               }
+               peek = sr.Peek();
+            }
+            sr.Close();
+
+         }
+         if (!foundPath)
+         {
+            fw = new FileWriter.EmptyFileWriter();
+         }
+      }
+
+      private void buildPathNames(string path,string multiplier)
+      {
+        
+         homeRangeFileName = path + "\\HomeRangePolygon" + multiplier + ".shp";
+         clipPath = path + "\\clipHomeRange" + multiplier + ".shp";
+         availablePolygonsFileName = path + "\\availablePolygons" + multiplier + ".shp";
+         dissolveHomeRangePolygon = path + "\\dissolveHomeRangePolygon" + multiplier + ".shp";
+
+
+      }
+
       private double getArea(IFeatureClass inFC)
       {
          double area = 0;
@@ -161,37 +215,8 @@ namespace PAZ_Dispersal
          return area;
       }
 
-      protected void buildLogger()
-      {
-         string s;
-         StreamReader sr;
-         bool foundPath = false;
+		#endregion Methods 
 
-         string st = System.Windows.Forms.Application.StartupPath;
-         if (File.Exists(st + @"\logFile.dat"))
-         {
-            int peek;
-            sr = new StreamReader(st + @"\logFile.dat");
-            peek = sr.Peek();
-            while (peek > -1)
-            {
-               s = sr.ReadLine();
-               if (s.IndexOf("HomeRangeLogPath") == 0)
-               {
-                  fw = FileWriter.FileWriter.getHomeRangeLogger(s.Substring(s.IndexOf(" ")));
-                  foundPath = true;
-                  break;
-               }
-               peek = sr.Peek();
-            }
-            sr.Close();
-
-         }
-         if (!foundPath)
-         {
-            fw = new FileWriter.EmptyFileWriter();
-         }
-      }
-      
+		#endregion Non-Public Members 
    }
 }

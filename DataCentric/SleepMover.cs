@@ -7,11 +7,9 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class SleepMover : PAZ_Dispersal.Mover
 	{
-      private static SleepMover s;
-		private SleepMover()
-		{
-         
-		}
+		#region Public Members (4) 
+
+		#region Methods (4) 
 
       public static SleepMover getSleepMover()
       {
@@ -20,21 +18,49 @@ namespace PAZ_Dispersal
          return s;
 
       }
+
+//end of getTurnAngle
+		//this mover doesn't use step length, so return 0 to make compiler happy
+		public override double getStepLength()
+		{
+			return 0;
+		}
+
+		//this mover doesn't use turn angle, so return 0 to make compiler happy
+		public override double getTurnAngle(double rho)
+		{
+			return 0;
+		}
+
 		//Sleeping, so don't move, but set percent time step to 1 to indicate we slept the whole time step
 		public override void move(ref double percentTimeStep, Animal inA)
 		{
          fw.writeLine("inside move for sleep mover");
 			percentTimeStep = 1;
 		}
-		//this mover doesn't use turn angle, so return 0 to make compiler happy
-		public override double getTurnAngle(double rho)
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (2) 
+
+		#region Fields (1) 
+
+      private static SleepMover s;
+
+		#endregion Fields 
+		#region Constructors (1) 
+
+		private SleepMover()
 		{
-			return 0;
-		}//end of getTurnAngle
-		//this mover doesn't use step length, so return 0 to make compiler happy
-		public override double getStepLength()
-		{
-			return 0;
-		}//end of getStepLength
+         
+		}
+
+		#endregion Constructors 
+
+		#endregion Non-Public Members 
+
+//end of getStepLength
 	}
 }

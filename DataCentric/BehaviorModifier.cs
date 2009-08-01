@@ -10,10 +10,13 @@ namespace PAZ_Dispersal
    /// </summary>
    public  class BehaviourModifier : GenderModifiers
    {
+		#region Public Members (1) 
+
+		#region Methods (1) 
+
       /// <summary>
       ///  -This operation sets  the attribute "state" in the Context class.
       /// </summary>
-     
       /// <summary>
       /// -This operation implements the logic for returning the unique instance of the Singleton pattern.
       /// </summary>
@@ -26,13 +29,22 @@ namespace PAZ_Dispersal
          }
          return uniqueInstance;
       }
-      
-      
-      
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (1) 
+
+		#region Fields (1) 
+
       /// <summary>
       ///  -This attribute stores the instance of the Singleton class.
       /// </summary>
       private static BehaviourModifier uniqueInstance;
-      
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
    }
 }

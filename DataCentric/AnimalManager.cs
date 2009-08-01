@@ -1,15 +1,18 @@
-using ESRI.ArcGIS.Geometry;
-using System.Collections;
-using System.Collections.Specialized;
 using System;
-using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.IO;
 using DesignByContract;
+//#define ZeroOnly
+using ESRI.ArcGIS.Geometry;
 
 namespace PAZ_Dispersal
 {
    public class AnimalManager : System.Collections.ArrayList
    {
+		#region Public Members (1) 
 
 		#region Constructors (1) 
 
@@ -30,10 +33,13 @@ namespace PAZ_Dispersal
       //   mResidentAttributes = new ResidentAttributes();
 
       }
-      
+
 		#endregion Constructors 
 
-      
+		#endregion Public Members 
+
+
+
       #region member variables
       private string myErrMessage;
       private FileWriter.FileWriter fw;
@@ -46,12 +52,14 @@ namespace PAZ_Dispersal
       private Modifier mSafeSearchMod;
       private Mover mMover;
       private IEnumerator currAnimal;
-      //private MapManager myMapManager;
+     
       private ResidentAttributes mResidentAttributes;
       private HomeRangeCriteria mMaleHomeRangeCriteria;
       private HomeRangeCriteria mFemaleHomeRangeCriteria;
       private IHomeRangeTrigger mHomeRangeTrigger;
       private IHomeRangeFinder mHomeRangeFinder;
+
+      private Dictionary<IPoint, MapValue> mMapValues;
       #endregion
 
       #region public methods
@@ -216,8 +224,9 @@ namespace PAZ_Dispersal
             for (int i = 0; i < this.Count; i++)
             {
                a = (Animal) this[i];
-#if (DEBUG)
-               //if (a.IdNum == 0)
+#if (ZeroOnly)
+               if (a.IdNum == 3)
+               {
 #endif
                a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
                //check to see if they died if they did remove them from the list
@@ -243,7 +252,10 @@ namespace PAZ_Dispersal
                   status = "";
                }
             }
+            }
+#if ZeroOnly
          }
+#endif
         
          catch (System.Exception ex)
          {
@@ -416,7 +428,7 @@ namespace PAZ_Dispersal
                {
                   fw.writeLine("so we are setting isDead to true");
                   if (a.TextFileWriter != null)
-                     a.TextFileWriter.writeLine("Died during winter kill");
+                     a.TextFileWriter.addLine("Died during winter kill");
                   a.IsDead = true;
                }
             }
@@ -620,8 +632,9 @@ namespace PAZ_Dispersal
       public bool setSleepTime(DateTime currTime)
       {
          Animal a;
-         Animal b = new Animal();
-         
+         // Animal b = new Animal();
+         string CurrYear = currTime.Year.ToString();
+         this.mMapValues = new Dictionary<IPoint, MapValue>();
          bool success = true;
          fw.writeLine("inside animal manager calling set sleep time");
          try
@@ -631,16 +644,53 @@ namespace PAZ_Dispersal
             {
                while (currAnimal.MoveNext())
                {
-                  a = (Animal) currAnimal.Current;
+                  a = (Animal)currAnimal.Current;
                   if (a.GetType().Name != "Resident" && !a.IsDead)
                   {
-                     if (a.Location == b.Location)
+
+                     a.setInitialSleepTime(currTime);
+                     if (a.TextFileWriter == null)
                      {
-                        a.MoveIndex = b.MoveIndex;
+                        a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
                      }
-                     
-                     a.setInitialValues(currTime);
-                     b = a;
+                     fw.writeLine("Now check to see if we have the value for this location or not");
+                     if (this.mMapValues.ContainsKey(a.Location))
+                     {
+                        fw.writeLine("had it so set the values");
+
+                        a.CaptureFood = this.mMapValues[a.Location].CaptureFood;
+                        a.FoodMeanSize = this.mMapValues[a.Location].FoodMeanSize;
+                        a.MoveSpeed = this.mMapValues[a.Location].MoveSpeed;
+                        a.MoveTurtosity = this.mMapValues[a.Location].MoveTurtosity;
+                        a.PerceptonModifier = this.mMapValues[a.Location].PerceptonModifier;
+                        a.PredationRisk = this.mMapValues[a.Location].PredationRisk;
+                        a.FoodIndex = this.mMapValues[a.Location].FoodIndex;
+                        a.MoveIndex = this.mMapValues[a.Location].MoveIndex;
+                        a.RiskIndex = this.mMapValues[a.Location].RiskIndex;
+                        a.SocialIndex = this.mMapValues[a.Location].SocialIndex;
+                     }
+                     else
+                     {
+                        fw.writeLine("did not have it, so go get them from the animal");
+                        a.setInitialValues(currTime);
+                        fw.writeLine("now store them off");
+                        MapValue mv = new MapValue();
+                        mv.CaptureFood = a.CaptureFood;
+                        mv.CurrLocation = a.Location;
+                        mv.FoodMeanSize = a.FoodMeanSize;
+                        mv.FoodSD_Size = a.FoodSD_Size;
+                        mv.MoveSpeed = a.MoveSpeed;
+                        mv.MoveTurtosity = a.MoveTurtosity;
+                        mv.PerceptonModifier = a.PerceptonModifier;
+                        mv.PredationRisk = a.PredationRisk;
+                        mv.FoodIndex = a.FoodIndex;
+                        mv.MoveIndex = a.MoveIndex;
+                        mv.RiskIndex = a.RiskIndex;
+                        mv.SocialIndex = a.SocialIndex;
+                        fw.writeLine("add to the list");
+                        this.mMapValues.Add(a.Location, mv);
+                     }
+
                   }
                }
             }
@@ -652,7 +702,7 @@ namespace PAZ_Dispersal
          }
          catch (System.Exception ex)
          {
-         //   System.Windows.Forms.MessageBox.Show("Error look for error file");
+            //   System.Windows.Forms.MessageBox.Show("Error look for error file");
             FileWriter.FileWriter.WriteErrorFile(ex);
             Process.GetCurrentProcess().Kill();
          }
@@ -827,25 +877,19 @@ namespace PAZ_Dispersal
                tmpAnimal.IdNum = this.Count;
                fw.writeLine("just made " + tmpAnimal.IdNum.ToString());
                tmpAnimal.Location = inIAA.Location;
-               // this sets the index for the animals move polygon
-               tmpAnimal.MoveIndex = MapManager.GetUniqueInstance().getCurrMovePolygon(inIAA.Location);
                tmpAnimal.AnimalAtributes = this.AnimalAttributes;
                tmpAnimal.CurrEnergy = this.AnimalAttributes.InitialEnergy;
                fw.writeLine("now setting the mover");
                tmpAnimal.myMover = this.mMover;
                tmpAnimal.StateModifer = this.SafeSearchMod;
                tmpAnimal.AnimalManager = this;
-               fw.writeLine("now setting attrbutes;");
-               setAttributes();
-               fw.writeLine("now setting the gender modifiers");
-               setGenderModifiers();
-
                tmpAnimal.HomeRangeTrigger = this.mHomeRangeTrigger;
                tmpAnimal.HomeRangeFinder = this.mHomeRangeFinder;
-               tmpAnimal.setInitialValues(currTime);
+               
                tmpAnimal.dump();
                this.Add(tmpAnimal);
             }
+            this.setSleepTime(currTime);
          }
 
         

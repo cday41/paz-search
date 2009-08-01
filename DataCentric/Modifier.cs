@@ -6,6 +6,10 @@ namespace PAZ_Dispersal
    
    public  class Modifier
    {
+		#region Public Members (1) 
+
+		#region Constructors (1) 
+
       public Modifier()
       {
 #if (DEVELOP)
@@ -27,14 +31,28 @@ namespace PAZ_Dispersal
 #endif
 
       }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (7) 
+
+		#region Fields (7) 
+
       private double mCaptureFood;
-      private double mPredationRisk;
+      private double mEnergyUsed;
       private double mMoveSpeed;
       private double mMoveTurtosity;
-      private double mEnergyUsed;
-      private double mPerceptonModifier;
       private string mName;
-      
+      private double mPerceptonModifier;
+      private double mPredationRisk;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
+
+
       #region getters and setters
 
       public string Name

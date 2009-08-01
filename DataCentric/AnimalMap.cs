@@ -17,6 +17,8 @@ namespace PAZ_Dispersal
    /// </summary>
    public class AnimalMap:Map
    {
+
+
       #region MemberVariables
       private IBasicGeoprocessor ibg;
       private IFeatureClass mStepFeatureClass;
@@ -661,7 +663,6 @@ namespace PAZ_Dispersal
       }
 
       #endregion
-         
    }
 }
 

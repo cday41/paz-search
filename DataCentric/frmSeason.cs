@@ -12,34 +12,9 @@ namespace PAZ_Dispersal.Forms
 	/// </summary>
 	public class frmSeason : System.Windows.Forms.Form
 	{
-		private ArrayList mMapTimeList;
-		private MapSwapTrigger mst;
-		private SimulatonManager mySimManager;
+		#region Public Members (2) 
 
-		private System.Windows.Forms.Label lblSeason;
-		private System.Windows.Forms.Label lblYear;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label lblMapType;
-		private System.Windows.Forms.MonthCalendar monthCalendar1;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.Button btnOK;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
-
-		public frmSeason()
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
-
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
-		}
+		#region Constructors (2) 
 
 		public frmSeason(int year, int season, ref ArrayList al, ref SimulatonManager sm,string swapYear):this()
 		{
@@ -88,6 +63,52 @@ namespace PAZ_Dispersal.Forms
 
 		}
 
+		public frmSeason()
+		{
+			//
+			// Required for Windows Form Designer support
+			//
+			InitializeComponent();
+
+			//
+			// TODO: Add any constructor code after InitializeComponent call
+			//
+		}
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (14) 
+
+		#region Fields (12) 
+
+		private System.Windows.Forms.Button btnOK;
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label lblMapType;
+		private System.Windows.Forms.Label lblSeason;
+		private System.Windows.Forms.Label lblYear;
+		private ArrayList mMapTimeList;
+		private System.Windows.Forms.MonthCalendar monthCalendar1;
+		private MapSwapTrigger mst;
+		private SimulatonManager mySimManager;
+
+		#endregion Fields 
+		#region Methods (2) 
+
+		private void btnOK_Click(object sender, System.EventArgs e)
+		{
+			mst.StartDate = monthCalendar1.SelectionStart;
+			this.mMapTimeList.Add(mst);
+			this.Close();
+		}
+
 		/// <summary>
 		/// Clean up any resources being used.
 		/// </summary>
@@ -102,6 +123,11 @@ namespace PAZ_Dispersal.Forms
 			}
 			base.Dispose( disposing );
 		}
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+
 
 		#region Windows Form Designer generated code
 		/// <summary>
@@ -206,14 +232,5 @@ namespace PAZ_Dispersal.Forms
 
 		}
 		#endregion
-
-		private void btnOK_Click(object sender, System.EventArgs e)
-		{
-			mst.StartDate = monthCalendar1.SelectionStart;
-			this.mMapTimeList.Add(mst);
-			this.Close();
-		}
-
-      
 	}
 }

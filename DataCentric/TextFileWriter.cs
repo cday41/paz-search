@@ -4,17 +4,9 @@ namespace PAZ_Dispersal
 {
    public class TextFileWriter
    {
+		#region Public Members (5) 
 
-      #region Fields (2)
-
-
-      private string mOutPath;
-      private StringCollection sc;
-      private System.IO.StreamWriter sw;
-
-      #endregion Fields
-
-      #region Constructors (1)
+		#region Constructors (1) 
 
       public TextFileWriter(string path, string fileName)
       {
@@ -33,10 +25,8 @@ namespace PAZ_Dispersal
          }
       }
 
-      #endregion Constructors
-
-      #region Properties (1)
-
+		#endregion Constructors 
+		#region Properties (1) 
 
       public string OutPath
       {
@@ -44,10 +34,27 @@ namespace PAZ_Dispersal
          set { mOutPath = value; }
       }
 
+		#endregion Properties 
+		#region Methods (3) 
 
-      #endregion Properties
+      public void addLine(string inValue)
+      {
+         try
+         {
+            this.sw.WriteLine(inValue);
+            
+         }
+         catch (System.Exception ex)
+         {
 
-      #region Public Methods (3)
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+      public void close()
+      {
+         sw.Close();
+      }
 
       public void WriteOutTimeStep()
       {
@@ -58,31 +65,20 @@ namespace PAZ_Dispersal
          this.sc.Clear();
       }
 
-      public void addLine(string inValue)
-      {
-         try
-         {
-            this.sc.Add(inValue);
-            
-         }
-         catch (System.Exception ex)
-         {
+		#endregion Methods 
 
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
+		#endregion Public Members 
 
-      public void writeLine(string inValue)
-      {
-         this.sw.WriteLine(inValue);
-      }
+		#region Non-Public Members (3) 
 
-      public void close()
-      {
-         sw.Close();
-      }
+		#region Fields (3) 
 
-      #endregion Public Methods
+      private string mOutPath;
+      private StringCollection sc;
+      private System.IO.StreamWriter sw;
 
+		#endregion Fields 
+
+		#endregion Non-Public Members 
    }
 }

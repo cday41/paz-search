@@ -16,45 +16,10 @@ namespace PAZ_Dispersal
    /// </summary>
    public class YearlyForm : System.Windows.Forms.Form
    {
+		#region Public Members (2) 
 
-      private string mMapType;
-      private string mapPath;
-      private string [] swapYears;
-      private string [] swapDays;
-      private string [] swapHours;
-      private SimulatonManager mySimManager;
-      private Maps myMaps;
-      private MapManager myMapManager;
-      private string mapDescription;
-      private FileWriter.FileWriter fw;
-      private System.Windows.Forms.Label label2;
-      private System.Windows.Forms.GroupBox groupBox1;
-      private System.Windows.Forms.GroupBox groupBox2;
-      private System.Windows.Forms.Label lblDisplay;
-      private System.Windows.Forms.Label label4;
-      private System.Windows.Forms.GroupBox groupBox3;
-      private System.Windows.Forms.Label label1;
-      private System.Windows.Forms.DataGrid dataGrid1;
-      private System.Windows.Forms.Button btnChooseMaps;
-      private System.Windows.Forms.Button btnOK;
-      private System.Windows.Forms.TextBox txtNumYears;
-      private System.Windows.Forms.TextBox txtNumDays;
-      private System.Windows.Forms.TextBox txtNumHours;	
-      /// <summary>
-      /// Required designer variable.
-      /// </summary>
-      private System.ComponentModel.Container components = null;
+		#region Constructors (2) 
 
-      public YearlyForm()
-      {
-         //
-         // Required for Windows Form Designer support
-         //
-         InitializeComponent();
-         buildLogger();
-         this.myMapManager = MapManager.GetUniqueInstance();
-
-      }
       public YearlyForm(string mapType, ref SimulatonManager sm, string description):this()
       {
          this.mySimManager = sm;
@@ -88,6 +53,130 @@ namespace PAZ_Dispersal
          
       }
 
+      public YearlyForm()
+      {
+         //
+         // Required for Windows Form Designer support
+         //
+         InitializeComponent();
+         buildLogger();
+         this.myMapManager = MapManager.GetUniqueInstance();
+
+      }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (25) 
+
+		#region Fields (21) 
+
+      private System.Windows.Forms.Button btnChooseMaps;
+      private System.Windows.Forms.Button btnOK;
+	      /// <summary>
+      /// Required designer variable.
+      /// </summary>
+      private System.ComponentModel.Container components = null;
+      private System.Windows.Forms.DataGrid dataGrid1;
+      private FileWriter.FileWriter fw;
+      private System.Windows.Forms.GroupBox groupBox1;
+      private System.Windows.Forms.GroupBox groupBox2;
+      private System.Windows.Forms.GroupBox groupBox3;
+      private System.Windows.Forms.Label label1;
+      private System.Windows.Forms.Label label2;
+      private System.Windows.Forms.Label label4;
+      private System.Windows.Forms.Label lblDisplay;
+      private string mapDescription;
+      private string mapPath;
+      private string mMapType;
+      private MapManager myMapManager;
+      private Maps myMaps;
+      private SimulatonManager mySimManager;
+      private System.Windows.Forms.TextBox txtNumDays;
+      private System.Windows.Forms.TextBox txtNumHours;
+      private System.Windows.Forms.TextBox txtNumYears;
+
+		#endregion Fields 
+		#region Methods (4) 
+
+      private void btnChooseMaps_Click(object sender, System.EventArgs e)
+      {
+         bool keepLooping = true;
+         int counter = 0;
+         int numYears = System.Convert.ToInt32(this.txtNumYears.Text);
+         int numDays = System.Convert.ToInt32(this.txtNumDays.Text);
+         int numHours = System.Convert.ToInt32(this.txtNumHours.Text);
+         frmMapSelectForm f = new frmMapSelectForm(mMapType,mapPath,ref mySimManager);
+         this.myMaps.MyTriggers = new MapSwapTrigger[numYears*numDays*numHours];
+         
+         
+         f.setCalRange(this.mySimManager.StartSeasonDate,this.mySimManager.EndSimulatonDate);
+         for(int i=0;i<numYears && keepLooping;i++)
+            for(int j=0;j<numDays && keepLooping;j++)
+               for(int h=0;h<numHours && keepLooping;h++)
+               {
+                  
+
+                  //If this is not the first time through then bump the mindate up 
+                  if(counter>0)
+                     f.resetCalRange(this.myMaps.MyTriggers[counter-1].StartDate);
+
+                  f.fillDisplay(swapYears[i],swapDays[j],swapHours[h]);
+
+                  f.ShowDialog();
+                  if (!f.Cancel)
+                  {
+                    
+                     f.Mst.setTriggerType(numYears,numDays,numHours);
+                     this.myMaps.MyTriggers[counter++]=f.Mst;
+                    // this.myMaps.dumpTriggersHere();
+                  }
+                  else
+                  {
+                     //the user wanted to stop loading maps for some reason so stop the loop and empty out the que
+                     keepLooping = false;
+                     this.myMaps.MyTriggers = null;
+                  }
+               }
+         if (!f.Cancel)
+          this.myMaps.dumpTriggersHere();
+         this.Close();
+      }
+
+      private void btnOK_Click(object sender, System.EventArgs e)
+      {
+
+         this.Close();
+      }
+
+      private void buildLogger()
+      {
+         string s;
+         StreamReader sr; 
+         bool foundPath = false;
+         string path = System.Windows.Forms.Application.StartupPath;
+         if(File.Exists(path +"\\logFile.dat"))
+         {
+            sr= new StreamReader(path +"\\logFile.dat");
+            while(sr.Peek() > -1)
+            {
+               s = sr.ReadLine();
+               if (s.IndexOf("FormLogPath") == 0)
+               {
+                  fw =  FileWriter.FileWriter.getFormLogger(s.Substring(s.IndexOf(" ")));
+                  foundPath = true;
+                  break;
+               }
+            }
+
+         }
+         if (! foundPath)
+         {
+            fw = new FileWriter.EmptyFileWriter();
+         }
+      }
+
       /// <summary>
       /// Clean up any resources being used.
       /// </summary>
@@ -102,6 +191,14 @@ namespace PAZ_Dispersal
          }
          base.Dispose( disposing );
       }
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+      private string [] swapYears;
+      private string [] swapDays;
+      private string [] swapHours;
+
 
       #region Windows Form Designer generated code
       /// <summary>
@@ -465,93 +562,5 @@ namespace PAZ_Dispersal
 
     
       #endregion
-
-      private void btnOK_Click(object sender, System.EventArgs e)
-      {
-
-         this.Close();
-      }
-
-      private void btnChooseMaps_Click(object sender, System.EventArgs e)
-      {
-         bool keepLooping = true;
-         int counter = 0;
-         int numYears = System.Convert.ToInt32(this.txtNumYears.Text);
-         int numDays = System.Convert.ToInt32(this.txtNumDays.Text);
-         int numHours = System.Convert.ToInt32(this.txtNumHours.Text);
-         frmMapSelectForm f = new frmMapSelectForm(mMapType,mapPath,ref mySimManager);
-         this.myMaps.MyTriggers = new MapSwapTrigger[numYears*numDays*numHours];
-         
-         
-         f.setCalRange(this.mySimManager.StartSeasonDate,this.mySimManager.EndSimulatonDate);
-         for(int i=0;i<numYears && keepLooping;i++)
-            for(int j=0;j<numDays && keepLooping;j++)
-               for(int h=0;h<numHours && keepLooping;h++)
-               {
-                  
-
-                  //If this is not the first time through then bump the mindate up 
-                  if(counter>0)
-                     f.resetCalRange(this.myMaps.MyTriggers[counter-1].StartDate);
-
-                  f.fillDisplay(swapYears[i],swapDays[j],swapHours[h]);
-
-                  f.ShowDialog();
-                  if (!f.Cancel)
-                  {
-                    
-                     f.Mst.setTriggerType(numYears,numDays,numHours);
-                     this.myMaps.MyTriggers[counter++]=f.Mst;
-                    // this.myMaps.dumpTriggersHere();
-                  }
-                  else
-                  {
-                     //the user wanted to stop loading maps for some reason so stop the loop and empty out the que
-                     keepLooping = false;
-                     this.myMaps.MyTriggers = null;
-                  }
-               }
-         if (!f.Cancel)
-          this.myMaps.dumpTriggersHere();
-         this.Close();
-      }
-
-
-      private void buildLogger()
-      {
-         string s;
-         StreamReader sr; 
-         bool foundPath = false;
-         string path = System.Windows.Forms.Application.StartupPath;
-         if(File.Exists(path +"\\logFile.dat"))
-         {
-            sr= new StreamReader(path +"\\logFile.dat");
-            while(sr.Peek() > -1)
-            {
-               s = sr.ReadLine();
-               if (s.IndexOf("FormLogPath") == 0)
-               {
-                  fw =  FileWriter.FileWriter.getFormLogger(s.Substring(s.IndexOf(" ")));
-                  foundPath = true;
-                  break;
-               }
-            }
-
-         }
-         if (! foundPath)
-         {
-            fw = new FileWriter.EmptyFileWriter();
-         }
-      }
-
-    
-
-     
-
-     
-
-      
-
-     
    }
 }

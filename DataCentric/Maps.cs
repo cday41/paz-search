@@ -49,8 +49,9 @@ using DesignByContract;
 namespace PAZ_Dispersal
 {
    public class Maps
-
    {
+
+
       #region private members
       private bool changeMaps;
       private MapSwapTrigger[] mMyTriggers;
@@ -477,6 +478,5 @@ namespace PAZ_Dispersal
 		
 
       #endregion
-      
    }
 }

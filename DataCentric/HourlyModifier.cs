@@ -8,11 +8,20 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class HourlyModifier:Modifier
 	{
-      private int mStartTime;
+		#region Public Members (2) 
+
+		#region Constructors (1) 
+
+		public HourlyModifier()
+		{
+			
+		}
+
+		#endregion Constructors 
+		#region Properties (1) 
 
       [CategoryAttribute("Hourly Modifier Settings"), 
       DescriptionAttribute("Sets the time this set of modifers will start each day")]
-    
       public int StartTime
 		{
 			get { return mStartTime; }
@@ -20,9 +29,18 @@ namespace PAZ_Dispersal
                
 		}
 
-		public HourlyModifier()
-		{
-			
-		}
+		#endregion Properties 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (1) 
+
+		#region Fields (1) 
+
+      private int mStartTime;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
 	}
 }

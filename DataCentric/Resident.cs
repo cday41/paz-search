@@ -8,20 +8,30 @@ namespace PAZ_Dispersal
    /// </summary>
    public class Resident : Animal
    {
-      private ResidentAttributes mMyAttributes;
-     
-      
+		#region Public Members (5) 
+
+		#region Constructors (1) 
+
       public Resident()
       {
          mMyAttributes = null;
          this.IdNum = -1;
       }
-      public override void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)
+
+		#endregion Constructors 
+		#region Properties (1) 
+
+      public ResidentAttributes MyAttributes
       {
-         Check.Require(mMyAttributes != null, "Resident Attributes have not been set");
-         Check.Require(this.IdNum >= 0, "Resident ID was not set");
-         die(ref status);
+         get { return mMyAttributes; }
+         set 
+         {
+            mMyAttributes = value;
+            fw.writeLine("inside resident having attributes set"); }
       }
+
+		#endregion Properties 
+		#region Methods (3) 
 
       public void breed(out int numMales, out int numFemales)
       {
@@ -70,26 +80,11 @@ namespace PAZ_Dispersal
          
       }
 
-      private void die(ref string status)
+      public override void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)
       {
-         try
-         {
-            double rollOfTheDice = 0.0;
-            rollOfTheDice = rn.getUniformRandomNum();
-            fw.writeLine("inside resident " + this.IdNum.ToString() + " time step die with roll of " + rollOfTheDice.ToString());
-            fw.writeLine("my chance of dieing during a time is " + this.MyAttributes.ResidentTimeStepRisk.ToString());
-            if (mMyAttributes.ResidentTimeStepRisk > rollOfTheDice)
-            {
-               status = "dead FROM ROLL OF DICE";
-               fw.writeLine("george dies");
-               this.mTextFileWriter.writeLine("died durning timestep");
-               this.mIsDead = true;
-            }
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
+         Check.Require(mMyAttributes != null, "Resident Attributes have not been set");
+         Check.Require(this.IdNum >= 0, "Resident ID was not set");
+         die(ref status);
       }
 
       public void winterKill()
@@ -104,7 +99,7 @@ namespace PAZ_Dispersal
             if (mMyAttributes.ResidentYearlyRisk > rollOfTheDice)
             {
                fw.writeLine("did not make it through the winter so setting mDead to true");
-               this.mTextFileWriter.writeLine("died as winter kill");
+               this.mTextFileWriter.addLine("died as winter kill");
                this.mIsDead = true;
             }
          }
@@ -117,16 +112,43 @@ namespace PAZ_Dispersal
          }
       }
 
+		#endregion Methods 
 
-      public ResidentAttributes MyAttributes
+		#endregion Public Members 
+
+		#region Non-Public Members (2) 
+
+		#region Fields (1) 
+
+      private ResidentAttributes mMyAttributes;
+
+		#endregion Fields 
+		#region Methods (1) 
+
+      private void die(ref string status)
       {
-         get { return mMyAttributes; }
-         set 
+         try
          {
-            mMyAttributes = value;
-            fw.writeLine("inside resident having attributes set"); }
+            double rollOfTheDice = 0.0;
+            rollOfTheDice = rn.getUniformRandomNum();
+            fw.writeLine("inside resident " + this.IdNum.ToString() + " time step die with roll of " + rollOfTheDice.ToString());
+            fw.writeLine("my chance of dieing during a time is " + this.MyAttributes.ResidentTimeStepRisk.ToString());
+            if (mMyAttributes.ResidentTimeStepRisk > rollOfTheDice)
+            {
+               status = "dead FROM ROLL OF DICE";
+               fw.writeLine("george dies");
+               this.mTextFileWriter.addLine("died durning timestep");
+               this.mIsDead = true;
+            }
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
       }
 
+		#endregion Methods 
 
+		#endregion Non-Public Members 
    }
 }

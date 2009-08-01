@@ -5,29 +5,25 @@ namespace PAZ_Dispersal
    
    public sealed class HourlyModifierCollection : System.Collections.SortedList
    {
-      private int currIndex;
-      private int mNextStartHour;
-      private static HourlyModifierCollection uniqueInstance;
+		#region Public Members (4) 
 
-      private HourlyModifierCollection()
+		#region Properties (1) 
+
+      public int NextStartHour
       {
-         currIndex = 0;
-         
+         get 
+         {
+            HourlyModifier hm;
+            hm = (HourlyModifier)this.GetByIndex(currIndex);
+            mNextStartHour = hm.StartTime;
+            return mNextStartHour; }
+
+         set { mNextStartHour = value; }
       }
-      
-      public static HourlyModifierCollection GetUniqueInstance()
-      {
-         if (uniqueInstance == null) 
-         { 
-            uniqueInstance = new HourlyModifierCollection();
-         }
-         return uniqueInstance;
-      }
-      
-      public void reset()
-      {
-         this.currIndex = 0;
-      }
+
+		#endregion Properties 
+		#region Methods (3) 
+
       public HourlyModifier getNext()
       {
          HourlyModifier hm;
@@ -46,17 +42,44 @@ namespace PAZ_Dispersal
          mNextStartHour = nextHM.StartTime;
          return hm;
       }
-      public int NextStartHour
-      {
-         get 
-         {
-            HourlyModifier hm;
-            hm = (HourlyModifier)this.GetByIndex(currIndex);
-            mNextStartHour = hm.StartTime;
-            return mNextStartHour; }
 
-         set { mNextStartHour = value; }
+      public static HourlyModifierCollection GetUniqueInstance()
+      {
+         if (uniqueInstance == null) 
+         { 
+            uniqueInstance = new HourlyModifierCollection();
+         }
+         return uniqueInstance;
       }
 
+      public void reset()
+      {
+         this.currIndex = 0;
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
+		#region Fields (3) 
+
+      private int currIndex;
+      private int mNextStartHour;
+      private static HourlyModifierCollection uniqueInstance;
+
+		#endregion Fields 
+		#region Constructors (1) 
+
+      private HourlyModifierCollection()
+      {
+         currIndex = 0;
+         
+      }
+
+		#endregion Constructors 
+
+		#endregion Non-Public Members 
    }
 }

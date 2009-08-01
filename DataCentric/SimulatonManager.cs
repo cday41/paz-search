@@ -19,6 +19,29 @@ namespace PAZ_Dispersal
    /// </summary>
    public class SimulatonManager
    {
+		#region Public Members (1) 
+
+		#region Constructors (1) 
+
+      public SimulatonManager()
+      {
+         this.buildLogger();
+         fw.writeLine("making new animal manager ");
+         mAnimalManager = new AnimalManager();
+         fw.writeLine("getting the hourly manager collection");
+         myHourlyModifiers = HourlyModifierCollection.GetUniqueInstance();
+         myDailyModifiers = DailyModiferCollection.GetUniqueInstance();
+         mElapsedTimeBetweenTimeStep = 0;
+     //    this.makeTempMap(@"C:\MapTest");
+         fw.writeLine("back in sim manager with a modifier Count of " + myHourlyModifiers.Count.ToString());
+      }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+
+
       #region private variables
 
       private bool mDoTextOutPut;
@@ -57,18 +80,6 @@ namespace PAZ_Dispersal
       private FileWriter.FileWriter fw;
       private string mErrMessage;
       #endregion
-      public SimulatonManager()
-      {
-         this.buildLogger();
-         fw.writeLine("making new animal manager ");
-         mAnimalManager = new AnimalManager();
-         fw.writeLine("getting the hourly manager collection");
-         myHourlyModifiers = HourlyModifierCollection.GetUniqueInstance();
-         myDailyModifiers = DailyModiferCollection.GetUniqueInstance();
-         mElapsedTimeBetweenTimeStep = 0;
-     //    this.makeTempMap(@"C:\MapTest");
-         fw.writeLine("back in sim manager with a modifier count of " + myHourlyModifiers.Count.ToString());
-      }
 
       #region publicMethods
       
@@ -198,10 +209,10 @@ namespace PAZ_Dispersal
       {
          try
          {
-            fw.writeLine("inside sim manager adding an hourly modifier current count is " + 
+            fw.writeLine("inside sim manager adding an hourly modifier current Count is " + 
                myHourlyModifiers.Count.ToString());
             myHourlyModifiers.Add(inHm.StartTime, inHm);
-            fw.writeLine("now the count is " + myHourlyModifiers.Count.ToString());
+            fw.writeLine("now the Count is " + myHourlyModifiers.Count.ToString());
          
          }
          catch(System.Exception ex)
@@ -218,10 +229,10 @@ namespace PAZ_Dispersal
        * ********************************************************************************/
       public void addDailyModifier(DailyModifier inDM)
       {
-         fw.writeLine("inside the sim manager adding a daily modifier the current count is" + 
+         fw.writeLine("inside the sim manager adding a daily modifier the current Count is" + 
             myDailyModifiers.Count.ToString());
          myDailyModifiers.Add(inDM.StartDate, inDM);
-         fw.writeLine("now the count is " + myDailyModifiers.Count.ToString());
+         fw.writeLine("now the Count is " + myDailyModifiers.Count.ToString());
       }
 
       public bool makeInitialAnimalMaps()
@@ -300,7 +311,6 @@ namespace PAZ_Dispersal
 
       }
       #endregion
-
 
       #region private Methods
 
@@ -462,14 +472,14 @@ namespace PAZ_Dispersal
       }
       
       #endregion
-      
+
       #region getters and setters
 
       internal HourlyModifierCollection GetHourlyModifierCollection()
       {
          fw.writeLine("inside sim manager getting a collecton of Hourly modifiers");
          HourlyModifierCollection myHourlyModifiers = HourlyModifierCollection.GetUniqueInstance();
-         fw.writeLine("done getting the collection current count is " + myHourlyModifiers.Count.ToString());
+         fw.writeLine("done getting the collection current Count is " + myHourlyModifiers.Count.ToString());
          return myHourlyModifiers;
       }
    

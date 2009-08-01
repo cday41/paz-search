@@ -7,21 +7,10 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class HomeRangeCriteria : IHomeRangeCriteria
 	{
-      private double mArea;
-      private double mDistanceMean;
-      private double mDistanceSD;
-      private double mDistanceWeight;
-     
+		#region Public Members (2) 
 
-		public HomeRangeCriteria()
-      {
-         mArea=0;
-         mDistanceMean=0;
-         mDistanceSD=0;
-         mDistanceWeight=0;
-      }
-   
-      
+		#region Constructors (2) 
+
       public HomeRangeCriteria (double inArea,double inDM, double inDSD,double inDW)
       {
          mArea=inArea;
@@ -30,7 +19,32 @@ namespace PAZ_Dispersal
          mDistanceWeight=inDW;
       }
 
-      
+		public HomeRangeCriteria()
+      {
+         mArea=0;
+         mDistanceMean=0;
+         mDistanceSD=0;
+         mDistanceWeight=0;
+      }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
+		#region Fields (4) 
+
+      private double mArea;
+      private double mDistanceMean;
+      private double mDistanceSD;
+      private double mDistanceWeight;
+
+		#endregion Fields 
+
+		#endregion Non-Public Members 
+
+
       #region IHomeRangeCriteria Members
       public double Area
 		{

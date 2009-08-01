@@ -2,7 +2,10 @@ namespace PAZ_Dispersal
 {
    public class SafeForageModifier : Modifier
    {
-      
+		#region Public Members (1) 
+
+		#region Constructors (1) 
+
       public SafeForageModifier()
       {
          base.Name = "SafeForageModifier";
@@ -13,7 +16,10 @@ namespace PAZ_Dispersal
          base.EnergyUsed = 1.0;
          base.PerceptonModifier = 1.0;
       }
-     
+
+		#endregion Constructors 
+
+		#endregion Public Members 
    }
 }
 

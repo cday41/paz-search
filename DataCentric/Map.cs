@@ -12,8 +12,34 @@ namespace PAZ_Dispersal
 {
    public class Map
    {
+		#region Public Members (27) 
 
-		#region Static Methods (3) 
+		#region Methods (27) 
+
+      public void addDay()
+      {
+         fw.writeLine("inside add day for " + this.mySelf.AliasName + " adding a day to the start time");
+         this.BeginTime = this.BeginTime.AddDays(1);
+      }
+
+      public void addField(string name,esriFieldType type)
+      {
+         IFieldEdit fieldEdit;
+         fieldEdit = new FieldClass();
+         fieldEdit.Name_2 = name;
+         fieldEdit.Type_2 = type;//esriFieldType.esriFieldTypeSmallInteger;
+         this.mySelf.AddField(fieldEdit);
+
+
+      }
+
+      public void addYear()
+      {
+         fw.writeLine("inside add year for " + this.mySelf.AliasName + " adding a year to the start time");
+         fw.writeLine("before adding year = " + this.BeginTime.ToShortDateString());
+         this.BeginTime = this.BeginTime.AddYears(1);
+         fw.writeLine("after adding year = " + this.BeginTime.ToShortDateString());
+      }
 
       public static IPolygon BuildHomeRangePolygon(Animal inAnimal, double stretchFactor)
       {
@@ -50,85 +76,6 @@ namespace PAZ_Dispersal
          }
 
          return boundaryPoints as PolygonClass;
-      }
-
-      public static IFeatureClass getMap(string path, string fileName)
-      {
-         IFeatureClass ifc = null;
-         string newPath = path + "\\" + fileName;
-         try
-         {
-            IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
-            IFeatureWorkspace featureWorkspace=null;
-            featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(newPath,0);
-            ifc = featureWorkspace.OpenFeatureClass(fileName);
-         }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return ifc;
-      }
-
-      public static IFeatureClass openFeatureClass(string path,string fileName)
-      {
-         IName name=null;
-         try
-         {
-            // Create the workspace name object
-            IWorkspaceName workspaceName = new WorkspaceNameClass();
-            workspaceName.PathName = path;
-            workspaceName.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapefileWorkspaceFactory";
-
-            // Create the feature class name object
-            IDatasetName datasetName = new FeatureClassNameClass();
-            datasetName.Name          = fileName;
-            datasetName.WorkspaceName = workspaceName;
-
-            // Open the feature class
-            name = (IName) datasetName;
-		
-            
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         // Return FeaureClass
-         return (IFeatureClass) name.Open();
-
-      }
-
-		#endregion Static Methods 
-
-		#region Public Methods (25) 
-
-      public void addDay()
-      {
-         fw.writeLine("inside add day for " + this.mySelf.AliasName + " adding a day to the start time");
-         this.BeginTime = this.BeginTime.AddDays(1);
-      }
-
-      public void addField(string name,esriFieldType type)
-      {
-         IFieldEdit fieldEdit;
-         fieldEdit = new FieldClass();
-         fieldEdit.Name_2 = name;
-         fieldEdit.Type_2 = type;//esriFieldType.esriFieldTypeSmallInteger;
-         this.mySelf.AddField(fieldEdit);
-
-
-      }
-
-      public void addYear()
-      {
-         fw.writeLine("inside add year for " + this.mySelf.AliasName + " adding a year to the start time");
-         fw.writeLine("before adding year = " + this.BeginTime.ToShortDateString());
-         this.BeginTime = this.BeginTime.AddYears(1);
-         fw.writeLine("after adding year = " + this.BeginTime.ToShortDateString());
       }
 
       public void disovleFeatures(string fieldName)
@@ -731,36 +678,43 @@ namespace PAZ_Dispersal
 
       }
 
-      
+      public static IFeatureClass getMap(string path, string fileName)
+      {
+         IFeatureClass ifc = null;
+         string newPath = path + "\\" + fileName;
+         try
+         {
+            IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
+            IFeatureWorkspace featureWorkspace=null;
+            featureWorkspace = (IFeatureWorkspace)wrkSpaceFactory.OpenFromFile(newPath,0);
+            ifc = featureWorkspace.OpenFeatureClass(fileName);
+         }
+         catch(System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return ifc;
+      }
 
       public object getNamedValueForSinglePolygon(int inPolyIndex,string inName)
       {
          this.myObject=null;
-         IFeature feat = null;
          try
          {
             int index;
             //get the polygon we want
             fw.writeLine("inside getNamedValueForSinglePolygon polyindex is " + inPolyIndex.ToString() + " value we want is " + inName);
-            fw.writeLine("my map name is " + this.mySelf.AliasName);
-            feat = this.mySelf.GetFeature(inPolyIndex);
-            index = feat.Fields.FindField(inName);
-            myObject = feat.get_Value(index);
+            myFeature = this.mySelf.GetFeature(inPolyIndex);
+            index=myFeature.Fields.FindField(inName);
+            myObject = myFeature.get_Value(index);
 
          }
-         catch (System.Exception ex)
+         catch(System.Exception ex)
          {
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
             FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         finally
-         {
-            if (feat != null)
-            {
-               System.Runtime.InteropServices.Marshal.ReleaseComObject(feat);
-            }
          }
          
 
@@ -815,6 +769,38 @@ namespace PAZ_Dispersal
       public bool hasFeatures()
       {
          return this.mySelf.FeatureCount(null) > 0;
+      }
+
+      public static IFeatureClass openFeatureClass(string path,string fileName)
+      {
+         IName name=null;
+         try
+         {
+            // Create the workspace name object
+            IWorkspaceName workspaceName = new WorkspaceNameClass();
+            workspaceName.PathName = path;
+            workspaceName.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapefileWorkspaceFactory";
+
+            // Create the feature class name object
+            IDatasetName datasetName = new FeatureClassNameClass();
+            datasetName.Name          = fileName;
+            datasetName.WorkspaceName = workspaceName;
+
+            // Open the feature class
+            name = (IName) datasetName;
+		
+            
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         // Return FeaureClass
+         return (IFeatureClass) name.Open();
+
       }
 
       /********************************************************************************
@@ -975,7 +961,10 @@ namespace PAZ_Dispersal
          fw.writeLine("leaving resetFields");
       }
 
-		#endregion Public Methods 
+		#endregion Methods 
+
+		#endregion Public Members 
+
 
 
       #region privateData

@@ -2,6 +2,10 @@ namespace PAZ_Dispersal
 {
    public class SafeSearchModifier : Modifier
    {
+		#region Public Members (1) 
+
+		#region Constructors (1) 
+
       public SafeSearchModifier()
       {
          base.Name = "SafeSearchModifier";
@@ -12,6 +16,10 @@ namespace PAZ_Dispersal
          base.EnergyUsed = 1.02;
          base.PerceptonModifier = 1.01;
       }
+
+		#endregion Constructors 
+
+		#endregion Public Members 
    }  
 }
 

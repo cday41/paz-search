@@ -11,46 +11,9 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class frmModifierInput : System.Windows.Forms.Form
 	{
-      private Modifier mTempMod;
-      private int mHour;
-      private DateTime mDate;
-      private bool mValue;
-      private System.Windows.Forms.PropertyGrid myGrid;
-      private System.Windows.Forms.Button btnCancel;
-      private System.Windows.Forms.Button btnOK;
-      private System.Windows.Forms.DateTimePicker dtPicker;
-      private System.Windows.Forms.Label lblCaption;
-     
+		#region Public Members (8) 
 
-      public bool Value
-		{
-			get { return mValue; }
-			set { mValue = value; }
-		}
-
-      public int Hour
-		{
-			get { return mHour; }
-			set { mHour = value; }
-		}
-
-      public DateTime Date
-		{
-			get { return mDate; }
-			set { mDate = value; }
-		}
-
-      public Modifier TempMod
-		{
-			get { return mTempMod; }
-			set { mTempMod = value; 
-               myGrid.SelectedObject = mTempMod;}
-		}
-
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+		#region Constructors (1) 
 
 		public frmModifierInput()
 		{
@@ -63,6 +26,117 @@ namespace PAZ_Dispersal
 			// TODO: Add any constructor code after InitializeComponent call
 			//
 		}
+
+		#endregion Constructors 
+		#region Properties (4) 
+
+      public DateTime Date
+		{
+			get { return mDate; }
+			set { mDate = value; }
+		}
+
+      public int Hour
+		{
+			get { return mHour; }
+			set { mHour = value; }
+		}
+
+      public Modifier TempMod
+		{
+			get { return mTempMod; }
+			set { mTempMod = value; 
+               myGrid.SelectedObject = mTempMod;}
+		}
+
+      public bool Value
+		{
+			get { return mValue; }
+			set { mValue = value; }
+		}
+
+		#endregion Properties 
+		#region Methods (3) 
+
+      public void setGender(string genderType)
+      {
+         if (genderType == "Male")
+         {
+            this.Text = "Modifiers for the male of the species";
+            this.lblCaption.Text = "Male modifers";
+            
+         }
+         else
+         {
+            this.Text = "Modifiers for the female of the species";
+            this.lblCaption.Text = "Female modifers";
+         }
+            this.lblCaption.Visible = true;
+      }
+
+      public void setHour()
+      {
+         this.dtPicker.Visible = true;
+         this.dtPicker.ShowUpDown = true;
+         this.dtPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+         this.Text = "Set the Hourly Modifiers";
+      }
+
+      public void setText(string inText)
+      {
+         this.Text = "Modifiers for " + inText;
+         this.lblCaption.Text = inText;
+         this.lblCaption.Visible = true;
+
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (14) 
+
+		#region Fields (10) 
+
+      private System.Windows.Forms.Button btnCancel;
+      private System.Windows.Forms.Button btnOK;
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.Container components = null;
+      private System.Windows.Forms.DateTimePicker dtPicker;
+      private System.Windows.Forms.Label lblCaption;
+      private DateTime mDate;
+      private int mHour;
+      private Modifier mTempMod;
+      private bool mValue;
+      private System.Windows.Forms.PropertyGrid myGrid;
+
+		#endregion Fields 
+		#region Methods (4) 
+
+      private void btnCancel_Click(object sender, System.EventArgs e)
+      {
+         mTempMod = null;
+         this.Close();
+        
+      }
+
+      private void btnOK_Click(object sender, System.EventArgs e)
+      {
+         if(this.dtPicker.Format == DateTimePickerFormat.Time)
+         {
+            this.mHour = this.dtPicker.Value.Hour;
+         }
+         else
+         {
+            this.mDate = this.dtPicker.Value.Date;
+         }
+            this.mValue = true;
+            this.Visible = false;
+
+        
+      }
 
 		/// <summary>
 		/// Clean up any resources being used.
@@ -78,6 +152,16 @@ namespace PAZ_Dispersal
 			}
 			base.Dispose( disposing );
 		}
+
+      private void frmModifierInput_Load(object sender, System.EventArgs e)
+      {
+         
+      }
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+
 
 		#region Windows Form Designer generated code
 		/// <summary>
@@ -163,69 +247,5 @@ namespace PAZ_Dispersal
 
 		}
 		#endregion
-
-      private void frmModifierInput_Load(object sender, System.EventArgs e)
-      {
-         
-      }
-
-      public void setHour()
-      {
-         this.dtPicker.Visible = true;
-         this.dtPicker.ShowUpDown = true;
-         this.dtPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-         this.Text = "Set the Hourly Modifiers";
-      }
-      public void setGender(string genderType)
-      {
-         if (genderType == "Male")
-         {
-            this.Text = "Modifiers for the male of the species";
-            this.lblCaption.Text = "Male modifers";
-            
-         }
-         else
-         {
-            this.Text = "Modifiers for the female of the species";
-            this.lblCaption.Text = "Female modifers";
-         }
-            this.lblCaption.Visible = true;
-      }
-
-      public void setText(string inText)
-      {
-         this.Text = "Modifiers for " + inText;
-         this.lblCaption.Text = inText;
-         this.lblCaption.Visible = true;
-
-      }
-
-      
-     
-      
-      private void btnCancel_Click(object sender, System.EventArgs e)
-      {
-         mTempMod = null;
-         this.Close();
-        
-      }
-
-      private void btnOK_Click(object sender, System.EventArgs e)
-      {
-         if(this.dtPicker.Format == DateTimePickerFormat.Time)
-         {
-            this.mHour = this.dtPicker.Value.Hour;
-         }
-         else
-         {
-            this.mDate = this.dtPicker.Value.Date;
-         }
-            this.mValue = true;
-            this.Visible = false;
-
-        
-      }
-
-      
    }
 }

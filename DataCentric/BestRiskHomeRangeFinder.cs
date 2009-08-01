@@ -8,10 +8,17 @@ namespace PAZ_Dispersal
 	/// </summary>
 	public class BestRiskHomeRangeFinder :HomeRangeFinder
 	{
-      static BestRiskHomeRangeFinder uniqueInstance;
+		#region Public Members (3) 
+
+		#region Constructors (1) 
+
 		public BestRiskHomeRangeFinder()
 		{
 		}
+
+		#endregion Constructors 
+		#region Methods (2) 
+
       public static BestRiskHomeRangeFinder getInstance()
       {
          if (uniqueInstance==null)
@@ -20,57 +27,82 @@ namespace PAZ_Dispersal
          }
          return uniqueInstance;
       }
-      #region IHomeRangeFinder Members
-//      public override bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
-//      {
-//         bool success = false;
-//         int numSuitableSites = 0;
-//         try
-//         {
-//            fw.writeLine("inside setHomeRangeCenter for BestRiskHomeRangeFinder");
-         
-//            fw.writeLine("calling get setSutitableSites");
-//            numSuitableSites=setSutitableSites(inAnimal, inAnmialMemoryMap);
-//            switch (numSuitableSites) 
-//            {  
-//                  //nothing found so out of here
-//               case 0: 
-//                  fw.writeLine("no spots were found");
-//                  break;
-//                  //only one found so that is easy
-//               case 1: 
-//                  fw.writeLine("found only one so that is it");
-//                  success = true;
-//                  EligibleHomeSite ehs;
-//                  IPoint p;
-//                  p = new PointClass();
-//                  ehs = inAnimal.MySites.getFirstSuitableSite();
-//                  p.X = ehs.X;
-//                  p.Y = ehs.Y;
-//                  inAnimal.HomeRangeCenter = p as PointClass;
-//                  break;
-//                  //multiple sites are eligible so go get the needed data
-//               default:
-//                  fw.writeLine("multiple eligible spots where found so now fill eligble spots with ranking criteria");
-//                  base.setDistance(inAnimal);
-//                  inAnimal.MySites.setRiskRank(inAnimal.DistanceWeight);
-//                  inAnimal.HomeRangeCenter = base.getHomeRangeCenter(inAnimal.MySites) as PointClass;
-//                  success = true;
-//                  break;
-//            }
-//         }
-//         catch(System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//         fw.writeLine("leaving setHomeRangeCenter with a value of " + success.ToString());
-//         return success;
-         
-//      }
-            
-      #endregion
+
+      public override bool setHomeRangeCenter(Animal inAnimal, string inFileName)
+      {
+         bool foundHomeRange = true;
+
+         try
+         {
+            if (base.FindHomeRange(inAnimal, inFileName))
+            {
+               base.setDistance(inAnimal.Location);
+               this.setRiskRank(inAnimal.DistanceWeight);
+               inAnimal.HomeRangeCenter = base.getHomeRangeCenter() as PointClass;
+            }
+            else
+            {
+               foundHomeRange = false;
+            }
+         }
+         catch (Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            foundHomeRange = false;
+         }
+         return foundHomeRange;
+
+
+      }
+
+		#endregion Methods 
+
+		#endregion Public Members 
+
+		#region Non-Public Members (2) 
+
+		#region Fields (1) 
+
+      static BestRiskHomeRangeFinder uniqueInstance;
+
+		#endregion Fields 
+		#region Methods (1) 
+
+      private void setRiskRank(double distanceFactor)
+      {
+         double d = 0;
+         double adjustDistance = 0;
+         fw.writeLine("inside setRiskRank with a distance factor of " + distanceFactor.ToString());
+
+         try
+         {
+            foreach (EligibleHomeSite ehs in base.siteList)
+            {
+               if (ehs.SuitableSite)
+               {
+                  adjustDistance = Math.Pow(ehs.DistanceFromCurrLocation, (1 / distanceFactor));
+                  fw.writeLine(ehs.X.ToString() + " " + ehs.Y.ToString() + " site is eligible");
+                  fw.writeLine("the distance from current location is " + ehs.DistanceFromCurrLocation.ToString());
+                  fw.writeLine("so adjusted distace value is " + adjustDistance.ToString());
+                  fw.writeLine("the risk value is " + ehs.Risk.ToString());
+
+                  ehs.Rank = (1 - ehs.Risk) / adjustDistance;
+                  d += ehs.Rank;
+               }
+            }
+            base.SetRanges(d);
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
 	}
 }
