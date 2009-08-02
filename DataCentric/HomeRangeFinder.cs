@@ -692,7 +692,7 @@ namespace PAZ_Dispersal
 
       protected bool setSuitableSites(Animal inA, string inFileName)
       {
-         bool result = true;
+         bool result;
 
          try
          {
@@ -700,7 +700,7 @@ namespace PAZ_Dispersal
             fw.writeLine("inFileName is " + inFileName);
             fw.writeLine("calling datamanipulator create step map");
             //this will create a point map in the animals home dir with a name of steps.shp
-            this.myDataManipulator.CreateStepMap(inFileName, inA.MyVisitedSites.getPoints());
+            result = this.myDataManipulator.CreateStepMap(inFileName, inA.MyVisitedSites.getPoints());
          }
          catch (Exception ex)
          {

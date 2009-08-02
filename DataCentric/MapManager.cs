@@ -1192,10 +1192,11 @@ namespace PAZ_Dispersal
                {
                   case "Social":
                      fw.writeLine("inside case under Social");
-                     fieldNames = new string[3];
+                     fieldNames = new string[4];
                      fieldNames[0] = "Suitabilit";
                      fieldNames[1] = "OCCUP_MALE";
                      fieldNames[2] = "OCCUP_FEMA";
+                     fieldNames[3] = "Delete";
                      success = validateNFieldPolylMap(fileNames, fieldNames);
                      if (success)
                      {

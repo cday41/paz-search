@@ -582,22 +582,25 @@ namespace PAZ_Dispersal
             tempLine.FromPoint = inA.Location;
             fw.writeLine("from point is X = " + inA.Location.X.ToString() + " Y = " + inA.Location.Y.ToString());
             fw.writeLine("now going to loop through and collect the distances.");
-            for (int i = 0; i < inA.MyVisitedSites.SiteCount; i++)
+            for (int i = 0; i < this.siteList.Count; i++)
             {
-               if (inA.MyVisitedSites.getSite(i).SuitableSite)
-               {
-                  p.X = inA.MyVisitedSites.getSite(i).X;
-                  p.Y = inA.MyVisitedSites.getSite(i).Y;
+             
+              {
+                  p.X = this.siteList[i].X;
+                  p.Y = this.siteList[i].Y;
                   tempLine.ToPoint = p;
                   //BC Saturday, February 16, 2008 moved value from tempLine.Length to lineLength because we can not modify
                   // tempLine.Length (readOnly property) and was worried about divide by zero issue.
                   lineLength = tempLine.Length;
                   fw.writeLine("to  point is X = " + tempLine.ToPoint.X.ToString() + " Y = " + tempLine.ToPoint.Y.ToString());
                   if (lineLength < 1) lineLength = 1;
-                  inA.MyVisitedSites.getSite(i).DistanceFromCurrLocation = lineLength;
+                  this.siteList[i].DistanceFromCurrLocation = lineLength;
                   fw.writeLine("the distance between them is " + lineLength);
                }
             }
+
+            EligibleHomeSite.SortOrder = EligibleHomeSite.SortMethod.Dist;
+            this.siteList.Sort();
          }
          catch (System.Exception ex)
          {
@@ -651,20 +654,21 @@ namespace PAZ_Dispersal
             fw.writeLine("inside setSuitablePolygons");
             string tempFileName = System.IO.Path.GetDirectoryName(inAnimalMemoryMap) + homeRangePolygonFileName;
             IFeatureClass fc = myDataManipulator.GetSuitablePolygons(inAnimalMemoryMap, inAnimalSex, tempFileName);
+            IFeatureClass fc2 = myDataManipulator.DissolveBySexAndReturn(fc, tempFileName, inAnimalSex);
             // if there are not any suitable polygons the feature class will be null 
             fw.writeLine("ok check if there were any polygons that were suitable");
-            if (fc != null)
+            if (fc2 != null)
             {
-               fw.writeLine("must have been, now add the delete field so we can measure the area and delete the small ones");
-               this.myDataManipulator.AddField("TEXT", "Delete", null, tempFileName);
+               //fw.writeLine("must have been, now add the delete field so we can measure the area and delete the small ones");
+               //this.myDataManipulator.AddField("TEXT", "Delete", null, tempFileName);
                fw.writeLine("now check each one to see if it is bigger then " + minAreaNeeded.ToString());
-               this.MarkPollygonsTooSmall(minAreaNeeded, fc);
+               this.MarkPollygonsTooSmall(minAreaNeeded, fc2);
                fw.writeLine("now call delete too small");
-               this.DeleteTooSmallPolygons(fc);
+               this.DeleteTooSmallPolygons(fc2);
                fw.writeLine("now double check to see if there were any left");
                //if there are no rows then there are not any suitable areas yet
-               fw.writeLine("after delete to small there are " + this.myDataManipulator.GetRowCount(tempFileName).ToString());
-               if (this.myDataManipulator.GetRowCount(tempFileName) <= 0)
+               fw.writeLine("after delete to small there are " + this.myDataManipulator.GetRowCount(fc2).ToString());
+               if (this.myDataManipulator.GetRowCount(fc2) <= 0)
                   result = false;
             }
             else

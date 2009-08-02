@@ -127,7 +127,8 @@ namespace PAZ_Dispersal
             IFeatureClass fc = null;
             try
             {
-
+                fw.writeLine("inside CreateEmptyFeatureClass the file to make is " + inFileName);
+                fw.writeLine("it will be a " + featureType);
                 string path;
                 string fileName;
                 this.GetPathAndFileName(inFileName, out path, out fileName);
@@ -142,36 +143,33 @@ namespace PAZ_Dispersal
                 System.Windows.Forms.MessageBox.Show(ex.Message);
                 FileWriter.FileWriter.WriteErrorFile(ex);
             }
+            fw.writeLine("Leaving CreateEmptyFeatureClass");
             return fc;
         }
 
-        //public void DeleteAllFeatures(string inPointFileName)
-        //{
-        //   IFeatureClass fc;
-        //   IQueryFilter qf;
-        //   GetFeatureClassFromFileName(inPointFileName, out fc, out qf);
-        //   IFeatureCursor curr = fc.Update(null, false);
-        //   IFeature feat = curr.NextFeature();
-        //   while (feat != null)
-        //   {
-        //      feat.Delete();
-        //      feat = curr.NextFeature();
-        //   }
-        //   curr.Flush();
-
-        //   System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
-        //   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-        //   System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-
-        //}
-        public void CreateStepMap(string inFilePath, List<IPoint> inSteps)
+        public bool CreateStepMap(string inFilePath, List<IPoint> inSteps)
         {
+            bool didCreateMap = true;
+            fw.writeLine("inside CreateStepMap we have " + inSteps.Count.ToString() + " steps to create");
             string path;
             string fileName;
             this.GetPathAndFileName(inFilePath, out path, out fileName);
+            fw.writeLine("going to create the empty feature class");
             IFeatureClass fc = this.CreateEmptyFeatureClass(path + "\\Step.shp", "point");
-            this.AddPointsToEmptyFeatureClass(fc, inSteps);
-            //this.makeHomeRangeSelectionMap(path + "\\" + "Step.shp", inFilePath);
+            if (fc != null)
+            {
+                fw.writeLine("that seemed to work at least the feature class is not null");
+                fw.writeLine("so now add the points");
+                this.AddPointsToEmptyFeatureClass(fc, inSteps);
+                fw.writeLine("leaving CreateStepMap");
+            }
+            else
+            {
+                fw.writeLine("fc must have been null");
+                didCreateMap = false;
+            }
+            fw.writeLine("leaving CreateStepMap with a value of " + didCreateMap.ToString());
+            return didCreateMap;
         }
 
         public void DeleteAllFeatures(string inFileName)
@@ -469,6 +467,7 @@ namespace PAZ_Dispersal
 
         private void AddPointsToEmptyFeatureClass(IFeatureClass inFC, List<IPoint> inPoints)
         {
+            fw.writeLine("inside AddPointsToEmptyFeatureClass");
             IFeature feature;
             foreach (IPoint p in inPoints)
             {
@@ -477,6 +476,7 @@ namespace PAZ_Dispersal
                 feature.Store();
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(feature);
             }
+            fw.writeLine("leaving AddPointsToEmptyFeatureClass");
         }
 
         private void AddPolyGon(IFeatureClass inFC, IPolygon inPoly)
@@ -620,9 +620,9 @@ namespace PAZ_Dispersal
         }
 
         // Function for returning the tool messages.
-        private void ReturnMessages(Geoprocessor gp)
+        private bool ReturnMessages(Geoprocessor gp)
         {
-            bool hasError = false;
+            bool noErrors = true;
             try
             {
                 if (gp.MessageCount > 0)
@@ -632,13 +632,14 @@ namespace PAZ_Dispersal
                         string s = gp.GetMessage(Count);
                         if (s.Contains("ERROR"))
                         {
-                            hasError = true;
+                            noErrors = false;
                         }
                         this.fw.writeLine(s);
-                        if (hasError)
+                        if (! noErrors)
                         {
-                            hasError = false;
+#if DEBUG
                             System.Windows.Forms.MessageBox.Show("Error in DataManipulator");
+#endif
                         }
 
                     }
@@ -648,6 +649,7 @@ namespace PAZ_Dispersal
             {
                 FileWriter.FileWriter.WriteErrorFile(ex);
             }
+            return noErrors;
 
         }
 
@@ -726,7 +728,7 @@ namespace PAZ_Dispersal
                 IGPUtilities util = new GPUtilitiesClass();
                 util.DecodeFeatureLayer(result.GetOutput(0), out fc, out qf);
                 ReturnMessages(myProcessor);
-                // myProcessor.RemoveToolbox(toolbox);
+                
             }
             catch (Exception ex)
             {

@@ -48,8 +48,9 @@ namespace PAZ_Dispersal
             fw.writeLine("now get all the good polygons from the clip to meassure the area");
             IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex);
             IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.availablePolygonsFileName, inAnimal.Sex);
-            if (fc != null)
+            if (fc2 != null)
             {
+               System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
                minArea = this.getArea(fc2);
                fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeArea.ToString());
                MapManager.RemoveFiles(homeRangeFileName);
@@ -64,6 +65,7 @@ namespace PAZ_Dispersal
                }
                else
                {
+                   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
                }
                fw.writeLine("leaving with a file name of " + path + availablePolygonsFileName);
                returnVal = availablePolygonsFileName;
@@ -75,6 +77,8 @@ namespace PAZ_Dispersal
          }
 
          System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
+         
+         
 
          fw.writeLine("leaving with a file name of " + returnVal);
          return returnVal;
