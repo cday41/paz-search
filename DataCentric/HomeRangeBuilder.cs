@@ -45,9 +45,9 @@ namespace PAZ_Dispersal
             this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
             fw.writeLine("now clip it against the current social map");
             this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
-            fw.writeLine("now get all the good polygons from the clip to meassure the area");
-            IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex);
-            IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.availablePolygonsFileName, inAnimal.Sex);
+            fw.writeLine("now get all the good polygons from the clip to meassure the area");//HACK
+            IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
+            IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.dissolveHomeRangePolygon, inAnimal.Sex);
             if (fc2 != null)
             {
                System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
@@ -58,7 +58,7 @@ namespace PAZ_Dispersal
                if (minArea < inAnimal.HomeRangeArea)
                {
                   stretchFactor += .1;
-                  MapManager.RemoveFiles(availablePolygonsFileName);
+                  //MapManager.RemoveFiles(availablePolygonsFileName);
                   fc2 = null;
                   //MapManager.RemoveFiles(clipPath);
                   fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
@@ -95,6 +95,7 @@ namespace PAZ_Dispersal
       string availablePolygonsFileName;
       string clipPath;
       string dissolveHomeRangePolygon;
+      string dissolveBySexMap;
       FileWriter.FileWriter fw;
       string homeRangeFileName;
       DataManipulator myDataManipulator;
@@ -181,6 +182,7 @@ namespace PAZ_Dispersal
          clipPath = path + "\\clipHomeRange" + multiplier + ".shp";
          availablePolygonsFileName = path + "\\availablePolygons" + multiplier + ".shp";
          dissolveHomeRangePolygon = path + "\\dissolveHomeRangePolygon" + multiplier + ".shp";
+         dissolveBySexMap = path + "\\dissolveBySexMap" + multiplier + ".shp";
 
 
       }

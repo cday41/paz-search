@@ -12,3 +12,4 @@ HomeRangeLogPath c:\homerange.log
 MapsLogPath c:\Maps.log
 HomeRangeTriggerPath c:\HomeRangeTrigger.log
 HomeSiteLogPath c:\HomeSites.log
+DataManipLog c:\DataManip.log

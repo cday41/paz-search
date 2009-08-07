@@ -32,18 +32,45 @@ namespace PAZ_Dispersal
             myProcessor = new Geoprocessor();
             myProcessor.LogHistory = true;
             myProcessor.TemporaryMapLayers = true;
-            fw = FileWriter.FileWriter.getDataLogger(@"C:\DataLogger.log");
             tempLayer1 = "\\layer1";
             tempLayer2 = "\\layer2";
             selectLayer = "\\select_lyr";
             pointLayer = "\\point_lyr";
             dissolveLayer = "\\dissolve_lyr";
             sb = new StringBuilder();
+            this.buildLogger();
         }
 
         #endregion Constructors
         #region Methods (23)
+        private void buildLogger()
+        {
+           string s;
+           StreamReader sr;
+           bool foundPath = false;
 
+           string st = System.Windows.Forms.Application.StartupPath;
+           if (File.Exists(st + @"\logFile.dat"))
+           {
+              sr = new StreamReader(st + @"\logFile.dat");
+              while (sr.Peek() > -1)
+              {
+                 s = sr.ReadLine();
+                 if (s.IndexOf("DataManipLog") == 0)
+                 {
+                    fw = FileWriter.FileWriter.getDataLogger(s.Substring(s.IndexOf(" ")));
+                    foundPath = true;
+                    break;
+                 }
+              }
+              sr.Close();
+
+           }
+           if (!foundPath)
+           {
+              fw = new FileWriter.EmptyFileWriter();
+           }
+        }//end of buildLogger
         public void AddField(string dataType, string fieldName, object value, string layerToAddFieldTo)
         {
         
@@ -292,9 +319,14 @@ namespace PAZ_Dispersal
 
         public IFeatureClass GetSuitablePolygons(string inFileName, string sex, string outFileName)
         {
-            string sqlWhereClause = this.buildSexBasedWhereClause(sex);
-            this.MakeLayer(inFileName, this.selectLayer);
-            return this.SelectByValue(this.selectLayer, sqlWhereClause);
+           IFeatureClass fc = null;
+           string sqlWhereClause = this.buildSexBasedWhereClause(sex);
+           this.MakeLayer(inFileName, this.selectLayer);
+           this.SelectByValue(this.selectLayer, sqlWhereClause);
+           this.CopyFeaturesToFeatureClass(this.selectLayer, outFileName);
+           fc = this.GetFeatureClass(outFileName);
+
+           return fc;
         }
 
         public IFeatureClass GetSuitablePolygons(string inFileName, string sex)
@@ -502,7 +534,7 @@ namespace PAZ_Dispersal
         private string buildSexBasedWhereClause(string inSex)
         {
             sb.Remove(0, sb.Length);
-            sb.Append("SUITABILIT = 'Suitable'");
+            sb.Append("SUITABILIT = 'Suitable' ");
             if (inSex.Equals("male", StringComparison.CurrentCultureIgnoreCase))
                 sb.Append("And OCCUP_MALE = 'none'");
             else
@@ -637,8 +669,9 @@ namespace PAZ_Dispersal
                         this.fw.writeLine(s);
                         if (! noErrors)
                         {
+                           noErrors = true;
 #if DEBUG
-                            System.Windows.Forms.MessageBox.Show("Error in DataManipulator");
+                          //   System.Windows.Forms.MessageBox.Show("Error in DataManipulator");
 #endif
                         }
 

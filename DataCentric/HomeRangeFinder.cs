@@ -41,6 +41,7 @@ namespace PAZ_Dispersal
       const string homeRangePolygonFileName = "\\SuitablePolygons.shp";
       const string myAvailableAreaFileExtension = ".shp";
       const string myAvailableAreaFileName = @"\tempAvailable";
+      const string myDissovleFileName = @"\tempDissolve.shp";
       protected IFeatureClass myAvailableAreas;
       private DataManipulator myDataManipulator;
       const string myGoodStepsPointFileName = @"\GoodSteps.shp";
@@ -653,8 +654,9 @@ namespace PAZ_Dispersal
          {
             fw.writeLine("inside setSuitablePolygons");
             string tempFileName = System.IO.Path.GetDirectoryName(inAnimalMemoryMap) + homeRangePolygonFileName;
+            string tempFileName2 = System.IO.Path.GetDirectoryName(inAnimalMemoryMap) + myDissovleFileName;
             IFeatureClass fc = myDataManipulator.GetSuitablePolygons(inAnimalMemoryMap, inAnimalSex, tempFileName);
-            IFeatureClass fc2 = myDataManipulator.DissolveBySexAndReturn(fc, tempFileName, inAnimalSex);
+            IFeatureClass fc2 = myDataManipulator.DissolveBySexAndReturn(fc, tempFileName2, inAnimalSex);
             // if there are not any suitable polygons the feature class will be null 
             fw.writeLine("ok check if there were any polygons that were suitable");
             if (fc2 != null)
