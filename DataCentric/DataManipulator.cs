@@ -247,15 +247,21 @@ namespace PAZ_Dispersal
 
         public IFeatureClass DissolveBySexAndReturn(IFeatureClass inFE, string outFile, string sex)
         {
+           IFeatureClass fc = null;
             fw.writeLine("inside DissolveBySexAndReturn for a " + sex);
             fw.writeLine("the out put will be " + outFile);
             string FieldNames = this.buildSexBasedDissolveClause(sex);
             fw.writeLine("the dissolve clause is " + FieldNames);
             this.DissolveFeatures(inFE, outFile, FieldNames);
-            string path;
-            string fileName;
-            this.GetPathAndFileName(outFile, out path, out fileName);
-            return this.GetFeatureClass(path, fileName);
+            if (this.GetRowCount(outFile) > 0)
+            {
+               string path;
+               string fileName;
+               this.GetPathAndFileName(outFile, out path, out fileName);
+               fc = GetFeatureClass(path, fileName);
+            }
+            return fc;
+
         }
 
         public IFeatureClass GetFeatureClass(string inFileName)

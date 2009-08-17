@@ -45,3 +45,10 @@ C:\DataCentric\obj\Debug\PAZ_Dispersal.YearlyForm.resources
 C:\DataCentric\obj\Debug\DataCentric.csproj.GenerateResource.Cache
 C:\DataCentric\obj\Debug\DataCentric.exe
 C:\DataCentric\obj\Debug\DataCentric.pdb
+C:\DataCentric\bin\Debug\MathNet.Numerics.xml
+C:\DataCentric\bin\Debug\txtBoxArray.pdb
+C:\DataCentric\bin\Debug\DesignbyContract1.pdb
+C:\DataCentric\bin\Debug\DesignbyContract1.xml
+C:\DataCentric\bin\Debug\FileWriter.pdb
+C:\DataCentric\bin\Debug\inputBox.pdb
+C:\DataCentric\bin\Debug\bobResize.pdb
