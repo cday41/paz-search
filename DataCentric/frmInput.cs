@@ -51,6 +51,13 @@ namespace PAZ_Dispersal
          //trash out any former error files
          if (System.IO.File.Exists(@"C:\DispersalError.log"))
             System.IO.File.Delete(@"C:\DispersalError.log");
+
+         if(! IsLicensed())
+         {
+            MessageBox.Show("This application is not licensed with ARC GIS." +
+               System.Environment.NewLine + "It will now close");
+            this.Close();
+         }
         
          this.buildLogger();
          this.tabControl.Width = this.Width;
@@ -1702,7 +1709,6 @@ namespace PAZ_Dispersal
          this.Name = "frmInput";
          this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
          this.Text = "S.E.A.R.C.H.";
-         this.Load += new System.EventHandler(this.frmInput_Load);
          this.tabControl.ResumeLayout(false);
          this.tabTime.ResumeLayout(false);
          this.groupBox13.ResumeLayout(false);
@@ -2902,8 +2908,11 @@ namespace PAZ_Dispersal
          this.Close();
       }
 
-      private void frmInput_Load(object sender, EventArgs e)
+    
+
+      private bool IsLicensed()
       {
+         bool hasLicense = true;
          try
          {
             if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeEngine) != esriLicenseStatus.esriLicenseCheckedOut)
@@ -2914,8 +2923,7 @@ namespace PAZ_Dispersal
                   {
                      if (CheckOutLicenses(esriLicenseProductCode.esriLicenseProductCodeArcInfo) != esriLicenseStatus.esriLicenseCheckedOut)
                      {
-                        System.Windows.Forms.MessageBox.Show("The initialization failed. This application cannot run!");
-                        this.Close();
+                        hasLicense = false;
                      }
                   }
                }
@@ -2923,9 +2931,10 @@ namespace PAZ_Dispersal
          }
          catch(System.Exception ex)
          {
+            hasLicense = false;
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
-         
+         return hasLicense;
       }
       private esriLicenseStatus CheckOutLicenses(esriLicenseProductCode productCode) 
       {
