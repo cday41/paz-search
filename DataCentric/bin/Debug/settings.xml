@@ -1,7 +1,0 @@
-<PartCoverSettings>
-  <Target>D:\Dispersal\Code\DataCentric\bin\Debug\DataCentric.exe</Target>
-  <TargetWorkDir>D:\Dispersal\Code\DataCentric\bin\Debug</TargetWorkDir>
-  <TargetArgs>
-  </TargetArgs>
-  <LogLevel>16</LogLevel>
-</PartCoverSettings>
