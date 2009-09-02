@@ -278,7 +278,13 @@ namespace SEARCH_Console
             if (didReadFile)
             {
                result = nav.Select("//Tab[@name=\"Movement\"]");
-               didReadFile = this.LoadModifiers(result);
+               if (this.LoadModifiers(result))
+               {
+                  Console.WriteLine("Time parameters processed");
+                  Console.WriteLine("Now process the maps");
+                  this.mMapManager = MapManager.GetUniqueInstance();
+                  this.mMapManager.ReadXML(nav);
+               }
             }
             else
             { //Error Handle TODO

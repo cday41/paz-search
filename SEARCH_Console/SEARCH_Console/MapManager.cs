@@ -1073,6 +1073,30 @@ namespace SEARCH_Console
          }
       }
 
+      public void ReadXML(System.Xml.XPath.XPathNavigator nav)
+      {
+
+         System.Xml.XPath.XPathNodeIterator result = nav.Select("//Tab[@name=\"Map\"]");
+         XPathNodeIterator kids = result.Current.Select("//Directory");
+         kids.MoveNext();
+         this.mySocialMaps.MyPath = kids.Current.Value;
+         this.validateMap("Social", kids.Current.Value);
+
+         kids.MoveNext();
+         this.myFoodMaps.MyPath = kids.Current.Value;
+         this.validateMap("Food", kids.Current.Value);
+
+         kids.MoveNext();
+         this.myPredationMaps.MyPath = kids.Current.Value;
+         this.validateMap("Predation", kids.Current.Value);
+         kids.MoveNext();
+         this.myMoveMaps.MyPath = kids.Current.Value;
+         this.validateMap("Move", kids.Current.Value);
+         kids.MoveNext();
+         this.myDispersalMaps.MyPath = kids.Current.Value;
+         this.validateMap("Dispersal", kids.Current.Value);
+      }
+   
       //      private void removeUnionMaps()
       //      {
       //         string []fileNames;
@@ -1168,6 +1192,7 @@ namespace SEARCH_Console
       public bool validateMap(string inMapName, string inMapDir)
       {
          bool success;
+         Console.WriteLine("Going to validate the " + inMapName);
          fw.writeLine("inside validate Map for Map Manager ");
          fw.writeLine("the map name is " + inMapName);
          fw.writeLine("the dir is " + inMapDir);
@@ -1253,6 +1278,7 @@ namespace SEARCH_Console
                      }
                      break;
                   default:
+                     Console.WriteLine("Invalid MapType " + inMapName); 
                      fw.writeLine("bombed with invalid name ");
                      System.Windows.Forms.MessageBox.Show("Not a valid map type" + inMapName);
                      break;
@@ -1261,6 +1287,7 @@ namespace SEARCH_Console
             }
             else // no files in dir
             {
+               Console.WriteLine("did not find any shape files in " + inMapDir); 
                fw.writeLine("did not find any shape files");
                this.errNumber = (int)ERR.NO_FILES_FOUND_IN_DIRECTORY;
                this.errFileName = inMapDir;
@@ -1274,7 +1301,8 @@ namespace SEARCH_Console
             success = false;
          }
 
-         fw.writeLine("leaving validateMap with a value of " + success);
+         Console.WriteLine("leaving validateMap with a value of " + success);
+         Console.WriteLine("");
          return success;
       }
 
