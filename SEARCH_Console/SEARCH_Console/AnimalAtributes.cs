@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Xml.XPath;
 using DesignByContract;
+using System.Collections.Generic;
 namespace SEARCH_Console
 {
    /// <summary>
@@ -75,6 +77,69 @@ namespace SEARCH_Console
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
 
+      }
+
+      public void ReadXmlFile(XPathNodeIterator inNodeIterator)
+      {
+         XPathNodeIterator temp = inNodeIterator.Current.Select("//EnergyParameters/InitialEnergy");
+         temp.MoveNext();
+         this.InitialEnergy = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNodeIterator.Current.Select("//EnergyParameters/MaxEnergy");
+         temp.MoveNext();
+         this.MaxEnergy = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNodeIterator.Current.Select("//EnergyParameters/MinEnergy");
+         temp.MoveNext();
+         this.MinEnergy_Survive = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNodeIterator.Current.Select("//TemporalParameters/WakeUpTime");
+         temp.MoveNext();
+         this.mWakeUpTime = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNodeIterator.Current.Select("//ActivityDurations/*");
+         loadActivityDurations(temp);
+         temp = inNodeIterator.Current.Select("//BehavioralTriggers/txtRiskyToSafe");
+         temp.MoveNext();
+         this.mRiskySafeTrigger = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNodeIterator.Current.Select("//BehavioralTriggers/txtSafeToRisky");
+         temp.MoveNext();
+         this.mSafeRiskyTrigger = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNodeIterator.Current.Select("//BehavioralTriggers/txtSearchForageTrigger");
+         temp.MoveNext();
+         this.mForageSearchTrigger = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNodeIterator.Current.Select("//txtPerception");
+         temp.MoveNext();
+         this.mPerceptionDistance = System.Convert.ToDouble(temp.Current.Value);
+
+      }
+
+      private void loadActivityDurations(XPathNodeIterator nit)
+      {
+         
+         string mean;
+         string stdDev;
+         
+         while (nit.MoveNext())
+         {  Duration d = new Duration();
+            d.Type = nit.Current.GetAttribute("Type", "");
+            nit.Current.MoveToFirstChild();
+            
+            d.MeanAmt = System.Convert.ToDouble(nit.Current.Value);
+            nit.Current.MoveToNext();
+            d.StandardDeviation =  System.Convert.ToDouble(nit.Current.Value);
+            nit.Current.MoveToParent();
+            
+            
+            if (d.Type.Equals("Active") || d.Type.Equals("Sleeping"))
+            {
+               this.addDuration(d);
+            }
+            
+            else
+            {
+               throw new CraptasticXmlException("Expected Activity Duration element of type Active or Sleeping!  Instead I got type " + d.Type);
+            }
+
+         }
+        
+        
       }
 
 		#endregion Methods 

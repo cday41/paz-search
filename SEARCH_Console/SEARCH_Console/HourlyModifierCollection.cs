@@ -1,4 +1,5 @@
 using System;
+using System.Xml.XPath;
 
 namespace SEARCH_Console
 {
@@ -50,6 +51,33 @@ namespace SEARCH_Console
             uniqueInstance = new HourlyModifierCollection();
          }
          return uniqueInstance;
+      }
+
+      public void readXML(XPathNodeIterator nit)
+      {
+         XPathNodeIterator temp = nit.Current.Select("//HourlyModifiers/*");
+         while (temp.MoveNext())
+         {
+           string type = temp.Current.GetAttribute("type", "");
+            //		MessageBox.Show("Type = " + type);
+            HourlyModifier hm = new HourlyModifier();
+            temp.Current.MoveToFirstChild();
+            hm.StartTime = System.Convert.ToInt32(temp.Current.Value);
+            temp.Current.MoveToNext();
+            hm.CaptureFood = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            hm.EnergyUsed = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            hm.MoveSpeed = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            hm.MoveTurtosity = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            hm.Name = temp.Current.Value;
+            temp.Current.MoveToNext();
+            hm.PerceptonModifier = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            hm.PredationRisk = System.Convert.ToDouble(temp.Current.Value);
+         }//end of while
       }
 
       public void reset()

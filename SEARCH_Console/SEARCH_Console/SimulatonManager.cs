@@ -284,6 +284,12 @@ namespace SEARCH_Console
                   Console.WriteLine("Now process the maps");
                   this.mMapManager = MapManager.GetUniqueInstance();
                   this.mMapManager.ReadXML(nav);
+                  this.mMapManager.changeMaps(this.StartSimulationDate);
+                  Console.WriteLine("Made the maps now lets make some animals");
+                  this.buildAnimals();
+                  Console.WriteLine("Ok now lets build some residents");
+                  this.buildResidents();
+                  Console.WriteLine("Ok now lets build some residents");
                }
             }
             else
@@ -497,8 +503,9 @@ namespace SEARCH_Console
             this.ElapsedTimeBetweenTimeStep = System.Convert.ToDouble(temp.Current.Value);
             temp = inIterator.Current.Select("//StartTime");
             temp.MoveNext();
-            this.StartSimulationDate = this.StartSimulationDate.AddHours(System.Convert.ToDouble(temp.Current.Value));
+            this.StartSimulationDate = this.StartSeasonDate.AddHours(System.Convert.ToDouble(temp.Current.Value));
             this.EndSeasonDate = this.StartSimulationDate.AddDays(this.mNumDaysSeason);
+            this.EndSimulatonDate = this.EndSeasonDate.AddYears(this.NumSeasons);
          }
          catch (Exception ex)
          {

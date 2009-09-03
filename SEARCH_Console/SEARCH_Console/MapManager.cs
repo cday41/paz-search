@@ -876,6 +876,7 @@ namespace SEARCH_Console
       {
          try
          {
+            Console.WriteLine("Inside loading the map triggers for " + mapType);
             switch (mapType)
             {
                case "Social":
@@ -908,10 +909,16 @@ namespace SEARCH_Console
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
+            Console.WriteLine("Error in loading triggers for " + mapType);
+            Console.WriteLine(ex.ToString());
          }
 
+         Console.WriteLine("Done loading trigger for " + mapType);
+         Console.WriteLine("");
+
       }
+
+      
 
       public bool MakeCurrStepMap(string path)
       {
@@ -1077,6 +1084,22 @@ namespace SEARCH_Console
       {
 
          System.Xml.XPath.XPathNodeIterator result = nav.Select("//Tab[@name=\"Map\"]");
+         LoadAndValidateMaps(result);
+         result = nav.Select("//MapSwitchTriggers[@name=\"Social\"]");
+         this.loadXMLTriggers("Social", result);
+         result = nav.Select("//MapSwitchTriggers[@name=\"Food\"]");
+         this.loadXMLTriggers("Food", result);
+         result = nav.Select("//MapSwitchTriggers[@name=\"Predation\"]");
+         this.loadXMLTriggers("Predation", result);
+         result = nav.Select("//MapSwitchTriggers[@name=\"Move\"]");
+         this.loadXMLTriggers("Move", result);
+         result = nav.Select("//MapSwitchTriggers[@name=\"Dispersal\"]");
+         this.loadXMLTriggers("Dispersal", result);
+
+      }
+
+      private void LoadAndValidateMaps(System.Xml.XPath.XPathNodeIterator result)
+      {
          XPathNodeIterator kids = result.Current.Select("//Directory");
          kids.MoveNext();
          this.mySocialMaps.MyPath = kids.Current.Value;
@@ -1096,28 +1119,7 @@ namespace SEARCH_Console
          this.myDispersalMaps.MyPath = kids.Current.Value;
          this.validateMap("Dispersal", kids.Current.Value);
       }
-   
-      //      private void removeUnionMaps()
-      //      {
-      //         string []fileNames;
-      //         try
-      //         {
-      //            fileNames = Directory.GetFiles(mOutMapPath , "Union*");
-      //            for(int i=0;i<fileNames.Length;i++)
-      //            {
-      //               File.Delete(fileNames[i]);
-      //            }
-      //
-      //
-      //         }
-      //         catch(System.Exception ex)
-      //         {
-      //#if (DEBUG)
-      //            System.Windows.Forms.MessageBox.Show(ex.Message);
-      //#endif
-      //            FileWriter.FileWriter.WriteErrorFile(ex);
-      //         }
-      //      }
+
       public bool removeExtraFiles(string FullFilePath)
       {
          string[] fileNames;

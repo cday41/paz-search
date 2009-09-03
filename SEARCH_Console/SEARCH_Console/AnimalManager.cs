@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
+using System.Xml.XPath;
 using DesignByContract;
 //#define ZeroOnly
 using ESRI.ArcGIS.Geometry;
@@ -443,7 +444,24 @@ namespace SEARCH_Console
          }
          
       }
-      
+
+      public void ReadXMLFile(string inFileName)
+      {
+        
+         XPathDocument doc = new System.Xml.XPath.XPathDocument(inFileName);
+         XPathNavigator nav = doc.CreateNavigator();
+         XPathNodeIterator result = nav.Select("//Tab[@name=\"Movement\"]");
+         LoadSpeciesModifiers(result);
+         result = nav.Select("//Tab[@name=\"Species\"]");
+         this.AnimalAttributes.ReadXmlFile(result);
+         result = nav.Select("//Tab[@name=\"HomeRange\"]");
+         this.LoadHomeRangeParameters(result);
+
+
+         
+         
+      }
+
       public bool setAttributes()
       {
          bool success = true;
@@ -853,6 +871,159 @@ namespace SEARCH_Console
          }
          return r;
       }
+
+      private void LoadHomeRangeParameters(XPathNodeIterator inNit)
+      {
+         double area = 0;
+         double distMod = 0;
+         int triggerNumber = 0;
+         bool isThisType = false;
+
+         //set the male and female home range criteria
+         XPathNodeIterator temp = inNit.Current.Select("//HomeRangeArea[@gender=\"male\"]");
+         temp.MoveNext();
+         area = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNit.Current.Select("//MaleDistanceModifierWeight[@gender=\"male\"]");
+         temp.MoveNext();
+         distMod = System.Convert.ToDouble(temp.Current.Value);
+         this.setHomeRange("male", area, 1, 1, distMod);
+
+        
+         temp = inNit.Current.Select("//HomeRangeArea[@gender=\"female\"]");
+         temp.MoveNext();
+         area = System.Convert.ToDouble(temp.Current.Value);
+         temp = inNit.Current.Select("//FemaleDistanceModifierWeight[@gender=\"female\"]");
+         temp.MoveNext();
+         distMod = System.Convert.ToDouble(temp.Current.Value);
+         this.setHomeRange("female", area, 1, 1, distMod);
+
+         
+         //build the home range trigger
+         temp = inNit.Current.Select("//txtTriggerNum");
+         temp.MoveNext();
+         triggerNumber = System.Convert.ToInt32(temp.Current.Value);
+
+         temp = inNit.Current.Select("//HomeRangeTrigger[@type=\"steps\"]");
+         temp.MoveNext();
+         if (System.Boolean.Parse(temp.Current.Value))
+            this.mHomeRangeTrigger = new TimeHomeRangeTrigger(triggerNumber, this.Count);
+         else
+            this.mHomeRangeTrigger = new SiteHomeRangeTrigger(triggerNumber, this.Count);
+
+         //Set the the type of Home Range Criteria
+
+         temp = inNit.Current.Select("//HomeRangeCriteria[@type=\"Closest\"]");
+         temp.MoveNext();
+         isThisType = System.Boolean.Parse(temp.Current.Value);
+         if (isThisType)
+         {
+            this.setHomeRangeCriteria("Closest");
+            return;
+         }
+
+         temp = inNit.Current.Select("//HomeRangeCriteria[@type=\"food\"]");
+         temp.MoveNext();
+         isThisType = System.Boolean.Parse(temp.Current.Value);
+         if (isThisType)
+         {
+            this.setHomeRangeCriteria("Food");
+            return;
+         }
+
+
+         temp = inNit.Current.Select("//HomeRangeCriteria[@type=\"risk\"]");
+         temp.MoveNext();
+         isThisType = System.Boolean.Parse(temp.Current.Value);
+         if (isThisType)
+         {
+            this.setHomeRangeCriteria("Risk");
+            return;
+         }
+
+         temp = inNit.Current.Select("//HomeRangeCriteria[@type=\"combo\"]");
+         temp.MoveNext();
+         isThisType = System.Boolean.Parse(temp.Current.Value);
+         if (isThisType)
+         {
+            this.setHomeRangeCriteria("Combo");
+            return;
+         }
+        
+      }
+
+
+      private void LoadSpeciesModifiers(XPathNodeIterator inNit)
+      {
+         Modifier tm = null;
+         String type; 
+         XPathNodeIterator temp = inNit.Current.Select("//AnimalModifiers/*");
+         while (temp.MoveNext())
+         {
+            type = temp.Current.GetAttribute("type", "");
+            //		MessageBox.Show("Type = " + type);
+            switch (type)
+            {
+               case "MaleModifier":
+                  tm = MaleModifier.GetUniqueInstance();
+                  break;
+               case "FemaleModifier":
+                  tm = FemaleModifier.GetUniqueInstance();
+                  break;
+               case "RiskyForageMod":
+                  tm = new RiskyForageModifier();
+                  break;
+               case "RiskySearchMod":
+                  tm = new RiskySearchModifier();
+                  break;
+               case "SafeForageMod":
+                  tm = new SafeForageModifier();
+                  break;
+               case "SafeSearchMod":
+                  tm = new SafeSearchModifier();
+                  break;
+               default:
+                  throw new CraptasticXmlException("Unknown Modifier element type!  Received: " + type);
+            }//end of switch
+            temp.Current.MoveToFirstChild();
+            tm.CaptureFood = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            tm.EnergyUsed = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            tm.MoveSpeed = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            tm.MoveTurtosity = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            tm.Name = temp.Current.Value;
+            temp.Current.MoveToNext();
+            tm.PerceptonModifier = System.Convert.ToDouble(temp.Current.Value);
+            temp.Current.MoveToNext();
+            tm.PredationRisk = System.Convert.ToDouble(temp.Current.Value);
+
+            switch (type)
+            {
+               case "MaleModifier":
+                  this.MaleModifier = (MaleModifier)tm;
+                  break;
+               case "FemaleModifier":
+                  this.FemaleModifier = (FemaleModifier)tm;
+                  break;
+               case "RiskyForageMod":
+                  this.RiskyForageMod = tm;
+                  break;
+               case "RiskySearchMod":
+                  this.RiskySearchMod = tm;
+                  break;
+               case "SafeForageMod":
+                  this.SafeForageMod = tm;
+                  break;
+               case "SafeSearchMod":
+                  this.SafeSearchMod = tm;
+                  break;
+               default:
+                  throw new CraptasticXmlException("Unknown Modifier element type!  Received: " + type);
+            }//end of switch
+         }//end of while
+      }
       private void makeNextGenAnimal(InitialAnimalAttributes inIAA, DateTime currTime)
       {
          Animal tmpAnimal = null;
@@ -917,7 +1088,7 @@ namespace SEARCH_Console
                //fw.writeLine("the animal sex is " + tmpAnimal.GetType().ToString());
 
                //we know it is not a resident or the GetType would return Resident so it has to be a disperser
-               if (tmpAnimal.GetType().ToString().ToUpper().IndexOf(".MALE") >= 0)
+               if (tmpAnimal.Sex.Equals("male",StringComparison.CurrentCulture))
                {
                   //fw.writeLine("must have been a Male setting data");
                   tmpAnimal.HomeRangeArea = mMaleHomeRangeCriteria.Area;

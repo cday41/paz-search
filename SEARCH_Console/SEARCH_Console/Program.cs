@@ -13,25 +13,29 @@ namespace SEARCH_Console
 {
    class Program
    {
-      static void Main(string[] args)
+     static SimulatonManager sm;
+     static void Main(string[] args)
       {
          StringCollection sc = new StringCollection();
-        
+         sm = new SimulatonManager();
          if (args.Length == 1)
          {
             Console.WriteLine("Correct number of arguments now parse them out and create the objects");
-            MakeSimulationManager(args[0]);
+            if(sm.ReadInXmlFile(args[0]))
+            {
+               sm.AnimalManager.ReadXMLFile(args[0]);
+            }
+            else
+            {
+               Console.WriteLine(sm.ErrMessage);
+               
+               }
          }
          Console.WriteLine("Done press any key to exit");
          Console.ReadKey();
       }
 
-      static void MakeSimulationManager(string inFileName)
-      {
-         SimulatonManager sm = new SimulatonManager();
-         sm.ReadInXmlFile(inFileName);
-
-      }
+     
 
      
       
