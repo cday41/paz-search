@@ -106,6 +106,7 @@ namespace SEARCH_Console
             fw.writeLine("end season date is " + this.EndSeasonDate.ToShortDateString());
             while (currTime < this.EndSeasonDate)
             {
+               Console.WriteLine("doing timestep");
                this.doTimeStep();
                this.currTimeStep++;
                this.currTime = this.currTime.AddMinutes(this.mElapsedTimeBetweenTimeStep);
@@ -203,7 +204,23 @@ namespace SEARCH_Console
          myDailyModifiers.Add(inDM.StartDate, inDM);
          fw.writeLine("now the Count is " + myDailyModifiers.Count.ToString());
       }
+      public void loadXMLOutput(string inFileName)
+      {
+         XPathDocument doc = new System.Xml.XPath.XPathDocument(inFileName);
+         XPathNavigator nav = doc.CreateNavigator();
+         XPathNodeIterator result = nav.Select("//Tab[@name=\"Simulation\"]");
+         XPathNodeIterator tempNIT = result.Current.Select(("//Output/*"));
+         tempNIT.MoveNext();
+         Console.WriteLine("setting the output paths");
+         this.mMapManager.OutMapPath = tempNIT.Current.Value;
+         this.mMapManager.makeNewAnimalMaps(this.mAnimalManager.Count);
+         this.mMapManager.MakeCurrStepMap();
+         this.DoTextOutPut = true;
+         this.AnimalManager.AnimalAttributes.OutPutDir = tempNIT.Current.Value;
+         Console.WriteLine("Done setting output ");
 
+
+      }
       public bool makeInitialAnimalMaps()
       {
          bool success = true;
@@ -289,7 +306,12 @@ namespace SEARCH_Console
                   this.buildAnimals();
                   Console.WriteLine("Ok now lets build some residents");
                   this.buildResidents();
-                  Console.WriteLine("Ok now lets build some residents");
+                  Console.WriteLine("Ok now lets set their attributes");
+                  result = nav.Select("//Tab[@name=\"Simulation\"]");
+                  this.LoadResidentAttributes(result);
+                  Console.WriteLine("done setting resident attributes");
+
+                  
                }
             }
             else
@@ -579,6 +601,43 @@ namespace SEARCH_Console
          }
          return didLoadModifiers;
       }
+
+      private bool LoadResidentAttributes(XPathNodeIterator inIterator)
+      {
+         bool didSetAttributes = true;
+         ResidentAttributes tempRA = new ResidentAttributes();
+         try
+         {
+
+            XPathNodeIterator temp = inIterator.Current.Select("//txtResDieBetweenSeason");
+            temp.MoveNext();
+            tempRA.ResidentYearlyRisk = System.Convert.ToDouble(System.Convert.ToDouble(temp.Current.Value));
+            temp = inIterator.Current.Select("//txtResDieTimeStep");
+            temp.MoveNext();
+            tempRA.ResidentTimeStepRisk = System.Convert.ToDouble(temp.Current.Value);
+            temp = inIterator.Current.Select("//txtResBreedPercent");
+            temp.MoveNext();
+            tempRA.PercentBreed = System.Convert.ToDouble(temp.Current.Value);
+            temp = inIterator.Current.Select("//txtResFemalePercent");
+            temp.MoveNext();
+            tempRA.PercentFemale = System.Convert.ToDouble(temp.Current.Value);
+            temp = inIterator.Current.Select("//txtResOffspringMean");
+            temp.MoveNext();
+            tempRA.NumChildernMean = System.Convert.ToDouble(temp.Current.Value);
+            temp = inIterator.Current.Select("//txtResOffspringSD");
+            temp.MoveNext();
+            tempRA.NumChildernSD = System.Convert.ToDouble(temp.Current.Value);
+
+            this.AnimalManager.setResidentModifierValues(tempRA);
+         }
+         catch (Exception ex)
+         {
+            didSetAttributes = false;
+          
+         }
+         return didSetAttributes;
+      }
+
       #endregion
 
       #region getters and setters

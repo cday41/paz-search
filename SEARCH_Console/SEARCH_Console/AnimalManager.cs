@@ -190,7 +190,6 @@ namespace SEARCH_Console
          setNextGenHomeRange();
         
       }
-
       public void changeToDeadAnimal(Animal inA)
       {
          try
@@ -264,7 +263,6 @@ namespace SEARCH_Console
          }
         
       }
-      
       public int getNumDispersers()
       {
          int num = 0;
@@ -303,7 +301,6 @@ namespace SEARCH_Console
          }
          return num;
       }
-
       public StringCollection getResidentIDs()
       {  
          System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
@@ -444,24 +441,26 @@ namespace SEARCH_Console
          }
          
       }
-
       public void ReadXMLFile(string inFileName)
       {
         
          XPathDocument doc = new System.Xml.XPath.XPathDocument(inFileName);
          XPathNavigator nav = doc.CreateNavigator();
          XPathNodeIterator result = nav.Select("//Tab[@name=\"Movement\"]");
+         Console.WriteLine("now set up the movement modifiers");
          LoadSpeciesModifiers(result);
          result = nav.Select("//Tab[@name=\"Species\"]");
+         Console.WriteLine("now set up the dispersal attributes");
          this.AnimalAttributes.ReadXmlFile(result);
          result = nav.Select("//Tab[@name=\"HomeRange\"]");
+         Console.WriteLine("now set up the home range criteria");
          this.LoadHomeRangeParameters(result);
+
 
 
          
          
       }
-
       public bool setAttributes()
       {
          bool success = true;
@@ -515,7 +514,6 @@ namespace SEARCH_Console
             setFemaleHomeRange();
          }
       }
-     
       public bool setGenderModifiers()
       {
          Animal a;
@@ -591,7 +589,6 @@ namespace SEARCH_Console
          }
          return success;
       }
-
       public void setHomeRangeTrigger(string type, int num)
       {
          try
@@ -632,7 +629,6 @@ namespace SEARCH_Console
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-      
       public void setInitialValues()
       {
          try
@@ -655,6 +651,7 @@ namespace SEARCH_Console
          this.mMapValues = new Dictionary<IPoint, MapValue>();
          bool success = true;
          fw.writeLine("inside animal manager calling set sleep time");
+         Console.WriteLine("now set up the sleep time for all the animals" + DateTime.Now.ToShortTimeString());
          try
          {
             currAnimal = this.GetEnumerator();
@@ -725,10 +722,10 @@ namespace SEARCH_Console
             Process.GetCurrentProcess().Kill();
          }
          fw.writeLine("leaving animal manager set sleep time with a value of " + success.ToString());
+         Console.WriteLine("Done setting sleep time " + DateTime.Now.ToShortTimeString());
          return success;
 
       }
-     
       public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk, 
          double inPercentBreed, double inPercentFemale, double inMeanLitterSize, double inSDLitterSize)
       {
@@ -754,7 +751,11 @@ namespace SEARCH_Console
          }
       }
 
-
+      public void setResidentModifierValues(ResidentAttributes inRA)
+      {
+         mResidentAttributes = inRA;
+         this.setResidentAttributes();
+      }
       public void winterKillResidents()
       {
          try
@@ -1023,6 +1024,8 @@ namespace SEARCH_Console
                   throw new CraptasticXmlException("Unknown Modifier element type!  Received: " + type);
             }//end of switch
          }//end of while
+         //now set the modifiers
+         this.setGenderModifiers();
       }
       private void makeNextGenAnimal(InitialAnimalAttributes inIAA, DateTime currTime)
       {

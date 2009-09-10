@@ -24,6 +24,11 @@ namespace SEARCH_Console
             if(sm.ReadInXmlFile(args[0]))
             {
                sm.AnimalManager.ReadXMLFile(args[0]);
+              
+               sm.loadXMLOutput(args[0]);
+               sm.AnimalManager.setSleepTime(sm.StartSimulationDate);
+               Console.WriteLine("Start simulation");
+               sm.doSimulation();
             }
             else
             {

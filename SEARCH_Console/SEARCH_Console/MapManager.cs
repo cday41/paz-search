@@ -918,11 +918,18 @@ namespace SEARCH_Console
 
       }
 
+     
       
 
       public bool MakeCurrStepMap(string path)
       {
          this._currStepPath = path + "\\currStep.shp";
+         this.myDataManipulator.CreateEmptyFeatureClass(this._currStepPath, "polygon");
+         return true;
+      }
+      public bool MakeCurrStepMap()
+      {
+         this._currStepPath = this.mOutMapPath + "\\currStep.shp";
          this.myDataManipulator.CreateEmptyFeatureClass(this._currStepPath, "polygon");
          return true;
       }
@@ -962,6 +969,7 @@ namespace SEARCH_Console
          int i = 0;
          try
          {
+            Console.WriteLine("now making new animal maps for " + numAnimals.ToString() + " number of animals");
             IGeometryDef geoDef = this.getSpatialInfo();
             fw.writeLine("inside make new animal map for " + numAnimals.ToString() + " number of animals");
             myAnimalMaps = new AnimalMap[numAnimals];
@@ -984,6 +992,7 @@ namespace SEARCH_Console
             this.errNumber = (int)ERR.DIRECTORY_ALREADY_IN_USE;
             this.errFileName = mOutMapPath + @"\" + i.ToString();
          }
+         Console.WriteLine("Done making animal maps");
          return success;
       }
 
