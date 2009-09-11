@@ -1,5 +1,5 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>G:\Pat'sStuff\Dispersal\TestRuns\testrun_051409\testrun.xml</StartArguments>
+    <StartArguments>C:\test_maps\SimData.xml</StartArguments>
   </PropertyGroup>
 </Project>

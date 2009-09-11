@@ -737,7 +737,7 @@ namespace SEARCH_Console
                 myProcessor.OverwriteOutput = true;
                 myProcessor.Execute(inProcess, null);
                 ReturnMessages(myProcessor);
-                myProcessor.RemoveToolbox(toolbox);
+               // myProcessor.RemoveToolbox(toolbox);
             }
             catch (Exception ex)
             {

@@ -212,7 +212,7 @@ namespace SEARCH_Console
          XPathNodeIterator tempNIT = result.Current.Select(("//Output/*"));
          tempNIT.MoveNext();
          Console.WriteLine("setting the output paths");
-         this.mMapManager.OutMapPath = tempNIT.Current.Value;
+         this.mMapManager.OutMapPath = tempNIT.Current.Value + "\\" + this.StartSeasonDate.Year.ToString();
          this.mMapManager.makeNewAnimalMaps(this.mAnimalManager.Count);
          this.mMapManager.MakeCurrStepMap();
          this.DoTextOutPut = true;

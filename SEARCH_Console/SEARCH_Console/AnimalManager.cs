@@ -330,7 +330,7 @@ namespace SEARCH_Console
          int id = 0;
          Animal tmpAnimal;
                
-         //fw.writeLine("inside make initial animals");
+         fw.writeLine("inside make initial animals");
          try
          {
             //this is an array of attributes one of which is how many to make of this type
@@ -341,7 +341,7 @@ namespace SEARCH_Console
                {
                   if (inIAA[i].Sex == 'M')
                   {
-                     //fw.writeLine("makeing a new male");
+                     fw.writeLine("makeing a new male");
                      tmpAnimal = new Male();
                   }
                   else
@@ -662,16 +662,18 @@ namespace SEARCH_Console
                   a = (Animal)currAnimal.Current;
                   if (a.GetType().Name != "Resident" && !a.IsDead)
                   {
-
+                     Console.WriteLine("set sleep time for " + a.IdNum.ToString());
                      a.setInitialSleepTime(currTime);
+                     Console.WriteLine("done sleep time for " + a.IdNum.ToString());
                      if (a.TextFileWriter == null)
                      {
+                        Console.WriteLine("now build text writer");
                         a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
                      }
-                     fw.writeLine("Now check to see if we have the value for this location or not");
+                     Console.WriteLine("Now check to see if we have the value for this location or not");
                      if (this.mMapValues.ContainsKey(a.Location))
                      {
-                        fw.writeLine("had it so set the values");
+                        Console.WriteLine("had it so set the values");
 
                         a.CaptureFood = this.mMapValues[a.Location].CaptureFood;
                         a.FoodMeanSize = this.mMapValues[a.Location].FoodMeanSize;
@@ -686,9 +688,9 @@ namespace SEARCH_Console
                      }
                      else
                      {
-                        fw.writeLine("did not have it, so go get them from the animal");
+                        Console.WriteLine("did not have it, so go get them from the animal " + DateTime.Now.ToLongTimeString());
                         a.setInitialValues(currTime);
-                        fw.writeLine("now store them off");
+                        Console.WriteLine("now store them off " + DateTime.Now.ToLongTimeString());
                         MapValue mv = new MapValue();
                         mv.CaptureFood = a.CaptureFood;
                         mv.CurrLocation = a.Location;
