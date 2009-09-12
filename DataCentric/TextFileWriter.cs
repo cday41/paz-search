@@ -1,6 +1,6 @@
 using System.IO;
 using System.Collections.Specialized;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class TextFileWriter
    {

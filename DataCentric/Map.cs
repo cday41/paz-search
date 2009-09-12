@@ -8,13 +8,160 @@ using System.IO;
 using System.Threading;
 using Microsoft.Win32;
 using System.Collections;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class Map
    {
-		#region Public Members (27) 
+		#region Constructors (4) 
 
-		#region Methods (27) 
+      public Map(string path,string fileName,IGeometryDef inGeoDef,IFields inFieldsCollection):this()
+      {
+        
+         try
+         {
+            myPath = path;
+            myFileName = fileName;
+            IWorkspaceFactory shpWkspFactory = new ShapefileWorkspaceFactoryClass();
+            IFeatureWorkspace shapeWksp = null;
+            IPropertySet connectionProperty = new PropertySetClass();
+            IGeometryDefEdit geoDef = new GeometryDefClass();
+            IFieldsEdit fieldsEdit = (IFieldsEdit)inFieldsCollection;
+            
+            connectionProperty.SetProperty ("DATABASE",path);
+            shapeWksp = (IFeatureWorkspace) shpWkspFactory.Open(connectionProperty,0);
+            this.mySelf = shapeWksp.CreateFeatureClass(fileName,fieldsEdit,null,null,esriFeatureType.esriFTSimple,"Shape","");
+
+
+         }
+         catch(System.Exception ex)
+         {
+           
+            if (ex.Source == "ESRI.ArcGIS.Geodatabase")
+            {
+               //mErrMessage = "That Directory is full with maps already";
+               throw new System.Exception("That Directory is full with maps already");
+            }
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+           
+         }
+        
+      }
+
+      public Map(IFeatureClass inSelf, string fullName):this()
+      {
+         mMySelf = inSelf;
+         this.fullFileName = fullName;
+      }
+
+      public Map(IFeatureClass inSelf):this()
+      {
+         mMySelf = inSelf;
+      }
+
+      public Map()
+      {
+         buildLogger();
+         outShapeFileName = new FeatureClassNameClass();
+         wsName = new WorkspaceNameClass();
+         myHash = new Hashtable();
+         this.myFeatureLayer = new FeatureLayerClass();
+         this.myMap = new MapClass();
+         this.myFeature = null;
+        
+      }
+
+		#endregion Constructors 
+
+		#region Fields (17) 
+
+		#region A to F (3) 
+
+      protected IDatasetName dsName;
+      private string fullFileName;
+      protected FileWriter.FileWriter fw;
+
+		#endregion A to F 
+		#region M to R (13) 
+
+      private DateTime mBeginTime;
+      private string mChangeType;
+      protected IFeatureClass mMySelf;
+      protected string mTypeOfMap;
+      private IFeature myFeature;
+      protected IFeatureLayer myFeatureLayer;
+      private IField myField;
+      protected string myFileName;
+      private Hashtable myHash;
+      private IMap myMap;
+      private object myObject;
+      protected string myPath;
+      protected IFeatureClassName outShapeFileName;
+
+		#endregion M to R 
+		#region S to Z (1) 
+
+      protected IWorkspaceName wsName;
+
+		#endregion S to Z 
+
+		#endregion Fields 
+
+		#region Properties (6) 
+
+		#region A to F (3) 
+
+      public DateTime BeginTime
+      {
+         get { return mBeginTime; }
+         set { mBeginTime = value; }
+      }
+
+      public string ChangeType
+      {
+         get { return mChangeType; }
+         set { mChangeType = value; }
+      }
+
+      public string FullFileName
+      {
+         get { return fullFileName; }
+         set { this.fullFileName = value; }
+      }
+
+		#endregion A to F 
+		#region M to R (2) 
+
+      public IFeatureClass mySelf
+      {
+         get { return mMySelf; }
+         set { mMySelf = value; }
+      }
+
+      public string Path
+      {
+         get { return this.myPath; }
+         set {this.myPath = value;}
+      }
+
+		#endregion M to R 
+		#region S to Z (1) 
+
+      public string TypeOfMap
+      {
+         get { return mTypeOfMap; }
+         set  { mTypeOfMap = value; }
+      }
+
+		#endregion S to Z 
+
+		#endregion Properties 
+
+		#region Methods (44) 
+
+		#region Public Methods (29) 
 
       public void addDay()
       {
@@ -514,6 +661,68 @@ namespace PAZ_Dispersal
          return coInfo;
       }
 
+        /********************************************************************************
+       *   Function name   : getCurrentPolygon
+       *   Description     : takes the point in and tells us which polygon it is in.
+       *   Return type     : int    the index for the ploygon or a negative value if
+       *                      the point is off the map.
+       *   Argument        : IPoint inPoint  the location we are wondering about
+       * ********************************************************************************/
+      public int getCurrentPolygon (IPoint inPoint)
+      {
+         int polyIndex = 0;
+         int numPolys = 0;
+         try
+         {
+            fw.writeLine("inside Map getCurrentPolygon for X = " + inPoint.X.ToString() + " Y " + inPoint.Y.ToString());
+            //each individual polygon in the shapefile
+            IPolygon searchPoly = null;
+            IRelationalOperator relOp = null;
+            IFeature tempPoly = null;
+            //used to enumerate through the all the polygons
+            IFeatureCursor polyCursor = null;
+
+                       
+            relOp = (IRelationalOperator)inPoint;
+            //fill the cursor with all polygons
+            polyCursor = this.mySelf.Search(null,false);
+           
+            numPolys = this.mySelf.FeatureCount(null);
+            fw.writeLine("the cursor has " + polyCursor.Fields.FieldCount.ToString() + " number of fields");
+            //get the feature class 
+            tempPoly = polyCursor.NextFeature();
+            fw.writeLine("have the first polygon");
+            while(tempPoly != null)
+            {
+               // then cast it to a polygon
+               searchPoly = (IPolygon)tempPoly.ShapeCopy;
+               if(relOp.Within(searchPoly))
+               {
+                  fw.writeLine("found it time to leave");
+                  //found it so time to leave
+                  break;
+               }
+               //keep going until we find what we are looking for
+               tempPoly = polyCursor.NextFeature();
+               polyIndex++;
+            }
+            //either we are off the map or the point is on the polygon boundary
+            //so either way we do not have a value so set it to -1 so the calling 
+            //function knows
+            if(polyIndex >= numPolys)
+            {
+               
+               polyIndex = -1;
+            }
+         }
+         catch(System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return polyIndex;
+
+      }
+
       public void GetInitialAnimalAttributes(out InitialAnimalAttributes [] outAttributes)
       {
          IPoint tmpPoint = null;
@@ -771,6 +980,32 @@ namespace PAZ_Dispersal
          return this.mySelf.FeatureCount(null) > 0;
       }
 
+      public bool isPointOnMap(IPoint inPoint)
+      {
+         bool onMap=true;
+         try
+         {
+            fw.writeLine("inside isPointOnMap with a value of X=" + inPoint.X.ToString() + " Y=" + inPoint.Y.ToString());
+            //now we need to see if we are off the map or not.
+            IEnvelope e = this.getLayer().AreaOfInterest;
+            fw.writeLine("XMax = "+e.XMax.ToString());
+            fw.writeLine("XMin = "+e.XMin.ToString());
+            fw.writeLine("YMax = "+e.YMax.ToString());
+            fw.writeLine("YMin = "+e.YMin.ToString());
+            if (inPoint.X > e.XMax || inPoint.X < e.XMin || inPoint.Y > e.YMax || inPoint.Y < e.YMin)
+               onMap=false;
+         }
+         catch(System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+         }
+         fw.writeLine("leaving isPointOnMap with a value of " + onMap.ToString());
+         return onMap;
+      }
+
       public static IFeatureClass openFeatureClass(string path,string fileName)
       {
          IName name=null;
@@ -961,168 +1196,9 @@ namespace PAZ_Dispersal
          fw.writeLine("leaving resetFields");
       }
 
-		#endregion Methods 
+		#endregion Public Methods 
+		#region Private Methods (10) 
 
-		#endregion Public Members 
-
-
-
-      #region privateData
-      private DateTime mBeginTime;
-      protected FileWriter.FileWriter fw;
-      protected IFeatureClass mMySelf;
-      private IFeature myFeature;
-      protected IFeatureLayer myFeatureLayer;
-      private IField myField;
-      private IMap myMap;
-      private object myObject;
-      protected IWorkspaceName wsName;
-      protected IDatasetName dsName;
-      protected IFeatureClassName outShapeFileName;
-      protected string myPath;
-      protected string myFileName;
-      protected string mTypeOfMap;
-      private string mChangeType;
-      private string fullFileName;
-      private Hashtable myHash;
-      
-      #endregion
-
-      #region gettersAndSetters
-
-      public string ChangeType
-      {
-         get { return mChangeType; }
-         set { mChangeType = value; }
-      }
-
-      public DateTime BeginTime
-      {
-         get { return mBeginTime; }
-         set { mBeginTime = value; }
-      }
-
-      public string FullFileName
-      {
-         get { return fullFileName; }
-         set { this.fullFileName = value; }
-      }
-      public string TypeOfMap
-      {
-         get { return mTypeOfMap; }
-         set  { mTypeOfMap = value; }
-      }
-
-      public IFeatureClass mySelf
-      {
-         get { return mMySelf; }
-         set { mMySelf = value; }
-      }
-      public string Path
-      {
-         get { return this.myPath; }
-         set {this.myPath = value;}
-      }
-      
-      #endregion
-
-      #region constructors
-      public Map()
-      {
-         buildLogger();
-         outShapeFileName = new FeatureClassNameClass();
-         wsName = new WorkspaceNameClass();
-         myHash = new Hashtable();
-         this.myFeatureLayer = new FeatureLayerClass();
-         this.myMap = new MapClass();
-         this.myFeature = null;
-        
-      }
-    
-      public Map(string path,string fileName,IGeometryDef inGeoDef,IFields inFieldsCollection):this()
-      {
-        
-         try
-         {
-            myPath = path;
-            myFileName = fileName;
-            IWorkspaceFactory shpWkspFactory = new ShapefileWorkspaceFactoryClass();
-            IFeatureWorkspace shapeWksp = null;
-            IPropertySet connectionProperty = new PropertySetClass();
-            IGeometryDefEdit geoDef = new GeometryDefClass();
-            IFieldsEdit fieldsEdit = (IFieldsEdit)inFieldsCollection;
-            
-            connectionProperty.SetProperty ("DATABASE",path);
-            shapeWksp = (IFeatureWorkspace) shpWkspFactory.Open(connectionProperty,0);
-            this.mySelf = shapeWksp.CreateFeatureClass(fileName,fieldsEdit,null,null,esriFeatureType.esriFTSimple,"Shape","");
-
-
-         }
-         catch(System.Exception ex)
-         {
-           
-            if (ex.Source == "ESRI.ArcGIS.Geodatabase")
-            {
-               //mErrMessage = "That Directory is full with maps already";
-               throw new System.Exception("That Directory is full with maps already");
-            }
-#if DEBUG
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-           
-         }
-        
-      }
-
-     
-      public Map(IFeatureClass inSelf):this()
-      {
-         mMySelf = inSelf;
-      }
-      public Map(IFeatureClass inSelf, string fullName):this()
-      {
-         mMySelf = inSelf;
-         this.fullFileName = fullName;
-      }
-      
-      #endregion      /********************************************************************************
-      /**********************************************************************************
-       *   Function name   : getCrossOverInfo
-       *   Description     : If the movement of an animal is going to cross from one
-       *                     polygon to another we need to know how far he would
-       *                     go in one polygon, where the animal would cross.
-       * 
-       * // how much do I like the polygon i am in and how much do I like the other polygon
-       *   Return type     : crossOverInfo data structre for returning the data cleanly
-       *   Argument        : IPoint startPoint  movement starting point
-       *   Argument        : IPoint endPoint    movement endiing point
-       *  
-       * ********************************************************************************/
-
-
-      #region privateMethods
-
-
-      protected void buildDataSetName(string inName)
-      {
-         try
-         {
-            dsName=(IDatasetName)outShapeFileName;
-            dsName.Name = inName;
-            dsName.WorkspaceName = wsName;
-
-         }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-            
-#endif
-         }
-         
-      }
       private void buildLogger()
       {
          string s;
@@ -1151,31 +1227,7 @@ namespace PAZ_Dispersal
 
 
       }
-      
-      protected void buildWorkSpaceName()
-      {
-         wsName.PathName = myPath;
-         wsName.WorkspaceFactoryProgID = "esriCore.ShapeFileWorkspaceFactory.1";
 
-      }
-      protected void buildOutShapeFileName()
-      {
-         try
-         {
-            outShapeFileName.FeatureType = esriFeatureType.esriFTSimple;
-            outShapeFileName.ShapeType = esriGeometryType.esriGeometryPolygon;
-            outShapeFileName.ShapeFieldName = "Shape";
-
-         }
-         catch(System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-
-      }
       private IPoint getCenterOfPolygon(IFeature tempPoly)
       {
         
@@ -1205,7 +1257,7 @@ namespace PAZ_Dispersal
          }
          return tempPoint;
       }
-     
+
       private void getClosestPoint(IPointCollection inPoints, IPoint inPoint, ref crossOverInfo coInfo)
       {
          IPoint closestPoint=null;
@@ -1250,9 +1302,16 @@ namespace PAZ_Dispersal
          fw.writeLine("and the distance between the two points is " + coInfo.Distance.ToString());
          return;
       }
-     
 
-      
+      private double getCrossingValue(IPoint inPoint)
+      {
+         fw.writeLine("inside getCrossingValue");
+         int polyIndex = this.getCurrentPolygon(inPoint);
+         fw.writeLine("polyindex is " + polyIndex.ToString());
+         return this.getPolyValue(polyIndex,"CROSSING");
+
+      }
+
       private IFeatureCursor getCrossOverPolygons(IPolyline inLine)
       {
          ISpatialFilter myFilter=null;
@@ -1275,76 +1334,6 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
          return tempCur;
-      }
-      private double getCrossingValue(IPoint inPoint)
-      {
-         fw.writeLine("inside getCrossingValue");
-         int polyIndex = this.getCurrentPolygon(inPoint);
-         fw.writeLine("polyindex is " + polyIndex.ToString());
-         return this.getPolyValue(polyIndex,"CROSSING");
-
-      }  
-      /********************************************************************************
-       *   Function name   : getCurrentPolygon
-       *   Description     : takes the point in and tells us which polygon it is in.
-       *   Return type     : int    the index for the ploygon or a negative value if
-       *                      the point is off the map.
-       *   Argument        : IPoint inPoint  the location we are wondering about
-       * ********************************************************************************/
-
-      public int getCurrentPolygon (IPoint inPoint)
-      {
-         int polyIndex = 0;
-         int numPolys = 0;
-         try
-         {
-            fw.writeLine("inside Map getCurrentPolygon for X = " + inPoint.X.ToString() + " Y " + inPoint.Y.ToString());
-            //each individual polygon in the shapefile
-            IPolygon searchPoly = null;
-            IRelationalOperator relOp = null;
-            IFeature tempPoly = null;
-            //used to enumerate through the all the polygons
-            IFeatureCursor polyCursor = null;
-
-                       
-            relOp = (IRelationalOperator)inPoint;
-            //fill the cursor with all polygons
-            polyCursor = this.mySelf.Search(null,false);
-           
-            numPolys = this.mySelf.FeatureCount(null);
-            fw.writeLine("the cursor has " + polyCursor.Fields.FieldCount.ToString() + " number of fields");
-            //get the feature class 
-            tempPoly = polyCursor.NextFeature();
-            fw.writeLine("have the first polygon");
-            while(tempPoly != null)
-            {
-               // then cast it to a polygon
-               searchPoly = (IPolygon)tempPoly.ShapeCopy;
-               if(relOp.Within(searchPoly))
-               {
-                  fw.writeLine("found it time to leave");
-                  //found it so time to leave
-                  break;
-               }
-               //keep going until we find what we are looking for
-               tempPoly = polyCursor.NextFeature();
-               polyIndex++;
-            }
-            //either we are off the map or the point is on the polygon boundary
-            //so either way we do not have a value so set it to -1 so the calling 
-            //function knows
-            if(polyIndex >= numPolys)
-            {
-               
-               polyIndex = -1;
-            }
-         }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return polyIndex;
-
       }
 
       private IPointCollection getIntersectionPoints(IFeatureCursor inCurr,IPolyline inLine)
@@ -1393,6 +1382,7 @@ namespace PAZ_Dispersal
      
          return myIntersectingPoints;
       }
+
       private int getNumRes(string sex)
       {
          IQueryFilter qf = new QueryFilterClass();
@@ -1435,6 +1425,7 @@ namespace PAZ_Dispersal
          }
          return sc.Count;
       }
+
       private double getPolyValue(int polyIndex, string fieldName)
       {
          double returnValue = 0.0;
@@ -1464,7 +1455,6 @@ namespace PAZ_Dispersal
          }
          return returnValue;
       }
-   
 
       private void getTable(ref ITable inOutTable)
       {
@@ -1478,6 +1468,61 @@ namespace PAZ_Dispersal
          tempLayer = myMap.get_Layer(0);
          inOutTable = (ITable)tempLayer;
       }
+
+      private string PointToString(IPoint p)
+      {
+         return " X = " + p.X.ToString() + " Y = " + p.Y.ToString();
+      }
+
+		#endregion Private Methods 
+		#region Protected Methods (5) 
+
+      protected void buildDataSetName(string inName)
+      {
+         try
+         {
+            dsName=(IDatasetName)outShapeFileName;
+            dsName.Name = inName;
+            dsName.WorkspaceName = wsName;
+
+         }
+         catch(System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+            
+#endif
+         }
+         
+      }
+
+      protected void buildOutShapeFileName()
+      {
+         try
+         {
+            outShapeFileName.FeatureType = esriFeatureType.esriFTSimple;
+            outShapeFileName.ShapeType = esriGeometryType.esriGeometryPolygon;
+            outShapeFileName.ShapeFieldName = "Shape";
+
+         }
+         catch(System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+
+      }
+
+      protected void buildWorkSpaceName()
+      {
+         wsName.PathName = myPath;
+         wsName.WorkspaceFactoryProgID = "esriCore.ShapeFileWorkspaceFactory.1";
+
+      }
+
       protected void getTable(out ITable inOutTable, IFeatureClass inFeatureClass)
       {
          IMap myMap = new MapClass();
@@ -1490,35 +1535,7 @@ namespace PAZ_Dispersal
          tempLayer = myMap.get_Layer(0);
          inOutTable = (ITable)tempLayer;
       }
-      public bool isPointOnMap(IPoint inPoint)
-      {
-         bool onMap=true;
-         try
-         {
-            fw.writeLine("inside isPointOnMap with a value of X=" + inPoint.X.ToString() + " Y=" + inPoint.Y.ToString());
-            //now we need to see if we are off the map or not.
-            IEnvelope e = this.getLayer().AreaOfInterest;
-            fw.writeLine("XMax = "+e.XMax.ToString());
-            fw.writeLine("XMin = "+e.XMin.ToString());
-            fw.writeLine("YMax = "+e.YMax.ToString());
-            fw.writeLine("YMin = "+e.YMin.ToString());
-            if (inPoint.X > e.XMax || inPoint.X < e.XMin || inPoint.Y > e.YMax || inPoint.Y < e.YMin)
-               onMap=false;
-         }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-         }
-         fw.writeLine("leaving isPointOnMap with a value of " + onMap.ToString());
-         return onMap;
-      }
-      private string PointToString(IPoint p)
-      {
-         return " X = " + p.X.ToString() + " Y = " + p.Y.ToString();
-      }
+
       protected void removePolygon(IFeature inFeature)
       {
          IFeatureCursor tmpCur;
@@ -1551,7 +1568,9 @@ namespace PAZ_Dispersal
          }
         
       }
-      
-      #endregion
+
+		#endregion Protected Methods 
+
+		#endregion Methods 
    }
 }

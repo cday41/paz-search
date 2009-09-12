@@ -6,7 +6,7 @@ using ESRI.ArcGIS.Geodatabase;
 using FileWriter;
 using System.IO;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    class HomeRangeBuilder
    {

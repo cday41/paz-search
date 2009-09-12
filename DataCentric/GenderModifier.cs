@@ -1,5 +1,5 @@
 using System.ComponentModel;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class GenderModifiers
    {

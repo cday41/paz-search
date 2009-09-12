@@ -12,15 +12,13 @@
 
 using System;
 using System.IO;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// -The Client asks the Singleton to get its unique instance .  It accesses a Singleton instance solely through Singleton's Instance operation.
    /// </summary>
    public class SimulatonManager
    {
-		#region Public Members (1) 
-
 		#region Constructors (1) 
 
       public SimulatonManager()
@@ -38,57 +36,250 @@ namespace PAZ_Dispersal
 
 		#endregion Constructors 
 
-		#endregion Public Members 
+		#region Fields (23) 
 
+		#region A to F (5) 
 
+      private DailyModifier currDailyMod;
+      //temporal modifiers and their managers
+      private HourlyModifier currHourMod;
+      private DateTime currTime;
+      private double currTimeStep;
+      private FileWriter.FileWriter fw;
 
-      #region private variables
+		#endregion A to F 
+		#region M to R (18) 
 
+      //animal and map managers
+      private AnimalManager mAnimalManager;
       private bool mDoTextOutPut;
+      private double mElapsedTimeBetweenTimeStep;
+      private DateTime mEndSeasonDate;
+      private DateTime mEndSimulatonDate;
+      private string mErrMessage;
+      private MapManager mMapManager;
+      private string mMapOutPutPath;
       private int  mNumDaysSeason;
       private int  mNumSeasons;
       private double mNumTotalTimeSteps;
-      private double currTimeStep;
-      private double mElapsedTimeBetweenTimeStep;
-
-      //output variables
-      private string mTextOutPutFileName;
-      private string mMapOutPutPath;
-      
       //keep track of the time
       private DateTime mStartSeasonDate;
-      private DateTime mEndSeasonDate;
-      private DateTime mEndSimulatonDate;
       private DateTime mStartSimulationDate;
-      private DateTime currTime;
-
+      //output variables
+      private string mTextOutPutFileName;
+      private DailyModiferCollection myDailyModifiers;
+      private HourlyModifierCollection myHourlyModifiers;
       //starting times for the temporal modifiers
       private DateTime nextDayStart;
       private int nextStartHour;
-      
 
-      //temporal modifiers and their managers
-      private HourlyModifier currHourMod;
-      private DailyModifier currDailyMod;
-      private HourlyModifierCollection myHourlyModifiers;
-      private DailyModiferCollection myDailyModifiers;
-      
-      //animal and map managers
-      private AnimalManager mAnimalManager;
-      private MapManager mMapManager;
-      
-      private FileWriter.FileWriter fw;
-      private string mErrMessage;
-      #endregion
+		#endregion M to R 
 
-      #region publicMethods
-      
+		#endregion Fields 
+
+		#region Properties (13) 
+
+		#region A to F (6) 
+
+      public AnimalManager AnimalManager
+      {
+         get { return mAnimalManager; }
+         set { mAnimalManager = value; }
+      }
+
+      public bool DoTextOutPut
+      {
+         get { return mDoTextOutPut; }
+         set { mDoTextOutPut = value; 
+         fw.writeLine("inside sim manager setting mDoTextOutPut to " + value.ToString());}
+      }
+
+      public double ElapsedTimeBetweenTimeStep
+      {
+         get { return mElapsedTimeBetweenTimeStep; }
+         set  { mElapsedTimeBetweenTimeStep = value; }
+      }
+
+      public DateTime EndSeasonDate
+      {
+         get { return mEndSeasonDate; }
+         set { mEndSeasonDate = value; }
+      }
+
+      public DateTime EndSimulatonDate
+		{
+			get { return mEndSimulatonDate; }
+			set { mEndSimulatonDate = value; }
+		}
+
+      public string ErrMessage
+      {
+         get { return mErrMessage;}
+         set  { mErrMessage = value; }
+      }
+
+		#endregion A to F 
+		#region M to R (4) 
+
+      public MapManager MapManager
+      {
+         get { return mMapManager; }
+         set { mMapManager = value; }
+      }
+
+      public string MapOutPutPath
+      {
+         get { return mMapOutPutPath; }
+         set { mMapOutPutPath = value; }
+      }
+
+      public int NumDaysSeason
+      {
+         get { return mNumDaysSeason; }
+         set { mNumDaysSeason = value; }
+      }
+
+      public int NumSeasons
+      {
+         get { return mNumSeasons; }
+         set { mNumSeasons = value; }
+      }
+
+		#endregion M to R 
+		#region S to Z (3) 
+
+      public DateTime StartSeasonDate
+      {
+         get { return mStartSeasonDate; }
+         set { mStartSeasonDate = value; }
+      }
+
+      public DateTime StartSimulationDate
+		{
+			get { return mStartSimulationDate; }
+			set  { mStartSimulationDate = value; }
+		}
+
+      public string TextOutPutFileName
+      {
+         get { return mTextOutPutFileName; }
+         set { mTextOutPutFileName = value; }
+      }
+
+		#endregion S to Z 
+
+		#endregion Properties 
+
+		#region Methods (18) 
+
+		#region Public Methods (8) 
+
+      /********************************************************************************
+       *   Function name   : addDailyModifier
+       *   Description     : 
+       *   Return type     : void 
+       *   Argument        : DailyModifier inDM
+       * ********************************************************************************/
+      public void addDailyModifier(DailyModifier inDM)
+      {
+         fw.writeLine("inside the sim manager adding a daily modifier the current Count is" + 
+            myDailyModifiers.Count.ToString());
+         myDailyModifiers.Add(inDM.StartDate, inDM);
+         fw.writeLine("now the Count is " + myDailyModifiers.Count.ToString());
+      }
+
+      /********************************************************************************
+       *  Function name   : addHourlyModifier
+       *  Description     : 
+       *  Return type     : void 
+       *  Argument        : HourlyModifier inHm
+       * *******************************************************************************/
+      public void addHourlyModifier(HourlyModifier inHm)
+      {
+         try
+         {
+            fw.writeLine("inside sim manager adding an hourly modifier current Count is " + 
+               myHourlyModifiers.Count.ToString());
+            myHourlyModifiers.Add(inHm.StartTime, inHm);
+            fw.writeLine("now the Count is " + myHourlyModifiers.Count.ToString());
+         
+         }
+         catch(System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         
+      }
+
+//      public void doSimulation(Object state)
+//      {
+//         fw.writeLine("inside sim manager do simulation calling initialize daily sim");
+//         initializeSimulation();
+//         
+//         this.currTime = this.mStartSeasonDate;
+//         this.currTime = this.currTime.AddHours( this.AnimalManager.AnimalAttributes.WakeUpTime);
+//         fw.writeLine("now start the big loop for the sim");
+//         for (int currSeason = 0; currSeason < this.mNumSeasons; currSeason++)
+//         {
+//            while (currTime < this.EndSeasonDate)
+//            {
+//               this.doTimeStep();
+//               this.currTime = this.currTime.AddMinutes(this.mElapsedTimeBetweenTimeStep);
+//               if (currTime.Hour == 0)
+//               {
+//                  initializeDailySimulation();
+//               }
+//            }
+//
+//            //now reset the year and advance by a year
+//            fw.writeLine("done with one season now addvance throuout the year");
+//            fw.writeLine("currDate is " + this.currTime.ToShortDateString());
+//            this.currTime = this.mStartSeasonDate.AddYears(currSeason+1);
+//            this.EndSeasonDate = this.EndSeasonDate.AddYears(1);
+//            fw.writeLine("now the currDate is " + this.currTime.ToShortDateString());
+//            initializeYearlySimulation();
+//         }
+//         // this.mMapManager.removeExtraFiles();
+//
+//         System.Windows.Forms.MessageBox.Show("done");
+//
+//      }
+      /********************************************************************************
+       *  Function name   : buildAnimals
+       *  Description     : makes the intial set of animals and their corresponding maps
+       *  Return type     : bool 
+       * *******************************************************************************/
+      public bool buildAnimals()
+      {
+         bool success = false;
+         InitialAnimalAttributes[] iAA = null;
+         this.mMapManager.GetInitialAnimalAttributes(out iAA);
+         if (iAA != null)
+         {
+            success = this.mAnimalManager.makeInitialAnimals(iAA);
+            
+         }
+         else
+         { 
+            this.mErrMessage = "Could Not get animal attributes";
+         }
+         return success;
+
+      }
+
+      public bool buildResidents()
+      {
+         InitialAnimalAttributes[] iAA = null;
+         this.mMapManager.GetInitalResidentAttributes(out iAA);
+         this.mAnimalManager.makeResidents(iAA);
+         return true;
+      }
+
       /********************************************************************************
        *  Function name   : doSimulation
        *  Description     : 
        *  Return type     : void 
        * *******************************************************************************/
-      
       public void doSimulation(frmInput inForm)
       {
          fw.writeLine("inside sim manager do simulation calling initialize daily sim");
@@ -132,107 +323,6 @@ namespace PAZ_Dispersal
 
          System.Windows.Forms.MessageBox.Show("done");
 
-      }
-
-//      public void doSimulation(Object state)
-//      {
-//         fw.writeLine("inside sim manager do simulation calling initialize daily sim");
-//         initializeSimulation();
-//         
-//         this.currTime = this.mStartSeasonDate;
-//         this.currTime = this.currTime.AddHours( this.AnimalManager.AnimalAttributes.WakeUpTime);
-//         fw.writeLine("now start the big loop for the sim");
-//         for (int currSeason = 0; currSeason < this.mNumSeasons; currSeason++)
-//         {
-//            while (currTime < this.EndSeasonDate)
-//            {
-//               this.doTimeStep();
-//               this.currTime = this.currTime.AddMinutes(this.mElapsedTimeBetweenTimeStep);
-//               if (currTime.Hour == 0)
-//               {
-//                  initializeDailySimulation();
-//               }
-//            }
-//
-//            //now reset the year and advance by a year
-//            fw.writeLine("done with one season now addvance throuout the year");
-//            fw.writeLine("currDate is " + this.currTime.ToShortDateString());
-//            this.currTime = this.mStartSeasonDate.AddYears(currSeason+1);
-//            this.EndSeasonDate = this.EndSeasonDate.AddYears(1);
-//            fw.writeLine("now the currDate is " + this.currTime.ToShortDateString());
-//            initializeYearlySimulation();
-//         }
-//         // this.mMapManager.removeExtraFiles();
-//
-//         System.Windows.Forms.MessageBox.Show("done");
-//
-//      }
-      /********************************************************************************
-       *  Function name   : buildAnimals
-       *  Description     : makes the intial set of animals and their corresponding maps
-       *  Return type     : bool 
-       * *******************************************************************************/
-      
-      public bool buildAnimals()
-      {
-         bool success = false;
-         InitialAnimalAttributes[] iAA = null;
-         this.mMapManager.GetInitialAnimalAttributes(out iAA);
-         if (iAA != null)
-         {
-            success = this.mAnimalManager.makeInitialAnimals(iAA);
-            
-         }
-         else
-         { 
-            this.mErrMessage = "Could Not get animal attributes";
-         }
-         return success;
-
-      }
-      public bool buildResidents()
-      {
-         InitialAnimalAttributes[] iAA = null;
-         this.mMapManager.GetInitalResidentAttributes(out iAA);
-         this.mAnimalManager.makeResidents(iAA);
-         return true;
-      }
-    
-      /********************************************************************************
-       *  Function name   : addHourlyModifier
-       *  Description     : 
-       *  Return type     : void 
-       *  Argument        : HourlyModifier inHm
-       * *******************************************************************************/
-      
-      public void addHourlyModifier(HourlyModifier inHm)
-      {
-         try
-         {
-            fw.writeLine("inside sim manager adding an hourly modifier current Count is " + 
-               myHourlyModifiers.Count.ToString());
-            myHourlyModifiers.Add(inHm.StartTime, inHm);
-            fw.writeLine("now the Count is " + myHourlyModifiers.Count.ToString());
-         
-         }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         
-      }
-      /********************************************************************************
-       *   Function name   : addDailyModifier
-       *   Description     : 
-       *   Return type     : void 
-       *   Argument        : DailyModifier inDM
-       * ********************************************************************************/
-      public void addDailyModifier(DailyModifier inDM)
-      {
-         fw.writeLine("inside the sim manager adding a daily modifier the current Count is" + 
-            myDailyModifiers.Count.ToString());
-         myDailyModifiers.Add(inDM.StartDate, inDM);
-         fw.writeLine("now the Count is " + myDailyModifiers.Count.ToString());
       }
 
       public bool makeInitialAnimalMaps()
@@ -289,6 +379,7 @@ namespace PAZ_Dispersal
          return success;
         
       }
+
       public bool setResidentAttributes(double inTimeStepRisk,double inYearlyRisk,
          double inPercentBreed, double inPercentFemale,int inMeanLitterSize,int inSDLitterSize)
       {
@@ -310,9 +401,9 @@ namespace PAZ_Dispersal
          return success;
 
       }
-      #endregion
 
-      #region private Methods
+		#endregion Public Methods 
+		#region Private Methods (8) 
 
       private void buildLogger()
       {
@@ -343,83 +434,12 @@ namespace PAZ_Dispersal
 
 
       }
-      /********************************************************************************
-       *  Function name   : initializeSimulation
-       *  Description     : 
-       *  Return type     : void 
-       * *******************************************************************************/
-      
-      private void initializeSimulation()
-      {
-         this.currHourMod = (HourlyModifier)this.myHourlyModifiers.GetByIndex(0);
-         this.myHourlyModifiers.reset();
-         this.currHourMod = this.myHourlyModifiers.getNext();
-         this.nextStartHour = this.myHourlyModifiers.NextStartHour;
-         this.myDailyModifiers.reset();
-         this.currDailyMod = this.myDailyModifiers.getFirst();
-         this.nextDayStart = this.myDailyModifiers.NextStartDate;
-         // this should get us the number of steps per hour * 24 = numSteps per day * days per season = steps/year * numSeasons = steps/simulation
-         this.mNumTotalTimeSteps = (this.mElapsedTimeBetweenTimeStep/60) * 24 * this.NumDaysSeason * this.NumSeasons;
-         this.currTimeStep = 0;
-      }
 
-      /********************************************************************************
-       *  Function name   : initializeDailySimulation
-       *  Description     : 
-       *  Return type     : void 
-       * *******************************************************************************/
-      
-      private void initializeDailySimulation()
-      {
-         //this.currHourMod = (HourlyModifier)this.myHourlyModifiers.GetByIndex(0);
-      }
-
-      /********************************************************************************
-       *  Function name   : initializeYearlySimulation
-       *  Description     : 
-       *  Return type     : void 
-       * *******************************************************************************/
-      
-      private void initializeYearlySimulation()
-      {
-        // int numOrginalDispersers = 0;
-         fw.writeLine("inside initialize yearly simulation");
-         this.myHourlyModifiers.reset();
-         this.currHourMod = this.myHourlyModifiers.getNext();
-         this.nextStartHour = this.myHourlyModifiers.NextStartHour;
-         this.myDailyModifiers.reset();
-         this.myDailyModifiers.advanceOneYear();
-         this.currDailyMod = this.myDailyModifiers.getNext();
-         this.nextDayStart = this.myDailyModifiers.NextStartDate;
-         //09/09/2007 moved winter kill before changing maps
-         this.mAnimalManager.winterKillResidents();
-         //the old mMapManager out put path include last years YEAR so we need to strip it off and replace it with this years YEAR
-         this.mMapManager.OutMapPath = this.mMapManager.OutMapPath.Remove(this.mMapManager.OutMapPath.LastIndexOf("\\"),5);
-         this.mMapManager.OutMapPath = this.mMapManager.OutMapPath + "\\" + this.currTime.Year.ToString();
-         
-         //reset the maps start dates for this year
-         this.MapManager.addYearToMaps();
-
-         //now deal with the animals.
-         //Author: Bob Cummings Saturday, October 13, 2007
-         this.mAnimalManager.removeRemaingDispersers();
-
-         //had an issue with breeding before switchout the maps so moved it to happen after
-         this.MapManager.setUpNewYearsMaps(this.currTime,this.mAnimalManager);
-         
-         this.mAnimalManager.breedFemales(this.currTime);
-         //this.mAnimalManager.setSleepTime(this.currTime);
-         this.mMapManager.makeNextGenerationAnimalMaps(this.mAnimalManager,this.currTime.Year.ToString());
-         fw.writeLine("done initializing yearly simulation");
-      }
-
-      
       /********************************************************************************
        *  Function name   : checkTemporalModifiers
        *  Description     : 
        *  Return type     : void 
        * *******************************************************************************/
-      
       private void checkTemporalModifiers()
       {
          fw.writeLine("inside checkTemporalModifiers ");
@@ -442,7 +462,7 @@ namespace PAZ_Dispersal
          this.MapManager.changeMaps(this.currTime,this.mAnimalManager);
          
       }
-      
+
       private void doOutput()
       {
       }
@@ -452,7 +472,6 @@ namespace PAZ_Dispersal
        *  Description     : 
        *  Return type     : void 
        * *******************************************************************************/
-      
       private void doTimeStep()
       {
          checkTemporalModifiers();
@@ -463,17 +482,89 @@ namespace PAZ_Dispersal
          this.AnimalManager.doTimeStep(this.currHourMod,this.currDailyMod, this.currTime, this.mDoTextOutPut);
          
       }
-     
+
+      /********************************************************************************
+       *  Function name   : initializeDailySimulation
+       *  Description     : 
+       *  Return type     : void 
+       * *******************************************************************************/
+      private void initializeDailySimulation()
+      {
+         //this.currHourMod = (HourlyModifier)this.myHourlyModifiers.GetByIndex(0);
+      }
+
+      /********************************************************************************
+       *  Function name   : initializeSimulation
+       *  Description     : 
+       *  Return type     : void 
+       * *******************************************************************************/
+      private void initializeSimulation()
+      {
+         this.currHourMod = (HourlyModifier)this.myHourlyModifiers.GetByIndex(0);
+         this.myHourlyModifiers.reset();
+         this.currHourMod = this.myHourlyModifiers.getNext();
+         this.nextStartHour = this.myHourlyModifiers.NextStartHour;
+         this.myDailyModifiers.reset();
+         this.currDailyMod = this.myDailyModifiers.getFirst();
+         this.nextDayStart = this.myDailyModifiers.NextStartDate;
+         // this should get us the number of steps per hour * 24 = numSteps per day * days per season = steps/year * numSeasons = steps/simulation
+         this.mNumTotalTimeSteps = (this.mElapsedTimeBetweenTimeStep/60) * 24 * this.NumDaysSeason * this.NumSeasons;
+         this.currTimeStep = 0;
+      }
+
+      /********************************************************************************
+       *  Function name   : initializeYearlySimulation
+       *  Description     : 
+       *  Return type     : void 
+       * *******************************************************************************/
+      private void initializeYearlySimulation()
+      {
+        // int numOrginalDispersers = 0;
+         fw.writeLine("inside initialize yearly simulation");
+         this.myHourlyModifiers.reset();
+         this.currHourMod = this.myHourlyModifiers.getNext();
+         this.nextStartHour = this.myHourlyModifiers.NextStartHour;
+         this.myDailyModifiers.reset();
+         this.myDailyModifiers.advanceOneYear();
+         this.currDailyMod = this.myDailyModifiers.getNext();
+         this.nextDayStart = this.myDailyModifiers.NextStartDate;
+         //09/09/2007 moved winter kill before changing maps
+         //09/12/2009 changed to passing the social map so any residents that die, their area will be avaialable again.
+         this.mAnimalManager.winterKillResidents(this.MapManager.SocialMap);
+         //the old mMapManager out put path include last years YEAR so we need to strip it off and replace it with this years YEAR
+         this.mMapManager.OutMapPath = this.mMapManager.OutMapPath.Remove(this.mMapManager.OutMapPath.LastIndexOf("\\"),5);
+         this.mMapManager.OutMapPath = this.mMapManager.OutMapPath + "\\" + this.currTime.Year.ToString();
+         
+         //reset the maps start dates for this year
+         this.MapManager.addYearToMaps();
+
+         //now deal with the animals.
+         //Author: Bob Cummings Saturday, October 13, 2007
+         this.mAnimalManager.removeRemaingDispersers();
+
+         //had an issue with breeding before switchout the maps so moved it to happen after
+         this.MapManager.setUpNewYearsMaps(this.currTime,this.mAnimalManager);
+         
+         this.mAnimalManager.breedFemales(this.currTime);
+         //this.mAnimalManager.setSleepTime(this.currTime);
+         this.mMapManager.makeNextGenerationAnimalMaps(this.mAnimalManager,this.currTime.Year.ToString());
+         fw.writeLine("done initializing yearly simulation");
+      }
 
       private void upDateForm(ref frmInput inForm)
       {
 
          inForm.updateProgressBar(this.currTimeStep/this.mNumTotalTimeSteps);
       }
-      
-      #endregion
 
-      #region getters and setters
+		#endregion Private Methods 
+		#region Internal Methods (2) 
+
+      internal DailyModiferCollection GetDailyModiferCollection()
+      {
+         DailyModiferCollection mySingleton = DailyModiferCollection.GetUniqueInstance();
+         return mySingleton;
+      }
 
       internal HourlyModifierCollection GetHourlyModifierCollection()
       {
@@ -482,94 +573,9 @@ namespace PAZ_Dispersal
          fw.writeLine("done getting the collection current Count is " + myHourlyModifiers.Count.ToString());
          return myHourlyModifiers;
       }
-   
-      internal DailyModiferCollection GetDailyModiferCollection()
-      {
-         DailyModiferCollection mySingleton = DailyModiferCollection.GetUniqueInstance();
-         return mySingleton;
-      }
-      public MapManager MapManager
-      {
-         get { return mMapManager; }
-         set { mMapManager = value; }
-      }
-      public string ErrMessage
-      {
-         get { return mErrMessage;}
-         set  { mErrMessage = value; }
-      }
 
-      public AnimalManager AnimalManager
-      {
-         get { return mAnimalManager; }
-         set { mAnimalManager = value; }
-      }
+		#endregion Internal Methods 
 
-      public bool DoTextOutPut
-      {
-         get { return mDoTextOutPut; }
-         set { mDoTextOutPut = value; 
-         fw.writeLine("inside sim manager setting mDoTextOutPut to " + value.ToString());}
-      }
-
-      public string TextOutPutFileName
-      {
-         get { return mTextOutPutFileName; }
-         set { mTextOutPutFileName = value; }
-      }
-
-      
-
-      public string MapOutPutPath
-      {
-         get { return mMapOutPutPath; }
-         set { mMapOutPutPath = value; }
-      }
-
-      public DateTime EndSimulatonDate
-		{
-			get { return mEndSimulatonDate; }
-			set { mEndSimulatonDate = value; }
-		}
-
-      public DateTime StartSimulationDate
-		{
-			get { return mStartSimulationDate; }
-			set  { mStartSimulationDate = value; }
-		}
-
-      public DateTime EndSeasonDate
-      {
-         get { return mEndSeasonDate; }
-         set { mEndSeasonDate = value; }
-      }
-
-      public int NumDaysSeason
-      {
-         get { return mNumDaysSeason; }
-         set { mNumDaysSeason = value; }
-      }
-
-      public int NumSeasons
-      {
-         get { return mNumSeasons; }
-         set { mNumSeasons = value; }
-      }
-
-      public double ElapsedTimeBetweenTimeStep
-      {
-         get { return mElapsedTimeBetweenTimeStep; }
-         set  { mElapsedTimeBetweenTimeStep = value; }
-      }
-
-
-      public DateTime StartSeasonDate
-      {
-         get { return mStartSeasonDate; }
-         set { mStartSeasonDate = value; }
-      }
-
-
-      #endregion
+		#endregion Methods 
    }
 }

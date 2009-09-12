@@ -3,9 +3,9 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text;
-using PAZ_Dispersal;
+using SEARCH;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Summary description for frmMapTimes.

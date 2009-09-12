@@ -1,6 +1,6 @@
 using MathNet.Numerics.Generators;
 using System;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class RandomNumbers
    {

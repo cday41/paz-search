@@ -1,4 +1,4 @@
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Modifies the animals behavior based on the fact it is a male animal -The Singleton defines an Instance operation that lets clients access its unique instance. 

@@ -4,12 +4,12 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using PAZ_Dispersal;
+using SEARCH;
 
 using inputBox;
 using FileWriter;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Summary description for YearlyForm.

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using ESRI.ArcGIS.Geometry;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// //holds the information about areas we have visited

@@ -10,7 +10,7 @@ using ESRI.ArcGIS.Carto;
 using ESRI.ArcGIS.Display;
 using System.Runtime.InteropServices;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Summary description for AnimalMap.

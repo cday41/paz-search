@@ -35,9 +35,10 @@ using System;
 using System.Text;
 using System.Xml;
 using System.Xml.XPath;
+using System.Collections.Specialized;
 
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 
    /// <summary>
@@ -48,18 +49,54 @@ namespace PAZ_Dispersal
    /// </summary>
    public class MapManager
    {
-		#region Public Members (50) 
+		#region Fields (26) 
 
-		#region Fields (5) 
+		#region A to F (5) 
 
+      private string errFileName;
+      private System.Collections.Specialized.StringCollection errMessages;
+      private int errNumber;
+      //  = new ShapefileWorkspaceFactory();
+      private IFeatureWorkspace featureWrkSpace;
+      private FileWriter.FileWriter fw;
+
+		#endregion A to F 
+		#region M to R (16) 
+
+      private DateTime mCurrTime;
+      private string mOutMapPath;
+      private AnimalMap[] myAnimalMaps;
+      private DataManipulator myDataManipulator;
+      private Map myDispersalMap = null;
       public Maps myDispersalMaps = null;
+      private Map myFoodMap = null;
       public Maps myFoodMaps = null;
+      private Hashtable myHash;
+      private Map myMoveMap = null;
       public Maps myMoveMaps = null;
+      private Map myPredationMap = null;
       public Maps myPredationMaps = null;
+      private Map mySocialMap = null;
       public Maps mySocialMaps = null;
+      private int numHomeRanges;
+
+		#endregion M to R 
+		#region S to Z (4) 
+
+      private int SocialIndex;
+      private static MapManager uniqueInstance;
+      //      public  int myMaps;
+      private IWorkspace wrkSpace;
+      private IWorkspaceFactory wrkSpaceFactory;
+
+		#endregion S to Z 
+      private string _currStepPath;
 
 		#endregion Fields 
+
 		#region Properties (4) 
+
+		#region A to F (2) 
 
       public string CurrStepPath
       {
@@ -73,6 +110,9 @@ namespace PAZ_Dispersal
          set { mCurrTime = value; }
       }
 
+		#endregion A to F 
+		#region M to R (1) 
+
       public string OutMapPath
       {
          get { return mOutMapPath; }
@@ -83,14 +123,22 @@ namespace PAZ_Dispersal
          }
       }
 
+		#endregion M to R 
+		#region S to Z (1) 
+
       public Map SocialMap
       {
          get { return mySocialMap; }
          set { mySocialMap = value; }
       }
 
+		#endregion S to Z 
+
 		#endregion Properties 
-		#region Methods (41) 
+
+		#region Methods (54) 
+
+		#region Public Methods (41) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
@@ -1154,6 +1202,10 @@ namespace PAZ_Dispersal
          }
       }
 
+      public void RemoveDeadResidentOccupation(StringCollection inListOfDeadResidents)
+      {
+      }
+
       public void setUpNewYearsMaps(DateTime now, AnimalManager am)
       {
          fw.writeLine("inside setUpNewYearsMaps (DateTime now,AnimalManager am)");
@@ -1387,73 +1439,9 @@ namespace PAZ_Dispersal
          myDispersalMaps.writeXMLTriggers(ref xw);
       }
 
-		#endregion Methods 
+		#endregion Public Methods 
 
-		#endregion Public Members 
-
-		#region Non-Public Members (35) 
-
-		#region Fields (21) 
-
-      private string _currStepPath;
-      private string errFileName;
-      private System.Collections.Specialized.StringCollection errMessages;
-      private int errNumber;
-      //  = new ShapefileWorkspaceFactory();
-      private IFeatureWorkspace featureWrkSpace;
-      private FileWriter.FileWriter fw;
-      private DateTime mCurrTime;
-      private string mOutMapPath;
-      private AnimalMap[] myAnimalMaps;
-      private DataManipulator myDataManipulator;
-      private Map myDispersalMap = null;
-      private Map myFoodMap = null;
-      private Hashtable myHash;
-      private Map myMoveMap = null;
-      private Map myPredationMap = null;
-      private Map mySocialMap = null;
-      private int numHomeRanges;
-      private int SocialIndex;
-      private static MapManager uniqueInstance;
-      //      public  int myMaps;
-      private IWorkspace wrkSpace;
-      private IWorkspaceFactory wrkSpaceFactory;
-
-		#endregion Fields 
-		#region Enums (1) 
-
-      private enum ERR
-      {
-         WRONG_TYPE_OF_SHAPE_FILE,
-         CAN_NOT_FIND_REQUIRED_FIELD,
-         NO_FILES_FOUND_IN_DIRECTORY,
-         DIRECTORY_ALREADY_IN_USE,
-         NO_DIRECTORY_FOUND
-      }
-
-		#endregion Enums 
-		#region Constructors (1) 
-
-private MapManager()
-      {
-         //check on whether we are going to log or not
-         this.buildLogger();
-         // get the error messages ready         
-         initializeErrMessages();
-         myDataManipulator = new DataManipulator();
-         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
-         this.myFoodMaps = new Maps("Food");
-         this.myMoveMaps = new Maps("Move");
-         this.myPredationMaps = new Maps("Predation");
-         this.mySocialMaps = new Maps("Social");
-         this.myDispersalMaps = new Maps("Dispersal");
-         SocialIndex = 0;
-         numHomeRanges = 0;
-
-      }
-
-		#endregion Constructors 
-		#region Methods (12) 
+		#region Private Methods (13) 
 
       private void AddFirstMemoryPoly(int AnimalID, IPolygon inPoly1, IPolygon inPoly2)
       {
@@ -1647,6 +1635,24 @@ private MapManager()
 
       }
 
+private MapManager()
+      {
+         //check on whether we are going to log or not
+         this.buildLogger();
+         // get the error messages ready         
+         initializeErrMessages();
+         myDataManipulator = new DataManipulator();
+         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
+         this.myFoodMaps = new Maps("Food");
+         this.myMoveMaps = new Maps("Move");
+         this.myPredationMaps = new Maps("Predation");
+         this.mySocialMaps = new Maps("Social");
+         this.myDispersalMaps = new Maps("Dispersal");
+         SocialIndex = 0;
+         numHomeRanges = 0;
+
+      }
+
       private void removeAnimalMap(string oldMapPath)
       {
 
@@ -1819,8 +1825,16 @@ private MapManager()
          return result;
       }
 
-		#endregion Methods 
+		#endregion Private Methods 
 
-		#endregion Non-Public Members 
+		#endregion Methods 
+      private enum ERR
+      {
+         WRONG_TYPE_OF_SHAPE_FILE,
+         CAN_NOT_FIND_REQUIRED_FIELD,
+         NO_FILES_FOUND_IN_DIRECTORY,
+         DIRECTORY_ALREADY_IN_USE,
+         NO_DIRECTORY_FOUND
+      }
    }
 }

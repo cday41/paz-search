@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using DesignByContract;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Attributes for a gender/species combination animal

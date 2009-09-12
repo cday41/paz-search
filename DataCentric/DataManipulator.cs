@@ -13,7 +13,7 @@ using ESRI.ArcGIS.DataSourcesFile;
 using System.Runtime.InteropServices;
 using ESRI.ArcGIS.Geoprocessing;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
     class DataManipulator
     {

@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// A modifier that hangs out for a certain number of days

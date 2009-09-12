@@ -25,7 +25,7 @@ using System.IO;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using System.Collections.Generic;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Summary description for HomeRangeFinder.

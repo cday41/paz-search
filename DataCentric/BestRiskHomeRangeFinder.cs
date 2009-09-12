@@ -1,7 +1,7 @@
 using System;
 using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// 

@@ -1,6 +1,6 @@
 using System;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    
    public sealed class HourlyModifierCollection : System.Collections.SortedList

@@ -2,7 +2,7 @@ using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using System.Collections;
 using System.Collections.Specialized;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class MemoryMap : Map
    {

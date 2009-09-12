@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using ESRI.ArcGIS.Geometry;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// Summary description for IPointList.

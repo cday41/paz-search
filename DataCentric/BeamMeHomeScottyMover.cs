@@ -1,11 +1,11 @@
 using System;
 using ESRI.ArcGIS.Geometry;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// Used to move an animal to its home range
 	/// </summary>
-	public class BeamMeHomeScottyMover : PAZ_Dispersal.Mover
+	public class BeamMeHomeScottyMover : SEARCH.Mover
 	{
 		#region Public Members (4) 
 

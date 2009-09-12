@@ -1,4 +1,4 @@
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// This interface defines the update method used to participate in the observer pattern

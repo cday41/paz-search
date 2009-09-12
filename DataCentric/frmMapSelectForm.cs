@@ -12,7 +12,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// Summary description for MapSelectForm.

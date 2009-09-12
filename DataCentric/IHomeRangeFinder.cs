@@ -1,5 +1,5 @@
 using ESRI.ArcGIS.Geodatabase;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public interface IHomeRangeFinder
    {

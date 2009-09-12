@@ -3,9 +3,9 @@ using System.Drawing;
 using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
-using PAZ_Dispersal;
+using SEARCH;
 
-namespace PAZ_Dispersal.Forms
+namespace SEARCH.Forms
 {
 	/// <summary>
 	/// Summary description for frmSeason.

@@ -28,7 +28,7 @@ using System.Linq;
 
 
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Summary description for EligibleHomeSites.

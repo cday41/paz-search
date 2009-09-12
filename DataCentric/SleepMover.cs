@@ -1,11 +1,11 @@
 using System;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class SleepMover : PAZ_Dispersal.Mover
+	public class SleepMover : SEARCH.Mover
 	{
 		#region Public Members (4) 
 

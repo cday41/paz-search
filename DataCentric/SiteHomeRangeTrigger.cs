@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// Summary description for SiteHomeRangeTrigger.

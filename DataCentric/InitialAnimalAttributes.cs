@@ -1,7 +1,7 @@
 using ESRI.ArcGIS.Geometry;
 using System;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// Summary description for InitialAnimalAttributes.

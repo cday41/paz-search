@@ -1,4 +1,4 @@
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// This class represents a field that other classes care about.  When this class's value changes, it iterates through its list of registered observers and calls their update method.

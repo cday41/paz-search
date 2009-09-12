@@ -1,11 +1,11 @@
 using System;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class DirectedMover : PAZ_Dispersal.Mover
+	public class DirectedMover : SEARCH.Mover
 	{
 		#region Public Members (4) 
 

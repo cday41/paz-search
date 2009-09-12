@@ -46,7 +46,7 @@ using System.Collections;
 using System.Xml;
 using System.Xml.XPath;
 using DesignByContract;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class Maps
    {

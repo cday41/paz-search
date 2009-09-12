@@ -1,6 +1,6 @@
 using System;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// contains the criteria for calculating the home range area

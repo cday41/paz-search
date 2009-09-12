@@ -8,61 +8,129 @@ using DesignByContract;
 //#define ZeroOnly
 using ESRI.ArcGIS.Geometry;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class AnimalManager : System.Collections.ArrayList
    {
-		#region Public Members (1) 
+		#region Fields (17) 
 
-		#region Constructors (1) 
+		#region A to F (2) 
 
-      public AnimalManager()
+      private IEnumerator currAnimal;
+      private FileWriter.FileWriter fw;
+
+		#endregion A to F 
+		#region M to R (15) 
+
+      private AnimalAtributes mAnimalAttributes;
+      private HomeRangeCriteria mFemaleHomeRangeCriteria;
+      private FemaleModifier mFemaleModifier;
+      private IHomeRangeFinder mHomeRangeFinder;
+      private IHomeRangeTrigger mHomeRangeTrigger;
+      private HomeRangeCriteria mMaleHomeRangeCriteria;
+      private MaleModifier mMaleModifier;
+      private Dictionary<IPoint, MapValue> mMapValues;
+      private Mover mMover;
+      private ResidentAttributes mResidentAttributes;
+      private Modifier mRiskyForageMod;
+      private Modifier mRiskySearchMod;
+      private Modifier mSafeForageMod;
+      private Modifier mSafeSearchMod;
+      private string myErrMessage;
+
+		#endregion M to R 
+
+		#endregion Fields 
+
+		#region Properties (9) 
+
+		#region A to F (3) 
+
+      public AnimalAtributes AnimalAttributes
       {
-         buildLogger();
-         fw.writeLine("getting the modifiers");
-         mMaleModifier = MaleModifier.GetUniqueInstance();
-         mFemaleModifier = FemaleModifier.GetUniqueInstance();
-         mAnimalAttributes = new AnimalAtributes();
-         mRiskySearchMod = new RiskySearchModifier();
-         mRiskyForageMod = new RiskyForageModifier();
-         mSafeForageMod = new SafeForageModifier();
-         mSafeSearchMod = new SafeSearchModifier();
-         fw.writeLine("now making the mover object");
-         mMover = RandomWCMover.getRandomWCMover();
-       //  myMapManager = MapManager.GetUniqueInstance();
-      //   mResidentAttributes = new ResidentAttributes();
+         get { return mAnimalAttributes; }
+         set { mAnimalAttributes = value; }
+      }
+
+      public string ErrMessage
+      {
+         get { return myErrMessage; }
+                                 
+         set { myErrMessage = value; }
+      }
+
+      public FemaleModifier FemaleModifier
+      {
+         get { return mFemaleModifier; }
+         set 
+         {
+            mFemaleModifier = value;
+            fw.writeLine("inside animal manager setting the mFemaleModifierMod"); }
+      }
+
+		#endregion A to F 
+		#region M to R (4) 
+
+      public MaleModifier MaleModifier
+      {
+         get { return mMaleModifier; }
+         set 
+         {
+            mMaleModifier = value;
+            fw.writeLine("inside animal manager setting the mMaleModifierMod"); }
+      }
+
+      public ResidentAttributes ResidentAttributes
+      {
+         get { return mResidentAttributes; }
+         set { mResidentAttributes = value; }
+      }
+
+      public Modifier RiskyForageMod
+      {
+         get { return mRiskyForageMod; }
+         set 
+         {
+            mRiskyForageMod = value;
+            fw.writeLine("inside animal manager setting the mRiskyForageMod"); }
+      }
+
+      public Modifier RiskySearchMod
+      {
+         get { return mRiskySearchMod; }
+         set { mRiskySearchMod = value; }
+      }
+
+		#endregion M to R 
+		#region S to Z (2) 
+
+      public Modifier SafeForageMod
+      {
+         get { return mSafeForageMod; }
+         set 
+         {
+            mSafeForageMod = value;
+            fw.writeLine("inside animal manager setting the mSafeForageMod"); }
 
       }
 
-		#endregion Constructors 
+      public Modifier SafeSearchMod
+      {
+         get { return mSafeSearchMod; }
+         set 
+         {
+            mSafeSearchMod = value;
+            fw.writeLine("inside animal manager setting the mSafeSearchMod"); }
+      }
 
-		#endregion Public Members 
+		#endregion S to Z 
 
+		#endregion Properties 
 
+		#region Methods (29) 
 
-      #region member variables
-      private string myErrMessage;
-      private FileWriter.FileWriter fw;
-      private MaleModifier mMaleModifier;
-      private FemaleModifier mFemaleModifier;
-      private AnimalAtributes mAnimalAttributes;
-      private Modifier mRiskySearchMod;
-      private Modifier mRiskyForageMod;
-      private Modifier mSafeForageMod;
-      private Modifier mSafeSearchMod;
-      private Mover mMover;
-      private IEnumerator currAnimal;
-     
-      private ResidentAttributes mResidentAttributes;
-      private HomeRangeCriteria mMaleHomeRangeCriteria;
-      private HomeRangeCriteria mFemaleHomeRangeCriteria;
-      private IHomeRangeTrigger mHomeRangeTrigger;
-      private IHomeRangeFinder mHomeRangeFinder;
+		#region Public Methods (22) 
 
-      private Dictionary<IPoint, MapValue> mMapValues;
-      #endregion
-
-      #region public methods
       public void addNewDispersers(InitialAnimalAttributes[] inIAA, DateTime currTime)
       {
          try
@@ -88,6 +156,7 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
+
       public void adjustNewSocialMap(Map newSocialMap)
       {
          try
@@ -113,23 +182,9 @@ namespace PAZ_Dispersal
                   //Saturday, March 15, 2008 refactored into a method to be called from 
                   //other places.
                   this.changeToDeadAnimal(a);
-//                  DeadAnimal dd = new DeadAnimal();
-//                  dd.IdNum = a.IdNum;
-//                  dd.IsDead = false;
-//                  fw.writeLine("removing at position " + dd.IdNum.ToString());
-//                  this.RemoveAt(dd.IdNum);
-//                  this.Insert(dd.IdNum,dd);
-                  
                   fw.writeLine("new animal type is " + a.GetType());
-
                   //now reset the social map to not occupied for that resident.
-                  if (a.Sex.ToLower() == "male")
-                     fieldName = "OCCUP_MALE";
-                  else
-                     fieldName = "OCCUP_FEMA";
-                  fw.writeLine("calling resetFields");
-                  newSocialMap.resetFields(fieldName, a.IdNum.ToString(),"none");
-                  fw.writeLine("back in adjustNewSocialMap");
+                  AdjustMapForDeadAnimal(newSocialMap, a);
                }
             }
             fw.writeLine("leaving adjustNewSocialMap");
@@ -143,6 +198,36 @@ namespace PAZ_Dispersal
          }
          
       }
+
+      private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
+      {
+         string fieldName;
+         if (a.Sex.ToLower() == "male")
+            fieldName = "OCCUP_MALE";
+         else
+            fieldName = "OCCUP_FEMA";
+         fw.writeLine("calling resetFields");
+         inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
+      }
+
+      public AnimalManager()
+      {
+         buildLogger();
+         fw.writeLine("getting the modifiers");
+         mMaleModifier = MaleModifier.GetUniqueInstance();
+         mFemaleModifier = FemaleModifier.GetUniqueInstance();
+         mAnimalAttributes = new AnimalAtributes();
+         mRiskySearchMod = new RiskySearchModifier();
+         mRiskyForageMod = new RiskyForageModifier();
+         mSafeForageMod = new SafeForageModifier();
+         mSafeSearchMod = new SafeSearchModifier();
+         fw.writeLine("now making the mover object");
+         mMover = RandomWCMover.getRandomWCMover();
+       //  myMapManager = MapManager.GetUniqueInstance();
+      //   mResidentAttributes = new ResidentAttributes();
+
+      }
+
       public void breedFemales(DateTime currTime)
       {
          fw.writeLine("inside breed females");
@@ -212,6 +297,7 @@ namespace PAZ_Dispersal
 #endif
          }
       }
+
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut)
       {
          Animal a;
@@ -263,7 +349,27 @@ namespace PAZ_Dispersal
          }
         
       }
-      
+
+      public void dump()
+      {
+        
+         Animal a = null;
+         for (int i = 0; i < this.Count; i++)
+         {
+            
+            if (this[i].GetType().ToString() == "SEARCH.Male")
+            {
+               a = (Male)this[i];
+            }
+            else
+            {
+               a = (Female)this[i];
+            }
+            a.dump();
+         }
+         fw.close();
+      }
+
       public int getNumDispersers()
       {
          int num = 0;
@@ -281,6 +387,7 @@ namespace PAZ_Dispersal
          }
          return num;
       }
+
       public int getNumResidents()
       {
          int num = 0;
@@ -326,6 +433,7 @@ namespace PAZ_Dispersal
          }
          return sc;
       }
+
       public bool makeInitialAnimals(InitialAnimalAttributes[] inIAA)
       {
          bool success = true;
@@ -374,6 +482,7 @@ namespace PAZ_Dispersal
          }
          return success;
       }
+
       public bool makeResidents(InitialAnimalAttributes[]inResAttributes)
       {
          bool success = false;
@@ -413,6 +522,7 @@ namespace PAZ_Dispersal
          return success;
 
       }
+
       public void removeRemaingDispersers()
       {
          try
@@ -443,7 +553,7 @@ namespace PAZ_Dispersal
          }
          
       }
-      
+
       public bool setAttributes()
       {
          bool success = true;
@@ -475,29 +585,7 @@ namespace PAZ_Dispersal
          }
          return success;
       }
-      /********************************************************************************
-       *   Function name   : setHomeRange
-       *   Description     : 
-       *   Return type     : void 
-       *   Argument        : string sex
-       *   Argument        : double area
-       *   Argument        : double distanceMean
-       *   Argument        : double distanceSD
-       * ********************************************************************************/
-      public void setHomeRange(string sex, double area, double distanceMean, double distanceSD, double distanceWeight)
-      {
-         if (sex.ToUpper() == "MALE")
-         {
-            this.mMaleHomeRangeCriteria = new HomeRangeCriteria(area, distanceMean, distanceSD, distanceWeight);
-            setMaleHomeRange();
-         }
-         else
-         {
-            this.mFemaleHomeRangeCriteria = new HomeRangeCriteria(area, distanceMean, distanceSD, distanceWeight);
-            setFemaleHomeRange();
-         }
-      }
-     
+
       public bool setGenderModifiers()
       {
          Animal a;
@@ -526,6 +614,30 @@ namespace PAZ_Dispersal
          return success;
 
       }
+
+      /********************************************************************************
+       *   Function name   : setHomeRange
+       *   Description     : 
+       *   Return type     : void 
+       *   Argument        : string sex
+       *   Argument        : double area
+       *   Argument        : double distanceMean
+       *   Argument        : double distanceSD
+       * ********************************************************************************/
+      public void setHomeRange(string sex, double area, double distanceMean, double distanceSD, double distanceWeight)
+      {
+         if (sex.ToUpper() == "MALE")
+         {
+            this.mMaleHomeRangeCriteria = new HomeRangeCriteria(area, distanceMean, distanceSD, distanceWeight);
+            setMaleHomeRange();
+         }
+         else
+         {
+            this.mFemaleHomeRangeCriteria = new HomeRangeCriteria(area, distanceMean, distanceSD, distanceWeight);
+            setFemaleHomeRange();
+         }
+      }
+
       public bool setHomeRangeCriteria(string type)
       {
          bool success = false;
@@ -614,7 +726,7 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-      
+
       public void setInitialValues()
       {
          try
@@ -629,6 +741,32 @@ namespace PAZ_Dispersal
 #endif
          }
       }
+
+      public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk, 
+         double inPercentBreed, double inPercentFemale, double inMeanLitterSize, double inSDLitterSize)
+      {
+         try
+         {
+            fw.writeLine("inside animal Manager setResidentModifierValues inSDLitterSize is" + inSDLitterSize.ToString());
+            Check.Require(inTimeStepRisk >= 0, "Resident Time Step Risk less then zero");
+            Check.Require(inYearlyRisk >= 0, "Resident Yearly Risk less then zero");
+            Check.Require(inPercentBreed >= 0, "Resident chance of breeding less then zero");
+            Check.Require(inPercentFemale >= 0, "Resident chance of having female offspring less then zero");
+            Check.Require(inMeanLitterSize >= 0, "Resident mean litter size less then zero");
+            Check.Require(inSDLitterSize >= 0, "Resident sd litter size less then zero");
+            mResidentAttributes = new ResidentAttributes(inTimeStepRisk, inYearlyRisk, inPercentBreed, inPercentFemale, inMeanLitterSize, inSDLitterSize);
+            this.setResidentAttributes();
+
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
       public bool setSleepTime(DateTime currTime)
       {
          Animal a;
@@ -710,34 +848,8 @@ namespace PAZ_Dispersal
          return success;
 
       }
-     
-      public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk, 
-         double inPercentBreed, double inPercentFemale, double inMeanLitterSize, double inSDLitterSize)
-      {
-         try
-         {
-            fw.writeLine("inside animal Manager setResidentModifierValues inSDLitterSize is" + inSDLitterSize.ToString());
-            Check.Require(inTimeStepRisk >= 0, "Resident Time Step Risk less then zero");
-            Check.Require(inYearlyRisk >= 0, "Resident Yearly Risk less then zero");
-            Check.Require(inPercentBreed >= 0, "Resident chance of breeding less then zero");
-            Check.Require(inPercentFemale >= 0, "Resident chance of having female offspring less then zero");
-            Check.Require(inMeanLitterSize >= 0, "Resident mean litter size less then zero");
-            Check.Require(inSDLitterSize >= 0, "Resident sd litter size less then zero");
-            mResidentAttributes = new ResidentAttributes(inTimeStepRisk, inYearlyRisk, inPercentBreed, inPercentFemale, inMeanLitterSize, inSDLitterSize);
-            this.setResidentAttributes();
 
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
-
-
-      public void winterKillResidents()
+      public void winterKillResidents(Map currSocialMap)
       {
          try
          {
@@ -758,12 +870,9 @@ namespace PAZ_Dispersal
                   if (r.IsDead)
                   {
                      fw.writeLine("Well he died a glorious death but now he is just a dead animal ");
-                     DeadAnimal da = new DeadAnimal();
-                     da.IdNum = r.IdNum;
-                     //HACK WHY IS NOT ALIVE
-                     //da.IsDead = false;
-                     this.RemoveAt(i);
-                     this.Insert(i, da);
+                     this.changeToDeadAnimal(r);
+                     this.AdjustMapForDeadAnimal(currSocialMap, r);
+                     
                   }
                }
             }
@@ -777,29 +886,11 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
-      public void dump()
-      {
-        
-         Animal a = null;
-         for (int i = 0; i < this.Count; i++)
-         {
-            
-            if (this[i].GetType().ToString() == "PAZ_Dispersal.Male")
-            {
-               a = (Male)this[i];
-            }
-            else
-            {
-               a = (Female)this[i];
-            }
-            a.dump();
-         }
-         fw.close();
-      }
-     
-      #endregion
 
-      #region private methods
+		#endregion Public Methods 
+
+
+		#region Private Methods (7) 
 
       private void buildLogger()
       {
@@ -853,6 +944,7 @@ namespace PAZ_Dispersal
          }
          return r;
       }
+
       private void makeNextGenAnimal(InitialAnimalAttributes inIAA, DateTime currTime)
       {
          Animal tmpAnimal = null;
@@ -901,6 +993,32 @@ namespace PAZ_Dispersal
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
       }
+
+      private void setFemaleHomeRange()
+      {
+         int numAnimals = this.Count;
+         Animal tmpAnimal = null;
+         //fw.writeLine("inside AnimalManager.setFemaleHomeRange going to start the loop");
+         for (int i = 0; i < numAnimals; i++)
+         {
+            tmpAnimal = (Animal)this[i];
+            if (!tmpAnimal.IsDead)
+            {
+               //fw.writeLine("inside the loop checking to see if it is a male");
+               //fw.writeLine("the animal id is " + tmpAnimal.IdNum.ToString());
+               if (tmpAnimal.GetType().ToString().ToUpper().IndexOf(".FEMALE") >= 0)
+               {
+                  //fw.writeLine("must have been a Female setting data");
+                  tmpAnimal.HomeRangeArea = this.mFemaleHomeRangeCriteria.Area;
+                  tmpAnimal.DistanceMean = this.mFemaleHomeRangeCriteria.DistanceMean;
+                  tmpAnimal.DistanceSE = this.mFemaleHomeRangeCriteria.DistanceSD;
+                  tmpAnimal.DistanceWeight = this.mFemaleHomeRangeCriteria.DistanceWeight;
+               }
+            }
+         }
+         //fw.writeLine("done with AnimalManager.setFemaleHomeRange ");
+      }
+
       private void setMaleHomeRange()
       {
          int numAnimals = this.Count;
@@ -936,114 +1054,16 @@ namespace PAZ_Dispersal
          setFemaleHomeRange();
 
       }
-      private void setFemaleHomeRange()
-      {
-         int numAnimals = this.Count;
-         Animal tmpAnimal = null;
-         //fw.writeLine("inside AnimalManager.setFemaleHomeRange going to start the loop");
-         for (int i = 0; i < numAnimals; i++)
-         {
-            tmpAnimal = (Animal)this[i];
-            if (!tmpAnimal.IsDead)
-            {
-               //fw.writeLine("inside the loop checking to see if it is a male");
-               //fw.writeLine("the animal id is " + tmpAnimal.IdNum.ToString());
-               if (tmpAnimal.GetType().ToString().ToUpper().IndexOf(".FEMALE") >= 0)
-               {
-                  //fw.writeLine("must have been a Female setting data");
-                  tmpAnimal.HomeRangeArea = this.mFemaleHomeRangeCriteria.Area;
-                  tmpAnimal.DistanceMean = this.mFemaleHomeRangeCriteria.DistanceMean;
-                  tmpAnimal.DistanceSE = this.mFemaleHomeRangeCriteria.DistanceSD;
-                  tmpAnimal.DistanceWeight = this.mFemaleHomeRangeCriteria.DistanceWeight;
-               }
-            }
-         }
-         //fw.writeLine("done with AnimalManager.setFemaleHomeRange ");
-      }
-      
+
       private void setResidentAttributes()
       {
          Resident[] rs = getResidents();
          foreach (Resident r in rs)
             r.MyAttributes = this.ResidentAttributes;
       }
-      #endregion
 
-      #region gettersAndSetters
+		#endregion Private Methods 
 
-      public ResidentAttributes ResidentAttributes
-      {
-         get { return mResidentAttributes; }
-         set { mResidentAttributes = value; }
-      }
-
-      public Modifier RiskySearchMod
-      {
-         get { return mRiskySearchMod; }
-         set { mRiskySearchMod = value; }
-      }
-
-      public Modifier RiskyForageMod
-      {
-         get { return mRiskyForageMod; }
-         set 
-         {
-            mRiskyForageMod = value;
-            fw.writeLine("inside animal manager setting the mRiskyForageMod"); }
-      }
-
-      public Modifier SafeForageMod
-      {
-         get { return mSafeForageMod; }
-         set 
-         {
-            mSafeForageMod = value;
-            fw.writeLine("inside animal manager setting the mSafeForageMod"); }
-
-      }
-
-      public Modifier SafeSearchMod
-      {
-         get { return mSafeSearchMod; }
-         set 
-         {
-            mSafeSearchMod = value;
-            fw.writeLine("inside animal manager setting the mSafeSearchMod"); }
-      }
-
-
-
-      public MaleModifier MaleModifier
-      {
-         get { return mMaleModifier; }
-         set 
-         {
-            mMaleModifier = value;
-            fw.writeLine("inside animal manager setting the mMaleModifierMod"); }
-      }
-
-      public FemaleModifier FemaleModifier
-      {
-         get { return mFemaleModifier; }
-         set 
-         {
-            mFemaleModifier = value;
-            fw.writeLine("inside animal manager setting the mFemaleModifierMod"); }
-      }
-
-      public string ErrMessage
-      {
-         get { return myErrMessage; }
-                                 
-         set { myErrMessage = value; }
-      }
-
-      public AnimalAtributes AnimalAttributes
-      {
-         get { return mAnimalAttributes; }
-         set { mAnimalAttributes = value; }
-      }
-
-      #endregion
+		#endregion Methods 
    }
 }

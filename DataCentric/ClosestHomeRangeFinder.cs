@@ -7,7 +7,7 @@ using ESRI.ArcGIS.DataSourcesFile;
 using ESRI.ArcGIS.esriSystem;
 using FileWriter;
 using DesignByContract;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Summary description for ClosestHomeRangeFinder.

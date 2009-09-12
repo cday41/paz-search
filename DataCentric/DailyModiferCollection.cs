@@ -5,7 +5,7 @@
  *                   needed to start the simulation.
  * ***************************************************************************/
 using System;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    
    public sealed class DailyModiferCollection:System.Collections.SortedList

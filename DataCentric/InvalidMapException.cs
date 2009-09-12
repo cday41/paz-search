@@ -1,6 +1,6 @@
 using System;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// thrown when a map doesn't validate correctly

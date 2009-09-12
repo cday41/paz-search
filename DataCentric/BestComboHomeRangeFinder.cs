@@ -3,7 +3,7 @@ using ESRI.ArcGIS.Geodatabase;
 using ESRI.ArcGIS.Geometry;
 using System.Collections.Generic;
 using System.Linq;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// 

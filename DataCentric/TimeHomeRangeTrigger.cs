@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections;
 
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    
    public sealed class TimeHomeRangeTrigger:IHomeRangeTrigger

@@ -25,10 +25,10 @@ using ESRI.ArcGIS.esriSystem;
 using bobResize;
 using System.Xml;
 using System.Xml.XPath;
-using PAZ_Dispersal;
+using SEARCH;
 //using GISHACK;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    /// <summary>
    /// Summary description for Form1.

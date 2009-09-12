@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ESRI.ArcGIS.Geometry;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    struct MapValue
    {

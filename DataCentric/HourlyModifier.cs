@@ -1,7 +1,7 @@
 using System;
 
 using System.ComponentModel;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 	/// <summary>
 	/// Summary description for HourlyModifier.

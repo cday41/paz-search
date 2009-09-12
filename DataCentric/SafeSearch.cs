@@ -1,4 +1,4 @@
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public class SafeSearchModifier : Modifier
    {

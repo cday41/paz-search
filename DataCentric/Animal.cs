@@ -42,7 +42,7 @@ using System;
 using DesignByContract;
 using System.Collections.Generic;
 using System.Threading;
-namespace PAZ_Dispersal
+namespace SEARCH
 {
    public  class Animal
    {

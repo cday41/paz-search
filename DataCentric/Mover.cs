@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using ESRI.ArcGIS.Geometry;
 
-namespace PAZ_Dispersal
+namespace SEARCH
 {
 
    /// <summary>
