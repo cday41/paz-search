@@ -298,7 +298,7 @@ namespace SEARCH
          }
       }
 
-      public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut)
+      public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
          Animal a;
          //IEnumerator e;
@@ -319,6 +319,7 @@ namespace SEARCH
                if (a.IsDead)
                {
                  this.changeToDeadAnimal(a);
+                 this.AdjustMapForDeadAnimal(currSocialMap, a);
                }
                //check to see if they are changing from disperser to resident
                

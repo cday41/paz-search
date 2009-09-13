@@ -479,7 +479,7 @@ namespace SEARCH
          fw.writeLine("my hourly modifier starttime is " + this.currHourMod.StartTime.ToString());
          fw.writeLine("my daily modifier start date is " + this.currDailyMod.StartDate.ToShortDateString());
          fw.writeLine("do text out put = " + this.DoTextOutPut.ToString());
-         this.AnimalManager.doTimeStep(this.currHourMod,this.currDailyMod, this.currTime, this.mDoTextOutPut);
+         this.AnimalManager.doTimeStep(this.currHourMod,this.currDailyMod, this.currTime, this.mDoTextOutPut, this.mMapManager.SocialMap);
          
       }
 
