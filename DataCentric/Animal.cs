@@ -507,7 +507,8 @@ namespace SEARCH
          rollOfTheDice = rn.getUniformRandomNum();
          fw.writeLine("inside die with roll of " + rollOfTheDice.ToString());
          fw.writeLine("going to adust the chance of getting eaten current chance is " + mPredationRisk.ToString() );
-         tempRisk = this.GenderModifier.PredationRisk *  percentTimeStep * mPredationRisk;
+         fw.writeLine("and percent time step is " + percentTimeStep.ToString());
+         tempRisk = percentTimeStep * mPredationRisk;
          fw.writeLine("new chance of getting ambushed is " + tempRisk.ToString());
          tempCloseCall = rollOfTheDice - tempRisk;
          fw.writeLine("Close call value is " + tempCloseCall.ToString());
@@ -637,8 +638,9 @@ namespace SEARCH
          try
          {
             //Author: Bob Cummings added the temporal values.  we were modify too much.
-            mTemporalChanceOfEating = this.GenderModifier.CaptureFood * inHM.CaptureFood * inDM.CaptureFood;      
-            mTemporalRiskValue =  this.GenderModifier.PredationRisk * inHM.PredationRisk * inDM.PredationRisk ;    
+            fw.writeLine("inside setting the temporal adjustmenst");
+            mTemporalChanceOfEating = this.GenderModifier.CaptureFood * inHM.CaptureFood * inDM.CaptureFood;
+            mTemporalRiskValue =  this.GenderModifier.PredationRisk * inHM.PredationRisk * inDM.PredationRisk ;
             mTemporalMoveSpeed =  this.GenderModifier.MoveSpeed * inHM.MoveSpeed * inDM.MoveSpeed;        
             mTemporalMoveTurtosity =  this.GenderModifier.MoveTurtosity * inHM.MoveTurtosity * inDM.MoveTurtosity;    
             mTemporalEnergyUsed = this.GenderModifier.EnergyUsed * inHM.EnergyUsed * inDM.EnergyUsed;       
@@ -659,8 +661,6 @@ namespace SEARCH
 
       private void updateMyLocationValues()
       {
-         fw.writeLine("inside updateMyLocationModifiers");
-        // fw.writeLine("calling set social index");
          this.setSocialIndex();
          this.mMapManager.GetMoveModifiers(this.myLocation,ref mMoveIndex,ref mMoveTurtosity,ref mMoveSpeed,ref mPerceptonModifier,ref mEnergyUsed);
          this.mMapManager.GetRiskModifier(this.myLocation,ref this.mRiskIndex, ref mPredationRisk);
@@ -670,6 +670,7 @@ namespace SEARCH
       }
       private void upDateMyValues()
       {
+         fw.writeLine("now inside update my values which combines the time adjustment, the state of being adjustment, and location adjustment");
          this.mMoveSpeed = this.mMoveSpeed * this.mTemporalMoveSpeed  * this.StateModifer.MoveSpeed;
          this.mMoveTurtosity = this.mMoveTurtosity * this.mTemporalMoveTurtosity * this.StateModifer.MoveTurtosity;
          this.mCaptureFood = this.mCaptureFood * this.mTemporalChanceOfEating * this.StateModifer.CaptureFood;
@@ -683,16 +684,16 @@ namespace SEARCH
       {
          if (this.hadCloseCall) //animal feels threatened, so will act more safely
          {
-          //  fw.writeLine("inside updateBehavioralModifiers, hadCloseCall = " + hadCloseCall.ToString());
-         //   fw.writeLine("Energy level is: " + CurrEnergy.ToString() + " ForageSearchTrigger is: " +this.AnimalAtributes.ForageSearchTrigger.ToString() );
+            //fw.writeLine("inside updateBehavioralModifiers, hadCloseCall = " + hadCloseCall.ToString());
+            //fw.writeLine("Energy level is: " + CurrEnergy.ToString() + " ForageSearchTrigger is: " +this.AnimalAtributes.ForageSearchTrigger.ToString() );
             if (this.CurrEnergy < this.AnimalAtributes.ForageSearchTrigger)//animal is hungry, needs to forage
             {
-              // fw.writeLine("setting stateModifier to a new SafeForageModifier");
+               //fw.writeLine("setting stateModifier to a new SafeForageModifier");
                this.StateModifer = this.AnimalManager.SafeForageMod;
             }
             else //animal isn't hungry, so is looking for a home
             {
-              // fw.writeLine("setting stateModifier to a new SafeSearchModifier");
+               //fw.writeLine("setting stateModifier to a new SafeSearchModifier");
                this.StateModifer = this.mAnimalManager.SafeSearchMod;
             }
          }
@@ -701,7 +702,7 @@ namespace SEARCH
             //fw.writeLine("inside updateBehavioralModifiers, hadCloseCall = " + hadCloseCall.ToString());
             if (this.CurrEnergy < this.AnimalAtributes.ForageSearchTrigger)//animal is hungry, needs to forage
             {
-              // fw.writeLine("setting stateModifier to a new RiskyForageModifier");
+               //fw.writeLine("setting stateModifier to a new RiskyForageModifier");
                this.StateModifer = this.mAnimalManager.RiskyForageMod;
             }
             else  //animal isn't hungry, so is looking for a home
@@ -813,13 +814,18 @@ namespace SEARCH
                       mTextFileWriter.addLine(this.createTextOutput(currTime, tempPercentTimeStep, tempX, tempY));
                   }
                  
+                  // do these for every time time step full or partial
                   loseEnergy(tempPercentTimeStep);
                   eat(tempPercentTimeStep);
                   die(tempPercentTimeStep);
-                  this.updateBehavioralModifiers();
-                  changeActiveState(currTime);
-                  this.updateMyLocationValues();
-                  this.upDateMyValues();
+                  // only do these if going to take another partial step
+                  if (percentTimeStep < 1)
+                  {
+                     this.updateBehavioralModifiers();
+                     changeActiveState(currTime);
+                     this.updateMyLocationValues();
+                     this.upDateMyValues();
+                  }
                   
                  
                }
