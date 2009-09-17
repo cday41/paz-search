@@ -355,6 +355,7 @@ namespace SEARCH_Console
                   tmpAnimal.Location = inIAA[i].Location;
                   
                   tmpAnimal.AnimalAtributes = this.AnimalAttributes;
+                  tmpAnimal.CurrEnergy = this.AnimalAttributes.InitialEnergy;
                   fw.writeLine("now setting the mover");
                   tmpAnimal.myMover = this.mMover;
                   tmpAnimal.StateModifer = this.SafeSearchMod;
