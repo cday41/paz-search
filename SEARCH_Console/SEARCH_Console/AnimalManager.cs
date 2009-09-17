@@ -651,6 +651,7 @@ namespace SEARCH_Console
          string CurrYear = currTime.Year.ToString();
          this.mMapValues = new Dictionary<IPoint, MapValue>();
          bool success = true;
+         this.setAttributes();
          fw.writeLine("inside animal manager calling set sleep time");
          Console.WriteLine("now set up the sleep time for all the animals" + DateTime.Now.ToShortTimeString());
          try
@@ -663,6 +664,7 @@ namespace SEARCH_Console
                   a = (Animal)currAnimal.Current;
                   if (a.GetType().Name != "Resident" && !a.IsDead)
                   {
+                     
                      Console.WriteLine("set sleep time for " + a.IdNum.ToString());
                      a.setInitialSleepTime(currTime);
                      Console.WriteLine("done sleep time for " + a.IdNum.ToString());
@@ -686,6 +688,7 @@ namespace SEARCH_Console
                         a.MoveIndex = this.mMapValues[a.Location].MoveIndex;
                         a.RiskIndex = this.mMapValues[a.Location].RiskIndex;
                         a.SocialIndex = this.mMapValues[a.Location].SocialIndex;
+                       
                      }
                      else
                      {
