@@ -612,15 +612,10 @@ namespace SEARCH
       }
       public void setInitialSleepTime(DateTime currTime)
       {
-         if (this.IdNum == 0 )
-            fw.writeLine("inside set inital sleeptime curr time is " + currTime.ToShortDateString() + "  " + currTime.ToShortTimeString());
+         
+         fw.writeLine("inside set inital sleeptime curr time is " + currTime.ToShortDateString() + "  " + currTime.ToShortTimeString());
          this.WakeupTime = currTime;
          this.calcSleepTime();
-         if (this.IdNum == 0 )
-         {
-            //fw.writeLine("leaving set inital sleeptime waketime is " + this.WakeupTime.ToShortDateString() + "  " + this.WakeupTime.ToShortTimeString());
-            //fw.writeLine("leaving set inital sleeptime sleeptime is " + this.SleepTime.ToShortDateString() + "  " + this.SleepTime.ToShortTimeString());
-         }
       }
       private void setSocialIndex(IPoint currLoc)
       {
@@ -974,7 +969,6 @@ namespace SEARCH
          try
          { 
             fw.writeLine("inside setInitialValues for animal " + this.myIdNum.ToString());
-            setInitialSleepTime(currTime);
             if (this.mMoveIndex < 0)
                setInitialLocaton();
             this.mPerceptionDist = this.AnimalAtributes.PerceptionDistance;
