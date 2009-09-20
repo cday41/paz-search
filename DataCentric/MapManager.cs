@@ -23,6 +23,11 @@
  * Date:          Saturday, May 02, 2009
  * Descripton:    Added the DataManipulator class to simplify some data processeing
  *                using the new features in ArcGIS 9.3.
+ * ****************************************************************************
+ * Author:        Bob Cummings
+ * Date:          Saturday, September 19, 2009
+ * Descripton:    Changed from using an array for holding the Animal Map collection
+ *                to using a List<t>
  * ***************************************************************************/
 
 using ESRI.ArcGIS.Geodatabase;
@@ -31,6 +36,7 @@ using ESRI.ArcGIS.DataSourcesFile;
 using System.IO;
 using DesignByContract;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 using System.Text;
 using System.Xml;
@@ -49,6 +55,29 @@ namespace SEARCH
    /// </summary>
    public class MapManager
    {
+		#region Constructors (1) 
+
+private MapManager()
+      {
+         //check on whether we are going to log or not
+         this.buildLogger();
+         // get the error messages ready         
+         initializeErrMessages();
+         myDataManipulator = new DataManipulator();
+         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
+         this.myFoodMaps = new Maps("Food");
+         this.myMoveMaps = new Maps("Move");
+         this.myPredationMaps = new Maps("Predation");
+         this.mySocialMaps = new Maps("Social");
+         this.myDispersalMaps = new Maps("Dispersal");
+         this.myAnimalMaps = new List<AnimalMap>();
+         SocialIndex = 0;
+         numHomeRanges = 0;
+
+      }
+
+		#endregion Constructors 
+
 		#region Fields (26) 
 
 		#region A to F (5) 
@@ -56,7 +85,6 @@ namespace SEARCH
       private string errFileName;
       private System.Collections.Specialized.StringCollection errMessages;
       private int errNumber;
-      //  = new ShapefileWorkspaceFactory();
       private IFeatureWorkspace featureWrkSpace;
       private FileWriter.FileWriter fw;
 
@@ -65,7 +93,7 @@ namespace SEARCH
 
       private DateTime mCurrTime;
       private string mOutMapPath;
-      private AnimalMap[] myAnimalMaps;
+      private List<AnimalMap> myAnimalMaps;
       private DataManipulator myDataManipulator;
       private Map myDispersalMap = null;
       public Maps myDispersalMaps = null;
@@ -138,14 +166,17 @@ namespace SEARCH
 
 		#region Methods (54) 
 
-		#region Public Methods (41) 
+		#region Public Methods (42) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
          try
          {
 
-            
+            fw.writeLine("");
+            fw.writeLine("----------------------------------------------------------------------");
+            fw.writeLine("inside AddTime Steps for animal "+ AnimalID.ToString());
+            fw.writeLine("and the time step is " + timeStep.ToString());
             string currMapPath = this.myAnimalMaps[AnimalID].FullFileName;
             string newMapPath = this.makeNewMapPath(currMapPath, timeStep.ToString(), AnimalID.ToString());
             string oldMapPath = this.makeNewMapPath(currMapPath, (timeStep - 1).ToString(), AnimalID.ToString());
@@ -300,39 +331,50 @@ namespace SEARCH
          fw.writeLine("inside changeMaps (DateTime now,AnimalManager am)");
          fw.writeLine("DateTime = " + now.ToShortDateString() + " " + now.ToShortTimeString());
 
-         myFoodMaps.changeMap(now);
-         myPredationMaps.changeMap(now);
-         myMoveMaps.changeMap(now);
-         myDispersalMaps.changeMap(now, am);
-      }
-
-      public IFeatureClass getAnimalMap(int index)
-      {
-         AnimalMap am = null;
          try
          {
-            if (index >= 0 && index < this.myAnimalMaps.GetLength(0))
-            {
-               am = this.myAnimalMaps[index];
-            }
-
+            myFoodMaps.changeMap(now);
+            myPredationMaps.changeMap(now);
+            myMoveMaps.changeMap(now);
+            myDispersalMaps.changeMap(now, am);
          }
-         catch (System.Exception ex)
+         catch (Exception ex)
          {
+            FileWriter.FileWriter.WriteErrorFile(ex);
 #if DEBUG
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
+            
          }
-         return am.mySelf;
       }
+
+//      public IFeatureClass getAnimalMap(int index)
+//      {
+//         AnimalMap am = null;
+//         try
+//         {
+//            if (index >= 0 && index < this.myAnimalMaps.GetLength(0))
+//            {
+//               am = this.myAnimalMaps[index];
+//            }
+
+//         }
+//         catch (System.Exception ex)
+//         {
+//#if DEBUG
+//            System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//            FileWriter.FileWriter.WriteErrorFile(ex);
+//         }
+//         return am.mySelf;
+//      }
 
       public string getAnimalMapName(int index)
       {
          string fileName = "";
          try
          {
-            if (index >= 0 && index < this.myAnimalMaps.GetLength(0))
+            if (index >= 0 && index < this.myAnimalMaps.Count)
             {
                fileName = this.myAnimalMaps[index].FullFileName;
             }
@@ -1005,10 +1047,9 @@ namespace SEARCH
          {
             IGeometryDef geoDef = this.getSpatialInfo();
             fw.writeLine("inside make new animal map for " + numAnimals.ToString() + " number of animals");
-            myAnimalMaps = new AnimalMap[numAnimals];
             for (i = 0; i < numAnimals && success; i++)
             {
-               myAnimalMaps[i] = new AnimalMap(i.ToString(), mOutMapPath, geoDef);
+               myAnimalMaps.Add( new AnimalMap(i.ToString(), mOutMapPath, geoDef));
                //set reference to social map so we can add those fields on the makeMap call
                myAnimalMaps[i].MySocialMap = this.mySocialMap;
 
@@ -1028,30 +1069,21 @@ namespace SEARCH
          return success;
       }
 
-      public void makeNewDisperserAnimalMaps(AnimalManager am)
+      public void makeNewDisperserAnimalMaps(int numberToAdd)
       {
-         int totalNumMaps = am.Count + 1;
-         int currNumMaps = this.myAnimalMaps.Length;
-
-
+         fw.writeLine("inside make new disperer animal maps");
+         fw.writeLine("currently there are " + myAnimalMaps.Count.ToString());
+         fw.writeLine("we are going to add " + numberToAdd.ToString());
          try
          {
-            fw.writeLine("inside makeNewDisperserAnimalMaps making temp array to hold all maps");
-            AnimalMap[] temp = new AnimalMap[totalNumMaps];
-            fw.writeLine("temp is " + temp.Length + " long");
-            fw.writeLine("now copy existing maps to new temp array there are " + currNumMaps.ToString() + " to copy");
-            this.myAnimalMaps.CopyTo(temp, 0);
+            int totalNumMaps = myAnimalMaps.Count + numberToAdd;
             IGeometryDef geoDef = this.getSpatialInfo();
             fw.writeLine("starting loop");
-            for (int i = currNumMaps; i < totalNumMaps; i++)
+            for (int i = myAnimalMaps.Count; i < totalNumMaps; i++)
             {
-               temp[i] = new AnimalMap(i.ToString(), mOutMapPath, geoDef);
-               temp[i].MySocialMap = this.mySocialMap;
+               myAnimalMaps.Add(new AnimalMap(i.ToString(), mOutMapPath, geoDef));
+               myAnimalMaps[i].MySocialMap = this.mySocialMap;
             }
-            fw.writeLine("done with loop now reinitializing this.myAnimalMaps");
-            this.myAnimalMaps = new AnimalMap[temp.Length];
-            fw.writeLine("now doing the copy");
-            temp.CopyTo(this.myAnimalMaps, 0);
             fw.writeLine("now out of here");
          }
          catch (System.Exception ex)
@@ -1063,63 +1095,65 @@ namespace SEARCH
          }
       }
 
-      public void makeNextGenerationAnimalMaps(int numResidents, int numDispersers)
-      {
-         try
-         {
-            AnimalMap[] temp = new AnimalMap[numResidents + numDispersers];
-            // this.myAnimalMaps.CopyTo(temp,0);
-            IGeometryDef geoDef = this.getSpatialInfo();
-            for (int i = numResidents; i < numResidents + numDispersers; i++)
-            {
-               temp[i] = new AnimalMap(i.ToString(), mOutMapPath, geoDef);
-               //set reference to social map so we can add those fields on the makeMap call
-               temp[i].MySocialMap = this.mySocialMap;
-            }
-            this.myAnimalMaps = new AnimalMap[numResidents + numDispersers];
-            temp.CopyTo(this.myAnimalMaps, 0);
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
+//      public void makeNextGenerationAnimalMaps(int numResidents, int numDispersers)
+//      {
+//         try
+//         {
+//            AnimalMap[] temp = new AnimalMap[numResidents + numDispersers];
+//            // this.myAnimalMaps.CopyTo(temp,0);
+//            IGeometryDef geoDef = this.getSpatialInfo();
+//            for (int i = numResidents; i < numResidents + numDispersers; i++)
+//            {
+//               temp[i] = new AnimalMap(i.ToString(), mOutMapPath, geoDef);
+//               //set reference to social map so we can add those fields on the makeMap call
+//               temp[i].MySocialMap = this.mySocialMap;
+//            }
+//            this.myAnimalMaps = new AnimalMap[numResidents + numDispersers];
+//            temp.CopyTo(this.myAnimalMaps, 0);
+//         }
+//         catch (System.Exception ex)
+//         {
+//#if (DEBUG)
+//            System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//            FileWriter.FileWriter.WriteErrorFile(ex);
+//         }
+//      }
 
-      public void makeNextGenerationAnimalMaps(AnimalManager am, string year)
-      {
-         try
-         {
-            fw.writeLine("inside makeNextGenerationAnimalMaps for year " + year);
-            fw.writeLine("we are going to make " + am.Count.ToString() + "plus one maps");
-            AnimalMap[] temp = new AnimalMap[am.Count + 1];
-            fw.writeLine("temp is " + temp.Length + " long");
-            // this.myAnimalMaps.CopyTo(temp,0);
-            IGeometryDef geoDef = this.getSpatialInfo();
-            foreach (Animal a in am)
-            {
-               fw.writeLine("Animal Number " + a.IdNum.ToString() + " is a " + a.GetType().Name);
-               if (a.GetType().Name != "Resident" && a.IsDead != true)
-               {
-                  fw.writeLine("must not be a resident making map for " + a.IdNum.ToString());
-                  temp[a.IdNum] = new AnimalMap(a.IdNum.ToString(), mOutMapPath, geoDef);
-                  //set reference to social map so we can add those fields on the makeMap call
-                  temp[a.IdNum].MySocialMap = this.mySocialMap;
-               }
-            }
-            this.myAnimalMaps = new AnimalMap[temp.Length];
-            temp.CopyTo(this.myAnimalMaps, 0);
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
+//      public void makeNextGenerationAnimalMaps(AnimalManager am, string year)
+//      {
+//         try
+//         {
+//            fw.writeLine("inside makeNextGenerationAnimalMaps for year " + year);
+//            fw.writeLine("we are going to make " + am.Count.ToString() + "plus one maps");
+//            AnimalMap[] temp = new AnimalMap[am.Count + 1];
+//            fw.writeLine("temp is " + temp.Length + " long");
+//            // this.myAnimalMaps.CopyTo(temp,0);
+//            IGeometryDef geoDef = this.getSpatialInfo();
+//            foreach (Animal a in am)
+//            {
+//               fw.writeLine("Animal Number " + a.IdNum.ToString() + " is a " + a.GetType().Name);
+//               if (a.GetType().Name != "Resident" && a.IsDead != true)
+//               {
+//                  fw.writeLine("must not be a resident making map for " + a.IdNum.ToString());
+//                  temp[a.IdNum] = new AnimalMap(a.IdNum.ToString(), mOutMapPath, geoDef);
+//                  //set reference to social map so we can add those fields on the makeMap call
+//                  temp[a.IdNum].MySocialMap = this.mySocialMap;
+//               }
+//            }
+//            this.myAnimalMaps = new AnimalMap[temp.Length];
+//            temp.CopyTo(this.myAnimalMaps, 0);
+//         }
+//         catch (System.Exception ex)
+//         {
+//#if (DEBUG)
+//            System.Windows.Forms.MessageBox.Show(ex.Message);
+//#endif
+//            FileWriter.FileWriter.WriteErrorFile(ex);
+//         }
+//      }
+
+      
 
       //      private void removeUnionMaps()
       //      {
@@ -1202,10 +1236,6 @@ namespace SEARCH
          }
       }
 
-      public void RemoveDeadResidentOccupation(StringCollection inListOfDeadResidents)
-      {
-      }
-
       public void setUpNewYearsMaps(DateTime now, AnimalManager am)
       {
          fw.writeLine("inside setUpNewYearsMaps (DateTime now,AnimalManager am)");
@@ -1214,7 +1244,7 @@ namespace SEARCH
          myFoodMaps.changeMap(now);
          myPredationMaps.changeMap(now);
          myMoveMaps.changeMap(now);
-         myDispersalMaps.setUpNewYearDispersalMap(now, am);
+         myDispersalMaps.changeMap(now, am);
       }
 
       public bool validateMap(string inMapName, string inMapDir)
@@ -1440,8 +1470,7 @@ namespace SEARCH
       }
 
 		#endregion Public Methods 
-
-		#region Private Methods (13) 
+		#region Private Methods (12) 
 
       private void AddFirstMemoryPoly(int AnimalID, IPolygon inPoly1, IPolygon inPoly2)
       {
@@ -1632,24 +1661,6 @@ namespace SEARCH
          sb.Append(System.IO.Path.GetDirectoryName(oldMapPath) + "\\");
          sb.Append(inAnimalID + timeStep + ".shp");
          return sb.ToString();
-
-      }
-
-private MapManager()
-      {
-         //check on whether we are going to log or not
-         this.buildLogger();
-         // get the error messages ready         
-         initializeErrMessages();
-         myDataManipulator = new DataManipulator();
-         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
-         this.myFoodMaps = new Maps("Food");
-         this.myMoveMaps = new Maps("Move");
-         this.myPredationMaps = new Maps("Predation");
-         this.mySocialMaps = new Maps("Social");
-         this.myDispersalMaps = new Maps("Dispersal");
-         SocialIndex = 0;
-         numHomeRanges = 0;
 
       }
 

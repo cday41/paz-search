@@ -145,18 +145,19 @@ namespace SEARCH
                 fw.writeLine("MapType is Dispersal and changeMaps == true so need to make newly released animals");
                InitialAnimalAttributes[] inIAA;
                MapManager.GetUniqueInstance().GetInitialAnimalAttributes(out inIAA);
-              
+               int numNewDispersers = inIAA.Length;
+               int currNumDispersers = am.Count;
                am.addNewDispersers(inIAA, now);
                fw.writeLine("Back from the animal manager making new animals");
                 fw.writeLine("trigger type is " + this.mMyTriggers[0].MyTriggerType.ToString());
                //Bob Cummings Saturday, October 13, 2007
                //added check to see if this was a yearly swap, if so then the simulation
                //manager will handle making the new maps just like breeding
-               if (! (this.mMyTriggers[0].MyTriggerType == MapSwapTrigger.mTriggerType.YEARLY))
-               {  
+              // if (! (this.mMyTriggers[0].MyTriggerType == MapSwapTrigger.mTriggerType.YEARLY))
+             //  {  
                  fw.writeLine("so ask the map manager to add to the list");
-                  MapManager.GetUniqueInstance().makeNewDisperserAnimalMaps(am);
-               }
+                 MapManager.GetUniqueInstance().makeNewDisperserAnimalMaps(numNewDispersers);
+              // }
             }
          }
          catch (System.Exception ex)

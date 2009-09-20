@@ -12,6 +12,28 @@ namespace SEARCH
 {
    public class AnimalManager : System.Collections.ArrayList
    {
+		#region Constructors (1) 
+
+      public AnimalManager()
+      {
+         buildLogger();
+         fw.writeLine("getting the modifiers");
+         mMaleModifier = MaleModifier.GetUniqueInstance();
+         mFemaleModifier = FemaleModifier.GetUniqueInstance();
+         mAnimalAttributes = new AnimalAtributes();
+         mRiskySearchMod = new RiskySearchModifier();
+         mRiskyForageMod = new RiskyForageModifier();
+         mSafeForageMod = new SafeForageModifier();
+         mSafeSearchMod = new SafeSearchModifier();
+         fw.writeLine("now making the mover object");
+         mMover = RandomWCMover.getRandomWCMover();
+       //  myMapManager = MapManager.GetUniqueInstance();
+      //   mResidentAttributes = new ResidentAttributes();
+
+      }
+
+		#endregion Constructors 
+
 		#region Fields (17) 
 
 		#region A to F (2) 
@@ -127,9 +149,9 @@ namespace SEARCH
 
 		#endregion Properties 
 
-		#region Methods (29) 
+		#region Methods (30) 
 
-		#region Public Methods (22) 
+		#region Public Methods (21) 
 
       public void addNewDispersers(InitialAnimalAttributes[] inIAA, DateTime currTime)
       {
@@ -199,40 +221,12 @@ namespace SEARCH
          
       }
 
-      private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
-      {
-         string fieldName;
-         if (a.Sex.ToLower() == "male")
-            fieldName = "OCCUP_MALE";
-         else
-            fieldName = "OCCUP_FEMA";
-         fw.writeLine("calling resetFields");
-         inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
-      }
-
-      public AnimalManager()
-      {
-         buildLogger();
-         fw.writeLine("getting the modifiers");
-         mMaleModifier = MaleModifier.GetUniqueInstance();
-         mFemaleModifier = FemaleModifier.GetUniqueInstance();
-         mAnimalAttributes = new AnimalAtributes();
-         mRiskySearchMod = new RiskySearchModifier();
-         mRiskyForageMod = new RiskyForageModifier();
-         mSafeForageMod = new SafeForageModifier();
-         mSafeSearchMod = new SafeSearchModifier();
-         fw.writeLine("now making the mover object");
-         mMover = RandomWCMover.getRandomWCMover();
-       //  myMapManager = MapManager.GetUniqueInstance();
-      //   mResidentAttributes = new ResidentAttributes();
-
-      }
-
-      public void breedFemales(DateTime currTime)
+      public int breedFemales(DateTime currTime)
       {
          fw.writeLine("inside breed females");
          int numMales;
          int numFemales;
+         int totalNewAnimals = 0;
          InitialAnimalAttributes iaa;
          Animal a;
          fw.writeLine("starting the loop");
@@ -267,11 +261,13 @@ namespace SEARCH
                      iaa.NumToMake = numFemales;
                      this.makeNextGenAnimal(iaa, currTime);
                   }
+                  totalNewAnimals += numFemales + numMales;
                }
             }
          }
          this.mHomeRangeTrigger.reset(this.Count + 1);
          setNextGenHomeRange();
+         return totalNewAnimals;
         
       }
 
@@ -728,20 +724,7 @@ namespace SEARCH
          }
       }
 
-      public void setInitialValues()
-      {
-         try
-         {
-
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-         }
-      }
+     
 
       public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk, 
          double inPercentBreed, double inPercentFemale, double inMeanLitterSize, double inSDLitterSize)
@@ -771,11 +754,8 @@ namespace SEARCH
       public bool setSleepTime(DateTime currTime)
       {
          Animal a;
-         // Animal b = new Animal();
          string CurrYear = currTime.Year.ToString();
-         this.mMapValues = new Dictionary<IPoint, MapValue>();
          bool success = true;
-         fw.writeLine("inside animal manager calling set sleep time");
          try
          {
             currAnimal = this.GetEnumerator();
@@ -784,53 +764,9 @@ namespace SEARCH
                while (currAnimal.MoveNext())
                {
                   a = (Animal)currAnimal.Current;
-                  if (a.GetType().Name != "Resident" && !a.IsDead)
-                  {
-
-                     a.setInitialSleepTime(currTime);
-                     if (a.TextFileWriter == null)
-                     {
-                        a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
-                     }
-                     fw.writeLine("Now check to see if we have the value for this location or not");
-                     if (this.mMapValues.ContainsKey(a.Location))
-                     {
-                        fw.writeLine("had it so set the values");
-
-                        a.CaptureFood = this.mMapValues[a.Location].CaptureFood;
-                        a.FoodMeanSize = this.mMapValues[a.Location].FoodMeanSize;
-                        a.MoveSpeed = this.mMapValues[a.Location].MoveSpeed;
-                        a.MoveTurtosity = this.mMapValues[a.Location].MoveTurtosity;
-                        a.PerceptonModifier = this.mMapValues[a.Location].PerceptonModifier;
-                        a.PredationRisk = this.mMapValues[a.Location].PredationRisk;
-                        a.FoodIndex = this.mMapValues[a.Location].FoodIndex;
-                        a.MoveIndex = this.mMapValues[a.Location].MoveIndex;
-                        a.RiskIndex = this.mMapValues[a.Location].RiskIndex;
-                        a.SocialIndex = this.mMapValues[a.Location].SocialIndex;
-                     }
-                     else
-                     {
-                        fw.writeLine("did not have it, so go get them from the animal");
-                        a.setInitialValues(currTime);
-                        fw.writeLine("now store them off");
-                        MapValue mv = new MapValue();
-                        mv.CaptureFood = a.CaptureFood;
-                        mv.CurrLocation = a.Location;
-                        mv.FoodMeanSize = a.FoodMeanSize;
-                        mv.FoodSD_Size = a.FoodSD_Size;
-                        mv.MoveSpeed = a.MoveSpeed;
-                        mv.MoveTurtosity = a.MoveTurtosity;
-                        mv.PerceptonModifier = a.PerceptonModifier;
-                        mv.PredationRisk = a.PredationRisk;
-                        mv.FoodIndex = a.FoodIndex;
-                        mv.MoveIndex = a.MoveIndex;
-                        mv.RiskIndex = a.RiskIndex;
-                        mv.SocialIndex = a.SocialIndex;
-                        fw.writeLine("add to the list");
-                        this.mMapValues.Add(a.Location, mv);
-                     }
-
-                  }
+                  a.setInitialSleepTime(currTime);
+                  a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
+                  SetMapValues(a,currTime);
                }
             }
             else
@@ -841,7 +777,9 @@ namespace SEARCH
          }
          catch (System.Exception ex)
          {
-            //   System.Windows.Forms.MessageBox.Show("Error look for error file");
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
             FileWriter.FileWriter.WriteErrorFile(ex);
             Process.GetCurrentProcess().Kill();
          }
@@ -889,9 +827,18 @@ namespace SEARCH
       }
 
 		#endregion Public Methods 
+		#region Private Methods (9) 
 
-
-		#region Private Methods (7) 
+      private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
+      {
+         string fieldName;
+         if (a.Sex.ToLower() == "male")
+            fieldName = "OCCUP_MALE";
+         else
+            fieldName = "OCCUP_FEMA";
+         fw.writeLine("calling resetFields");
+         inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
+      }
 
       private void buildLogger()
       {
@@ -978,11 +925,13 @@ namespace SEARCH
                tmpAnimal.AnimalManager = this;
                tmpAnimal.HomeRangeTrigger = this.mHomeRangeTrigger;
                tmpAnimal.HomeRangeFinder = this.mHomeRangeFinder;
-               
+               tmpAnimal.setInitialSleepTime(currTime);
+               this.SetMapValues(tmpAnimal,currTime);
+               tmpAnimal.BuildTextWriter(currTime.Year.ToString());
                tmpAnimal.dump();
                this.Add(tmpAnimal);
             }
-            this.setSleepTime(currTime);
+            
          }
 
         
@@ -1047,6 +996,50 @@ namespace SEARCH
             }
          }
          //fw.writeLine("done with AnimalManager.setMaleHomeRange ");
+      }
+
+      private void SetMapValues(Animal a, DateTime currTime)
+      {
+         fw.writeLine("inside SetMapValues for " + a.IdNum.ToString());
+         this.mMapValues = new Dictionary<IPoint, MapValue>();
+         fw.writeLine("Now check to see if we have the value for this location or not");
+         if (this.mMapValues.ContainsKey(a.Location))
+         {
+            fw.writeLine("had it so set the values");
+
+            a.CaptureFood = this.mMapValues[a.Location].CaptureFood;
+            a.FoodMeanSize = this.mMapValues[a.Location].FoodMeanSize;
+            a.MoveSpeed = this.mMapValues[a.Location].MoveSpeed;
+            a.MoveTurtosity = this.mMapValues[a.Location].MoveTurtosity;
+            a.PerceptonModifier = this.mMapValues[a.Location].PerceptonModifier;
+            a.PredationRisk = this.mMapValues[a.Location].PredationRisk;
+            a.FoodIndex = this.mMapValues[a.Location].FoodIndex;
+            a.MoveIndex = this.mMapValues[a.Location].MoveIndex;
+            a.RiskIndex = this.mMapValues[a.Location].RiskIndex;
+            a.SocialIndex = this.mMapValues[a.Location].SocialIndex;
+         }
+         else
+         {
+            fw.writeLine("did not have it, so go get them from the animal");
+            a.setInitialValues(currTime);
+            fw.writeLine("now store them off");
+            MapValue mv = new MapValue();
+            mv.CaptureFood = a.CaptureFood;
+            mv.CurrLocation = a.Location;
+            mv.FoodMeanSize = a.FoodMeanSize;
+            mv.FoodSD_Size = a.FoodSD_Size;
+            mv.MoveSpeed = a.MoveSpeed;
+            mv.MoveTurtosity = a.MoveTurtosity;
+            mv.PerceptonModifier = a.PerceptonModifier;
+            mv.PredationRisk = a.PredationRisk;
+            mv.FoodIndex = a.FoodIndex;
+            mv.MoveIndex = a.MoveIndex;
+            mv.RiskIndex = a.RiskIndex;
+            mv.SocialIndex = a.SocialIndex;
+            fw.writeLine("add to the list");
+            this.mMapValues.Add(a.Location, mv);
+         }
+         return;
       }
 
       private void setNextGenHomeRange()

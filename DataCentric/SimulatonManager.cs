@@ -545,9 +545,9 @@ namespace SEARCH
          //had an issue with breeding before switchout the maps so moved it to happen after
          this.MapManager.setUpNewYearsMaps(this.currTime,this.mAnimalManager);
          
-         this.mAnimalManager.breedFemales(this.currTime);
+         int numNewAnimals = this.mAnimalManager.breedFemales(this.currTime);
          //this.mAnimalManager.setSleepTime(this.currTime);
-         this.mMapManager.makeNextGenerationAnimalMaps(this.mAnimalManager,this.currTime.Year.ToString());
+         this.mMapManager.makeNewDisperserAnimalMaps(numNewAnimals);
          fw.writeLine("done initializing yearly simulation");
       }
 

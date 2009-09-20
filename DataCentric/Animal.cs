@@ -733,6 +733,10 @@ namespace SEARCH
          this.buildFileNamePrefix(CurrYear);
          this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
       }
+      public void BuildTextWriter(string currYear)
+      {
+         BuildTextWriter(currYear, this.AnimalAtributes.OutPutDir);
+      }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM,DateTime currTime,bool doTextOutput,ref string status)
       {
@@ -817,7 +821,6 @@ namespace SEARCH
                   if (percentTimeStep < 1)
                   {
                      this.updateBehavioralModifiers();
-                     changeActiveState(currTime);
                      this.updateMyLocationValues();
                      this.upDateMyValues();
                   }
@@ -893,6 +896,7 @@ namespace SEARCH
                   }
                }
             }
+            changeActiveState(currTime);
          }
          catch(System.Exception ex)
          {
