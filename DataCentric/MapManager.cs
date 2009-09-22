@@ -191,9 +191,6 @@ private MapManager()
             fw.writeLine("the  current union map is " + unionPath);
             fw.writeLine("the  current temp timeStep map is " + timeStepPath);
             fw.writeLine("the  current dissolve map is " + dissolvePath);
-
-            fw.writeLine("inside AddTimeSteps for ManManager the animal id is " + AnimalID.ToString());
-            fw.writeLine("time step is " + timeStep.ToString());
             fw.writeLine("calling MakeDissolvedTimeStep");
             this.myDataManipulator.MakeDissolvedTimeStep(this._currStepPath, timeStepPath, inPoly1, inPoly2);
 
