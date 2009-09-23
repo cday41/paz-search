@@ -464,7 +464,6 @@ namespace SEARCH
                   tmpAnimal.AnimalAtributes = this.AnimalAttributes;
                   fw.writeLine("now setting the mover");
                   tmpAnimal.myMover = this.mMover;
-                  tmpAnimal.StateModifer = this.SafeSearchMod;
                   tmpAnimal.AnimalManager = this;
                   fw.writeLine("now adding to the list of my animals;");
                   this.Add(tmpAnimal);
@@ -583,7 +582,7 @@ namespace SEARCH
          return success;
       }
 
-      public bool setGenderModifiers()
+      public bool setModifiers()
       {
          Animal a;
          IEnumerator e;
@@ -600,6 +599,8 @@ namespace SEARCH
                   a.GenderModifier = this.MaleModifier;
                else if (a.GetType().Name == "Female")
                   a.GenderModifier = this.FemaleModifier;
+
+               a.StateModifer = this.SafeSearchMod;
             }
             fw.writeLine("done setting all the modifiers");
             success = true;

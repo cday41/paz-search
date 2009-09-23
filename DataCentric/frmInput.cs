@@ -2614,7 +2614,7 @@ namespace SEARCH
       {
          if(validateModifers())
          {
-            this.mySimManager.AnimalManager.setGenderModifiers();
+            this.mySimManager.AnimalManager.setModifiers();
             MessageBox.Show("Modifiers successfuly set.  Now moving to Simulation parameters.");
             this.ShowTabPage(this.tabSim);
             this.tabSim.Focus();

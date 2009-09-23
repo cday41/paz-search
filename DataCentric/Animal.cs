@@ -251,7 +251,8 @@ namespace SEARCH
       public Modifier StateModifer
       {
          get { return mStateModifer; }
-         set { mStateModifer = value; }
+         set { 
+            mStateModifer = value; }
       }
 
       public  TextFileWriter TextFileWriter
