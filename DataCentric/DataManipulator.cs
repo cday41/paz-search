@@ -586,7 +586,7 @@ namespace SEARCH
             RunProcess(d, null);
         }
 
-        private IFeatureClass GetFeatureClass(string path, string fileName)
+        public IFeatureClass GetFeatureClass(string path, string fileName)
         {
             IFeatureClass ifc = null;
             try

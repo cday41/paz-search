@@ -211,39 +211,6 @@ namespace SEARCH
          
       }
 
-//      public void doSimulation(Object state)
-//      {
-//         fw.writeLine("inside sim manager do simulation calling initialize daily sim");
-//         initializeSimulation();
-//         
-//         this.currTime = this.mStartSeasonDate;
-//         this.currTime = this.currTime.AddHours( this.AnimalManager.AnimalAttributes.WakeUpTime);
-//         fw.writeLine("now start the big loop for the sim");
-//         for (int currSeason = 0; currSeason < this.mNumSeasons; currSeason++)
-//         {
-//            while (currTime < this.EndSeasonDate)
-//            {
-//               this.doTimeStep();
-//               this.currTime = this.currTime.AddMinutes(this.mElapsedTimeBetweenTimeStep);
-//               if (currTime.Hour == 0)
-//               {
-//                  initializeDailySimulation();
-//               }
-//            }
-//
-//            //now reset the year and advance by a year
-//            fw.writeLine("done with one season now addvance throuout the year");
-//            fw.writeLine("currDate is " + this.currTime.ToShortDateString());
-//            this.currTime = this.mStartSeasonDate.AddYears(currSeason+1);
-//            this.EndSeasonDate = this.EndSeasonDate.AddYears(1);
-//            fw.writeLine("now the currDate is " + this.currTime.ToShortDateString());
-//            initializeYearlySimulation();
-//         }
-//         // this.mMapManager.removeExtraFiles();
-//
-//         System.Windows.Forms.MessageBox.Show("done");
-//
-//      }
       /********************************************************************************
        *  Function name   : buildAnimals
        *  Description     : makes the intial set of animals and their corresponding maps

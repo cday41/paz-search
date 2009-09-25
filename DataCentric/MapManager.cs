@@ -334,6 +334,7 @@ private MapManager()
             myPredationMaps.changeMap(now);
             myMoveMaps.changeMap(now);
             myDispersalMaps.changeMap(now, am);
+            mySocialMaps.changeMap(now, am);
          }
          catch (Exception ex)
          {
@@ -642,32 +643,7 @@ private MapManager()
 
       }
 
-      //      public IFeatureClass getTimeStepMap(string AnimalID)
-      //      {
-      //         string[] fileNames;
-      //         string path;
-      //         IFeatureClass fc = null;
-      //         try
-      //         {
-      //            fw.writeLine("inside getTimeStepMap for " + AnimalID);
-      //            path = this.mOutMapPath + "\\" + AnimalID;
-      //            fw.writeLine("full path for that animal is " + path);
-      //            fw.writeLine("now get the file names");
-      //            fileNames = Directory.GetFiles(path, "TimeStep*");
-      //            fw.writeLine("we have " + fileNames.Length.ToString() + " files to look for ");
-      //            fw.writeLine("calling Map openFeatureClass");
-      //            fc = Map.openFeatureClass(path, System.IO.Path.GetFileNameWithoutExtension(fileNames[0]));
-      //         }
-      //         catch (System.Exception ex)
-      //         {
-      //#if (DEBUG)
-      //            System.Windows.Forms.MessageBox.Show(ex.Message);
-      //#endif
-      //            FileWriter.FileWriter.WriteErrorFile(ex);
-      //         }
-      //         return fc;
-
-      //      }
+     
       public void getNumResidents(out int numMales, out int numFemales)
       {
          numMales = 0;
@@ -890,22 +866,13 @@ private MapManager()
                      else
                      {
                         //System.Runtime.InteropServices.Marshal.ReleaseComObject(this.wrkSpace);
-                        //if (!Directory.Exists(mOutMapPath))
-                        //   Directory.CreateDirectory(mOutMapPath);
-                        //this.wrkSpace = this.wrkSpaceFactory.OpenFromFile(mOutMapPath, 0);
-                        //featureWrkSpace = (IFeatureWorkspace)this.wrkSpace;
-                        //this.makeMapCopies(inPath, fileName, this.mOutMapPath, "tmpSocial");
-                        //Map tempMap = new Map(this.featureWrkSpace.OpenFeatureClass("tmpSocial"));
-                        //this.myMapManipulator.unionSocialMaps(tempMap);
-                        //this.myMapManipulator.editNewSocialMap("Social");
-                        //mySocialMap = new Map(this.featureWrkSpace.OpenFeatureClass("Social"));
-
-
+                        if (!Directory.Exists(mOutMapPath))
+                           Directory.CreateDirectory(mOutMapPath);
+                        IFeatureClass fc = myDataManipulator.GetFeatureClass(inPath, fileName);
+                        mySocialMap = new Map(fc);
                      }
                      mySocialMap.TypeOfMap = "Social";
                      mySocialMap.Path = mOutMapPath;
-                     //add the refernce to the map manipulator
-                     // this.myMapManipulator.SocialMap = this.mySocialMap;
                      break;
                   case "Food":
                      fw.writeLine("inside case under Food loading the map");

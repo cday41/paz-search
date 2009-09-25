@@ -881,6 +881,7 @@ namespace SEARCH
                      // only change to resident if we were able to build the home range
                      if (this.MapManager.BuildHomeRange(this))
                      {
+                        fw.writeLine("found a home");
                         status = "resident";
                         if (doTextOutput)
                            this.mTextFileWriter.addLine("Found Home at " + this.myLocation.X.ToString() + " and " + this.myLocation.Y.ToString());

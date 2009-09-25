@@ -189,7 +189,7 @@ namespace SEARCH
             foreach (Animal a in r)
             {
                fw.writeLine("my type of animal is a " + a.GetType());
-               fw.writeLine("my animals location is " + a.getLocation_XY());
+               fw.writeLine("my animals location is " + a.HomeRangeCenter.X.ToString() + " " + a.HomeRangeCenter.Y.ToString());
                
                fw.writeLine(a.IdNum.ToString() + " needs " + a.HomeRangeArea.ToString() + " and the new map has " + newSocialMap.getAllAvailableArea(a.IdNum, a.Sex).ToString());
                if (a.HomeRangeArea > newSocialMap.getAllAvailableArea(a.IdNum, a.Sex))
