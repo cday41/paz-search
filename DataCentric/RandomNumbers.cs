@@ -4,15 +4,34 @@ namespace SEARCH
 {
    public class RandomNumbers
    {
-		#region Public Members (11) 
+		#region Constructors (1) 
 
-		#region Fields (2) 
+	   private RandomNumbers()
+	   {
+              
+         
+		   rand = new System.Random(1);
+         numGen = new MathNet.Numerics.Generators.NormalGenerator();
+         mMean = 0;
+         mSD = 0;
+         
+	   }
+
+		#endregion Constructors 
+
+		#region Fields (7) 
 
 //end of method
       public int myCurNum;
       public int myNumbers;
+      private double mMean;
+      private double mSD;
+      private static MathNet.Numerics.Generators.NormalGenerator numGen;
+	   private static System.Random rand;
+	   private static RandomNumbers theInstance;
 
 		#endregion Fields 
+
 		#region Properties (2) 
 
 //end of getWrappedCauchy
@@ -29,7 +48,10 @@ namespace SEARCH
 		}
 
 		#endregion Properties 
+
 		#region Methods (7) 
+
+		#region Public Methods (7) 
 
 	   public static RandomNumbers getInstance()
 	   {
@@ -91,36 +113,8 @@ namespace SEARCH
 		   return angleWC;
 	   }
 
+		#endregion Public Methods 
+
 		#endregion Methods 
-
-		#endregion Public Members 
-
-		#region Non-Public Members (6) 
-
-		#region Fields (5) 
-
-      private double mMean;
-      private double mSD;
-      private static MathNet.Numerics.Generators.NormalGenerator numGen;
-	   private static System.Random rand;
-	   private static RandomNumbers theInstance;
-
-		#endregion Fields 
-		#region Constructors (1) 
-
-	   private RandomNumbers()
-	   {
-              
-         
-		   rand = new System.Random();
-         numGen = new MathNet.Numerics.Generators.NormalGenerator();
-         mMean = 0;
-         mSD = 0;
-         
-	   }
-
-		#endregion Constructors 
-
-		#endregion Non-Public Members 
    }
 }

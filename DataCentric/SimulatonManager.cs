@@ -38,18 +38,12 @@ namespace SEARCH
 
 		#region Fields (23) 
 
-		#region A to F (5) 
-
       private DailyModifier currDailyMod;
       //temporal modifiers and their managers
       private HourlyModifier currHourMod;
       private DateTime currTime;
       private double currTimeStep;
       private FileWriter.FileWriter fw;
-
-		#endregion A to F 
-		#region M to R (18) 
-
       //animal and map managers
       private AnimalManager mAnimalManager;
       private bool mDoTextOutPut;
@@ -73,13 +67,9 @@ namespace SEARCH
       private DateTime nextDayStart;
       private int nextStartHour;
 
-		#endregion M to R 
-
 		#endregion Fields 
 
 		#region Properties (13) 
-
-		#region A to F (6) 
 
       public AnimalManager AnimalManager
       {
@@ -118,9 +108,6 @@ namespace SEARCH
          set  { mErrMessage = value; }
       }
 
-		#endregion A to F 
-		#region M to R (4) 
-
       public MapManager MapManager
       {
          get { return mMapManager; }
@@ -145,9 +132,6 @@ namespace SEARCH
          set { mNumSeasons = value; }
       }
 
-		#endregion M to R 
-		#region S to Z (3) 
-
       public DateTime StartSeasonDate
       {
          get { return mStartSeasonDate; }
@@ -165,8 +149,6 @@ namespace SEARCH
          get { return mTextOutPutFileName; }
          set { mTextOutPutFileName = value; }
       }
-
-		#endregion S to Z 
 
 		#endregion Properties 
 

@@ -33,10 +33,8 @@ namespace SEARCH
    /// <summary>
    /// Summary description for EligibleHomeSites.
    /// </summary>
-   public class EligibleHomeSites 
+   public class EligibleHomeSites
    {
-		#region Public Members (15) 
-
 		#region Constructors (1) 
 
       public EligibleHomeSites()
@@ -46,6 +44,15 @@ namespace SEARCH
       }
 
 		#endregion Constructors 
+
+		#region Fields (3) 
+
+      private FileWriter.FileWriter fw;
+      List<EligibleHomeSite> mySites;
+      int siteCount;
+
+		#endregion Fields 
+
 		#region Properties (2) 
 
       public List<EligibleHomeSite> MySites
@@ -65,7 +72,10 @@ namespace SEARCH
       }
 
 		#endregion Properties 
-		#region Methods (12) 
+
+		#region Methods (18) 
+
+		#region Public Methods (13) 
 
       public void addSite(EligibleHomeSite inSite)
       {
@@ -156,6 +166,11 @@ namespace SEARCH
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
          return ehs;
+      }
+
+      public void RemoveSite(IPoint inPoint)
+      {
+            mySites.RemoveAll(delegate(EligibleHomeSite ehs) { return ehs.X == inPoint.X && ehs.Y == inPoint.Y; });
       }
 
       public void setComboRank(double distanceFactor)
@@ -344,50 +359,10 @@ namespace SEARCH
          this.mySites.Sort();
       }
 
-		#endregion Methods 
-
-		#endregion Public Members 
-
-		#region Non-Public Members (8) 
-
-		#region Fields (3) 
-
-      private FileWriter.FileWriter fw;
-      List<EligibleHomeSite> mySites;
-      int siteCount;
-
-		#endregion Fields 
-		#region Methods (5) 
-
-      protected void buildLogger()
-      {
-         string s;
-         StreamReader sr; 
-         bool foundPath = false;
-         
-         string st = System.Windows.Forms.Application.StartupPath;
-         if(File.Exists( st + @"\logFile.dat"))
-         {
-            sr= new StreamReader( st + @"\logFile.dat");
-            while(sr.Peek() > -1)
-            {
-               s = sr.ReadLine();
-               if (s.IndexOf("HomeSiteLogPath") == 0)
-               {
-                  fw= FileWriter.FileWriter.getHomeSiteLogger(s.Substring(s.IndexOf(" ")));
-                  foundPath = true;
-                  break;
-               }
-            }
-            sr.Close();
-
-         }
-         if (! foundPath)
-         {
-            fw = new FileWriter.EmptyFileWriter();
-         }
-      }
-
+		#endregion Public Methods 
+		#region Private Methods (4) 
+    
+      
       private void resetRank()
       {
          int i = 0;
@@ -425,10 +400,44 @@ namespace SEARCH
          this.mySites.Sort();
       }
 
+		#endregion Private Methods 
+		#region Protected Methods (1) 
+
+      protected void buildLogger()
+      {
+         string s;
+         StreamReader sr; 
+         bool foundPath = false;
+         
+         string st = System.Windows.Forms.Application.StartupPath;
+         if(File.Exists( st + @"\logFile.dat"))
+         {
+            sr= new StreamReader( st + @"\logFile.dat");
+            while(sr.Peek() > -1)
+            {
+               s = sr.ReadLine();
+               if (s.IndexOf("HomeSiteLogPath") == 0)
+               {
+                  fw= FileWriter.FileWriter.getHomeSiteLogger(s.Substring(s.IndexOf(" ")));
+                  foundPath = true;
+                  break;
+               }
+            }
+            sr.Close();
+
+         }
+         if (! foundPath)
+         {
+            fw = new FileWriter.EmptyFileWriter();
+         }
+      }
+
+		#endregion Protected Methods 
+
 		#endregion Methods 
 
-		#endregion Non-Public Members 
-
 //end of buildLogger
+
+      
    }
 }

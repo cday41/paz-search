@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using DesignByContract;
-//#define ZeroOnly
 using ESRI.ArcGIS.Geometry;
 
 namespace SEARCH
@@ -36,14 +36,8 @@ namespace SEARCH
 
 		#region Fields (17) 
 
-		#region A to F (2) 
-
       private IEnumerator currAnimal;
       private FileWriter.FileWriter fw;
-
-		#endregion A to F 
-		#region M to R (15) 
-
       private AnimalAtributes mAnimalAttributes;
       private HomeRangeCriteria mFemaleHomeRangeCriteria;
       private FemaleModifier mFemaleModifier;
@@ -60,13 +54,9 @@ namespace SEARCH
       private Modifier mSafeSearchMod;
       private string myErrMessage;
 
-		#endregion M to R 
-
 		#endregion Fields 
 
 		#region Properties (9) 
-
-		#region A to F (3) 
 
       public AnimalAtributes AnimalAttributes
       {
@@ -89,9 +79,6 @@ namespace SEARCH
             mFemaleModifier = value;
             fw.writeLine("inside animal manager setting the mFemaleModifierMod"); }
       }
-
-		#endregion A to F 
-		#region M to R (4) 
 
       public MaleModifier MaleModifier
       {
@@ -123,9 +110,6 @@ namespace SEARCH
          set { mRiskySearchMod = value; }
       }
 
-		#endregion M to R 
-		#region S to Z (2) 
-
       public Modifier SafeForageMod
       {
          get { return mSafeForageMod; }
@@ -145,13 +129,11 @@ namespace SEARCH
             fw.writeLine("inside animal manager setting the mSafeSearchMod"); }
       }
 
-		#endregion S to Z 
-
 		#endregion Properties 
 
-		#region Methods (30) 
+		#region Methods (32) 
 
-		#region Public Methods (21) 
+		#region Public Methods (20) 
 
       public void addNewDispersers(InitialAnimalAttributes[] inIAA, DateTime currTime)
       {
@@ -181,43 +163,8 @@ namespace SEARCH
 
       public void adjustNewSocialMap(Map newSocialMap)
       {
-         try
-         {
-            Resident[] r = this.getResidents();
-            string fieldName;
-            fw.writeLine("inside adjustNewSocialMap we are going to loop through " + r.Length.ToString() + " residents");
-            foreach (Animal a in r)
-            {
-               fw.writeLine("my type of animal is a " + a.GetType());
-               fw.writeLine("my animals location is " + a.HomeRangeCenter.X.ToString() + " " + a.HomeRangeCenter.Y.ToString());
-               
-               fw.writeLine(a.IdNum.ToString() + " needs " + a.HomeRangeArea.ToString() + " and the new map has " + newSocialMap.getAllAvailableArea(a.IdNum, a.Sex).ToString());
-               if (a.HomeRangeArea > newSocialMap.getAllAvailableArea(a.IdNum, a.Sex))
-               {
-                  fw.writeLine("not enough so kill the bugger off");
-                  
-                  a.TextFileWriter.addLine("Not enough suitable habitat after map switch.");
-                  //Saturday, February 23, 2008
-                  //change them to a dead animal by removing the resident and then replacing with
-                  //a dead animal.
-                  fw.writeLine("calling changeToDeadAnimal");
-                  //Saturday, March 15, 2008 refactored into a method to be called from 
-                  //other places.
-                  this.changeToDeadAnimal(a);
-                  fw.writeLine("new animal type is " + a.GetType());
-                  //now reset the social map to not occupied for that resident.
-                  AdjustMapForDeadAnimal(newSocialMap, a);
-               }
-            }
-            fw.writeLine("leaving adjustNewSocialMap");
-         }
-         catch (System.Exception ex)
-         {
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
+         this.resetResidentsHomeRange(newSocialMap);
+         this.resetDisperserSocialIndex(newSocialMap);
          
       }
 
@@ -582,37 +529,6 @@ namespace SEARCH
          return success;
       }
 
-      public bool setModifiers()
-      {
-         Animal a;
-         IEnumerator e;
-         bool success = false;
-         try
-         {
-            fw.writeLine("inside set gender modifier in Animal Modifier");
-            e = this.GetEnumerator();
-            while (e.MoveNext())
-            {
-               a = (Animal) e.Current;
-               
-               if (a.GetType().Name == "Male")
-                  a.GenderModifier = this.MaleModifier;
-               else if (a.GetType().Name == "Female")
-                  a.GenderModifier = this.FemaleModifier;
-
-               a.StateModifer = this.SafeSearchMod;
-            }
-            fw.writeLine("done setting all the modifiers");
-            success = true;
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         return success;
-
-      }
-
       /********************************************************************************
        *   Function name   : setHomeRange
        *   Description     : 
@@ -725,7 +641,36 @@ namespace SEARCH
          }
       }
 
-     
+      public bool setModifiers()
+      {
+         Animal a;
+         IEnumerator e;
+         bool success = false;
+         try
+         {
+            fw.writeLine("inside set gender modifier in Animal Modifier");
+            e = this.GetEnumerator();
+            while (e.MoveNext())
+            {
+               a = (Animal) e.Current;
+               
+               if (a.GetType().Name == "Male")
+                  a.GenderModifier = this.MaleModifier;
+               else if (a.GetType().Name == "Female")
+                  a.GenderModifier = this.FemaleModifier;
+
+               a.StateModifer = this.SafeSearchMod;
+            }
+            fw.writeLine("done setting all the modifiers");
+            success = true;
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return success;
+
+      }
 
       public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk, 
          double inPercentBreed, double inPercentFemale, double inMeanLitterSize, double inSDLitterSize)
@@ -828,7 +773,7 @@ namespace SEARCH
       }
 
 		#endregion Public Methods 
-		#region Private Methods (9) 
+		#region Private Methods (12) 
 
       private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
       {
@@ -870,8 +815,23 @@ namespace SEARCH
 
       }
 
+      private List<Animal> getDispersers()
+      {
+         List<Animal> dispersers = new List<Animal>();
+         foreach (Animal a in this)
+         {
+            if (a.GetType().Name != "Resident" && a.IsDead == false)
+            {
+               dispersers.Add(a);
+            }
+         }
+         return dispersers;
+
+      }
+
       private Resident[] getResidents()
       {
+         
          Resident[] r = new Resident[getNumResidents()];
          int count = 0;
          try
@@ -936,6 +896,63 @@ namespace SEARCH
          }
 
         
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+      }
+
+      /// <summary>
+      /// After changing the social map, the animals location will stay the same, 
+      /// but the social index will need to be reset.
+      /// </summary>
+      /// <param name="inSocialMap">The new social map to pull the new index from</param>
+      private void resetDisperserSocialIndex(Map inSocialMap)
+      {
+         List<Animal> dispersers = this.getDispersers();
+
+         foreach (Animal d in dispersers)
+         {
+            d.SocialIndex = inSocialMap.getCurrentPolygon(d.Location);
+         }
+
+      }
+      /// <summary>
+      /// after changing out the social map we need to see if the current residents
+      /// still have enough area to survive.
+      /// </summary>
+      /// <param name="newSocialMap">The new map to check area against</param>
+      private void resetResidentsHomeRange(Map newSocialMap)
+      {
+         try
+         {
+            MapManager mm = MapManager.GetUniqueInstance();
+            Resident[] r = this.getResidents();
+            fw.writeLine("inside resetResidentsHomeRange we are going to loop through " + r.Length.ToString() + " residents");
+            foreach (Animal a in r)
+            {
+               fw.writeLine("my animals location is " + a.HomeRangeCenter.X.ToString() + " " + a.HomeRangeCenter.Y.ToString());
+               fw.writeLine("now going to try and build a home range with the map manager");
+               if (mm.BuildHomeRange(a))
+               {
+                  fw.writeLine("built it ");
+               }
+               else
+               {
+                  fw.writeLine("could not create one");
+                  a.TextFileWriter.addLine("Not enough suitable habitat after map switch.");
+                  fw.writeLine("calling changeToDeadAnimal");
+                  this.changeToDeadAnimal(a);
+                  fw.writeLine("new animal type is " + a.GetType());
+                  //now reset the social map to not occupied for that resident.
+                  AdjustMapForDeadAnimal(newSocialMap, a);
+               }
+            }
+            fw.writeLine("leaving resetResidentsHomeRange");
+         }
          catch (System.Exception ex)
          {
 #if (DEBUG)

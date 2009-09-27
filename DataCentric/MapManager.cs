@@ -293,7 +293,7 @@ private MapManager()
                //this.removeExtraFiles(newTempSocialMapPath);
                //this.removeExtraFiles(MulitToSinglePath);
                if (numHomeRanges > 2)//do not want to blow away the orginal data just the temp maps
-                  this.removeExtraFiles(currSocialMapPath);
+                  //this.removeExtraFiles(currSocialMapPath);
                numHomeRanges++;
             }
             else
@@ -872,7 +872,8 @@ private MapManager()
                         mySocialMap = new Map(fc);
                      }
                      mySocialMap.TypeOfMap = "Social";
-                     mySocialMap.Path = mOutMapPath;
+                     mySocialMap.Path = inPath;
+                     mySocialMap.FullFileName = fullName;
                      break;
                   case "Food":
                      fw.writeLine("inside case under Food loading the map");
@@ -974,34 +975,7 @@ private MapManager()
          return true;
       }
 
-      public void makeHomeRange(Animal inA)
-      {
-         IFeatureClass oldSocialFeatureClass;
-         IFeatureClass newSocialFeatureClass;
-         IPolygon homeRange;
-         try
-         {
-            fw.writeLine("inside make home range for animial number " + inA.IdNum.ToString());
-            fw.writeLine("creating the home range polygon");
-            homeRange = Map.BuildHomeRangePolygon(inA, 1.0);
-            {
-               //oldSocialFeatureClass = this.SocialMap.mySelf;
-               //fw.writeLine("ok myMapManipulator.makeHomeRange returned true so create the home range");
-               //createAnimalHomeRangeMap(inA.IdNum, inA.FileNamePrefix);
-               //fw.writeLine("now try to change out the social map");
-               //changeOutSocialMapWithHomeRange();
-               //newSocialFeatureClass = this.myMapManipulator.clipMaps(oldSocialFeatureClass, mySocialMap.mySelf, ref this.SocialIndex);
-               //this.changeOutSocialMapAfterClip(newSocialFeatureClass);
-            }
-         }
-         catch (System.Exception ex)
-         {
-#if DEBUG
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-      }
+     
 
       public bool makeNewAnimalMaps(int numAnimals)
       {

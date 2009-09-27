@@ -77,15 +77,9 @@ namespace SEARCH
 
 		#region Fields (17) 
 
-		#region A to F (3) 
-
       protected IDatasetName dsName;
       private string fullFileName;
       protected FileWriter.FileWriter fw;
-
-		#endregion A to F 
-		#region M to R (13) 
-
       private DateTime mBeginTime;
       private string mChangeType;
       protected IFeatureClass mMySelf;
@@ -99,19 +93,11 @@ namespace SEARCH
       private object myObject;
       protected string myPath;
       protected IFeatureClassName outShapeFileName;
-
-		#endregion M to R 
-		#region S to Z (1) 
-
       protected IWorkspaceName wsName;
-
-		#endregion S to Z 
 
 		#endregion Fields 
 
 		#region Properties (6) 
-
-		#region A to F (3) 
 
       public DateTime BeginTime
       {
@@ -131,9 +117,6 @@ namespace SEARCH
          set { this.fullFileName = value; }
       }
 
-		#endregion A to F 
-		#region M to R (2) 
-
       public IFeatureClass mySelf
       {
          get { return mMySelf; }
@@ -146,16 +129,11 @@ namespace SEARCH
          set {this.myPath = value;}
       }
 
-		#endregion M to R 
-		#region S to Z (1) 
-
       public string TypeOfMap
       {
          get { return mTypeOfMap; }
          set  { mTypeOfMap = value; }
       }
-
-		#endregion S to Z 
 
 		#endregion Properties 
 

@@ -876,16 +876,24 @@ namespace SEARCH
                   if(distToHome < this.mPerceptionDist)
                   {
                      fw.writeLine("ok we are home now setting the location = home range center");
-                     this.Location = this.HomeRangeCenter as PointClass;
                      fw.writeLine("now building the home range");
                      // only change to resident if we were able to build the home range
                      if (this.MapManager.BuildHomeRange(this))
                      {
                         fw.writeLine("found a home");
+                        this.Location = this.HomeRangeCenter as PointClass;
                         status = "resident";
                         if (doTextOutput)
                            this.mTextFileWriter.addLine("Found Home at " + this.myLocation.X.ToString() + " and " + this.myLocation.Y.ToString());
                         // System.Windows.Forms.MessageBox.Show(this.IdNum.ToString() + " found a home kill the application and look at at the input social map ");
+                     }
+                     else
+                     {
+                        //evidently can not build a site here.
+                        goingHome = false;
+                        myMover = RandomWCMover.getRandomWCMover();
+                        MyVisitedSites.RemoveSite(this.HomeRangeCenter);
+
                      }
                   }
                }
