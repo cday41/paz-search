@@ -15,6 +15,17 @@ namespace SEARCH
          wasResident = false;
 		}
 
+      public DeadAnimal(Animal a):base()
+      {
+         this.AnimalAtributes = a.AnimalAtributes;
+         this.IdNum = a.IdNum;
+         this.IsDead = true;
+         this.Location = a.Location;
+         this.sex = a.Sex;
+         this.TextFileWriter = a.TextFileWriter;
+         
+      }
+
 		#endregion Constructors 
 
 		#region Fields (2) 

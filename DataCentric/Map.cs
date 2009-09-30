@@ -1039,21 +1039,27 @@ namespace SEARCH
             //if it was less then zero it can not be on the map
             if(inPolygonIndex>=0)
             {
-               //cast the point object into the relational operator 
-               relOp = (IRelationalOperator)inPoint;
-               tempPoly = this.mySelf.GetFeature(inPolygonIndex);
-               //get feature returns an IFeature object so we need to cast it
-               //to an IGeometry type to use the IRelationalOperator in this
-               //case we are going to cast it to a polygon
-               searchPoly = (IPolygon)tempPoly.ShapeCopy;
-               if (searchPoly != null)
+               fw.writeLine("now check if there are at least " + inPolygonIndex.ToString() + " polygons in this map" );
+               int numFeatures = mySelf.FeatureCount(null);
+               fw.writeLine("there are " + numFeatures.ToString() );
+               if (inPolygonIndex >= numFeatures)
                {
-                  bool inside = relOp.Within(searchPoly);
-                  bool touches =  relOp.Touches(searchPoly);
-                  //HACK
-                  if(relOp.Within(searchPoly)|| relOp.Touches(searchPoly))
+                  //cast the point object into the relational operator 
+                  relOp = (IRelationalOperator)inPoint;
+                  tempPoly = this.mySelf.GetFeature(inPolygonIndex);
+                  //get feature returns an IFeature object so we need to cast it
+                  //to an IGeometry type to use the IRelationalOperator in this
+                  //case we are going to cast it to a polygon
+                  searchPoly = (IPolygon)tempPoly.ShapeCopy;
+                  if (searchPoly != null)
                   {
-                     success = true;
+                     bool inside = relOp.Within(searchPoly);
+                     bool touches = relOp.Touches(searchPoly);
+                     //HACK
+                     if (relOp.Within(searchPoly) || relOp.Touches(searchPoly))
+                     {
+                        success = true;
+                     }
                   }
                }
             }

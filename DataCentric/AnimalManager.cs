@@ -223,9 +223,7 @@ namespace SEARCH
          try
          {
             fw.writeLine("inside changeToDeadAnimal for animal num " + inA.IdNum);
-            DeadAnimal dd = new DeadAnimal();
-            dd.IdNum = inA.IdNum;
-            dd.IsDead = false;
+            DeadAnimal dd = new DeadAnimal(inA);
             fw.writeLine("removing at position " + dd.IdNum.ToString());
             this.RemoveAt(dd.IdNum);
             this.Insert(dd.IdNum, dd);
