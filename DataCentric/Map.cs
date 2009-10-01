@@ -1042,7 +1042,7 @@ namespace SEARCH
                fw.writeLine("now check if there are at least " + inPolygonIndex.ToString() + " polygons in this map" );
                int numFeatures = mySelf.FeatureCount(null);
                fw.writeLine("there are " + numFeatures.ToString() );
-               if (inPolygonIndex >= numFeatures)
+               if (numFeatures >= inPolygonIndex)
                {
                   //cast the point object into the relational operator 
                   relOp = (IRelationalOperator)inPoint;
