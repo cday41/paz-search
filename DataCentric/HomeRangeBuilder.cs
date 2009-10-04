@@ -35,7 +35,7 @@ namespace SEARCH
          fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
          fw.writeLine("the current social map is " + currSocialFileName);
          string path = System.IO.Path.GetDirectoryName(inAnimal.MapManager.getAnimalMapName(inAnimal.IdNum));
-         while (minArea < inAnimal.HomeRangeArea && returnVal != "No Home Found")
+         while (minArea < inAnimal.HomeRangeArea && returnVal != "No Home Found" && stretchFactor <= 2.0)
          {
             fw.writeLine("inside loop for making the polygon");
             this.buildPathNames(path, index.ToString());
