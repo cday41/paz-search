@@ -697,30 +697,22 @@ namespace SEARCH
 
       public bool setSleepTime(DateTime currTime)
       {
-         Animal a;
          string CurrYear = currTime.Year.ToString();
          bool success = true;
          try
          {
-            currAnimal = this.GetEnumerator();
-            if (currAnimal != null)
+            List<Animal> myDispersers = this.getDispersers();
+            foreach (Animal a in myDispersers)
             {
-               while (currAnimal.MoveNext())
-               {
-                  a = (Animal)currAnimal.Current;
-                  a.setInitialSleepTime(currTime);
-                  a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
-                  SetMapValues(a,currTime);
-               }
+               a.setInitialSleepTime(currTime);
+               a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
+               SetMapValues(a, currTime);
             }
-            else
-            {
-               success = false;
-               this.ErrMessage = "No animals to set values to";
-            }
+            
          }
          catch (System.Exception ex)
          {
+            success = false;
 #if DEBUG
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif

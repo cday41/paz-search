@@ -490,7 +490,8 @@ namespace SEARCH
             fw.writeLine("inside UnionAnimalClipData for " + inAnimalPath);
             this.MakeLayer(inAnimalPath, this.tempLayer1);
             this.MakeLayer(inClipPath, this.tempLayer2);
-            this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
+            //this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
+            this.UnionFeatures(this.tempLayer2 + "; " + this.tempLayer1, outPutFileName);
             this.CleanUnionResults(outPutFileName);
          }
          catch (System.Exception ex)

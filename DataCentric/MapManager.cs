@@ -80,17 +80,11 @@ private MapManager()
 
 		#region Fields (26) 
 
-		#region A to F (5) 
-
       private string errFileName;
       private System.Collections.Specialized.StringCollection errMessages;
       private int errNumber;
       private IFeatureWorkspace featureWrkSpace;
       private FileWriter.FileWriter fw;
-
-		#endregion A to F 
-		#region M to R (16) 
-
       private DateTime mCurrTime;
       private string mOutMapPath;
       private List<AnimalMap> myAnimalMaps;
@@ -107,24 +101,16 @@ private MapManager()
       private Map mySocialMap = null;
       public Maps mySocialMaps = null;
       private int numHomeRanges;
-
-		#endregion M to R 
-		#region S to Z (4) 
-
       private int SocialIndex;
       private static MapManager uniqueInstance;
       //      public  int myMaps;
       private IWorkspace wrkSpace;
       private IWorkspaceFactory wrkSpaceFactory;
-
-		#endregion S to Z 
       private string _currStepPath;
 
 		#endregion Fields 
 
 		#region Properties (4) 
-
-		#region A to F (2) 
 
       public string CurrStepPath
       {
@@ -138,9 +124,6 @@ private MapManager()
          set { mCurrTime = value; }
       }
 
-		#endregion A to F 
-		#region M to R (1) 
-
       public string OutMapPath
       {
          get { return mOutMapPath; }
@@ -151,22 +134,17 @@ private MapManager()
          }
       }
 
-		#endregion M to R 
-		#region S to Z (1) 
-
       public Map SocialMap
       {
          get { return mySocialMap; }
          set { mySocialMap = value; }
       }
 
-		#endregion S to Z 
-
 		#endregion Properties 
 
-		#region Methods (54) 
+		#region Methods (49) 
 
-		#region Public Methods (42) 
+		#region Public Methods (37) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
@@ -222,11 +200,11 @@ private MapManager()
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             fw.writeLine("now going to copy " + dissolvePath + " to " + currMapPath);
             fw.writeLine("time to remove those extra files");
-            this.removeExtraFiles(clipPath);
-            this.removeExtraFiles(unionPath);
-            this.removeExtraFiles(timeStepPath);
-            this.removeExtraFiles(dissolvePath);
-            this.removeExtraFiles(oldMapPath);
+            //this.removeExtraFiles(clipPath);
+            //this.removeExtraFiles(unionPath);
+            //this.removeExtraFiles(timeStepPath);
+            //this.removeExtraFiles(dissolvePath);
+            //this.removeExtraFiles(oldMapPath);
 
 
          }
@@ -366,7 +344,6 @@ private MapManager()
 //         }
 //         return am.mySelf;
 //      }
-
       public string getAnimalMapName(int index)
       {
          string fileName = "";
@@ -643,7 +620,6 @@ private MapManager()
 
       }
 
-     
       public void getNumResidents(out int numMales, out int numFemales)
       {
          numMales = 0;
@@ -975,8 +951,6 @@ private MapManager()
          return true;
       }
 
-     
-
       public bool makeNewAnimalMaps(int numAnimals)
       {
          bool success = true;
@@ -1057,7 +1031,6 @@ private MapManager()
 //            FileWriter.FileWriter.WriteErrorFile(ex);
 //         }
 //      }
-
 //      public void makeNextGenerationAnimalMaps(AnimalManager am, string year)
 //      {
 //         try
@@ -1090,9 +1063,6 @@ private MapManager()
 //            FileWriter.FileWriter.WriteErrorFile(ex);
 //         }
 //      }
-
-      
-
       //      private void removeUnionMaps()
       //      {
       //         string []fileNames;
