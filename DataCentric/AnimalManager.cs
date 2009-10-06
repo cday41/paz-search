@@ -171,51 +171,40 @@ namespace SEARCH
       public int breedFemales(DateTime currTime)
       {
          fw.writeLine("inside breed females");
-         int numMales;
-         int numFemales;
+         int numMales=0;
+         int numFemales=0;
          int totalNewAnimals = 0;
          InitialAnimalAttributes iaa;
-         Animal a;
          fw.writeLine("starting the loop");
-         for (int i = 0; i < this.Count; i++)
-         {  
-            
-            a = this[i] as Animal;
-            fw.writeLine(a.IdNum.ToString() + " is dead = " + a.IsDead.ToString());
-            if (!a.IsDead)
+         List<Resident> myBreeders = this.getFemaleResidents();
+
+         foreach (Resident r in myBreeders)
+         {
+
+            r.breed(out numMales, out numFemales);
+            if (numMales > 0)
             {
-               fw.writeLine(a.IdNum.ToString() + " is  a " + a.GetType().Name + " with a sex of " + a.Sex);
-           
-               if (a.GetType().Name == "Resident" && a.Sex == "Female")
-               {
-                  fw.writeLine("so recast to Resident and breed");
-                  Resident r = a as Resident;
-                  
-                  r.breed(out numMales, out numFemales);
-                  if (numMales > 0)
-                  {
-                     iaa = new InitialAnimalAttributes();
-                     iaa.Location = a.HomeRangeCenter;
-                     iaa.Sex = 'M';
-                     iaa.NumToMake = numMales;
-                     this.makeNextGenAnimal(iaa, currTime);
-                  }
-                  if (numFemales > 0)
-                  {
-                     iaa = new InitialAnimalAttributes();
-                     iaa.Location = a.HomeRangeCenter;
-                     iaa.Sex = 'F';
-                     iaa.NumToMake = numFemales;
-                     this.makeNextGenAnimal(iaa, currTime);
-                  }
-                  totalNewAnimals += numFemales + numMales;
-               }
+               iaa = new InitialAnimalAttributes();
+               iaa.Location = r.HomeRangeCenter;
+               iaa.Sex = 'M';
+               iaa.NumToMake = numMales;
+               this.makeNextGenAnimal(iaa, currTime);
+            }
+            if (numFemales > 0)
+            {
+               iaa = new InitialAnimalAttributes();
+               iaa.Location = r.HomeRangeCenter;
+               iaa.Sex = 'F';
+               iaa.NumToMake = numFemales;
+               this.makeNextGenAnimal(iaa, currTime);
             }
          }
+         totalNewAnimals += numFemales + numMales;
+
          this.mHomeRangeTrigger.reset(this.Count + 1);
          setNextGenHomeRange();
          return totalNewAnimals;
-        
+
       }
 
       public void changeToDeadAnimal(Animal inA)
@@ -818,11 +807,34 @@ namespace SEARCH
          return dispersers;
 
       }
-
-      private Resident[] getResidents()
+      private List<Resident> getFemaleResidents()
       {
-         
-         Resident[] r = new Resident[getNumResidents()];
+
+         List<Resident> r = new List<Resident>();
+         int count = 0;
+         try
+         {
+            foreach (Animal a in this)
+            {
+               if (a.GetType().Name == "Resident" && a.IsDead == false && a.Sex.Equals ("Female",StringComparison.CurrentCultureIgnoreCase))
+               {
+                  r.Add(a as Resident);
+               }
+            }
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return r;
+      }
+      private List<Resident> getResidents()
+      {
+
+         List<Resident> r = new List<Resident>();
          int count = 0;
          try
          {
@@ -830,7 +842,7 @@ namespace SEARCH
             {
                if (a.GetType().Name == "Resident" && a.IsDead == false)
                {
-                  r[count++] = a as Resident;
+                  r.Add(a as Resident);
                }
             }
          }
@@ -910,6 +922,7 @@ namespace SEARCH
          }
 
       }
+
       /// <summary>
       /// after changing out the social map we need to see if the current residents
       /// still have enough area to survive.
@@ -920,9 +933,9 @@ namespace SEARCH
          try
          {
             MapManager mm = MapManager.GetUniqueInstance();
-            Resident[] r = this.getResidents();
-            fw.writeLine("inside resetResidentsHomeRange we are going to loop through " + r.Length.ToString() + " residents");
-            foreach (Animal a in r)
+            List<Resident> r = this.getResidents();
+            fw.writeLine("inside resetResidentsHomeRange we are going to loop through " + r.Count.ToString() + " residents");
+            foreach (Resident a in r)
             {
                fw.writeLine("my animals location is " + a.HomeRangeCenter.X.ToString() + " " + a.HomeRangeCenter.Y.ToString());
                fw.writeLine("now going to try and build a home range with the map manager");
@@ -1059,7 +1072,7 @@ namespace SEARCH
 
       private void setResidentAttributes()
       {
-         Resident[] rs = getResidents();
+         List<Resident> rs = getResidents();
          foreach (Resident r in rs)
             r.MyAttributes = this.ResidentAttributes;
       }
