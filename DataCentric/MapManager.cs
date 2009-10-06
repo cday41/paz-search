@@ -200,11 +200,11 @@ private MapManager()
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             fw.writeLine("now going to copy " + dissolvePath + " to " + currMapPath);
             fw.writeLine("time to remove those extra files");
-            //this.removeExtraFiles(clipPath);
-            //this.removeExtraFiles(unionPath);
-            //this.removeExtraFiles(timeStepPath);
-            //this.removeExtraFiles(dissolvePath);
-            //this.removeExtraFiles(oldMapPath);
+            this.removeExtraFiles(clipPath);
+            this.removeExtraFiles(unionPath);
+            this.removeExtraFiles(timeStepPath);
+            this.removeExtraFiles(dissolvePath);
+            this.removeExtraFiles(oldMapPath);
 
 
          }

@@ -75,6 +75,8 @@ namespace SEARCH
                returnVal = "No Home Found";
             }
          }
+         if(stretchFactor == 2)
+            returnVal = "No Home Found";
 
          System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
          
