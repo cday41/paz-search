@@ -8,8 +8,6 @@ namespace SEARCH
    /// </summary>
    public class Resident : Animal
    {
-		#region Public Members (5) 
-
 		#region Constructors (1) 
 
       public Resident()
@@ -19,7 +17,17 @@ namespace SEARCH
       }
 
 		#endregion Constructors 
-		#region Properties (1) 
+
+		#region Fields (2) 
+
+      private ResidentAttributes mMyAttributes;
+      
+
+		#endregion Fields 
+
+		#region Properties (2) 
+
+     
 
       public ResidentAttributes MyAttributes
       {
@@ -31,7 +39,10 @@ namespace SEARCH
       }
 
 		#endregion Properties 
-		#region Methods (3) 
+
+		#region Methods (4) 
+
+		#region Public Methods (3) 
 
       public void breed(out int numMales, out int numFemales)
       {
@@ -84,6 +95,7 @@ namespace SEARCH
       {
          Check.Require(mMyAttributes != null, "Resident Attributes have not been set");
          Check.Require(this.IdNum >= 0, "Resident ID was not set");
+         fw.writeLine("inside time step for resident number " + this.IdNum.ToString());
          die(ref status);
       }
 
@@ -112,18 +124,8 @@ namespace SEARCH
          }
       }
 
-		#endregion Methods 
-
-		#endregion Public Members 
-
-		#region Non-Public Members (2) 
-
-		#region Fields (1) 
-
-      private ResidentAttributes mMyAttributes;
-
-		#endregion Fields 
-		#region Methods (1) 
+		#endregion Public Methods 
+		#region Private Methods (1) 
 
       private void die(ref string status)
       {
@@ -147,8 +149,8 @@ namespace SEARCH
          }
       }
 
-		#endregion Methods 
+		#endregion Private Methods 
 
-		#endregion Non-Public Members 
+		#endregion Methods 
    }
 }

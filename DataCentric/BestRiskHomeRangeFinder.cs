@@ -37,7 +37,7 @@ namespace SEARCH
             if (base.FindHomeRange(inAnimal, inFileName))
             {
                base.setDistance(inAnimal.Location);
-               this.setRiskRank(inAnimal.DistanceWeight);
+               this.setRiskRank(inAnimal.HomeRangeCriteria.DistanceWeight);
                inAnimal.HomeRangeCenter = base.getHomeRangeCenter() as PointClass;
             }
             else

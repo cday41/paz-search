@@ -10,9 +10,9 @@ namespace SEARCH
 {
    class HomeRangeBuilder
    {
-		#region Public Members (2) 
+      #region Public Members (2)
 
-		#region Constructors (1) 
+      #region Constructors (1)
 
       public HomeRangeBuilder()
       {
@@ -21,8 +21,8 @@ namespace SEARCH
 
       }
 
-		#endregion Constructors 
-		#region Methods (1) 
+      #endregion Constructors
+      #region Methods (1)
 
       public string BuildHomeRange(Animal inAnimal, string currSocialFileName)
       {
@@ -32,10 +32,7 @@ namespace SEARCH
          double stretchFactor = 1.0;
          int index = 0;
          IPolygon tempPoly = null;
-         fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
-         fw.writeLine("the current social map is " + currSocialFileName);
-         string path = System.IO.Path.GetDirectoryName(inAnimal.MapManager.getAnimalMapName(inAnimal.IdNum));
-         while (minArea < inAnimal.HomeRangeArea && returnVal != "No Home Found" && stretchFactor <= 2.0)
+         try
          {
             fw.writeLine("inside loop for making the polygon with a stretch factor of " + stretchFactor.ToString());
             this.buildPathNames(path, index.ToString());
@@ -50,29 +47,52 @@ namespace SEARCH
             IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.dissolveHomeRangePolygon, inAnimal.Sex);
             if (fc2 != null)
             {
-               System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-               minArea = this.getArea(fc2);
-               fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeArea.ToString());
-               MapManager.RemoveFiles(homeRangeFileName);
-               index++;
-               if (minArea < inAnimal.HomeRangeArea)
+               fw.writeLine("inside loop for making the polygon with a stretch factor of " + stretchFactor.ToString());
+               this.buildPathNames(path, index.ToString());
+               fw.writeLine("going to call buildHomeRangePolygon with a stretch factor of " + stretchFactor.ToString());
+               tempPoly = this.buildHomeRangePolygon(inAnimal, stretchFactor);
+               fw.writeLine("now add it to a feature class");
+               this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
+               fw.writeLine("now clip it against the current social map");
+               this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
+               fw.writeLine("now get all the good polygons from the clip to meassure the area");//HACK
+               IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
+               IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.dissolveHomeRangePolygon, inAnimal.Sex);
+               if (fc2 != null)
                {
-                  stretchFactor += .1;
-                  //MapManager.RemoveFiles(availablePolygonsFileName);
-                  fc2 = null;
-                  //MapManager.RemoveFiles(clipPath);
-                  fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
+                  System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+                  minArea = this.getArea(fc2);
+                  fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeCriteria.Area.ToString());
+                  MapManager.RemoveFiles(homeRangeFileName);
+                  index++;
+                  if (minArea < inAnimal.HomeRangeCriteria.Area)
+                  {
+                     stretchFactor += .1;
+                     //MapManager.RemoveFiles(availablePolygonsFileName);
+                     fc2 = null;
+                     //MapManager.RemoveFiles(clipPath);
+                     fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
+                  }
+                  else
+                  {
+                     System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
+                  }
+                 
+                  
                }
                else
                {
-                   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
+                  returnVal = "No Home Found";
                }
-               fw.writeLine("leaving with a file name of " + path + availablePolygonsFileName);
-               returnVal = availablePolygonsFileName;
+            }
+            if (stretchFactor == 2)
+            {
+               fw.writeLine("stretch factor = 2");
+               returnVal = "No Home Found";
             }
             else
             {
-               returnVal = "No Home Found";
+               returnVal = availablePolygonsFileName;
             }
          }
          if (stretchFactor >= 2)
@@ -81,21 +101,26 @@ namespace SEARCH
             returnVal = "No Home Found";
          }
 
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
-         
-         
-
-         fw.writeLine("leaving with a file name of " + returnVal);
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         finally
+         {
+            if (tempPoly != null)
+            {
+               System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
+            }
+            fw.writeLine("leaving with a file name of " + returnVal);
+         }
          return returnVal;
       }
 
-		#endregion Methods 
+      #endregion Methods
 
-		#endregion Public Members 
+      #endregion Public Members
 
-		#region Non-Public Members (10) 
+      #region Non-Public Members (10)
 
-		#region Fields (6) 
+      #region Fields (6)
 
       string availablePolygonsFileName;
       string clipPath;
@@ -105,8 +130,8 @@ namespace SEARCH
       string homeRangeFileName;
       DataManipulator myDataManipulator;
 
-		#endregion Fields 
-		#region Methods (4) 
+      #endregion Fields
+      #region Methods (4)
 
       private IPolygon buildHomeRangePolygon(Animal inAnimal, double stretchFactor)
       {
@@ -137,7 +162,7 @@ namespace SEARCH
             tempPoint = new PointClass();
             angle = anglesList[i];
             //radius is slightly larger than needed for home range to compensate for not being a circle
-            radius = Math.Sqrt(1000000 * inAnimal.HomeRangeArea / Math.PI) * rn.getPositiveNormalRandomNum(1.2, .1) * stretchFactor;
+            radius = Math.Sqrt(1000000 * inAnimal.HomeRangeCriteria.Area / Math.PI) * rn.getPositiveNormalRandomNum(1.2, .1) * stretchFactor;
             tempPoint.X = inAnimal.HomeRangeCenter.X + radius * Math.Cos(angle);
             tempPoint.Y = inAnimal.HomeRangeCenter.Y + radius * Math.Sin(angle);
             boundaryPoints.AddPoint(tempPoint, ref missing, ref missing);
@@ -180,9 +205,9 @@ namespace SEARCH
          }
       }
 
-      private void buildPathNames(string path,string multiplier)
+      private void buildPathNames(string path, string multiplier)
       {
-        
+
          homeRangeFileName = path + "\\HomeRangePolygon" + multiplier + ".shp";
          clipPath = path + "\\clipHomeRange" + multiplier + ".shp";
          availablePolygonsFileName = path + "\\availablePolygons" + multiplier + ".shp";
@@ -198,7 +223,7 @@ namespace SEARCH
          IArea areaGetter = null;
          IFeatureCursor currsor = null;
          IFeature currFeat = null;
-         
+
          try
          {
             fw.writeLine("inside get area for a feature class");
@@ -226,8 +251,8 @@ namespace SEARCH
          return area;
       }
 
-		#endregion Methods 
+      #endregion Methods
 
-		#endregion Non-Public Members 
+      #endregion Non-Public Members
    }
 }

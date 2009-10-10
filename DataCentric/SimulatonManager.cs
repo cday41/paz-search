@@ -281,7 +281,7 @@ namespace SEARCH
          try
          {
             fw.writeLine("inside make inital animal maps for the sim manager");
-            numInitialAnimals = this.AnimalManager.Count;
+            numInitialAnimals = this.AnimalManager.NumAnimals;
             if (numInitialAnimals > 0)
             {
                success=this.mMapManager.makeNewAnimalMaps(numInitialAnimals);

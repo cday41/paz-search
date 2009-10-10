@@ -194,7 +194,7 @@ namespace SEARCH
             tempPoint = new PointClass();
             angle = anglesList[i];
             //radius is slightly larger than needed for home range to compensate for not being a circle
-            radius = Math.Sqrt(1000000 * inAnimal.HomeRangeArea / Math.PI) * rn.getPositiveNormalRandomNum(1.2, .1) * stretchFactor;
+            radius = Math.Sqrt(1000000 * inAnimal.HomeRangeCriteria.Area / Math.PI) * rn.getPositiveNormalRandomNum(1.2, .1) * stretchFactor;
             tempPoint.X = inAnimal.HomeRangeCenter.X + radius * Math.Cos(angle);
             tempPoint.Y = inAnimal.HomeRangeCenter.Y + radius * Math.Sin(angle);
             boundaryPoints.AddPoint(tempPoint, ref missing, ref missing);

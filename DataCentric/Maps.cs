@@ -146,7 +146,7 @@ namespace SEARCH
                InitialAnimalAttributes[] inIAA;
                MapManager.GetUniqueInstance().GetInitialAnimalAttributes(out inIAA);
                int numNewDispersers = inIAA.Length;
-               int currNumDispersers = am.Count;
+               int currNumDispersers = am.NumAnimals;
                am.addNewDispersers(inIAA, now);
                fw.writeLine("Back from the animal manager making new animals");
                 fw.writeLine("trigger type is " + this.mMyTriggers[0].MyTriggerType.ToString());

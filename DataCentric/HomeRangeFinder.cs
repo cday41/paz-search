@@ -159,7 +159,7 @@ namespace SEARCH
             fw.writeLine("now make a map of suitable polygons from the animals memory");
             //now see if any of the areas visited are eligible and large enough
             //this will create a polygon map in the Animal's home directory with the name SuitablePolygons.shp
-            if (this.setSuitablePolygons(inAnimal.HomeRangeArea, inAnimal.Sex, inFileName))
+            if (this.setSuitablePolygons(inAnimal.HomeRangeCriteria.Area, inAnimal.Sex, inFileName))
             {
                fw.writeLine("must have been some suitable polygons now see if any of the steps where inside the suitable polygons");
                // Now see if any of 
