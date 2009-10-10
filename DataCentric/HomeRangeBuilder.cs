@@ -37,7 +37,7 @@ namespace SEARCH
          string path = System.IO.Path.GetDirectoryName(inAnimal.MapManager.getAnimalMapName(inAnimal.IdNum));
          while (minArea < inAnimal.HomeRangeArea && returnVal != "No Home Found" && stretchFactor <= 2.0)
          {
-            fw.writeLine("inside loop for making the polygon");
+            fw.writeLine("inside loop for making the polygon with a stretch factor of " + stretchFactor.ToString());
             this.buildPathNames(path, index.ToString());
             fw.writeLine("going to call buildHomeRangePolygon with a stretch factor of " + stretchFactor.ToString());
             tempPoly = this.buildHomeRangePolygon(inAnimal, stretchFactor);
@@ -75,8 +75,11 @@ namespace SEARCH
                returnVal = "No Home Found";
             }
          }
-         if(stretchFactor == 2)
+         if (stretchFactor >= 2)
+         {
+            fw.writeLine("stretch factor = 2");
             returnVal = "No Home Found";
+         }
 
          System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
          

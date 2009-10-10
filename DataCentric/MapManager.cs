@@ -230,7 +230,7 @@ private MapManager()
 
       public bool BuildHomeRange(Animal inAnimal)
       {
-         bool result = true;
+         bool result = false;
          try
          {
             fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
@@ -249,6 +249,7 @@ private MapManager()
             //make sure a new polygon was built
             if (!NewHomeRangeFileName.Equals("No Home Found", StringComparison.CurrentCultureIgnoreCase))
             {
+               result = true;
                fw.writeLine("new home range name is " + NewHomeRangeFileName);
                fw.writeLine("going to union it up and create " + newUnionSocialMapPath);
                this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
