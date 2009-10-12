@@ -142,9 +142,9 @@ private MapManager()
 
 		#endregion Properties 
 
-		#region Methods (49) 
+		#region Methods (48) 
 
-		#region Public Methods (37) 
+		#region Public Methods (36) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
@@ -210,10 +210,10 @@ private MapManager()
          }
          catch (System.Exception ex)
          {
+            FileWriter.FileWriter.WriteErrorFile(ex);
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
          }
 
       }
@@ -255,10 +255,10 @@ private MapManager()
                this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
                fw.writeLine("Since the union tool can create a MultiPart we need to explode it using the Multi to Single");
                fw.writeLine("so the new map name will be " + MulitToSinglePath);
+               this.myDataManipulator.MultiToSinglePart(newUnionSocialMapPath, MulitToSinglePath);
                fw.writeLine("now edit that map");
-               this.EditNewHomeRangeUnion(newUnionSocialMapPath, inAnimal.Sex, inAnimal.IdNum.ToString());
                fw.writeLine("now call  myDataManipulator.CopyToAnother Map new map name is " + newTempSocialMapPath);
-               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, newUnionSocialMapPath);
+               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, MulitToSinglePath);
                fw.writeLine("now call myDataManipulator.RemoveExtraFields");
                this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
                fw.writeLine("now calling myDataManipulator.DissolveAndReturn to make " + newSocialMapPath);
@@ -951,140 +951,28 @@ private MapManager()
          this.myDataManipulator.CreateEmptyFeatureClass(this._currStepPath, "polygon");
          return true;
       }
-
-      public bool makeNewAnimalMaps(int numAnimals)
+      public void MakeInitialAnimalMaps(List<Animal> inDispersers)
       {
-         bool success = true;
-         int i = 0;
-         try
-         {
-            IGeometryDef geoDef = this.getSpatialInfo();
-            fw.writeLine("inside make new animal map for " + numAnimals.ToString() + " number of animals");
-            for (i = 0; i < numAnimals && success; i++)
-            {
-               myAnimalMaps.Add( new AnimalMap(i.ToString(), mOutMapPath, geoDef));
-               //set reference to social map so we can add those fields on the makeMap call
-               myAnimalMaps[i].MySocialMap = this.mySocialMap;
+         foreach (Animal a in inDispersers)
+            makeOneNewAnimalMap(a.IdNum,this.mOutMapPath);
+      }
+      public void MakeInitialResidentMaps(List<Resident> inResidents)
+      {
+         string residentPath = this.mOutMapPath + "\\Residents";
+         Directory.CreateDirectory(residentPath);
+         foreach (Resident r in inResidents)
+            makeOneNewAnimalMap(r.IdNum, residentPath);
 
-            }
-            fw.writeLine("leaving make new animal maps");
-         }
-         catch (System.Exception ex)
-         {
-            success = false;
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         if (success == false)
-         {
-            this.errNumber = (int)ERR.DIRECTORY_ALREADY_IN_USE;
-            this.errFileName = mOutMapPath + @"\" + i.ToString();
-         }
-         return success;
+      }
+      public void makeOneNewAnimalMap(int AnimalID, string path)
+      {
+         fw.writeLine("inside makeOneNewAnimalMap for animal id " + AnimalID.ToString());
+         fw.writeLine("we are going to try and make it at " + path);
+         IGeometryDef geoDef = this.getSpatialInfo();
+         myAnimalMaps.Add(new AnimalMap(AnimalID.ToString(), path, geoDef));
+         myAnimalMaps[myAnimalMaps.Count-1].MySocialMap = this.mySocialMap;
       }
 
-      public void makeNewDisperserAnimalMaps(int numberToAdd)
-      {
-         fw.writeLine("inside make new disperer animal maps");
-         fw.writeLine("currently there are " + myAnimalMaps.Count.ToString());
-         fw.writeLine("we are going to add " + numberToAdd.ToString());
-         try
-         {
-            int totalNumMaps = myAnimalMaps.Count + numberToAdd;
-            IGeometryDef geoDef = this.getSpatialInfo();
-            fw.writeLine("starting loop");
-            for (int i = myAnimalMaps.Count; i < totalNumMaps; i++)
-            {
-               myAnimalMaps.Add(new AnimalMap(i.ToString(), mOutMapPath, geoDef));
-               myAnimalMaps[i].MySocialMap = this.mySocialMap;
-            }
-            fw.writeLine("now out of here");
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-         }
-      }
-
-//      public void makeNextGenerationAnimalMaps(int numResidents, int numDispersers)
-//      {
-//         try
-//         {
-//            AnimalMap[] temp = new AnimalMap[numResidents + numDispersers];
-//            // this.myAnimalMaps.CopyTo(temp,0);
-//            IGeometryDef geoDef = this.getSpatialInfo();
-//            for (int i = numResidents; i < numResidents + numDispersers; i++)
-//            {
-//               temp[i] = new AnimalMap(i.ToString(), mOutMapPath, geoDef);
-//               //set reference to social map so we can add those fields on the makeMap call
-//               temp[i].MySocialMap = this.mySocialMap;
-//            }
-//            this.myAnimalMaps = new AnimalMap[numResidents + numDispersers];
-//            temp.CopyTo(this.myAnimalMaps, 0);
-//         }
-//         catch (System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//      }
-//      public void makeNextGenerationAnimalMaps(AnimalManager am, string year)
-//      {
-//         try
-//         {
-//            fw.writeLine("inside makeNextGenerationAnimalMaps for year " + year);
-//            fw.writeLine("we are going to make " + am.Count.ToString() + "plus one maps");
-//            AnimalMap[] temp = new AnimalMap[am.Count + 1];
-//            fw.writeLine("temp is " + temp.Length + " long");
-//            // this.myAnimalMaps.CopyTo(temp,0);
-//            IGeometryDef geoDef = this.getSpatialInfo();
-//            foreach (Animal a in am)
-//            {
-//               fw.writeLine("Animal Number " + a.IdNum.ToString() + " is a " + a.GetType().Name);
-//               if (a.GetType().Name != "Resident" && a.IsDead != true)
-//               {
-//                  fw.writeLine("must not be a resident making map for " + a.IdNum.ToString());
-//                  temp[a.IdNum] = new AnimalMap(a.IdNum.ToString(), mOutMapPath, geoDef);
-//                  //set reference to social map so we can add those fields on the makeMap call
-//                  temp[a.IdNum].MySocialMap = this.mySocialMap;
-//               }
-//            }
-//            this.myAnimalMaps = new AnimalMap[temp.Length];
-//            temp.CopyTo(this.myAnimalMaps, 0);
-//         }
-//         catch (System.Exception ex)
-//         {
-//#if (DEBUG)
-//            System.Windows.Forms.MessageBox.Show(ex.Message);
-//#endif
-//            FileWriter.FileWriter.WriteErrorFile(ex);
-//         }
-//      }
-      //      private void removeUnionMaps()
-      //      {
-      //         string []fileNames;
-      //         try
-      //         {
-      //            fileNames = Directory.GetFiles(mOutMapPath , "Union*");
-      //            for(int i=0;i<fileNames.Length;i++)
-      //            {
-      //               File.Delete(fileNames[i]);
-      //            }
-      //
-      //
-      //         }
-      //         catch(System.Exception ex)
-      //         {
-      //#if (DEBUG)
-      //            System.Windows.Forms.MessageBox.Show(ex.Message);
-      //#endif
-      //            FileWriter.FileWriter.WriteErrorFile(ex);
-      //         }
-      //      }
       public bool removeExtraFiles(string FullFilePath)
       {
          string[] fileNames;

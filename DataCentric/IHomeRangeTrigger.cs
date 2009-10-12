@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 namespace SEARCH
 {
    public interface  IHomeRangeTrigger
    {
-      int numTimes{get;set;}
-      
       bool timeToLookForHome(Animal inA);
-      void reset(int num);
+      void reset(List<Animal> inList);
+      void addNewDispersers(List<Animal> inList);
+     
    }
 }

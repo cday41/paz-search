@@ -149,15 +149,9 @@ namespace SEARCH
                int currNumDispersers = am.NumAnimals;
                am.addNewDispersers(inIAA, now);
                fw.writeLine("Back from the animal manager making new animals");
-                fw.writeLine("trigger type is " + this.mMyTriggers[0].MyTriggerType.ToString());
-               //Bob Cummings Saturday, October 13, 2007
-               //added check to see if this was a yearly swap, if so then the simulation
-               //manager will handle making the new maps just like breeding
-              // if (! (this.mMyTriggers[0].MyTriggerType == MapSwapTrigger.mTriggerType.YEARLY))
-             //  {  
-                 fw.writeLine("so ask the map manager to add to the list");
-                 MapManager.GetUniqueInstance().makeNewDisperserAnimalMaps(numNewDispersers);
-              // }
+               fw.writeLine("trigger type is " + this.mMyTriggers[0].MyTriggerType.ToString());
+               
+              
             }
          }
          catch (System.Exception ex)

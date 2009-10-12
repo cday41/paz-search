@@ -220,7 +220,7 @@ namespace SEARCH
       {
          InitialAnimalAttributes[] iAA = null;
          this.mMapManager.GetInitalResidentAttributes(out iAA);
-         this.mAnimalManager.makeResidents(iAA);
+         this.mAnimalManager.makeResidents(this.currTime.Year.ToString(), iAA);
          return true;
       }
 
@@ -274,40 +274,12 @@ namespace SEARCH
 
       }
 
-      public bool makeInitialAnimalMaps()
+
+      public void MakeInitialAnimalMaps()
       {
-         bool success = true;
-         int numInitialAnimals = 0;
-         try
-         {
-            fw.writeLine("inside make inital animal maps for the sim manager");
-            numInitialAnimals = this.AnimalManager.NumAnimals;
-            if (numInitialAnimals > 0)
-            {
-               success=this.mMapManager.makeNewAnimalMaps(numInitialAnimals);
-               if (success == false)
-               {
-                  mErrMessage = mMapManager.getErrMessage();
-               }
-            }
-            else
-            {
-               success = false;
-               mErrMessage = "No animals to create maps for";
-            }
-            
-         }
-         catch(System.Exception ex)
-         {
-            success = false;
-            FileWriter.FileWriter.WriteErrorFile(ex);
-           
-         }
-         fw.writeLine("Done making intital maps");
-         return success;
-
+         MapManager.MakeInitialAnimalMaps(AnimalManager.MyDispersers);
+         MapManager.MakeInitialResidentMaps(AnimalManager.MyResidents);
       }
-
       public bool makeTempMap(string path)
       { bool success = true;
       try
@@ -494,9 +466,8 @@ namespace SEARCH
          //had an issue with breeding before switchout the maps so moved it to happen after
          this.MapManager.setUpNewYearsMaps(this.currTime,this.mAnimalManager);
          
-         int numNewAnimals = this.mAnimalManager.breedFemales(this.currTime);
-         //this.mAnimalManager.setSleepTime(this.currTime);
-         this.mMapManager.makeNewDisperserAnimalMaps(numNewAnimals);
+         this.mAnimalManager.breedFemales(this.currTime);
+        
          fw.writeLine("done initializing yearly simulation");
       }
 

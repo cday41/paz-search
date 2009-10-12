@@ -268,6 +268,7 @@ namespace SEARCH
          IFeatureClass ifc = null;
          try
          {
+            fw.writeLine("inside get feature class for file name " + inFileName);
             string path;
             string fileName;
             this.GetPathAndFileName(inFileName, out path, out fileName);
@@ -490,7 +491,6 @@ namespace SEARCH
             fw.writeLine("inside UnionAnimalClipData for " + inAnimalPath);
             this.MakeLayer(inAnimalPath, this.tempLayer1);
             this.MakeLayer(inClipPath, this.tempLayer2);
-            //this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
             this.UnionFeatures(this.tempLayer2 + "; " + this.tempLayer1, outPutFileName);
             this.CleanUnionResults(outPutFileName);
          }

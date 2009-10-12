@@ -32,20 +32,19 @@ namespace SEARCH
          double stretchFactor = 1.0;
          int index = 0;
          IPolygon tempPoly = null;
+         string path = String.Empty;
          try
          {
-            fw.writeLine("inside loop for making the polygon with a stretch factor of " + stretchFactor.ToString());
-            this.buildPathNames(path, index.ToString());
-            fw.writeLine("going to call buildHomeRangePolygon with a stretch factor of " + stretchFactor.ToString());
-            tempPoly = this.buildHomeRangePolygon(inAnimal, stretchFactor);
-            fw.writeLine("now add it to a feature class");
-            this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
-            fw.writeLine("now clip it against the current social map");
-            this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
-            fw.writeLine("now get all the good polygons from the clip to meassure the area");//HACK
-            IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
-            IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.dissolveHomeRangePolygon, inAnimal.Sex);
-            if (fc2 != null)
+            fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
+            fw.writeLine("the current social map is " + currSocialFileName);
+            if (String.IsNullOrEmpty(inAnimal.MapManager.getAnimalMapName(inAnimal.IdNum)))
+               path = inAnimal.MapManager.OutMapPath;
+            else
+               path = System.IO.Path.GetDirectoryName(inAnimal.MapManager.getAnimalMapName(inAnimal.IdNum));
+           
+            
+            fw.writeLine("path value is " + path);
+            while (minArea < inAnimal.HomeRangeCriteria.Area && returnVal != "No Home Found" && stretchFactor <= 2.0)
             {
                fw.writeLine("inside loop for making the polygon with a stretch factor of " + stretchFactor.ToString());
                this.buildPathNames(path, index.ToString());
@@ -63,45 +62,40 @@ namespace SEARCH
                   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
                   minArea = this.getArea(fc2);
                   fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeCriteria.Area.ToString());
-                  MapManager.RemoveFiles(homeRangeFileName);
+                  
                   index++;
                   if (minArea < inAnimal.HomeRangeCriteria.Area)
                   {
                      stretchFactor += .1;
                      //MapManager.RemoveFiles(availablePolygonsFileName);
-                     fc2 = null;
+                     //MapManager.RemoveFiles(homeRangeFileName);
                      //MapManager.RemoveFiles(clipPath);
                      fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
                   }
-                  else
-                  {
-                     System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
-                  }
-                 
                   
+                  //release them, otherwise ARCGis has a problem when trying to reuse the same name
+                  System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+                  System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
                }
                else
+                  {
+                     returnVal = "No Home Found";
+                  }
+
+               if (stretchFactor >= 2)
                {
+                  fw.writeLine("stretch factor = 2");
                   returnVal = "No Home Found";
                }
             }
-            if (stretchFactor == 2)
-            {
-               fw.writeLine("stretch factor = 2");
-               returnVal = "No Home Found";
-            }
-            else
-            {
-               returnVal = availablePolygonsFileName;
-            }
          }
-         if (stretchFactor >= 2)
+         catch(System.Exception ex)
          {
-            fw.writeLine("stretch factor = 2");
-            returnVal = "No Home Found";
-         }
-
             FileWriter.FileWriter.WriteErrorFile(ex);
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+
          }
          finally
          {
@@ -109,8 +103,9 @@ namespace SEARCH
             {
                System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
             }
-            fw.writeLine("leaving with a file name of " + returnVal);
+           
          }
+         fw.writeLine("leaving with a file name of " + returnVal);
          return returnVal;
       }
 

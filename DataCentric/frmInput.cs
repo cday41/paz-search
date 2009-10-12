@@ -2809,11 +2809,8 @@ namespace SEARCH
                //this will help use group the maps by year run 
                startYear = this.mySimManager.StartSeasonDate.Year.ToString();
                this.mySimManager.MapManager.OutMapPath = this.fdbCommon.SelectedPath + '\\' + startYear;
-               if(! this.mySimManager.makeInitialAnimalMaps())
-               {
-                  System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage,"Error");
-                  this.mySimManager.ErrMessage = "";
-               }
+               this.mySimManager.AnimalManager.AnimalAttributes.MapPath = this.fdbCommon.SelectedPath;
+               this.mySimManager.MakeInitialAnimalMaps();
                if (!mySimManager.MapManager.MakeCurrStepMap(this.fdbCommon.SelectedPath))
                {
                   System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
@@ -2854,6 +2851,8 @@ namespace SEARCH
                   System.Convert.ToDouble(this.txtResFemalePercent.Text),
                   System.Convert.ToDouble(this.txtResOffspringMean.Text),
                   System.Convert.ToDouble(this.txtResOffspringSD.Text));
+
+               this.mySimManager.AnimalManager.setResidentTextWriters(this.mySimManager.StartSeasonDate.Year.ToString());
 
 
                this.mySimManager.NumSeasons = System.Convert.ToInt32(this.txtNumYears.Text);
@@ -3406,8 +3405,8 @@ namespace SEARCH
       private void finishMapTab()
       {
          this.myMapManager.changeMaps(this.mySimManager.StartSimulationDate);
-         bool success = this.mySimManager.buildAnimals();
-         this.mySimManager.buildResidents();
+          this.mySimManager.buildAnimals();
+        bool success = this.mySimManager.buildResidents();
          if(success)
          {
             MessageBox.Show("done building animals");
