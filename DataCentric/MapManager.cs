@@ -255,12 +255,12 @@ private MapManager()
                this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
                
                fw.writeLine("now edit that map");
-               this.myDataManipulator.CleanUnionResults(newUnionSocialMapPath);
+               this.myDataManipulator.CleanUnionHomeRangeResults(newUnionSocialMapPath,inAnimal.Sex);
                fw.writeLine("Since the union tool can create a MultiPart we need to explode it using the Multi to Single");
                fw.writeLine("so the new map name will be " + MulitToSinglePath);
                this.myDataManipulator.MultiToSinglePart(newUnionSocialMapPath, MulitToSinglePath);
                fw.writeLine("now call  myDataManipulator.CopyToAnother Map new map name is " + newTempSocialMapPath);
-               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, newUnionSocialMapPath);
+               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, MulitToSinglePath);
                fw.writeLine("now call myDataManipulator.RemoveExtraFields");
                this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
                fw.writeLine("now calling myDataManipulator.DissolveAndReturn to make " + newSocialMapPath);

@@ -74,19 +74,25 @@ namespace SEARCH
       {
          IFeatureClass fc;
          IQueryFilter qf;
-         int index;
+         int setIndex;
         string fieldName;
-        if (AnimalSex.Equals("Male",StringComparison.CurrentCulture))
+        
+        if (AnimalSex.Equals("Male", StringComparison.CurrentCulture))
+        {
            fieldName = "OCCUP_MALE";
+        }
         else
+        {
            fieldName = "OCCUP_FEMA";
+        }
         GetFeatureClassFromFileName(FileName, out fc, out qf);
         IFeatureCursor curr = fc.Update(null, false);
-        index = curr.FindField(fieldName);
+        setIndex = curr.FindField(fieldName);
+       
         IFeature feat = curr.NextFeature();
         while (feat != null)
         {
-           feat.set_Value(index, AnimalID);
+           feat.set_Value(setIndex, AnimalID);
            feat.Store();
            feat = curr.NextFeature();           
         }
@@ -107,6 +113,52 @@ namespace SEARCH
          return fc;
 
       }
+
+      public void CleanUnionHomeRangeResults(string UnionPath, string inSex)
+      {
+         IFeatureClass fc;
+         IQueryFilter qf;
+         int SUITABILIT;
+         int SUITABIL_1;
+         int setIndex;
+         int readIndex;
+         string suitValue;
+         string fieldValue;
+
+         GetFeatureClassFromFileName(UnionPath, out fc, out qf);
+         qf.WhereClause = "FID_dissol = 0";
+         IFeatureCursor curr = fc.Update(qf, false);
+
+         SUITABILIT = curr.FindField("SUITABILIT");
+         SUITABIL_1 = curr.FindField("SUITABIL_1");
+
+         if (inSex.StartsWith("M", StringComparison.CurrentCultureIgnoreCase))
+         {
+            setIndex = curr.FindField("OCCUP_MALE");
+            readIndex = curr.FindField("OCCUP_MA_1");
+         }
+         else
+         {
+            setIndex = curr.FindField("OCCUP_FEMA");
+            readIndex = curr.FindField("OCCUP_FE_1");
+         }
+
+         IFeature feat = curr.NextFeature();
+         while (feat != null)
+         {
+            suitValue = feat.get_Value(SUITABIL_1).ToString();
+            fieldValue = feat.get_Value(readIndex).ToString();
+            feat.set_Value(SUITABILIT, suitValue);
+            feat.set_Value(setIndex, fieldValue);
+            feat.Store();
+            feat = curr.NextFeature();
+         }
+         curr.Flush();
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
+      }
+
 
       public void CleanUnionResults(string UnionPath)
       {
