@@ -54,7 +54,7 @@ namespace SEARCH
                this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
                fw.writeLine("now clip it against the current social map");
                this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
-               fw.writeLine("now get all the good polygons from the clip to meassure the area");//HACK
+               fw.writeLine("now get all the good polygons from the clip to meassure the area");
                IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
                IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.dissolveHomeRangePolygon, inAnimal.Sex);
                if (fc2 != null)
@@ -72,7 +72,12 @@ namespace SEARCH
                      //MapManager.RemoveFiles(clipPath);
                      fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
                   }
-                  
+                  else
+                  {
+                     myDataManipulator.AddAnimalInfo(dissolveHomeRangePolygon, inAnimal.IdNum.ToString(), inAnimal.Sex);
+                     //myDataManipulator.CleanUnionResults(dissolveHomeRangePolygon);
+                     returnVal = this.dissolveHomeRangePolygon;
+                  }
                   //release them, otherwise ARCGis has a problem when trying to reuse the same name
                   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
                   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
@@ -88,7 +93,7 @@ namespace SEARCH
                   returnVal = "No Home Found";
                }
             }
-         }
+        }
          catch(System.Exception ex)
          {
             FileWriter.FileWriter.WriteErrorFile(ex);

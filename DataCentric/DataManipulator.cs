@@ -70,6 +70,35 @@ namespace SEARCH
          this.RunProcess(af, null);
       }
 
+      public void AddAnimalInfo(string FileName,string AnimalID, string AnimalSex)
+      {
+         IFeatureClass fc;
+         IQueryFilter qf;
+         int index;
+        string fieldName;
+        if (AnimalSex.Equals("Male",StringComparison.CurrentCulture))
+           fieldName = "OCCUP_MALE";
+        else
+           fieldName = "OCCUP_FEMA";
+        GetFeatureClassFromFileName(FileName, out fc, out qf);
+        IFeatureCursor curr = fc.Update(null, false);
+        index = curr.FindField(fieldName);
+        IFeature feat = curr.NextFeature();
+        while (feat != null)
+        {
+           feat.set_Value(index, AnimalID);
+           feat.Store();
+           feat = curr.NextFeature();           
+        }
+        curr.Flush();
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
+
+
+
+      }
+
       public IFeatureClass AddHomeRangePolyGon(string outFileName, IPolygon inHomeRange)
       {
 
