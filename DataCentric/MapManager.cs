@@ -255,14 +255,14 @@ private MapManager()
                this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
                
                fw.writeLine("now edit that map");
-               this.myDataManipulator.CleanUnionHomeRangeResults(newUnionSocialMapPath,inAnimal.Sex);
+               this.myDataManipulator.ModifyUnionHomeRangeResults(newUnionSocialMapPath,inAnimal.Sex);
                fw.writeLine("Since the union tool can create a MultiPart we need to explode it using the Multi to Single");
                fw.writeLine("so the new map name will be " + MulitToSinglePath);
                this.myDataManipulator.MultiToSinglePart(newUnionSocialMapPath, MulitToSinglePath);
                fw.writeLine("now call  myDataManipulator.CopyToAnother Map new map name is " + newTempSocialMapPath);
                this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, MulitToSinglePath);
-               fw.writeLine("now call myDataManipulator.RemoveExtraFields");
-               this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
+               //fw.writeLine("now call myDataManipulator.RemoveExtraFields");
+               //this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
                fw.writeLine("now calling myDataManipulator.DissolveAndReturn to make " + newSocialMapPath);
                IFeatureClass newFC = this.myDataManipulator.DissolveAndReturn(newTempSocialMapPath, newSocialMapPath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
                fw.writeLine("Remove the old social map and assign the new one to me");

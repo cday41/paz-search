@@ -114,7 +114,7 @@ namespace SEARCH
 
       }
 
-      public void CleanUnionHomeRangeResults(string UnionPath, string inSex)
+      public void ModifyUnionHomeRangeResults(string UnionPath, string inSex)
       {
          IFeatureClass fc;
          IQueryFilter qf;
