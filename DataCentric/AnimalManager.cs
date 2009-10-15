@@ -313,12 +313,12 @@ namespace SEARCH
                {
                   if (inIAA[i].Sex == 'M')
                   {
-                     //fw.writeLine("makeing a new male");
+                     //fw.writeLine("makeing r new male");
                      tmpAnimal = new Male();
                   }
                   else
                   {
-                     fw.writeLine("makeing a new female");
+                     fw.writeLine("makeing r new female");
                      tmpAnimal = new Female();
                   }
 
@@ -471,19 +471,19 @@ namespace SEARCH
             switch (type)
             {
                case ("Food"):
-                  fw.writeLine("making a foodie");
+                  fw.writeLine("making r foodie");
                   mHomeRangeFinder = BestFoodHomeRangeFinder.getInstance();
                   break;
                case ("Risk"):
-                  fw.writeLine("making a risky");
+                  fw.writeLine("making r risky");
                   mHomeRangeFinder = BestRiskHomeRangeFinder.getInstance();
                   break;
                case ("Closest"):
-                  fw.writeLine("making a closest");
+                  fw.writeLine("making r closest");
                   mHomeRangeFinder = ClosestHomeRangeFinder.getInstance();
                   break;
                case ("Combo"):
-                  fw.writeLine("making a combo");
+                  fw.writeLine("making r combo");
                   mHomeRangeFinder = BestComboHomeRangeFinder.getInstance();
                   break;
                default:
@@ -520,14 +520,14 @@ namespace SEARCH
             {
                case "SITES":
                   mHomeRangeTrigger = new SiteHomeRangeTrigger(num, this.myDispersers);
-                  fw.writeLine("making a new site home ranger");
+                  fw.writeLine("making r new site home ranger");
                   break;
                case "STEPS":
                   mHomeRangeTrigger = new TimeHomeRangeTrigger(num, this.myDispersers);
-                  fw.writeLine("making a new step home ranger");
+                  fw.writeLine("making r new step home ranger");
                   break;
                default:
-                  throw new System.Exception("Not a valid home range trigger");
+                  throw new System.Exception("Not r valid home range trigger");
             }
             //now set the trigger to the animals
             fw.writeLine("now set the triggers to the animals");
@@ -628,7 +628,7 @@ namespace SEARCH
             FileWriter.FileWriter.WriteErrorFile(ex);
             Process.GetCurrentProcess().Kill();
          }
-         fw.writeLine("leaving animal manager set sleep time with a value of " + success.ToString());
+         fw.writeLine("leaving animal manager set sleep time with r value of " + success.ToString());
          return success;
 
       }
@@ -646,8 +646,8 @@ namespace SEARCH
                fw.writeLine("after calling resident winter kill the animal is dead = " + myResidents[i].IsDead.ToString());
                if (myResidents[i].IsDead)
                {
-                  fw.writeLine("Well he died a glorious death but now he is just a dead animal ");
-                  this.AdjustMapForDeadAnimal(currSocialMap, myResidents[i]);
+                  fw.writeLine("Well he died r glorious death but now he is just r dead animal ");
+                  this.AdjustMapForDeadResident(currSocialMap, myResidents[i]);
                   myResidents.RemoveAt(i);
                }
             }
@@ -666,8 +666,9 @@ namespace SEARCH
 		#endregion Public Methods 
 		#region Private Methods (15) 
 
-      private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
+      private void AdjustMapForDeadDisperser(Map inSocialMap, Animal a)
       {
+         
          string fieldName;
          if (a.Sex.ToLower() == "male")
             fieldName = "OCCUP_MALE";
@@ -675,6 +676,18 @@ namespace SEARCH
             fieldName = "OCCUP_FEMA";
          fw.writeLine("calling resetFields");
          inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
+      }
+
+      private void AdjustMapForDeadResident(Map inSocialMap, Resident r)
+      {
+
+         string fieldName;
+         if (r.Sex.ToLower() == "male")
+            fieldName = "OCCUP_MALE";
+         else
+            fieldName = "OCCUP_FEMA";
+         fw.writeLine("calling resetFields");
+         inSocialMap.resetFields(fieldName, r.OriginalID.ToString(), "none");
       }
 
       private void buildLogger()
@@ -725,7 +738,7 @@ namespace SEARCH
 
             if (status == "resident")
             {
-               fw.writeLine("switching " + myDispersers[i].IdNum.ToString() + " to a resident");
+               fw.writeLine("switching " + myDispersers[i].IdNum.ToString() + " to r resident");
                Resident r = new Resident();
                r.Sex = myDispersers[i].Sex;
                r.OriginalID = myDispersers[i].IdNum.ToString();
@@ -750,7 +763,11 @@ namespace SEARCH
             string status = String.Empty;
             r.doTimeStep(ref status);
             if (status == "dead FROM ROLL OF DICE")
+            {
                myResidents.Remove(r);
+               MapManager mm = MapManager.GetUniqueInstance();
+               this.AdjustMapForDeadResident(mm.SocialMap, r);
+            }
          }
       }
 
@@ -794,13 +811,13 @@ namespace SEARCH
             {
                if (inIAA.Sex == 'M')
                {
-                  fw.writeLine("makeing a new male");
+                  fw.writeLine("makeing r new male");
                   tmpAnimal = new Male();
                   tmpAnimal.GenderModifier = this.mMaleModifier;
                }
                else
                {
-                  fw.writeLine("makeing a new female");
+                  fw.writeLine("makeing r new female");
                   tmpAnimal = new Female();
                   tmpAnimal.GenderModifier = this.mFemaleModifier;
                }
@@ -864,7 +881,7 @@ namespace SEARCH
             foreach (Resident resident in myResidents)
             {
                fw.writeLine("my animals location is " + resident.HomeRangeCenter.X.ToString() + " " + resident.HomeRangeCenter.Y.ToString());
-               fw.writeLine("now going to try and build a home range with the map manager");
+               fw.writeLine("now going to try and build r home range with the map manager");
                if (mm.BuildHomeRange(resident))
                {
                   fw.writeLine("built it ");
@@ -875,7 +892,7 @@ namespace SEARCH
                   resident.TextFileWriter.addLine("Not enough suitable habitat after map switch.");
                   fw.writeLine("calling changeToDeadAnimal");
                   resident.IsDead = true;
-                  AdjustMapForDeadAnimal(newSocialMap, resident);
+                  AdjustMapForDeadResident(newSocialMap, resident);
                }
             }
             fw.writeLine("leaving resetResidentsHomeRange");
