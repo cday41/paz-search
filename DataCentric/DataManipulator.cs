@@ -30,6 +30,7 @@ namespace SEARCH
          myProcessor = new Geoprocessor();
          myProcessor.LogHistory = true;
          myProcessor.TemporaryMapLayers = true;
+         myProcessor.SetEnvironmentValue("Extent", "MAXOF");
          tempLayer1 = "\\layer1";
          tempLayer2 = "\\layer2";
          selectLayer = "\\select_lyr";
@@ -70,95 +71,16 @@ namespace SEARCH
          this.RunProcess(af, null);
       }
 
-      public void AddAnimalInfo(string FileName,string AnimalID, string AnimalSex)
-      {
-         IFeatureClass fc;
-         IQueryFilter qf;
-         int setIndex;
-        string fieldName;
-        
-        if (AnimalSex.Equals("Male", StringComparison.CurrentCulture))
-        {
-           fieldName = "OCCUP_MALE";
-        }
-        else
-        {
-           fieldName = "OCCUP_FEMA";
-        }
-        GetFeatureClassFromFileName(FileName, out fc, out qf);
-        IFeatureCursor curr = fc.Update(null, false);
-        setIndex = curr.FindField(fieldName);
-       
-        IFeature feat = curr.NextFeature();
-        while (feat != null)
-        {
-           feat.set_Value(setIndex, AnimalID);
-           feat.Store();
-           feat = curr.NextFeature();           
-        }
-        curr.Flush();
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
-
-
-
-      }
-
       public IFeatureClass AddHomeRangePolyGon(string outFileName, IPolygon inHomeRange)
       {
-
+         fw.writeLine("inside AddHomeRangePolyGon calling CreateEmptyFeatureClass with a file name of " + outFileName);
          IFeatureClass fc = this.CreateEmptyFeatureClass(outFileName, "polygon");
+         fw.writeLine("that created a feature class lets see if it is null = " + (fc == null).ToString());
+         fw.writeLine("now going to call AddPolygon for the empty feature class");
          this.AddPolyGon(fc, inHomeRange);
          return fc;
 
       }
-
-      public void ModifyUnionHomeRangeResults(string UnionPath, string inSex)
-      {
-         IFeatureClass fc;
-         IQueryFilter qf;
-         int SUITABILIT;
-         int SUITABIL_1;
-         int setIndex;
-         int readIndex;
-         string suitValue;
-         string fieldValue;
-
-         GetFeatureClassFromFileName(UnionPath, out fc, out qf);
-         qf.WhereClause = "FID_dissol = 0";
-         IFeatureCursor curr = fc.Update(qf, false);
-
-         SUITABILIT = curr.FindField("SUITABILIT");
-         SUITABIL_1 = curr.FindField("SUITABIL_1");
-
-         if (inSex.StartsWith("M", StringComparison.CurrentCultureIgnoreCase))
-         {
-            setIndex = curr.FindField("OCCUP_MALE");
-            readIndex = curr.FindField("OCCUP_MA_1");
-         }
-         else
-         {
-            setIndex = curr.FindField("OCCUP_FEMA");
-            readIndex = curr.FindField("OCCUP_FE_1");
-         }
-
-         IFeature feat = curr.NextFeature();
-         while (feat != null)
-         {
-            suitValue = feat.get_Value(SUITABIL_1).ToString();
-            fieldValue = feat.get_Value(readIndex).ToString();
-            feat.set_Value(SUITABILIT, suitValue);
-            feat.set_Value(setIndex, fieldValue);
-            feat.Store();
-            feat = curr.NextFeature();
-         }
-         curr.Flush();
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(qf);
-         System.Runtime.InteropServices.Marshal.ReleaseComObject(curr);
-      }
-
 
       public void CleanUnionResults(string UnionPath)
       {
@@ -345,13 +267,12 @@ namespace SEARCH
       }
 
       public IFeatureClass GetFeatureClass(string inFileName)
-      {
+      {     string path = string.Empty;
+      string fileName = string.Empty;
          IFeatureClass ifc = null;
          try
          {
-            fw.writeLine("inside get feature class for file name " + inFileName);
-            string path;
-            string fileName;
+           
             this.GetPathAndFileName(inFileName, out path, out fileName);
             IWorkspaceFactory wrkSpaceFactory = new ShapefileWorkspaceFactory();
             IFeatureWorkspace featureWorkspace = null;
@@ -361,6 +282,9 @@ namespace SEARCH
          catch (COMException COMEx)
          {
             FileWriter.FileWriter.WriteErrorFile(COMEx);
+            FileWriter.FileWriter.AddToErrorFile("Orginal File Name was " + inFileName);
+            FileWriter.FileWriter.AddToErrorFile("so the path is  " + path);
+            FileWriter.FileWriter.AddToErrorFile("just the file name is" + fileName);
             System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(), "COM Error: " + COMEx.ErrorCode.ToString());
          }
 
@@ -572,6 +496,7 @@ namespace SEARCH
             fw.writeLine("inside UnionAnimalClipData for " + inAnimalPath);
             this.MakeLayer(inAnimalPath, this.tempLayer1);
             this.MakeLayer(inClipPath, this.tempLayer2);
+            //this.UnionFeatures(this.tempLayer1 + "; " + this.tempLayer2, outPutFileName);
             this.UnionFeatures(this.tempLayer2 + "; " + this.tempLayer1, outPutFileName);
             this.CleanUnionResults(outPutFileName);
          }

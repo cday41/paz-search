@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using System.Collections.Generic;
+using System.Collections;
 
 
 namespace SEARCH
@@ -15,17 +15,8 @@ namespace SEARCH
       public TimeHomeRangeTrigger(int numTimes,int numAnimals)
       {
          buildLogger();
+         this.numTimesCalled = new int[numAnimals];
          this.mNumTimesNeeded = numTimes;
-         
-      }
-
-      public TimeHomeRangeTrigger(int numTimes, List<Animal> inDispersers)
-      {
-         buildLogger();
-         this.mNumTimesNeeded = numTimes;
-         myTriggers = new Dictionary<int, int>();
-         this.reset(inDispersers);
-         
       }
 
 		#endregion Constructors 
@@ -37,9 +28,9 @@ namespace SEARCH
 		#region Fields (3) 
 
       private FileWriter.FileWriter fw;
-
+      // private int numTimesCalled;
       private int mNumTimesNeeded;
-      private Dictionary<int, int> myTriggers;
+      private int[] numTimesCalled;
 
 		#endregion Fields 
 		#region Methods (1) 
@@ -92,19 +83,9 @@ namespace SEARCH
          }
       }
 
-     
-      public void reset(List<Animal> inList)
+      public void reset (int numAnimals)
       {
-         myTriggers.Clear();
-         addNewDispersers(inList);
-      }
-
-      public void addNewDispersers(List<Animal> inList)
-      { 
-         foreach (Animal a in inList)
-         {
-            myTriggers.Add(a.IdNum, 0);
-         }
+          this.numTimesCalled = new int[numAnimals];
       }
       public bool timeToLookForHome(Animal inA)
       {
@@ -112,12 +93,11 @@ namespace SEARCH
          try
          {
             fw.writeLine("inside timeToLookForHome for animal number " + inA.IdNum.ToString());
-            int i = myTriggers[inA.IdNum];
-            myTriggers[inA.IdNum] = ++i;
-            fw.writeLine("we now have " + myTriggers[inA.IdNum].ToString() + " active timesteps added");
+            numTimesCalled[inA.IdNum]++;
+            fw.writeLine("we now have " + numTimesCalled[inA.IdNum].ToString() + " active timesteps added");
             fw.writeLine("we need " + mNumTimesNeeded.ToString());
          
-            if (this.mNumTimesNeeded <= this.myTriggers[inA.IdNum])
+            if (this.mNumTimesNeeded <= this.numTimesCalled[inA.IdNum])
             {
                fw.writeLine("so it is time to look for a home");
                success = true;
@@ -134,7 +114,5 @@ namespace SEARCH
       }
 
       #endregion
-
-     
    }
 }

@@ -13,26 +13,21 @@ namespace SEARCH
       public Resident()
       {
          mMyAttributes = null;
-         this.IdNum = currID++;
-        
+         this.IdNum = -1;
       }
 
 		#endregion Constructors 
 
-		#region Fields (1) 
-      static int currID;
-      string originalID;
+		#region Fields (2) 
 
-      public string OriginalID
-      {
-         get { return originalID; }
-         set { originalID = value; }
-      }
       private ResidentAttributes mMyAttributes;
+      
 
 		#endregion Fields 
 
-		#region Properties (1) 
+		#region Properties (2) 
+
+     
 
       public ResidentAttributes MyAttributes
       {
@@ -45,9 +40,9 @@ namespace SEARCH
 
 		#endregion Properties 
 
-		#region Methods (5) 
+		#region Methods (4) 
 
-		#region Public Methods (4) 
+		#region Public Methods (3) 
 
       public void breed(out int numMales, out int numFemales)
       {
@@ -96,21 +91,12 @@ namespace SEARCH
          
       }
 
-      public void BuildTextWriter(string CurrYear)
-      {
-         base.BuildTextWriter(CurrYear, this.MyAttributes.Out_Path);
-      }
-
-      public void doTimeStep(ref string status)
-      { 
-         fw.writeLine("inside time step for resident number " + this.IdNum.ToString());
-         die(ref status);
-      }
-       public override void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)
+      public override void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)
       {
          Check.Require(mMyAttributes != null, "Resident Attributes have not been set");
          Check.Require(this.IdNum >= 0, "Resident ID was not set");
-        
+         fw.writeLine("inside time step for resident number " + this.IdNum.ToString());
+         die(ref status);
       }
 
       public void winterKill()

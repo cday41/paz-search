@@ -142,9 +142,9 @@ private MapManager()
 
 		#endregion Properties 
 
-		#region Methods (48) 
+		#region Methods (49) 
 
-		#region Public Methods (36) 
+		#region Public Methods (37) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
@@ -200,11 +200,11 @@ private MapManager()
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             fw.writeLine("now going to copy " + dissolvePath + " to " + currMapPath);
             fw.writeLine("time to remove those extra files");
-            this.removeExtraFiles(clipPath);
-            this.removeExtraFiles(unionPath);
-            this.removeExtraFiles(timeStepPath);
-            this.removeExtraFiles(dissolvePath);
-            this.removeExtraFiles(oldMapPath);
+            //this.removeExtraFiles(clipPath);
+            //this.removeExtraFiles(unionPath);
+            //this.removeExtraFiles(timeStepPath);
+            //this.removeExtraFiles(dissolvePath);
+            //this.removeExtraFiles(oldMapPath);
 
 
          }
@@ -214,6 +214,7 @@ private MapManager()
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
+            
          }
 
       }
@@ -253,28 +254,26 @@ private MapManager()
                fw.writeLine("new home range name is " + NewHomeRangeFileName);
                fw.writeLine("going to union it up and create " + newUnionSocialMapPath);
                this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
-               
-               fw.writeLine("now edit that map");
-               this.myDataManipulator.ModifyUnionHomeRangeResults(newUnionSocialMapPath,inAnimal.Sex);
                fw.writeLine("Since the union tool can create a MultiPart we need to explode it using the Multi to Single");
                fw.writeLine("so the new map name will be " + MulitToSinglePath);
-               this.myDataManipulator.MultiToSinglePart(newUnionSocialMapPath, MulitToSinglePath);
+               fw.writeLine("now edit that map");
+               this.EditNewHomeRangeUnion(newUnionSocialMapPath, inAnimal.Sex, inAnimal.IdNum.ToString());
                fw.writeLine("now call  myDataManipulator.CopyToAnother Map new map name is " + newTempSocialMapPath);
-               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, MulitToSinglePath);
-               //fw.writeLine("now call myDataManipulator.RemoveExtraFields");
-               //this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
+               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, newUnionSocialMapPath);
+               fw.writeLine("now call myDataManipulator.RemoveExtraFields");
+               this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
                fw.writeLine("now calling myDataManipulator.DissolveAndReturn to make " + newSocialMapPath);
                IFeatureClass newFC = this.myDataManipulator.DissolveAndReturn(newTempSocialMapPath, newSocialMapPath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
                fw.writeLine("Remove the old social map and assign the new one to me");
                this.SocialMap = null;
                this.SocialMap = new Map(newFC, newSocialMapPath);
                fw.writeLine("now blow away the temp maps for next time");
-               //this.removeExtraFiles(newUnionSocialMapPath);
-               //this.removeExtraFiles(newTempPolyGonPath);
-               //this.removeExtraFiles(newTempSocialMapPath);
-               //this.removeExtraFiles(MulitToSinglePath);
+               this.removeExtraFiles(newUnionSocialMapPath);
+               this.removeExtraFiles(newTempPolyGonPath);
+               this.removeExtraFiles(newTempSocialMapPath);
+               this.removeExtraFiles(MulitToSinglePath);
                if (numHomeRanges > 2)//do not want to blow away the orginal data just the temp maps
-                  //this.removeExtraFiles(currSocialMapPath);
+                  this.removeExtraFiles(currSocialMapPath);
                numHomeRanges++;
             }
             else
@@ -953,27 +952,98 @@ private MapManager()
          this.myDataManipulator.CreateEmptyFeatureClass(this._currStepPath, "polygon");
          return true;
       }
-      public void MakeInitialAnimalMaps(List<Animal> inDispersers)
-      {
-         foreach (Animal a in inDispersers)
-            makeOneNewAnimalMap(a.IdNum,this.mOutMapPath);
-      }
-      public void MakeInitialResidentMaps(List<Resident> inResidents)
-      {
-         string residentPath = this.mOutMapPath + "\\Residents";
-         Directory.CreateDirectory(residentPath);
-         foreach (Resident r in inResidents)
-            makeOneNewAnimalMap(r.IdNum, residentPath);
 
-      }
-      public void makeOneNewAnimalMap(int AnimalID, string path)
+      public bool makeNewAnimalMaps(int numAnimals)
       {
-         fw.writeLine("inside makeOneNewAnimalMap for animal id " + AnimalID.ToString());
-         fw.writeLine("we are going to try and make it at " + path);
-         IGeometryDef geoDef = this.getSpatialInfo();
-         myAnimalMaps.Add(new AnimalMap(AnimalID.ToString(), path, geoDef));
-         myAnimalMaps[myAnimalMaps.Count-1].MySocialMap = this.mySocialMap;
+         bool success = true;
+         int i = 0;
+         try
+         {
+            IGeometryDef geoDef = this.getSpatialInfo();
+            fw.writeLine("inside make new animal map for " + numAnimals.ToString() + " number of animals");
+            for (i = 0; i < numAnimals && success; i++)
+            {
+               myAnimalMaps.Add( new AnimalMap(i.ToString(), mOutMapPath, geoDef));
+               //set reference to social map so we can add those fields on the makeMap call
+               myAnimalMaps[i].MySocialMap = this.mySocialMap;
+
+            }
+            fw.writeLine("leaving make new animal maps");
+         }
+         catch (System.Exception ex)
+         {
+            success = false;
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         if (success == false)
+         {
+            this.errNumber = (int)ERR.DIRECTORY_ALREADY_IN_USE;
+            this.errFileName = mOutMapPath + @"\" + i.ToString();
+         }
+         return success;
       }
+
+      public void makeNewDisperserAnimalMaps(int numberToAdd)
+      {
+         fw.writeLine("inside make new disperer animal maps");
+         fw.writeLine("currently there are " + myAnimalMaps.Count.ToString());
+         fw.writeLine("we are going to add " + numberToAdd.ToString());
+         try
+         {
+            int totalNumMaps = myAnimalMaps.Count + numberToAdd;
+            IGeometryDef geoDef = this.getSpatialInfo();
+            fw.writeLine("starting loop");
+            for (int i = myAnimalMaps.Count; i < totalNumMaps; i++)
+            {
+               myAnimalMaps.Add(new AnimalMap(i.ToString(), mOutMapPath, geoDef));
+               myAnimalMaps[i].MySocialMap = this.mySocialMap;
+            }
+            fw.writeLine("now out of here");
+         }
+         catch (System.Exception ex)
+         {
+            FileWriter.FileWriter.WriteErrorFile(ex);
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+         }
+     }
+
+      public bool makeNewResidentAnimalMaps(int numResidents)
+      {
+         bool success = true;
+         string resPath = mOutMapPath + "\\Resident";
+         fw.writeLine("inside makeNewResidentAnimalMaps");
+         fw.writeLine("currently there are " + myAnimalMaps.Count.ToString());
+         fw.writeLine("we are going to add " + numResidents.ToString());
+         fw.writeLine("we are going to build them at " + resPath);
+         fw.writeLine("lets see if there is directory yet");
+
+         try
+         {
+
+            if (!Directory.Exists(resPath)) Directory.CreateDirectory(resPath);
+            int totalNumMaps = myAnimalMaps.Count + numResidents;
+            IGeometryDef geoDef = this.getSpatialInfo();
+            fw.writeLine("starting loop");
+            for (int i = myAnimalMaps.Count; i < totalNumMaps; i++)
+            {
+               myAnimalMaps.Add(new AnimalMap(i.ToString(), resPath, geoDef));
+               myAnimalMaps[i].MySocialMap = this.mySocialMap;
+            }
+            fw.writeLine("now out of here");
+         }
+         catch (System.Exception ex)
+         {
+            success = false;
+            FileWriter.FileWriter.WriteErrorFile(ex);
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+         }
+         return success;
+      }
+     
 
       public bool removeExtraFiles(string FullFilePath)
       {
@@ -1399,7 +1469,7 @@ private MapManager()
          IFeatureCursor updateCurr;
          IFeature feat;
          IQueryFilter qf = new QueryFilterClass();
-         qf.WhereClause = "FID_availa >= 0";
+         qf.WhereClause = "FID_dissol >= 0";
 
          IFeatureClass fc = myDataManipulator.GetFeatureClass(inUnionSocialMapPath);
          if (sex.Equals("male", StringComparison.CurrentCultureIgnoreCase))

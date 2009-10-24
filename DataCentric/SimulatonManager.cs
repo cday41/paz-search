@@ -220,7 +220,7 @@ namespace SEARCH
       {
          InitialAnimalAttributes[] iAA = null;
          this.mMapManager.GetInitalResidentAttributes(out iAA);
-         this.mAnimalManager.makeResidents(this.currTime.Year.ToString(), iAA);
+         this.mAnimalManager.makeResidents(iAA,currTime.Year.ToString());
          return true;
       }
 
@@ -274,12 +274,67 @@ namespace SEARCH
 
       }
 
-
-      public void MakeInitialAnimalMaps()
+      public bool makeInitialAnimalMaps()
       {
-         MapManager.MakeInitialAnimalMaps(AnimalManager.MyDispersers);
-         MapManager.MakeInitialResidentMaps(AnimalManager.MyResidents);
+         bool success = true;
+         int numInitialAnimals = 0;
+         try
+         {
+            fw.writeLine("inside make inital animal maps for the sim manager");
+            numInitialAnimals = this.AnimalManager.getNumDispersers();
+            if (numInitialAnimals > 0)
+            {
+               success=this.mMapManager.makeNewAnimalMaps(numInitialAnimals);
+               if (success == false)
+               {
+                  mErrMessage = mMapManager.getErrMessage();
+               }
+            }
+            else
+            {
+               success = false;
+               mErrMessage = "No animals to create maps for";
+            }
+            
+         }
+         catch(System.Exception ex)
+         {
+            success = false;
+            FileWriter.FileWriter.WriteErrorFile(ex);
+           
+         }
+         fw.writeLine("Done making intital maps");
+         return success;
+
       }
+
+      public bool makeResidentMaps()
+      {
+         bool success = true;
+         int numResidents = 0;
+         try
+         {
+            fw.writeLine("inside make makeResidentMaps for the sim manager");
+            numResidents = this.AnimalManager.getNumResidents();
+            if (numResidents > 0)
+            {
+               success = this.mMapManager.makeNewResidentAnimalMaps(numResidents);
+               if (success == false)
+               {
+                  mErrMessage = mMapManager.getErrMessage();
+               }
+            }
+           
+
+         }
+         catch (Exception ex)
+         {
+             success = false;
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return success;
+      }
+
       public bool makeTempMap(string path)
       { bool success = true;
       try
@@ -299,6 +354,11 @@ namespace SEARCH
       }
          return success;
         
+      }
+
+      public void setResidentsTextOutPut(string path)
+      {
+         this.mAnimalManager.setResidentsTextOutput(path, currTime.Year.ToString());
       }
 
       public bool setResidentAttributes(double inTimeStepRisk,double inYearlyRisk,
@@ -322,6 +382,8 @@ namespace SEARCH
          return success;
 
       }
+
+
 
 		#endregion Public Methods 
 		#region Private Methods (8) 
@@ -466,8 +528,9 @@ namespace SEARCH
          //had an issue with breeding before switchout the maps so moved it to happen after
          this.MapManager.setUpNewYearsMaps(this.currTime,this.mAnimalManager);
          
-         this.mAnimalManager.breedFemales(this.currTime);
-        
+         int numNewAnimals = this.mAnimalManager.breedFemales(this.currTime);
+         //this.mAnimalManager.setSleepTime(this.currTime);
+         this.mMapManager.makeNewDisperserAnimalMaps(numNewAnimals);
          fw.writeLine("done initializing yearly simulation");
       }
 

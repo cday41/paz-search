@@ -1,65 +1,107 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace SEARCH
 {
-   /// <summary>
-   /// Summary description for SiteHomeRangeTrigger.
-   /// </summary>
-   public sealed class SiteHomeRangeTrigger : IHomeRangeTrigger
-   {
+	/// <summary>
+	/// Summary description for SiteHomeRangeTrigger.
+	/// </summary>
+	public sealed class SiteHomeRangeTrigger:IHomeRangeTrigger
+	{
+		#region Public Members (1) 
+
 		#region Constructors (1) 
 
-      public SiteHomeRangeTrigger(int numTimes, List<Animal> inDispersers)
-      {
-         buildLogger();
+		public SiteHomeRangeTrigger(int numTimes,int inNumAnimals)
+		{
+         this.buildLogger();
+         fw.writeLine("inside SiteHomeRangeTrigger constructor we need " + numTimes.ToString());
          this.mNumTimesNeeded = numTimes;
-         myTriggers = new Dictionary<int, int>();
-         this.reset(inDispersers);
+         goodSites = new int[inNumAnimals];
       }
 
 		#endregion Constructors 
 
+		#endregion Public Members 
+
+		#region Non-Public Members (4) 
+
 		#region Fields (3) 
 
-      private Dictionary<int, int> myTriggers;
       private FileWriter.FileWriter fw;
+      //this will hold the number of good sites each animal has visited
+      //we are indexing by the animals id so goodSites[0] will hold the number of
+      //good sites animal 0 has witnessed
+      private int[] goodSites;
       private int mNumTimesNeeded;
 
 		#endregion Fields 
+		#region Methods (1) 
 
-		#region Methods (4) 
-
-		#region Public Methods (3) 
-
-      public void addNewDispersers(List<Animal> inList)
+      private void buildLogger()
       {
-         foreach (Animal a in inList)
+         string s;
+         StreamReader sr; 
+         bool foundPath = false;
+         string path = System.Windows.Forms.Application.StartupPath;
+         if(File.Exists(path +"\\logFile.dat"))         
          {
-            myTriggers.Add(a.IdNum, 0);
+            sr= new StreamReader(path +"\\logFile.dat");
+            while(sr.Peek() > -1)
+            {
+               s = sr.ReadLine();
+               if (s.IndexOf("HomeRangeTriggerPath") == 0)
+               {
+                  fw= FileWriter.FileWriter.getHomeRangeTriggerLogger(s.Substring(s.IndexOf(" ")));
+                  foundPath = true;
+                  break;
+               }
+            }
+            sr.Close();
+
+         }
+         if (! foundPath)
+         {
+            fw = new FileWriter.EmptyFileWriter();
+         }
+        
+      }
+
+		#endregion Methods 
+
+		#endregion Non-Public Members 
+
+
+      #region HomeRangeTrigger Members
+
+      public int numTimes
+      {
+         get
+         {
+            return mNumTimesNeeded;
+         }
+         set
+         {
+            mNumTimesNeeded = value;
          }
       }
 
-      public void reset(List<Animal> inList)
+      public void reset(int inNumAnimals)
       {
-         myTriggers.Clear();
-         addNewDispersers(inList);
+         
+         goodSites = new int[inNumAnimals];
       }
-
       public bool timeToLookForHome(Animal inA)
       {
          bool time = false;
          fw.writeLine("inside timeToLookForHome for animal number " + inA.IdNum.ToString());
          fw.writeLine("checking to see if the site is good or not");
-
-         if (inA.isSiteGood(ref fw))
+         bool isSiteGood = inA.isSiteGood(ref fw);
+         if (isSiteGood)
          {
-            int totalSites = myTriggers[inA.IdNum];
-            myTriggers[inA.IdNum] = ++totalSites;
-            fw.writeLine("it was good so we have " + totalSites + " sites");
+            fw.writeLine("it was good so we have " + System.Convert.ToString(goodSites[inA.IdNum] + 1) + " sites");
             fw.writeLine("we need " + mNumTimesNeeded.ToString());
-            if (totalSites >= mNumTimesNeeded)
+            if (++goodSites[inA.IdNum]>=mNumTimesNeeded)
             {
                time = true;
                fw.writeLine("so return true");
@@ -68,40 +110,6 @@ namespace SEARCH
          return time;
       }
 
-		#endregion Public Methods 
-		#region Private Methods (1) 
-
-      private void buildLogger()
-      {
-         string s;
-         StreamReader sr;
-         bool foundPath = false;
-         string path = System.Windows.Forms.Application.StartupPath;
-         if (File.Exists(path + "\\logFile.dat"))
-         {
-            sr = new StreamReader(path + "\\logFile.dat");
-            while (sr.Peek() > -1)
-            {
-               s = sr.ReadLine();
-               if (s.IndexOf("HomeRangeTriggerPath") == 0)
-               {
-                  fw = FileWriter.FileWriter.getHomeRangeTriggerLogger(s.Substring(s.IndexOf(" ")));
-                  foundPath = true;
-                  break;
-               }
-            }
-            sr.Close();
-
-         }
-         if (!foundPath)
-         {
-            fw = new FileWriter.EmptyFileWriter();
-         }
-
-      }
-
-		#endregion Private Methods 
-
-		#endregion Methods 
+      #endregion
    }
 }

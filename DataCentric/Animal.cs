@@ -63,8 +63,6 @@ namespace SEARCH
          this.durationID = 0;
          this.hadCloseCall = false;
          this.goingHome = false;
-         if(! (this is Resident))
-            this.IdNum = currIDNumber++;
 
       }
 
@@ -120,11 +118,10 @@ namespace SEARCH
       private string fileNamePrefix;
       protected TextFileWriter mTextFileWriter;
       protected RandomNumbers rn;
-      private static int currIDNumber;
 
 		#endregion Fields 
 
-		#region Properties (31) 
+		#region Properties (35) 
 
       public HomeRangeCriteria HomeRangeCriteria
       {
@@ -155,6 +152,12 @@ namespace SEARCH
          get { return mCurrEnergy; }
          set { mCurrEnergy = value; }
       }
+
+      
+
+      
+
+     
 
       public double EnergyUsed
       {
@@ -196,6 +199,8 @@ namespace SEARCH
          get { return mHeading; }
          set { mHeading = value; }
       }
+
+     
 
       public PointClass HomeRangeCenter
       {
@@ -332,9 +337,11 @@ namespace SEARCH
          BuildTextWriter(currYear, this.AnimalAtributes.OutPutDir);
       }
 
-      public virtual void BuildTextWriter(string CurrYear, string OutPutDir)
+      public void BuildTextWriter(string CurrYear, string OutPutDir)
       {
          this.buildFileNamePrefix(CurrYear);
+         if (!Directory.Exists(OutPutDir))
+            Directory.CreateDirectory(OutPutDir);
          this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
       }
 
@@ -1080,7 +1087,7 @@ namespace SEARCH
 		#region Protected Methods (1) 
 
       //end of buildLogger
-      protected virtual void buildFileNamePrefix(string year)
+      protected void buildFileNamePrefix(string year)
       {
          System.Text.StringBuilder sb = new System.Text.StringBuilder();
          try

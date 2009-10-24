@@ -42,7 +42,7 @@ namespace SEARCH
       #region publicMethods
       public AnimalMap()
       {
-         ibg = new BasicGeoprocessorClass();
+         //ibg = new BasicGeoprocessorClass();
          myMap = new MapClass();
          qf = new QueryFilterClass();
          qf.WhereClause = "SUITABILIT = 'Suitable'";

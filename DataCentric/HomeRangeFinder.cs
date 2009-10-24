@@ -148,40 +148,53 @@ namespace SEARCH
          fw.writeLine("inside FindHomeRange for animal number " + inAnimal.IdNum.ToString());
          bool foundHome = false;
          fw.writeLine("Going to remove the old files and site list if needed");
-         this.RemoveOldFiles(System.IO.Path.GetDirectoryName(inFileName));
-         this.siteList.Clear();
-
-         fw.writeLine("now make the step map");
-         // this will create a point map of all the steps in the animals memory.
-         // It will be made in the Animal's home directory with the name Step.shp
-         if (this.setSuitableSites(inAnimal, inFileName))
+         try
          {
-            fw.writeLine("now make a map of suitable polygons from the animals memory");
-            //now see if any of the areas visited are eligible and large enough
-            //this will create a polygon map in the Animal's home directory with the name SuitablePolygons.shp
-            if (this.setSuitablePolygons(inAnimal.HomeRangeCriteria.Area, inAnimal.Sex, inFileName))
+            this.RemoveOldFiles(System.IO.Path.GetDirectoryName(inFileName));
+            this.siteList.Clear();
+
+            fw.writeLine("now make the step map");
+            // this will create a point map of all the steps in the animals memory.
+            // It will be made in the Animal's home directory with the name Step.shp
+            if (this.setSuitableSites(inAnimal, inFileName))
             {
-               fw.writeLine("must have been some suitable polygons now see if any of the steps where inside the suitable polygons");
-               // Now see if any of 
-               List<EligibleHomeSite> suitableSites = this.getSuitableSteps(inFileName);
-               if (suitableSites != null)
+               fw.writeLine("now make a map of suitable polygons from the animals memory");
+               //now see if any of the areas visited are eligible and large enough
+               //this will create a polygon map in the Animal's home directory with the name SuitablePolygons.shp
+               if (this.setSuitablePolygons(inAnimal.HomeRangeCriteria.Area, inAnimal.Sex, inFileName))
                {
-                  fw.writeLine("must have been some so now pull those out of the animals memory");
-                  var q = inAnimal.MyVisitedSites.MySites.Intersect(suitableSites, new SiteComparer());
-                  //make sure there were some points
-                  if (q.Count() > 0)
+                  fw.writeLine("must have been some suitable polygons now see if any of the steps where inside the suitable polygons");
+                  // Now see if any of 
+                  List<EligibleHomeSite> suitableSites = this.getSuitableSteps(inFileName);
+                  if (suitableSites != null)
                   {
-                     fw.writeLine("there were " + q.Count().ToString() + " sites that were in good polygons");
-                     foundHome = true;
-                     foreach (EligibleHomeSite i in q)
+                     fw.writeLine("must have been some so now pull those out of the animals memory");
+                     var q = inAnimal.MyVisitedSites.MySites.Intersect(suitableSites, new SiteComparer());
+                     //make sure there were some points
+                     if (q.Count() > 0)
                      {
-                        this.siteList.Add(i);
+                        fw.writeLine("there were " + q.Count().ToString() + " sites that were in good polygons");
+                        foundHome = true;
+                        foreach (EligibleHomeSite i in q)
+                        {
+                           this.siteList.Add(i);
+                        }
                      }
                   }
+
                }
-              
+
             }
          }
+         catch (Exception ex)
+         {
+
+            FileWriter.FileWriter.WriteErrorFile(ex);
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif 
+         }
+        
          fw.writeLine("Leaving FindHomeRange for animal " + inAnimal.IdNum.ToString() + " with a value of " + foundHome.ToString());
          return foundHome;
          

@@ -28,7 +28,6 @@ namespace SEARCH
       {
          string returnVal = "";
          double minArea = 0;
-         //bool success = false;
          double stretchFactor = 1.0;
          int index = 0;
          IPolygon tempPoly = null;
@@ -50,11 +49,12 @@ namespace SEARCH
                this.buildPathNames(path, index.ToString());
                fw.writeLine("going to call buildHomeRangePolygon with a stretch factor of " + stretchFactor.ToString());
                tempPoly = this.buildHomeRangePolygon(inAnimal, stretchFactor);
+               fw.writeLine("is temp poly null = " + (tempPoly == null).ToString());
                fw.writeLine("now add it to a feature class");
                this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
                fw.writeLine("now clip it against the current social map");
                this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
-               fw.writeLine("now get all the good polygons from the clip to meassure the area");
+               fw.writeLine("now get all the good polygons from the clip to meassure the area");//HACK
                IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
                IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.dissolveHomeRangePolygon, inAnimal.Sex);
                if (fc2 != null)
@@ -62,45 +62,47 @@ namespace SEARCH
                   System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
                   minArea = this.getArea(fc2);
                   fw.writeLine("ok we have " + minArea.ToString() + " and George needs " + inAnimal.HomeRangeCriteria.Area.ToString());
-                  
+                  MapManager.RemoveFiles(homeRangeFileName);
                   index++;
                   if (minArea < inAnimal.HomeRangeCriteria.Area)
                   {
                      stretchFactor += .1;
-                     //MapManager.RemoveFiles(availablePolygonsFileName);
-                     //MapManager.RemoveFiles(homeRangeFileName);
-                     //MapManager.RemoveFiles(clipPath);
+                     MapManager.RemoveFiles(availablePolygonsFileName);
+                     fc2 = null;
+                     tempPoly = null;
+                     MapManager.RemoveFiles(clipPath);
                      fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
                   }
                   else
                   {
-                     myDataManipulator.AddAnimalInfo(dissolveHomeRangePolygon, inAnimal.IdNum.ToString(), inAnimal.Sex);
-                     //myDataManipulator.CleanUnionResults(dissolveHomeRangePolygon);
                      returnVal = this.dissolveHomeRangePolygon;
+                     System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
                   }
-                  //release them, otherwise ARCGis has a problem when trying to reuse the same name
-                  System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
-                  System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
+                  //release them, otherwise ARCGis has r problem when trying to reuse the same name
+                  if(fc != null)
+                     System.Runtime.InteropServices.Marshal.ReleaseComObject(fc);
+                  if(fc2 != null)
+                     System.Runtime.InteropServices.Marshal.ReleaseComObject(fc2);
                }
                else
-                  {
-                     returnVal = "No Home Found";
-                  }
-
-               if (stretchFactor >= 2)
                {
-                  fw.writeLine("stretch factor = 2");
                   returnVal = "No Home Found";
                }
-            }
-        }
-         catch(System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-#if DEBUG
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
 
+            }
+
+
+
+            if (stretchFactor >= 2)
+            {
+               fw.writeLine("stretch factor = 2");
+               returnVal = "No Home Found";
+            }
+         }
+         catch (System.Exception ex)
+         {
+
+            FileWriter.FileWriter.WriteErrorFile(ex);
          }
          finally
          {
@@ -108,9 +110,8 @@ namespace SEARCH
             {
                System.Runtime.InteropServices.Marshal.ReleaseComObject(tempPoly);
             }
-           
+            fw.writeLine("leaving with a file name of " + returnVal);
          }
-         fw.writeLine("leaving with a file name of " + returnVal);
          return returnVal;
       }
 
@@ -148,28 +149,36 @@ namespace SEARCH
          IPolygon returnPoly;
 
 
-         geom = (IGeometry)boundaryPoints;
-
-
-         for (int i = 0; i < numberOfPoints; i++)
+         try
          {
-            anglesList[i] = (rn.getUniformRandomNum() * Math.PI * 2);
+            geom = (IGeometry)boundaryPoints;
+
+            fw.writeLine("inside buildHomeRangePolygon for animal " + inAnimal.IdNum.ToString());
+            for (int i = 0; i < numberOfPoints; i++)
+            {
+               anglesList[i] = (rn.getUniformRandomNum() * Math.PI * 2);
+            }
+            System.Array.Sort(anglesList);
+            //go backwards to get clockwise polygon for external ring
+            for (int i = numberOfPoints - 1; i >= 0; i--)
+            {
+               tempPoint = new PointClass();
+               angle = anglesList[i];
+               //radius is slightly larger than needed for home range to compensate for not being a circle
+               radius = Math.Sqrt(1000000 * inAnimal.HomeRangeCriteria.Area / Math.PI) * rn.getPositiveNormalRandomNum(1.2, .1) * stretchFactor;
+               tempPoint.X = inAnimal.HomeRangeCenter.X + radius * Math.Cos(angle);
+               tempPoint.Y = inAnimal.HomeRangeCenter.Y + radius * Math.Sin(angle);
+               boundaryPoints.AddPoint(tempPoint, ref missing, ref missing);
+            }
          }
-         System.Array.Sort(anglesList);
-         //go backwards to get clockwise polygon for external ring
-         for (int i = numberOfPoints - 1; i >= 0; i--)
+         catch (Exception ex)
          {
-            tempPoint = new PointClass();
-            angle = anglesList[i];
-            //radius is slightly larger than needed for home range to compensate for not being a circle
-            radius = Math.Sqrt(1000000 * inAnimal.HomeRangeCriteria.Area / Math.PI) * rn.getPositiveNormalRandomNum(1.2, .1) * stretchFactor;
-            tempPoint.X = inAnimal.HomeRangeCenter.X + radius * Math.Cos(angle);
-            tempPoint.Y = inAnimal.HomeRangeCenter.Y + radius * Math.Sin(angle);
-            boundaryPoints.AddPoint(tempPoint, ref missing, ref missing);
+
+            FileWriter.FileWriter.WriteErrorFile(ex);
          }
          returnPoly = boundaryPoints as PolygonClass;
          returnPoly.Close();
-
+         fw.writeLine("leaving buildHomeRangePolygon");
          return returnPoly;
       }
 
@@ -207,12 +216,20 @@ namespace SEARCH
 
       private void buildPathNames(string path, string multiplier)
       {
-
+         fw.writeLine("inside buildPathNames");
          homeRangeFileName = path + "\\HomeRangePolygon" + multiplier + ".shp";
          clipPath = path + "\\clipHomeRange" + multiplier + ".shp";
          availablePolygonsFileName = path + "\\availablePolygons" + multiplier + ".shp";
          dissolveHomeRangePolygon = path + "\\dissolveHomeRangePolygon" + multiplier + ".shp";
          dissolveBySexMap = path + "\\dissolveBySexMap" + multiplier + ".shp";
+
+         fw.writeLine("homeRangeFileName " + homeRangeFileName);
+         fw.writeLine("clipPath " + clipPath);
+         fw.writeLine("availablePolygonsFileName " + availablePolygonsFileName);
+         fw.writeLine("dissolveHomeRangePolygon " + dissolveHomeRangePolygon);
+         fw.writeLine("dissolveBySexMap " + dissolveBySexMap);
+         fw.writeLine("leaving buildPathNames");
+
 
 
       }

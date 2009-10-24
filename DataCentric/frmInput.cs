@@ -2666,7 +2666,7 @@ namespace SEARCH
             {
                if (this.areEnteriesNumeric(this.homeRangeText))
                {
-                  this.mySimManager.AnimalManager.setHomeRange("MALE",
+                     this.mySimManager.AnimalManager.setHomeRange("MALE",
                      System.Convert.ToDouble(this.txtMaleHomeRangeArea.Text),1,1,System.Convert.ToDouble(this.txtMaleDistMod.Text));
 
                   this.mySimManager.AnimalManager.setHomeRange("FEMALE",
@@ -2775,6 +2775,7 @@ namespace SEARCH
                {
                   this.mySimManager.DoTextOutPut = true;
                   this.mySimManager.AnimalManager.AnimalAttributes.OutPutDir = this.fdbCommon.SelectedPath;
+                  this.mySimManager.setResidentsTextOutPut(this.fdbCommon.SelectedPath);
                }
             }
             else
@@ -2809,8 +2810,16 @@ namespace SEARCH
                //this will help use group the maps by year run 
                startYear = this.mySimManager.StartSeasonDate.Year.ToString();
                this.mySimManager.MapManager.OutMapPath = this.fdbCommon.SelectedPath + '\\' + startYear;
-               this.mySimManager.AnimalManager.AnimalAttributes.MapPath = this.fdbCommon.SelectedPath;
-               this.mySimManager.MakeInitialAnimalMaps();
+               if(! this.mySimManager.makeInitialAnimalMaps())
+               {
+                  System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage,"Error");
+                  this.mySimManager.ErrMessage = "";
+               }
+               if (!this.mySimManager.makeResidentMaps())
+               {
+                  System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage,"Error");
+                  this.mySimManager.ErrMessage = "";
+               }
                if (!mySimManager.MapManager.MakeCurrStepMap(this.fdbCommon.SelectedPath))
                {
                   System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
@@ -2845,14 +2854,14 @@ namespace SEARCH
             if(this.mySimManager.MapManager.OutMapPath != null)
             {
                this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-               this.mySimManager.AnimalManager.setResidentModifierValues(System.Convert.ToDouble(this.txtResDieTimeStep.Text),
+               this.mySimManager.setResidentAttributes(System.Convert.ToDouble(this.txtResDieTimeStep.Text),
                   System.Convert.ToDouble(this.txtResDieBetweenSeason.Text),
                   System.Convert.ToDouble(this.txtResBreedPercent.Text),
                   System.Convert.ToDouble(this.txtResFemalePercent.Text),
-                  System.Convert.ToDouble(this.txtResOffspringMean.Text),
-                  System.Convert.ToDouble(this.txtResOffspringSD.Text));
+                  System.Convert.ToInt32(this.txtResOffspringMean.Text),
+                  System.Convert.ToInt32(this.txtResOffspringSD.Text));
 
-               this.mySimManager.AnimalManager.setResidentTextWriters(this.mySimManager.StartSeasonDate.Year.ToString());
+              
 
 
                this.mySimManager.NumSeasons = System.Convert.ToInt32(this.txtNumYears.Text);
@@ -3405,8 +3414,8 @@ namespace SEARCH
       private void finishMapTab()
       {
          this.myMapManager.changeMaps(this.mySimManager.StartSimulationDate);
-          this.mySimManager.buildAnimals();
-        bool success = this.mySimManager.buildResidents();
+         bool success = this.mySimManager.buildAnimals();
+         this.mySimManager.buildResidents();
          if(success)
          {
             MessageBox.Show("done building animals");

@@ -7,6 +7,8 @@ namespace SEARCH
    /// </summary>
    public class ResidentAttributes
    {
+		#region Public Members (2) 
+
 		#region Constructors (2) 
 
       public ResidentAttributes(double inTimeRisk,
@@ -14,8 +16,7 @@ namespace SEARCH
          double inPercentBreed,
          double inPercentFemale,
          double inMeanLitterSize,
-         double inSDLitterSize,
-         string outPath)
+         double inSDLitterSize)
       {
          mResidentTimeStepRisk=inTimeRisk;
          mResidentYearlyRisk=inYearRisk;
@@ -23,7 +24,6 @@ namespace SEARCH
          mPercentFemale=inPercentFemale;
          mNumChildernMean = inMeanLitterSize;
          mNumChildernSD=inSDLitterSize;
-         out_Path = outPath;
       }
 
       public ResidentAttributes()
@@ -36,7 +36,11 @@ namespace SEARCH
 
 		#endregion Constructors 
 
-		#region Fields (8) 
+		#endregion Public Members 
+
+		#region Non-Public Members (7) 
+
+		#region Fields (7) 
 
       private double mNumChildernMean;
       private double mNumChildernSD;
@@ -45,35 +49,33 @@ namespace SEARCH
       private double mPercentFemale;
       private double mResidentTimeStepRisk;
       private double mResidentYearlyRisk;
-      string out_Path;
 
 		#endregion Fields 
 
-		#region Properties (8) 
+		#endregion Non-Public Members 
 
-      public string Out_Path
-      {
-         get { return out_Path; }
-         set { out_Path = value; }
-      }
+
+      #region gettersAndSetters
 
       public string OriginalID
       {
          get {return mOrginalID;}
          set {mOrginalID = value;}
       }
-
        public double PercentBreed
 		{
 			get { return mPercentBreed; }
 			set  { mPercentBreed = value; }
 		}
 
+
       public double PercentFemale
 		{
 			get { return mPercentFemale; }
 			set  { mPercentFemale = value; }
 		}
+
+
 
       public double NumChildernMean
       {
@@ -99,7 +101,6 @@ namespace SEARCH
          get { return mResidentYearlyRisk; }
          set  { mResidentYearlyRisk = value; }
       }
-
-		#endregion Properties 
+      #endregion
    }
 }

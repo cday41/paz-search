@@ -10,7 +10,7 @@ using ESRI.ArcGIS.Geometry;
 
 namespace SEARCH
 {
-   public class AnimalManager
+   public class AnimalManager 
    {
 		#region Constructors (1) 
 
@@ -27,16 +27,15 @@ namespace SEARCH
          mSafeSearchMod = new SafeSearchModifier();
          fw.writeLine("now making the mover object");
          mMover = RandomWCMover.getRandomWCMover();
-         this.myDispersers = new List<Animal>();
-         this.myResidents = new List<Resident>();
+         this.myAnimals = new List<Animal>();
+         currNumAnimals = 0;
    
-
 
       }
 
 		#endregion Constructors 
 
-		#region Fields (21) 
+		#region Fields (17) 
 
       private IEnumerator currAnimal;
       private FileWriter.FileWriter fw;
@@ -55,31 +54,23 @@ namespace SEARCH
       private Modifier mSafeForageMod;
       private Modifier mSafeSearchMod;
       private string myErrMessage;
-      List<Animal> myDispersers;
+      private List<Animal> myAnimals;
+      private int currNumAnimals;
+      
 
-      public List<Animal> MyDispersers
+      public int getNumDispersers()
       {
-         get { return myDispersers; }
-         
-      }
-      List<Resident> myResidents;
-
-      public List<Resident> MyResidents
-      {
-         get { return myResidents; }
-         
+         return getDispersers().Count;
       }
 
+      public int getNumResidents()
+      {
+         return getResidents().Count;
+      }
 
 		#endregion Fields 
 
-		#region Properties (10) 
-
-      public int NumAnimals
-      {
-         get { return myDispersers.Count; }
-
-      }
+		#region Properties (9) 
 
       public AnimalAtributes AnimalAttributes
       {
@@ -90,28 +81,26 @@ namespace SEARCH
       public string ErrMessage
       {
          get { return myErrMessage; }
-
+                                 
          set { myErrMessage = value; }
       }
 
       public FemaleModifier FemaleModifier
       {
          get { return mFemaleModifier; }
-         set
+         set 
          {
             mFemaleModifier = value;
-            fw.writeLine("inside animal manager setting the mFemaleModifierMod");
-         }
+            fw.writeLine("inside animal manager setting the mFemaleModifierMod"); }
       }
 
       public MaleModifier MaleModifier
       {
          get { return mMaleModifier; }
-         set
+         set 
          {
             mMaleModifier = value;
-            fw.writeLine("inside animal manager setting the mMaleModifierMod");
-         }
+            fw.writeLine("inside animal manager setting the mMaleModifierMod"); }
       }
 
       public ResidentAttributes ResidentAttributes
@@ -123,11 +112,10 @@ namespace SEARCH
       public Modifier RiskyForageMod
       {
          get { return mRiskyForageMod; }
-         set
+         set 
          {
             mRiskyForageMod = value;
-            fw.writeLine("inside animal manager setting the mRiskyForageMod");
-         }
+            fw.writeLine("inside animal manager setting the mRiskyForageMod"); }
       }
 
       public Modifier RiskySearchMod
@@ -139,29 +127,27 @@ namespace SEARCH
       public Modifier SafeForageMod
       {
          get { return mSafeForageMod; }
-         set
+         set 
          {
             mSafeForageMod = value;
-            fw.writeLine("inside animal manager setting the mSafeForageMod");
-         }
+            fw.writeLine("inside animal manager setting the mSafeForageMod"); }
 
       }
 
       public Modifier SafeSearchMod
       {
          get { return mSafeSearchMod; }
-         set
+         set 
          {
             mSafeSearchMod = value;
-            fw.writeLine("inside animal manager setting the mSafeSearchMod");
-         }
+            fw.writeLine("inside animal manager setting the mSafeSearchMod"); }
       }
 
 		#endregion Properties 
 
-		#region Methods (34) 
+		#region Methods (32) 
 
-		#region Public Methods (19) 
+		#region Public Methods (20) 
 
       public void addNewDispersers(InitialAnimalAttributes[] inIAA, DateTime currTime)
       {
@@ -171,10 +157,10 @@ namespace SEARCH
             for (int i = 0; i <= inIAA.Length - 1; i++)
             {
                fw.writeLine("calling makeNextGenAnimal");
-               this.makeNextGenAnimal(inIAA[i], currTime);
+               this.makeNextGenAnimal(inIAA[i],currTime);
             }
             fw.writeLine("done with loop in addNewDispersers calling mHomeRangeTrigger.reset");
-            this.mHomeRangeTrigger.addNewDispersers(this.myDispersers);
+            this.mHomeRangeTrigger.reset(this.myAnimals.Count + 1);
             fw.writeLine("back in addNewDispersers calling setNextGenHomeRange");
             setNextGenHomeRange();
             fw.writeLine("done with adding new dispersers leaving addNewDispersers");
@@ -193,22 +179,24 @@ namespace SEARCH
       {
          this.resetResidentsHomeRange(newSocialMap);
          this.resetDisperserSocialIndex(newSocialMap);
-
+         
       }
 
-      public void breedFemales(DateTime currTime)
+      public int breedFemales(DateTime currTime)
       {
          fw.writeLine("inside breed females");
-         int numMales = 0;
-         int numFemales = 0;
+         int numMales=0;
+         int numFemales=0;
+         int totalNewAnimals = 0;
          InitialAnimalAttributes iaa;
          fw.writeLine("starting the loop");
-         List<Resident> myBreeders = this.getResidentsBySex("female");
+         List<Resident> myBreeders = this.getResidents("female");
 
          foreach (Resident r in myBreeders)
          {
 
             r.breed(out numMales, out numFemales);
+            totalNewAnimals += numFemales + numMales;
             if (numMales > 0)
             {
                iaa = new InitialAnimalAttributes();
@@ -226,9 +214,11 @@ namespace SEARCH
                this.makeNextGenAnimal(iaa, currTime);
             }
          }
-        
-         this.mHomeRangeTrigger.reset(this.myDispersers);
-         setNextGenHomeRange(); 
+         
+
+         this.mHomeRangeTrigger.reset(this.myAnimals.Count + 1);
+         setNextGenHomeRange();
+         return totalNewAnimals;
 
       }
 
@@ -239,51 +229,98 @@ namespace SEARCH
             fw.writeLine("inside changeToDeadAnimal for animal num " + inA.IdNum);
             DeadAnimal dd = new DeadAnimal(inA);
             fw.writeLine("removing at position " + dd.IdNum.ToString());
-            this.myDispersers.RemoveAt(dd.IdNum);
-            this.myDispersers.Insert(dd.IdNum, dd);
-
-            fw.writeLine("new animal type is " + inA.GetType());
+            this.myAnimals.RemoveAt(dd.IdNum);
+            this.myAnimals.Insert(dd.IdNum, dd);
+                  
+            fw.writeLine("new animal type is " + dd.GetType());
          }
          catch (System.Exception ex)
          {
             FileWriter.FileWriter.WriteErrorFile(ex);
 #if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
+             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
          }
       }
 
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
+         int i=0;
+         List<Animal> liveAnimals = this.getAllLiveAnimals();
+         
+         string status = "";
          try
          {
             fw.writeLine("inside animal manager do time step with modifiers");
-            fw.writeLine("calling do disperser time step");
-            doDisperserTimeStep(inHM, inDM, ref currTime, DoTextOutPut, currSocialMap);
-            fw.writeLine("now calling do Resident time step");
-            doResidentTimeStep();
-            fw.writeLine("done with do time step");
+            foreach (Animal a in liveAnimals)
+            {
+               
+#if (ZeroOnly)
+               if (a.IdNum == 3)
+               {
+#endif
+               a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
+               //check to see if they died if they did remove them from the list
+               if (a.IsDead)
+               {
+                 this.changeToDeadAnimal(a);
+                 this.AdjustMapForDeadAnimal(currSocialMap, a);
+               }
+               //check to see if they are changing from disperser to resident
+               
+               if (status == "resident")
+               {
+                  fw.writeLine("switching " + a.IdNum.ToString() + " to a resident");
+                  Resident r = new Resident();
+                  r.Sex = a.Sex;
+                  r.IdNum = a.IdNum;
+                  r.TextFileWriter = a.TextFileWriter;
+                  r.HomeRangeCenter = a.HomeRangeCenter;
+                  r.HomeRangeCriteria = a.HomeRangeCriteria;
+                  r.MyAttributes = this.ResidentAttributes;
+                  r.MyAttributes.OriginalID = a.IdNum.ToString();
+                  this.myAnimals.RemoveAt(i);
+                  this.myAnimals.Insert(i, r);
+                  status = "";
+               }
+               i++;
+            }
+            }
+#if ZeroOnly
          }
+#endif
+        
          catch (System.Exception ex)
          {
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
+        
       }
 
       public void dump()
       {
-         foreach (Animal a in myDispersers)
+         foreach (Animal a in myAnimals)
          {
             a.dump();
          }
       }
 
-      public int getNumDispersers()
-      {
-         int num = 0;
+     
+
+      
+
+      public StringCollection getResidentIDs()
+      {  
+         System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
          try
          {
-            num = this.getDispersers().Count;
+            foreach (Animal a in this.myAnimals)
+            {
+               if (a.GetType().Name == "Resident")
+               {
+                  sc.Add(a.IdNum.ToString());
+               }
+            }
 
          }
          catch (System.Exception ex)
@@ -293,15 +330,15 @@ namespace SEARCH
 #endif
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
-         return num;
+         return sc;
       }
 
       public bool makeInitialAnimals(InitialAnimalAttributes[] inIAA)
       {
          bool success = true;
-
+         
          Animal tmpAnimal;
-
+               
          //fw.writeLine("inside make initial animals");
          try
          {
@@ -313,26 +350,25 @@ namespace SEARCH
                {
                   if (inIAA[i].Sex == 'M')
                   {
-                     //fw.writeLine("makeing r new male");
+                     //fw.writeLine("makeing a new male");
                      tmpAnimal = new Male();
                   }
                   else
                   {
-                     fw.writeLine("makeing r new female");
+                     fw.writeLine("makeing a new female");
                      tmpAnimal = new Female();
                   }
 
-                 
+                  tmpAnimal.IdNum = this.currNumAnimals++;
                   fw.writeLine("just made " + tmpAnimal.IdNum.ToString());
                   tmpAnimal.Location = inIAA[i].Location;
-
+                  
                   tmpAnimal.AnimalAtributes = this.AnimalAttributes;
                   fw.writeLine("now setting the mover");
                   tmpAnimal.myMover = this.mMover;
                   tmpAnimal.AnimalManager = this;
                   fw.writeLine("now adding to the list of my animals;");
-                  this.myDispersers.Add(tmpAnimal);
-                  
+                  this.myAnimals.Add(tmpAnimal);
                }
             }
          }
@@ -345,36 +381,38 @@ namespace SEARCH
          return success;
       }
 
-      public bool makeResidents(string currYear, InitialAnimalAttributes[] inResAttributes)
+      public bool makeResidents(InitialAnimalAttributes[]inResAttributes,string currYear)
       {
          bool success = false;
          Resident r;
          fw.writeLine("inside makeResidents going to make " + inResAttributes.Length.ToString());
-         fw.writeLine("total animals now is " + this.myDispersers.Count.ToString());
+         fw.writeLine("total animals now is " + this.myAnimals.Count.ToString());
          try
          {
             for (int i = 0; i < inResAttributes.Length; i++)
             {
                r = new Resident();
-
                r.MyAttributes = new ResidentAttributes();
                if (inResAttributes[i].Sex.ToString().ToUpper() == "M")
                {
                   r.Sex = "Male";
-
+                 
                }
                else
                {
                   r.Sex = "Female";
-
+                 
                }
+               //r.IsDead = false;
+               r.IdNum = this.currNumAnimals++;
                r.Location = inResAttributes[i].Location;
                r.HomeRangeCenter = r.Location as PointClass; ;
                r.MyAttributes.OriginalID = inResAttributes[i].OrginalID;
-               this.myResidents.Add(r);
+                
+               this.myAnimals.Add(r);
             }
-
-            fw.writeLine("after adding residents total animals now is " + this.myDispersers.Count.ToString());
+            
+            fw.writeLine("after adding residents total animals now is " + this.myAnimals.Count.ToString());
             success = true;
 
          }
@@ -385,7 +423,7 @@ namespace SEARCH
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
          }
-
+         
          return success;
 
       }
@@ -396,14 +434,14 @@ namespace SEARCH
          {
             List<Animal> poorSuckers = this.getDispersers();
             fw.writeLine("inside remove remaining dispersers");
-            fw.writeLine("going to loop through " + this.myDispersers.Count.ToString() + " in the collection.");
+            fw.writeLine("going to loop through " + this.myAnimals.Count.ToString() + " in the collection.");
             foreach (Animal a in poorSuckers)
             {
                {
                   fw.writeLine("so we are setting isDead to true");
                   if (a.TextFileWriter != null)
                      a.TextFileWriter.addLine("Died during winter kill");
-                  myDispersers.Remove(a);
+                  a.IsDead = true;
                }
             }
             fw.writeLine("there are " + this.getNumDispersers().ToString() + " animals left.");
@@ -415,7 +453,7 @@ namespace SEARCH
 #endif
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
-
+         
       }
 
       public bool setAttributes()
@@ -423,8 +461,8 @@ namespace SEARCH
          bool success = true;
          try
          {
-
-            foreach (Animal temp in myDispersers)
+            List<Animal> a = this.getDispersers();
+            foreach (Animal temp in a)
             {
                temp.AnimalAtributes = this.AnimalAttributes;
                temp.CurrEnergy = this.AnimalAttributes.InitialEnergy;
@@ -464,35 +502,35 @@ namespace SEARCH
       public bool setHomeRangeCriteria(string type)
       {
          bool success = false;
-
+       
          try
          {
             fw.writeLine("inside AnimalManger setHomeRangeCriteria " + "for " + type);
             switch (type)
             {
-               case ("Food"):
-                  fw.writeLine("making r foodie");
+               case("Food") : 
+                  fw.writeLine("making a foodie");
                   mHomeRangeFinder = BestFoodHomeRangeFinder.getInstance();
                   break;
-               case ("Risk"):
-                  fw.writeLine("making r risky");
+               case("Risk") : 
+                  fw.writeLine("making a risky");
                   mHomeRangeFinder = BestRiskHomeRangeFinder.getInstance();
                   break;
-               case ("Closest"):
-                  fw.writeLine("making r closest");
+               case("Closest") : 
+                  fw.writeLine("making a closest");
                   mHomeRangeFinder = ClosestHomeRangeFinder.getInstance();
                   break;
-               case ("Combo"):
-                  fw.writeLine("making r combo");
+               case("Combo") : 
+                  fw.writeLine("making a combo");
                   mHomeRangeFinder = BestComboHomeRangeFinder.getInstance();
                   break;
-               default:
+               default : 
                   throw new ArgumentException("Unexpected Home Range Criteria sent in type = " + type);
             }
             fw.writeLine("now looping and setting the animals");
-            foreach (Animal a in this.myDispersers)
+            foreach (Animal a in this.myAnimals)
             {
-
+               
                a.HomeRangeFinder = mHomeRangeFinder;
             }
             //if we get this far everything worked out fine
@@ -513,26 +551,26 @@ namespace SEARCH
       {
          try
          {
-
-
+            
+            
             fw.writeLine("inside setHomeRangeTrigger want to create " + type + " for " + num.ToString());
             switch (type)
             {
-               case "SITES":
-                  mHomeRangeTrigger = new SiteHomeRangeTrigger(num, this.myDispersers);
-                  fw.writeLine("making r new site home ranger");
+               case "SITES" : 
+                  mHomeRangeTrigger = new SiteHomeRangeTrigger(num, this.myAnimals.Count);
+                  fw.writeLine("making a new site home ranger");
                   break;
-               case "STEPS":
-                  mHomeRangeTrigger = new TimeHomeRangeTrigger(num, this.myDispersers);
-                  fw.writeLine("making r new step home ranger");
+               case "STEPS" :
+                  mHomeRangeTrigger = new TimeHomeRangeTrigger(num, this.myAnimals.Count);
+                  fw.writeLine("making a new step home ranger");
                   break;
-               default:
-                  throw new System.Exception("Not r valid home range trigger");
+               default : 
+                  throw new System.Exception("Not a valid home range trigger");
             }
             //now set the trigger to the animals
             fw.writeLine("now set the triggers to the animals");
-
-            foreach (Animal a in myDispersers)
+            
+            foreach(Animal a in myAnimals)
             {
                a.HomeRangeTrigger = this.mHomeRangeTrigger;
             }
@@ -553,7 +591,7 @@ namespace SEARCH
          try
          {
             fw.writeLine("inside set gender modifier in Animal Modifier");
-            foreach (Animal a in myDispersers)
+            foreach (Animal a in myAnimals)
             {
                if (a.GetType().Name == "Male")
                   a.GenderModifier = this.MaleModifier;
@@ -572,7 +610,7 @@ namespace SEARCH
          return success;
       }
 
-      public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk,
+      public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk, 
          double inPercentBreed, double inPercentFemale, double inMeanLitterSize, double inSDLitterSize)
       {
          try
@@ -584,9 +622,8 @@ namespace SEARCH
             Check.Require(inPercentFemale >= 0, "Resident chance of having female offspring less then zero");
             Check.Require(inMeanLitterSize >= 0, "Resident mean litter size less then zero");
             Check.Require(inSDLitterSize >= 0, "Resident sd litter size less then zero");
-            mResidentAttributes = new ResidentAttributes(inTimeStepRisk, inYearlyRisk, inPercentBreed, inPercentFemale, inMeanLitterSize, inSDLitterSize, this.mAnimalAttributes.OutPutDir);
+            mResidentAttributes = new ResidentAttributes(inTimeStepRisk, inYearlyRisk, inPercentBreed, inPercentFemale, inMeanLitterSize, inSDLitterSize);
             this.setResidentAttributes();
-
 
          }
          catch (System.Exception ex)
@@ -596,12 +633,6 @@ namespace SEARCH
 #endif
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
-      }
-
-      public void setResidentTextWriters(string currYear)
-      {
-         foreach (Resident r in myResidents)
-            r.BuildTextWriter(currYear);
       }
 
       public bool setSleepTime(DateTime currTime)
@@ -617,7 +648,7 @@ namespace SEARCH
                a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
                SetMapValues(a, currTime);
             }
-
+            
          }
          catch (System.Exception ex)
          {
@@ -628,7 +659,7 @@ namespace SEARCH
             FileWriter.FileWriter.WriteErrorFile(ex);
             Process.GetCurrentProcess().Kill();
          }
-         fw.writeLine("leaving animal manager set sleep time with r value of " + success.ToString());
+         fw.writeLine("leaving animal manager set sleep time with a value of " + success.ToString());
          return success;
 
       }
@@ -637,22 +668,26 @@ namespace SEARCH
       {
          try
          {
+            
             fw.writeLine("inside winterKillResidents");
-            fw.writeLine("going to loop through " + this.myResidents.Count.ToString() + " in the collection.");
-            for (int i = 0; i < myResidents.Count; i++)
+            fw.writeLine("going to loop through " + this.myAnimals.Count.ToString() + " in the collection.");
+
+            List<Resident> res = this.getResidents();
+            foreach (Resident r in res)
             {
                fw.writeLine("so we are going to call the resident winter kill method");
-               myResidents[i].winterKill();
-               fw.writeLine("after calling resident winter kill the animal is dead = " + myResidents[i].IsDead.ToString());
-               if (myResidents[i].IsDead)
+               r.winterKill();
+               fw.writeLine("after calling resident winter kill the animal is dead = " + r.IsDead.ToString());
+               if (r.IsDead)
                {
-                  fw.writeLine("Well he died r glorious death but now he is just r dead animal ");
-                  this.AdjustMapForDeadResident(currSocialMap, myResidents[i]);
-                  myResidents.RemoveAt(i);
-               }
-            }
+                  fw.writeLine("Well he died a glorious death but now he is just a dead animal ");
+                  this.changeToDeadAnimal(r);
+                  this.AdjustMapForDeadAnimal(currSocialMap, r);
 
-            fw.writeLine("there are " + this.myResidents.Count.ToString() + " animals left.");
+               } 
+            }
+            
+            fw.writeLine("there are " + this.myAnimals.Count.ToString() + " animals left.");
          }
          catch (System.Exception ex)
          {
@@ -664,11 +699,10 @@ namespace SEARCH
       }
 
 		#endregion Public Methods 
-		#region Private Methods (15) 
+		#region Private Methods (12) 
 
-      private void AdjustMapForDeadDisperser(Map inSocialMap, Animal a)
+      private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
       {
-         
          string fieldName;
          if (a.Sex.ToLower() == "male")
             fieldName = "OCCUP_MALE";
@@ -678,25 +712,13 @@ namespace SEARCH
          inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
       }
 
-      private void AdjustMapForDeadResident(Map inSocialMap, Resident r)
-      {
-
-         string fieldName;
-         if (r.Sex.ToLower() == "male")
-            fieldName = "OCCUP_MALE";
-         else
-            fieldName = "OCCUP_FEMA";
-         fw.writeLine("calling resetFields");
-         inSocialMap.resetFields(fieldName, r.OriginalID.ToString(), "none");
-      }
-
       private void buildLogger()
       {
          string s;
          StreamReader sr;
          bool foundPath = false;
          string path = System.Windows.Forms.Application.StartupPath;
-         if (File.Exists(path + "\\logFile.dat"))
+         if (File.Exists(path + "\\logFile.dat"))         
          {
             sr = new StreamReader(path + "\\logFile.dat");
             while (sr.Peek() > -1)
@@ -719,91 +741,64 @@ namespace SEARCH
 
       }
 
-      private void doDisperserTimeStep(HourlyModifier inHM, DailyModifier inDM, ref DateTime currTime, bool DoTextOutPut, Map currSocialMap)
+      private List<Animal> getAllLiveAnimals()
       {
-         fw.writeLine("in inside doDisperserTimeStep");
-         
-         for(int i=0; i<myDispersers.Count; i++)
-         {
-            string status = "";
-            fw.writeLine("calling " + myDispersers[i].IdNum.ToString() + " to do the time step");
-            myDispersers[i].doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
-            //check to see if they died if they did remove them from the list
-            if (myDispersers[i].IsDead)
-            {
-               fw.writeLine("poor guy died for some reason so remove him");
-               myDispersers.RemoveAt(i);
-            }
-            //check to see if they are changing from disperser to resident
-
-            if (status == "resident")
-            {
-               fw.writeLine("switching " + myDispersers[i].IdNum.ToString() + " to r resident");
-               Resident r = new Resident();
-               r.Sex = myDispersers[i].Sex;
-               r.OriginalID = myDispersers[i].IdNum.ToString();
-               r.TextFileWriter = myDispersers[i].TextFileWriter;
-               r.HomeRangeCenter = myDispersers[i].HomeRangeCenter;
-               r.HomeRangeCriteria = myDispersers[i].HomeRangeCriteria;
-               r.MyAttributes = this.ResidentAttributes;
-               r.MyAttributes.OriginalID = myDispersers[i].IdNum.ToString();
-               this.myDispersers.RemoveAt(i);
-               this.myResidents.Add(r);
-               status = "";
-
-            }
-            
-         }
+         var temp = from a in myAnimals where a.IsDead == false select a;
+         return temp.ToList<Animal>();
       }
-
-      private void doResidentTimeStep()
-      {
-         foreach (Resident r in myResidents)
-         {
-            string status = String.Empty;
-            r.doTimeStep(ref status);
-            if (status == "dead FROM ROLL OF DICE")
-            {
-               myResidents.Remove(r);
-               MapManager mm = MapManager.GetUniqueInstance();
-               this.AdjustMapForDeadResident(mm.SocialMap, r);
-            }
-         }
-      }
-
-      private List<Animal> getDisperserBySex(string inSex)
-      {
-
-         var sexBased = from a in myDispersers where a.Sex.Equals(inSex, StringComparison.CurrentCultureIgnoreCase) select a;
-         return sexBased.ToList<Animal>();
-
-      }
-
-      //private List<Animal> getAllLiveAnimals()
-      //{
-      //   List<Animal> temp = this.getDispersers();
-      //   var aliveResidents = from r in myResidents where !r.IsDead select r;
-      //   List<Resident> tempR = aliveResidents.ToList<Resident>();
-      //   temp.AddRange(tempR);
-      //   return temp;
-
-      //}
+ 
       private List<Animal> getDispersers()
       {
-         var aliveDispersers = from a in myDispersers where a.IsDead == false select a;
-         return aliveDispersers.ToList<Animal>();
-      }
+         List<Animal> dispersers = new List<Animal>();
+         foreach (Animal a in this.myAnimals)
+         {
+            if (a.GetType().Name != "Resident" && a.IsDead == false)
+            {
+               dispersers.Add(a);
+            }
+         }
+         return dispersers;
 
-      private List<Resident> getResidentsBySex(string inSex)
+      }
+       private List<Animal> getDispersers(string inSex)
       {
-         var sexBased = from r in myResidents where r.Sex.Equals(inSex, StringComparison.CurrentCultureIgnoreCase) select r;
-         return sexBased.ToList<Resident>();
+         var temp = from a in myAnimals where a.GetType().Name.Equals(inSex, StringComparison.CurrentCultureIgnoreCase)  && !a.IsDead select a;
+         return temp.ToList<Animal>();
+      }
+      private List<Resident> getResidents(string inSex)
+      {
+
+         var temp = from a in myAnimals where a.GetType().Name.Equals("resident", StringComparison.CurrentCultureIgnoreCase) && !a.IsDead && a.Sex.Equals(inSex, StringComparison.CurrentCultureIgnoreCase) select a as Resident;
+         return temp.ToList<Resident>();
+      }
+      private List<Resident> getResidents()
+      {
+
+         List<Resident> r = new List<Resident>();
+         int count = 0;
+         try
+         {
+            foreach (Animal a in this.myAnimals)
+            {
+               if (a.GetType().Name == "Resident" && a.IsDead == false)
+               {
+                  r.Add(a as Resident);
+               }
+            }
+         }
+         catch (System.Exception ex)
+         {
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+            FileWriter.FileWriter.WriteErrorFile(ex);
+         }
+         return r;
       }
 
       private void makeNextGenAnimal(InitialAnimalAttributes inIAA, DateTime currTime)
       {
          Animal tmpAnimal = null;
-         string mapPath = AnimalAttributes.MapPath + "\\" + currTime.Year.ToString();
          fw.writeLine("inside make next gen animal");
          try
          {
@@ -811,17 +806,18 @@ namespace SEARCH
             {
                if (inIAA.Sex == 'M')
                {
-                  fw.writeLine("makeing r new male");
+                  fw.writeLine("makeing a new male");
                   tmpAnimal = new Male();
                   tmpAnimal.GenderModifier = this.mMaleModifier;
                }
                else
                {
-                  fw.writeLine("makeing r new female");
+                  fw.writeLine("makeing a new female");
                   tmpAnimal = new Female();
                   tmpAnimal.GenderModifier = this.mFemaleModifier;
                }
-
+                  
+               tmpAnimal.IdNum = this.currNumAnimals++;
                fw.writeLine("just made " + tmpAnimal.IdNum.ToString());
                tmpAnimal.Location = inIAA.Location;
                tmpAnimal.AnimalAtributes = this.AnimalAttributes;
@@ -833,16 +829,15 @@ namespace SEARCH
                tmpAnimal.HomeRangeTrigger = this.mHomeRangeTrigger;
                tmpAnimal.HomeRangeFinder = this.mHomeRangeFinder;
                tmpAnimal.setInitialSleepTime(currTime);
-               this.SetMapValues(tmpAnimal, currTime);
+               this.SetMapValues(tmpAnimal,currTime);
                tmpAnimal.BuildTextWriter(currTime.Year.ToString());
                tmpAnimal.dump();
-               this.myDispersers.Add(tmpAnimal);
-               MapManager.GetUniqueInstance().makeOneNewAnimalMap(tmpAnimal.IdNum,mapPath);
+               this.myAnimals.Add(tmpAnimal);
             }
-
+            
          }
 
-
+        
          catch (System.Exception ex)
          {
 #if (DEBUG)
@@ -859,8 +854,9 @@ namespace SEARCH
       /// <param name="inSocialMap">The new social map to pull the new index from</param>
       private void resetDisperserSocialIndex(Map inSocialMap)
       {
+         List<Animal> dispersers = this.getDispersers();
 
-         foreach (Animal d in myDispersers)
+         foreach (Animal d in dispersers)
          {
             d.SocialIndex = inSocialMap.getCurrentPolygon(d.Location);
          }
@@ -877,22 +873,25 @@ namespace SEARCH
          try
          {
             MapManager mm = MapManager.GetUniqueInstance();
-            fw.writeLine("inside resetResidentsHomeRange we are going to loop through " + myResidents.Count.ToString() + " residents");
-            foreach (Resident resident in myResidents)
+            List<Resident> r = this.getResidents();
+            fw.writeLine("inside resetResidentsHomeRange we are going to loop through " + r.Count.ToString() + " residents");
+            foreach (Resident a in r)
             {
-               fw.writeLine("my animals location is " + resident.HomeRangeCenter.X.ToString() + " " + resident.HomeRangeCenter.Y.ToString());
-               fw.writeLine("now going to try and build r home range with the map manager");
-               if (mm.BuildHomeRange(resident))
+               fw.writeLine("my animals location is " + a.HomeRangeCenter.X.ToString() + " " + a.HomeRangeCenter.Y.ToString());
+               fw.writeLine("now going to try and build a home range with the map manager");
+               if (mm.BuildHomeRange(a))
                {
                   fw.writeLine("built it ");
                }
                else
                {
                   fw.writeLine("could not create one");
-                  resident.TextFileWriter.addLine("Not enough suitable habitat after map switch.");
+                  a.TextFileWriter.addLine("Not enough suitable habitat after map switch.");
                   fw.writeLine("calling changeToDeadAnimal");
-                  resident.IsDead = true;
-                  AdjustMapForDeadResident(newSocialMap, resident);
+                  this.changeToDeadAnimal(a);
+                  fw.writeLine("new animal type is " + a.GetType());
+                  //now reset the social map to not occupied for that resident.
+                  AdjustMapForDeadAnimal(newSocialMap, a);
                }
             }
             fw.writeLine("leaving resetResidentsHomeRange");
@@ -908,12 +907,12 @@ namespace SEARCH
 
       private void setFemaleHomeRange()
       {
-         List<Animal> females = this.getDisperserBySex("female");
+         List<Animal> females = this.getDispersers("female");
          foreach (Animal female in females)
          {
             female.HomeRangeCriteria = this.mFemaleHomeRangeCriteria;
          }
-         List<Resident> femaleResidents = this.getResidentsBySex("female");
+         List<Resident> femaleResidents = this.getResidents("female");
          foreach (Animal female in femaleResidents)
          {
             female.HomeRangeCriteria = this.mFemaleHomeRangeCriteria;
@@ -924,12 +923,12 @@ namespace SEARCH
 
       private void setMaleHomeRange()
       {
-         List<Animal> males = this.getDisperserBySex("male");
+         List<Animal> males = this.getDispersers("male");
          foreach (Animal male in males)
          {
             male.HomeRangeCriteria = this.mMaleHomeRangeCriteria;
          }
-         List<Resident> maleResidents = this.getResidentsBySex("male");
+           List<Resident> maleResidents = this.getResidents("male");
          foreach (Resident male in maleResidents)
          {
             male.HomeRangeCriteria = this.mMaleHomeRangeCriteria;
@@ -987,9 +986,17 @@ namespace SEARCH
 
       }
 
+      public void setResidentsTextOutput(string path, string year)
+      {
+         List<Resident> res = this.getResidents();
+         foreach(Resident r in res)
+            r.BuildTextWriter(year,path + "\\Resident");
+      }
+
       private void setResidentAttributes()
       {
-         foreach (Resident r in myResidents)
+         List<Resident> rs = getResidents();
+         foreach (Resident r in rs)
             r.MyAttributes = this.ResidentAttributes;
       }
 
