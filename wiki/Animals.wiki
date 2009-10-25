@@ -6,3 +6,6 @@ Basic description of the different types of animals supported in this release
 
 
 = Dispersers =
+A disperser is any animal that is currently looking for a _home range_. For this version there are 2 different ways to introduce dispersers.
+  * [Breeding]
+  * Release
