@@ -5,9 +5,4 @@ Basic description of the different types of animals supported in this release
 
 
 
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Dispersers =
