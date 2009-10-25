@@ -3,7 +3,7 @@ The current rules that govern reproduction rules of the Resident
 
 = Introduction =
 
-This is one of two ways to introduce new disperser type animals into the simulation.  
+This is one of two ways to introduce new disperser type [animals] into the simulation.  
 
 
 = Details =
