@@ -1,4 +1,4 @@
-Describes how this state of being modifies the [animal] movement pattern
+Describes how this state of being modifies the [animals] movement pattern
 
 = Introduction =
 
