@@ -1,5 +1,5 @@
+#summary Basic description of the different types of animals supported in this release
 #labels Phase-Requirements
-Basic description of the different types of animals supported in this release
 
 
 
