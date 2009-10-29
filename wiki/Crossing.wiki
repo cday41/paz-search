@@ -1,7 +1,7 @@
 #summary Describes rules for crossing move boundaries.
 
 
-= Details =
+= Crossing =
 
   * When animal encounters boundary (on movement map) it crosses or reflects back based on crossing values of both polygons
   * Crossing values are based on value on movement map
