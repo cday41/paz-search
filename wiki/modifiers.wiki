@@ -1,0 +1,8 @@
+#summary Rules for modifiers.
+
+
+= Modifiers =
+
+  * [mod_param Parameters affected by modifiers]
+  * [mod_sit Behaviors and situations affected by modifiers]
+  * [mod_mult Multiple modifiers at once]
