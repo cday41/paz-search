@@ -1,0 +1,10 @@
+#summary Types of SEARCH map output.
+
+
+
+= Map output =
+
+  * [memory Memory maps]
+  * [steps Step maps]
+  * [ind_hr Individual HR maps]
+  * [year_soc End of year social maps]
