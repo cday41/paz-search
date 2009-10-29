@@ -2,4 +2,4 @@
 
 = Home Range Center =
 
-This is the point from the [animals] memory that he has chosen to try and create his home range area.
+This is the point from the [Animals animals] memory that he has chosen to try and create his home range area.
