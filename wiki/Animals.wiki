@@ -9,6 +9,9 @@
 A disperser is any animal that is currently looking for a _home range_. For this version there are 2 different ways to introduce dispersers.
   * [Breeding]
   * [Release]
+  * [Movement]
+  * [Foraging]
+  * [HR_establishment]
 
 = Residents =
 A resident is any animal that has an established _home range_. For 
