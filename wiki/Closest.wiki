@@ -1,0 +1,9 @@
+#summary Rules for closest ranking of HR center.
+
+
+
+
+= Closest =
+
+  * Only the distance to a site and the weighting factor will be considered when choosing a HR center under this scenario
+  * Each site will be ranked by n√(d) [i.e. nth root of d] where d is the distance and n is the weight factor
