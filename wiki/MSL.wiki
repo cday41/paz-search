@@ -5,5 +5,5 @@
 
   * Length of step (in meters) based on map value for location of starting point and all applicable modifiers
   * [MSL_bound_cross When boundary encountered with crossing]
-  * [MSL-bound-nocross When boundary encountered and not crossed]
-  * [MSL-nobound When boundary not encountered]
+  * [MSL_bound_nocross When boundary encountered and not crossed]
+  * [MSL_nobound When boundary not encountered]
