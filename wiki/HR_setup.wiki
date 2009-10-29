@@ -13,7 +13,7 @@
     * Then for each point the radius is calculated as follows
       * Calculate the square root of the animals required area / PI
       * Multiply that value by a random number between 1.0 and 1.2 (To allow for not being a perfect circle)
-      * Then that value is multiplied by the stretch factor. 
+      * Then that value is multiplied by the [stretch factor]. 
     * The X value for the new point is calculated by the home range center point X + the radius just calculated times the Cos(Angle(N))
     * The Y value for the new point is calculated by the home range center point Y + the radius just calculated times Sin (Angle(N))
     * Advance N by one to get the next Angle in the list
