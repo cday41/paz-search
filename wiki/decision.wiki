@@ -1,0 +1,11 @@
+#summary Describes decision rules for selection HR center.
+
+
+
+
+= Decision rules =
+
+  * [Closest]
+  * [Least_risk]
+  * [Best_food]
+  * [Combo]
