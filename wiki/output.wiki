@@ -1,0 +1,10 @@
+#summary Types of output of SEARCH .
+
+
+
+
+= Output =
+
+  * [text Text file output]
+  * [out_maps Map output]
+  * [Logging]
