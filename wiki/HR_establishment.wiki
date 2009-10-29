@@ -1,0 +1,8 @@
+#summary Rules for HR establishment.
+
+
+
+= HR establishment =
+
+ * [Trigger]
+ * [HR_setup Setting up HR]
