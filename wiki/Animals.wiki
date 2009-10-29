@@ -1,4 +1,4 @@
-#summary Basic description of the different types of animals supported in this release
+#summary Basic description of animals supported in this release
 #labels Phase-Requirements
 
 
@@ -7,8 +7,7 @@
 
 = Dispersers =
 A disperser is any animal that is currently looking for a _home range_. For this version there are 2 different ways to introduce dispersers.
-  * [Breeding]
-  * [Release]
+  * [create_an Creating animals]
   * [Movement]
   * [Foraging]
   * [Mortality]
