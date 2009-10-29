@@ -1,12 +1,8 @@
 #summary The current rules that govern reproduction rules of the Resident
 #labels Phase-Requirements,Phase-Design,Phase-QA
 
-= Introduction =
 
-This is one of two ways to introduce new disperser type [animals] into the simulation.  
-
-
-= Details =
+= Reproduction =
 
   * During the interdispersal period each resident female has a chance to breed
   * For each female, if the random number drawn is below the value for probability of pregnancy than the animal produces offspring.
