@@ -2,7 +2,7 @@
 
 
 
-= Details =
+= Correlated random walk =
 
   * [nondirect Non-directed mover]
   * [direct Directed mover]
