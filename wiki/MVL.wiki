@@ -1,0 +1,8 @@
+#summary Describe 2 methods of correlated random walk.
+
+
+
+= Details =
+
+  * [nondirect Non-directed mover]
+  * [direct Directed mover]
