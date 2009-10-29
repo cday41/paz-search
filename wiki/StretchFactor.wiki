@@ -1,0 +1,8 @@
+#summary Describes the meaning for Stretch Factor
+#labels Phase-Design
+
+= Introduction =
+
+The distance between the Home Range center and the points cast out for making the polygon
+
+
