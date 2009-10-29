@@ -11,7 +11,7 @@
     * generating a list of 30 angles by getting a random number then multiply by Math.PI multiplied by 2
     * Then that list is sorted clockwise (requirement of ESRI to make a polygon)
     * Then for each point the radius is calculated as follows
-      * Calculate the square root of the animals required area/PI
+      * Calculate the square root of the animals required area / PI
       * Multiply that value by a random number between 1.0 and 1.2 (To allow for not being a perfect circle)
       * Then that value is multiplied by the stretch factor. 
     * The X value for the new point is calculated by the home range center point X + the radius just calculated times the Cos(Angle(N))
