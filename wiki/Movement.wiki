@@ -1,0 +1,9 @@
+#summary Describes basics of disperser movement.
+
+
+= Movement =
+
+  * [MVL Correlated random walk]
+  * [MSL Step length]
+  * [Crossing]
+  * [Percep Perceptual distance]
