@@ -8,7 +8,7 @@
   * At the HR center, animals cast out 30 points based on random drawing of direction with distance somehow randomly drawn for minimum HR area (NEED TO GET DAVE’S FORMULA)
   * These 30 points are connected to form a polygon
   * These points are calculated by 
-    * generating a random number multiplied by Math.PI multiplied by 2 and put into a list we call angles
+    * generating a list of 30 random numbers multiplied by Math.PI multiplied by 2 and put into a list we call angles
     * Then that list is sorted clockwise (requirement of ESRI to make a polygon)
     * Then for each point the radius is calculated as follows
       * Calculate the square root of the animals required area/PI
