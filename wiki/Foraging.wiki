@@ -1,0 +1,10 @@
+#summary Describes rules for disperser foraging.
+
+
+
+= Foraging=
+
+  * [PCAP Probability of capturing food]
+  * [egain Energy gain]
+  * [eloss Energy loss]
+  * [elimit Energy limits]
