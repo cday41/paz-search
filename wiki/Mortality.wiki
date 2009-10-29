@@ -5,5 +5,5 @@
 
 = Mortality =
 
-  * [res_mort Resident mortality]
   * [disp_mort Disperser mortality]
+  * [res_mort Resident mortality]
