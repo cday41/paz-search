@@ -18,3 +18,4 @@ A disperser is any animal that is currently looking for a _home range_. For this
 = Residents =
 A resident is any animal that has an established _home range_.
   * [Mortality]
+  * [create_an Creating animals]
