@@ -1,0 +1,17 @@
+#summary Rules for setting up a HR.
+
+
+
+
+= Setting up a HR =
+
+  * At the HR center, animals cast out 30 points based on random drawing of direction with distance somehow randomly drawn for minimum HR area (NEED TO GET DAVE’S FORMULA)
+  * These 30 points are connected to form a polygon
+  * All areas that are unsuitable or occupied by the same sex are removed
+  * If the area of the polygon remains greater than the minimum HR area the animal establishes a HR
+  * If the area is below the minimum HR area, the old polygon and points are discarded and the distance of points cast increases by 10% and steps i – iv are repeated
+  * If after 10 tries the animal fails to establish a HR it selects a new HR center and keeps trying
+  * If a HR is created the polygon is added to the social map and the occupied status of that sex is filled in with the value of that animal
+  * Once a disperser settles a line in the text file should say that the animal settled and the XY location of the HR center
+  * If a disperser settles it then becomes a resident and is subject only to resident functions and no longer moves
+  * If a disperser fails to establish a HR by the end of the dispersal season it will die of winter kill with a line in the text file indicating that. It should also stop moving and not reproduce.
