@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Chose point to build the home range around
 
 = Home Range Center =
 
