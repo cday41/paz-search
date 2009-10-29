@@ -1,0 +1,9 @@
+#summary Describes how initial residents are created.
+
+
+
+= Initial residents =
+
+  * In year 1, initial residents can be present on the first social map
+  * These residents will be given a number and treated as all other residents in the simulation
+  * Initial residents will only be able to breed beginning in year 2
