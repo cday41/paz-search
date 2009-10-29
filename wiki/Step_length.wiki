@@ -1,0 +1,8 @@
+#summary Describes step length of moving animals.
+
+
+
+
+= Step length =
+
+  * Length of step (in meters) based on map value for location of starting point and all applicable modifiers
