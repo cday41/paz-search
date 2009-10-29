@@ -1,4 +1,4 @@
-#summary Rules for closest ranking of [Home Range center].
+#summary Rules for closest ranking of [HomeRangeCenter Home Range center].
 
 
 
