@@ -1,0 +1,9 @@
+#summary Describes rules for mortality.
+
+
+
+
+= Mortality =
+
+  * [res_mort Residents]
+  * [disp_mort Dispersers]
