@@ -5,7 +5,7 @@
 
 = Setting up a HR =
 
-  * At the HR center, animals cast out 30 points based on random drawing of direction with distance somehow randomly drawn for minimum HR area (NEED TO GET DAVE’S FORMULA)
+  * At the HR center, [WikiSyntax animals] cast out 30 points based on random drawing of direction with distance somehow randomly drawn for minimum HR area (NEED TO GET DAVE’S FORMULA)
   * These 30 points are connected to form a polygon
   * These points are calculated by 
     * generating a list of 30 angles by getting a random number then multiply by Math.PI multiplied by 2
