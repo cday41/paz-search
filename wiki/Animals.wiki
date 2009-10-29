@@ -11,6 +11,7 @@ A disperser is any animal that is currently looking for a _home range_. For this
   * [Release]
   * [Movement]
   * [Foraging]
+  * [Mortality]
   * [HR_establishment]
 
 = Residents =
