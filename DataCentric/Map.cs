@@ -1171,11 +1171,12 @@ namespace SEARCH
 
          }
          catch(System.Exception ex)
-         {
+         { 
+            FileWriter.FileWriter.WriteErrorFile(ex);
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
+           
          }
          fw.writeLine("leaving resetFields");
       }

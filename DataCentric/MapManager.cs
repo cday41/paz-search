@@ -272,7 +272,7 @@ private MapManager()
                this.removeExtraFiles(newTempPolyGonPath);
                this.removeExtraFiles(newTempSocialMapPath);
                this.removeExtraFiles(MulitToSinglePath);
-               if (numHomeRanges > 2)//do not want to blow away the orginal data just the temp maps
+               if (System.IO.Path.GetDirectoryName(currSocialMapPath).Equals(this.OutMapPath))//do not want to blow away the orginal data just the temp maps
                   this.removeExtraFiles(currSocialMapPath);
                numHomeRanges++;
             }
@@ -1054,10 +1054,12 @@ private MapManager()
          bool success = true;
          try
          {
+            fw.writeLine("inside remove extra files for " + FullFilePath);
             fileNames = Directory.GetFiles(currDir);
             for (int i = 0; i < fileNames.Length; i++)
             {
                string delFileName = System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
+               fw.writeLine("now going to delete " + delFileName);
                if (delFileName.Equals(fileName,StringComparison.CurrentCultureIgnoreCase) || delFileName.EndsWith(".shp"))
                {
 #if ! pat
@@ -1089,12 +1091,15 @@ private MapManager()
          bool success = true;
          try
          {
+            FileWriter.FileWriter fw = new FileWriter.FileWriter(@"C:\tempMapManger.txt");
+            fw.writeLine("inside RemoveFiles for " + FullFilePath);
             fileNames = Directory.GetFiles(currDir);
             for (int i = 0; i < fileNames.Length; i++)
             {
                compareFileName = System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
                if (compareFileName.Equals(fileName, StringComparison.CurrentCultureIgnoreCase))
                {
+                  fw.writeLine("going to delete " + fileNames[i]);
                   File.Delete(fileNames[i]);
                }
             }
