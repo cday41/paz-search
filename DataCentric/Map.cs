@@ -1173,6 +1173,7 @@ namespace SEARCH
          catch(System.Exception ex)
          { 
             FileWriter.FileWriter.WriteErrorFile(ex);
+            FileWriter.FileWriter.AddToErrorFile("my name is " + this.mySelf.AliasName);
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif

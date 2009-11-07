@@ -200,11 +200,11 @@ private MapManager()
             fw.writeLine("now we need to move the dissovled back to the orginal map");
             fw.writeLine("now going to copy " + dissolvePath + " to " + currMapPath);
             fw.writeLine("time to remove those extra files");
-            //this.removeExtraFiles(clipPath);
-            //this.removeExtraFiles(unionPath);
-            //this.removeExtraFiles(timeStepPath);
-            //this.removeExtraFiles(dissolvePath);
-            //this.removeExtraFiles(oldMapPath);
+            this.removeExtraFiles(clipPath);
+            this.removeExtraFiles(unionPath);
+            this.removeExtraFiles(timeStepPath);
+            this.removeExtraFiles(dissolvePath);
+            this.removeExtraFiles(oldMapPath);
 
 
          }
@@ -1059,10 +1059,11 @@ private MapManager()
             for (int i = 0; i < fileNames.Length; i++)
             {
                string delFileName = System.IO.Path.GetFileNameWithoutExtension(fileNames[i]);
-               fw.writeLine("now going to delete " + delFileName);
+               
                if (delFileName.Equals(fileName,StringComparison.CurrentCultureIgnoreCase) || delFileName.EndsWith(".shp"))
                {
-#if ! pat
+#if ! pat         
+                  fw.writeLine("now going to delete " + delFileName);
                   File.Delete(fileNames[i]);
 #endif
                }

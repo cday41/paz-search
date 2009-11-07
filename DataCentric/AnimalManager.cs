@@ -704,12 +704,23 @@ namespace SEARCH
       private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
       {
          string fieldName;
-         if (a.Sex.ToLower() == "male")
-            fieldName = "OCCUP_MALE";
-         else
-            fieldName = "OCCUP_FEMA";
-         fw.writeLine("calling resetFields");
-         inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
+         try
+         {
+            if (a.Sex.ToLower() == "male")
+               fieldName = "OCCUP_MALE";
+            else
+               fieldName = "OCCUP_FEMA";
+            fw.writeLine("calling resetFields");
+            inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
+         }
+         catch (Exception ex)
+         {
+
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            FileWriter.FileWriter.AddToErrorFile(inSocialMap.mySelf.AliasName);
+            FileWriter.FileWriter.AddToErrorFile(a.IdNum.ToString());
+
+         }
       }
 
       private void buildLogger()
