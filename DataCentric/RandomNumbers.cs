@@ -76,11 +76,11 @@ namespace SEARCH
          return numGen.Next();
       }
 
-      public int getPositiveNormalRandomInt(double inMean, double inSD)
+      public int getNormalRandomInt(double inMean, double inSD)
       {
          numGen.Mean = inMean;
          numGen.Sigma = inSD;
-         return System.Convert.ToInt32(Math.Abs(numGen.Next()));
+         return System.Convert.ToInt32(numGen.Next());
       }
 
 	   public double getPositiveNormalRandomNum(double inMean, double inSD)

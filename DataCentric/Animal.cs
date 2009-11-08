@@ -63,6 +63,7 @@ namespace SEARCH
          this.durationID = 0;
          this.hadCloseCall = false;
          this.goingHome = false;
+         this.foundHome = false;
 
       }
 
@@ -82,6 +83,7 @@ namespace SEARCH
       private double mPerceptionDist;
       private bool hadCloseCall;
       private bool goingHome;
+      private bool foundHome;
       private IPoint myLocation;
       private int mMoveIndex;
       private int mRiskIndex;
@@ -471,13 +473,19 @@ namespace SEARCH
                   fw.writeLine("I can see " + this.mPerceptionDist.ToString());
                   if (distToHome < this.mPerceptionDist)
                   {
-                     fw.writeLine("ok we are home now setting the location = home range center");
+                    
                      fw.writeLine("now building the home range");
                      // only change to resident if we were able to build the home range
                      if (this.MapManager.BuildHomeRange(this))
                      {
                         fw.writeLine("found a home");
+                        fw.writeLine("ok we are home now setting the location = home range center");
+                        fw.writeLine("the new X should = " + this.HomeRangeCenter.X.ToString());
+                        fw.writeLine("the new Y should = " + this.HomeRangeCenter.Y.ToString());
                         this.Location = this.HomeRangeCenter as PointClass;
+                        fw.writeLine("the new X = " + this.Location.X.ToString());
+                        fw.writeLine("the new Y = " + this.Location.Y.ToString());
+                        this.foundHome = true;
                         status = "resident";
                         if (doTextOutput)
                            this.mTextFileWriter.addLine("Found Home at " + this.myLocation.X.ToString() + " and " + this.myLocation.Y.ToString());
@@ -493,23 +501,28 @@ namespace SEARCH
                      }
                   }
                }
-               //Saturday, February 23, 2008 Move to before taking a step
-               //Tuesday, July 15, 2008 move back to end of step
-               if (this.IsAsleep == false)
-               {
-                  this.mMyVisitedSites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y), ref fw);
-               }
 
-               if (this.goingHome && this.IsAsleep == false)
+               //No sense doing if we are home.
+               if (foundHome == false)
                {
-                  timesStuck++;
-                  if (timesStuck > 20)
+                  //Saturday, February 23, 2008 Move to before taking a step
+                  //Tuesday, July 15, 2008 move back to end of step
+                  if (this.IsAsleep == false)
                   {
-                     this.IsDead = true;
-                     mTextFileWriter.addLine("Stuck on the way home for 20 times so died");
-                     //get out of the loop
-                     percentTimeStep = 1.5;
+                     this.mMyVisitedSites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y), ref fw);
                   }
+
+                  if (this.goingHome && this.IsAsleep == false)
+                  {
+                     timesStuck++;
+                     if (timesStuck > 20)
+                     {
+                        this.IsDead = true;
+                        mTextFileWriter.addLine("Stuck on the way home for 20 times so died");
+                        //get out of the loop
+                        percentTimeStep = 1.5;
+                     }
+                  } 
                }
             }
             changeActiveState(currTime);
@@ -943,6 +956,7 @@ namespace SEARCH
             {
                fw.writeLine("now setting the home range center");
                success = this.HomeRangeFinder.setHomeRangeCenter(this, myMapName);
+
                fw.writeLine("that returned " + success.ToString());
 
             }

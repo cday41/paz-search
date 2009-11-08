@@ -1,3 +1,20 @@
+/******************************************************************************
+ * Author:        Bob Cummings
+ * Name:          AnimalManager
+ * Description:   Manages the animals as they work through the simulation. Everything
+ *                from taking a step, to breeding, just about all of it.
+ * ****************************************************************************
+ * Author:        Bob Cummings
+ * Modify Date    Sunday, November 08, 2009
+ * Description    2 years into changing thought time to start.  For issue
+ *                59 the issue was during the current time step the current
+ *                social map reference was not being updated when a new 
+ *                resident was added.  Therefore when trying to remove a resident
+ *                in the same time step there was not a correct refernce to 
+ *                social map.
+ * ***************************************************************************/
+
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -245,21 +262,27 @@ namespace SEARCH
 
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
-         int i=0;
-         List<Animal> liveAnimals = this.getAllLiveAnimals();
          
+         //List<Animal> liveAnimals = this.getAllLiveAnimals();
+         Animal a;
          string status = "";
          try
          {
             fw.writeLine("inside animal manager do time step with modifiers");
-            foreach (Animal a in liveAnimals)
+           // foreach (Animal a in myAnimals)
+            for(int i=0;i<myAnimals.Count; i++)
             {
-               
-#if (ZeroOnly)
-               if (a.IdNum == 3)
-               {
-#endif
-               a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
+               a = this.myAnimals[i];
+               fw.writeLine("");
+               fw.writeLine("animal id = " + a.IdNum.ToString());
+               fw.writeLine("animal is type " + a.GetType().ToString());
+
+//               if (a.GetType().ToString().Equals("SEARCH.Resident", StringComparison.CurrentCultureIgnoreCase))
+//               {
+//                  int bob = 0;
+//               }
+
+                a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
                //check to see if they died if they did remove them from the list
                if (a.IsDead)
                {
@@ -278,17 +301,17 @@ namespace SEARCH
                   r.HomeRangeCenter = a.HomeRangeCenter;
                   r.HomeRangeCriteria = a.HomeRangeCriteria;
                   r.MyAttributes = this.ResidentAttributes;
-                  r.MyAttributes.OriginalID = a.IdNum.ToString();
                   this.myAnimals.RemoveAt(i);
                   this.myAnimals.Insert(i, r);
                   status = "";
+                  //Sunday, November 08, 2009
+                  //update reference to current social map.
+                  currSocialMap = MapManager.GetUniqueInstance().SocialMap;
                }
-               i++;
+              
             }
             }
-#if ZeroOnly
-         }
-#endif
+         
         
          catch (System.Exception ex)
          {

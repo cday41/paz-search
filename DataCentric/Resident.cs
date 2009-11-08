@@ -53,7 +53,7 @@ namespace SEARCH
          double rollDice;
          try
          {
-            fw.writeLine("inside breed for resident " + this.mMyAttributes.OriginalID);
+            fw.writeLine("inside breed for resident " + this.IdNum);
             //roll the dice to see if we breed or not.
             rollDice = rn.getUniformRandomNum();
             fw.writeLine("rolling the dice returned " + rollDice.ToString());
@@ -64,7 +64,7 @@ namespace SEARCH
                //TODO figure out how to get correct amount of kids
                fw.writeLine("my mean is " + this.mMyAttributes.NumChildernMean.ToString());
                fw.writeLine("my SD is " + this.MyAttributes.NumChildernSD.ToString());
-               numChildren = rn.getPositiveNormalRandomInt(this.mMyAttributes.NumChildernMean, this.mMyAttributes.NumChildernSD);
+               numChildren = rn.getNormalRandomInt(this.mMyAttributes.NumChildernMean, this.mMyAttributes.NumChildernSD);
                fw.writeLine("we are going to have a litter with " + numChildren.ToString());
                fw.writeLine("percent chance of having a female is " + this.mMyAttributes.PercentFemale.ToString());
                for (int i = 0; i < numChildren; i++)

@@ -119,6 +119,7 @@ namespace SEARCH
                co = this.myMapManager.getCrossOverInfo(here,there);//get crossover info
 
                fw.writeLine("cross over info");
+               fw.writeLine("did we cross over any polyons = " + co.ChangedPolys.ToString());
                fw.writeLine("CurrPolyValue = " + co.CurrPolyValue.ToString());
                fw.writeLine("NewPolyValue = " + co.NewPolyValue.ToString());
                fw.writeLine("Distance = " + co.Distance.ToString());
@@ -191,6 +192,7 @@ namespace SEARCH
                return;
             }
             fw.writeLine("percent time step is " + percentTimeStep.ToString());
+            fw.writeLine("now the heading value is " + inA.Heading.ToString());
             inA.updateMemory();
          }//end of try
          catch(System.Exception ex)

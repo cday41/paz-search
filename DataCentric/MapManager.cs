@@ -103,7 +103,6 @@ private MapManager()
       private int numHomeRanges;
       private int SocialIndex;
       private static MapManager uniqueInstance;
-      //      public  int myMaps;
       private IWorkspace wrkSpace;
       private IWorkspaceFactory wrkSpaceFactory;
       private string _currStepPath;
@@ -386,31 +385,13 @@ private MapManager()
          return area;
       }
 
-      //public void changeSocialMap(DateTime now, AnimalManager am)
-      //{
-      //   IFeatureClass oldSocialFeatureClass;
-      //    IFeatureClass newSocialFeatureClass;
-      //   try
-      //   {
-      //      fw.writeLine("inside change social map");
-      //      oldSocialFeatureClass = this.SocialMap.mySelf;
-      //      fw.writeLine("social map name is " + oldSocialFeatureClass.AliasName);
-      //      mySocialMaps.changeMap(now, am);
-      //      fw.writeLine("after change social map name is " + this.SocialMap.mySelf.AliasName);
-      //      if (!oldSocialFeatureClass.Equals(this.SocialMap))
-      //      {
-      //        // newSocialFeatureClass = this.myMapManipulator.clipMaps(oldSocialFeatureClass, mySocialMap.mySelf,ref this.SocialIndex);
-      //         this.changeOutSocialMapAfterClip(newSocialFeatureClass);
-      //      }
-      //   }
-      //   catch (Exception ex)
-      //   {
-
-      //      FileWriter.FileWriter.WriteErrorFile(ex);
-      //   }
-      //}
+     
       public crossOverInfo getCrossOverInfo(IPoint startPoint, IPoint endPoint)
       {
+         fw.writeLine("inside get cross over info end point is null  = " + (null == endPoint).ToString());
+         fw.writeLine("endpoint y = " + endPoint.Y.ToString());
+         fw.writeLine("endpoint y = " + endPoint.X.ToString());
+
          return this.myMoveMap.getCrossOverInfo(startPoint, endPoint);
       }
 
