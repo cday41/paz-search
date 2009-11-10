@@ -149,6 +149,7 @@ private MapManager()
       {
          try
          {
+            IPolygon clipPoly;
 
             fw.writeLine("");
             fw.writeLine("----------------------------------------------------------------------");
@@ -173,7 +174,8 @@ private MapManager()
 
             fw.writeLine("back in AddTimeSteps now going to clip against the social map");
             this.myDataManipulator.Clip(this.mySocialMap.FullFileName, timeStepPath, clipPath);
-
+            
+          
             fw.writeLine("back from Clipping now update the Current Animal Map");
             //this is to get the current occupied or not at this time because
             // it could change over time.
@@ -532,7 +534,8 @@ private MapManager()
             inA.MoveSpeed = 1;
             inA.EnergyUsed = 0;
             inA.PerceptonModifier = 1;
-            PolyIndex = this.myMoveMap.getCurrentPolygon(inA.myMover.stepBack(inA));
+            while(PolyIndex < 0)
+               PolyIndex = this.myMoveMap.getCurrentPolygon(inA.myMover.stepBack(inA));
 
          }
 
@@ -1635,56 +1638,65 @@ private MapManager()
 
       private bool validateNFieldPolylMap(string[] inMapFileNames, string[] inFieldNames)
       {
-         int i;
+         int i=0;
          int found = -1;
          bool result;
          string fileName;
          IFeatureClass myShapefile = null;
-
+         result = true;//assume we are good to go
 
          Check.Require(inFieldNames.Length > 0, "No field names to check in ValidatePolyMap");
          Check.Require(inMapFileNames.Length > 0, "No files to check in validateNFieldPolylMap");
 
-         result = true;//assume we are good to go
-         fw.writeLine("inside validateNFieldPolylMap going to look for " + inFieldNames.Length.ToString() + " fields");
-         fw.writeLine("set the feature workspace");
-         featureWrkSpace = (IFeatureWorkspace)this.wrkSpace;
-         for (i = 0; i < inMapFileNames.GetLength(0); i++)
+         try
          {
-            fileName = System.IO.Path.GetFileNameWithoutExtension(inMapFileNames[i]);
-            fw.writeLine("found " + inMapFileNames[i]);
-
-            //create the feature_class
-            myShapefile = this.featureWrkSpace.OpenFeatureClass(fileName);
-            fw.writeLine("now check for correct type of shape file");
-            if (myShapefile.ShapeType.ToString() == "esriGeometryPolygon")
+            
+            fw.writeLine("inside validateNFieldPolylMap going to look for " + inFieldNames.Length.ToString() + " fields");
+            fw.writeLine("set the feature workspace");
+            featureWrkSpace = (IFeatureWorkspace)this.wrkSpace;
+            for (i = 0; i < inMapFileNames.GetLength(0); i++)
             {
+               fileName = System.IO.Path.GetFileNameWithoutExtension(inMapFileNames[i]);
+               fw.writeLine("found " + inMapFileNames[i]);
 
-               fw.writeLine("must be a polygon now check for the required field names");
-               for (int j = 0; j < inFieldNames.Length; j++)
+               //create the feature_class
+               myShapefile = this.featureWrkSpace.OpenFeatureClass(fileName);
+               fw.writeLine("now check for correct type of shape file");
+               if (myShapefile.ShapeType.ToString() == "esriGeometryPolygon")
                {
-                  fw.writeLine("looking for " + inFieldNames[j]);
-                  found = myShapefile.Fields.FindField(inFieldNames[j]);
-                  fw.writeLine("the result from the find field is " + found.ToString());
-                  if (found < 0)
-                  {
-                     this.errNumber = (int)ERR.CAN_NOT_FIND_REQUIRED_FIELD;
-                     fw.writeLine("did not find " + inFieldNames[j] + "  so set result = false and bail from loop");
-                     this.errFileName = fileName;
-                     result = false;
-                     break;
 
-                  }//end checking for correct field names
+                  fw.writeLine("must be a polygon now check for the required field names");
+                  for (int j = 0; j < inFieldNames.Length; j++)
+                  {
+                     fw.writeLine("looking for " + inFieldNames[j]);
+                     found = myShapefile.Fields.FindField(inFieldNames[j]);
+                     fw.writeLine("the result from the find field is " + found.ToString());
+                     if (found < 0)
+                     {
+                        this.errNumber = (int)ERR.CAN_NOT_FIND_REQUIRED_FIELD;
+                        fw.writeLine("did not find " + inFieldNames[j] + "  so set result = false and bail from loop");
+                        this.errFileName = fileName;
+                        result = false;
+                        break;
+
+                     }//end checking for correct field names
+                  }
                }
-            }
-            else
-            {
-               fw.writeLine("wrong type of shape file so set result to false and bail out of here");
-               result = false;
-               this.errNumber = (int)ERR.WRONG_TYPE_OF_SHAPE_FILE;
-               this.errFileName = fileName;
-            }//end checking to see if it is a polygon file 
-         }//end loop
+               else
+               {
+                  fw.writeLine("wrong type of shape file so set result to false and bail out of here");
+                  result = false;
+                  this.errNumber = (int)ERR.WRONG_TYPE_OF_SHAPE_FILE;
+                  this.errFileName = fileName;
+               }//end checking to see if it is a polygon file 
+            }//end loop
+         }
+         catch (Exception ex)
+         {
+
+            FileWriter.FileWriter.WriteErrorFile(ex);
+            FileWriter.FileWriter.AddToErrorFile("File Name was " + inMapFileNames[i]);
+         }
          fw.writeLine("leaving validateNFieldPolylMap with a value of " + result.ToString());
          return result;
       }

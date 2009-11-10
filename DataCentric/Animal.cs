@@ -645,7 +645,11 @@ namespace SEARCH
       {
          try
          {
+            
             fw.writeLine("inside setInitialValues for animal " + this.myIdNum.ToString());
+            fw.writeLine("the time is " + currTime.ToShortDateString());
+            
+
             if (this.mMoveIndex < 0)
                setInitialLocaton();
             this.mPerceptionDist = this.AnimalAtributes.PerceptionDistance;

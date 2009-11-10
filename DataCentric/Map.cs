@@ -350,8 +350,6 @@ namespace SEARCH
          {
             //clear out the hashtable
             this.myHash.Clear();
-          
-              
             //get the feature
             myFeature = this.mySelf.GetFeature(inPolyIndex);
             //loop through all the fields in the database
@@ -371,10 +369,11 @@ namespace SEARCH
         
          catch(System.Exception ex)
          {
+            FileWriter.FileWriter.WriteErrorFile(ex);
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
-            FileWriter.FileWriter.WriteErrorFile(ex);
+            
          }
          fw.writeLine("leaving getAllValuesForSinglePolygon");
          return this.myHash;
@@ -673,7 +672,10 @@ namespace SEARCH
             while(tempPoly != null)
             {
                // then cast it to a polygon
-               searchPoly = (IPolygon)tempPoly.ShapeCopy;
+               searchPoly = tempPoly.ShapeCopy as IPolygon;
+               if (searchPoly == null)
+                  System.Windows.Forms.MessageBox.Show(tempPoly.FeatureType.ToString());
+
                if(relOp.Within(searchPoly))
                {
                   fw.writeLine("found it time to leave");
@@ -696,6 +698,10 @@ namespace SEARCH
          catch(System.Exception ex)
          {
             FileWriter.FileWriter.WriteErrorFile(ex);
+#if DEBUG
+            System.Windows.Forms.MessageBox.Show("Error");
+#endif
+            
          }
          return polyIndex;
 
@@ -1291,7 +1297,7 @@ namespace SEARCH
 
       private double getCrossingValue(IPoint inPoint)
       {
-         fw.writeLine("inside getCrossingValue");
+         fw.writeLine("inside getCrossingValue for point where x = " + inPoint.X.ToString() + " and Y = " + inPoint.Y.ToString());
          int polyIndex = this.getCurrentPolygon(inPoint);
          fw.writeLine("polyindex is " + polyIndex.ToString());
          return this.getPolyValue(polyIndex,"CROSSING");
