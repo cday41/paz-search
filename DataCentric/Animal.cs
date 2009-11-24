@@ -33,7 +33,12 @@
 *    Author:        Bob Cummings
 *    Date:          Tuesday, July 15, 2008 6:30:27 AM
 *    Description:   Modified use energy to use mEnergy instead of mTemporalEnergy
-* ***************************************************************************/
+ * ****************************************************************************
+*    Author:        Bob Cummings
+*    Date:          Tuesday, November 24, 2009
+*    Description:   Changed the way the we are checking for if it is time to 
+ *                   change activity state.
+* ****************************************************************************/
 
 using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geodatabase;
@@ -818,7 +823,7 @@ namespace SEARCH
             fw.writeLine("Waketime is " + this.WakeupTime.Date.ToShortDateString() + " " + this.WakeupTime.TimeOfDay.ToString());
 
             fw.writeLine("curr time is " + currTime.Date.ToShortDateString() + " " + currTime.TimeOfDay.ToString());
-            if (this.WakeupTime.Date <= currTime.Date && this.WakeupTime.TimeOfDay <= currTime.TimeOfDay)
+            if ((this.WakeupTime.Date <= currTime.Date) || (this.WakeupTime.Date <= currTime.Date && this.WakeupTime.TimeOfDay <= currTime.TimeOfDay))
             {
                this.IsAsleep = false;
                fw.writeLine("time to wake up, I am going home = " + this.goingHome.ToString());
@@ -838,7 +843,7 @@ namespace SEARCH
             fw.writeLine("must be awake");
             fw.writeLine("Sleep time is " + this.SleepTime.Date + " " + this.SleepTime.TimeOfDay.ToString());
             fw.writeLine("curr time is " + currTime.Date.ToShortDateString() + " " + currTime.TimeOfDay.ToString());
-            if (this.SleepTime.Date <= currTime.Date && this.SleepTime.TimeOfDay <= currTime.TimeOfDay)
+            if ((this.WakeupTime.Date <= currTime.Date) || (this.WakeupTime.Date <= currTime.Date && this.WakeupTime.TimeOfDay <= currTime.TimeOfDay))
             {
                this.IsAsleep = true;
                this.myMover = SleepMover.getSleepMover();
