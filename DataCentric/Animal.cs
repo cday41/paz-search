@@ -841,7 +841,7 @@ namespace SEARCH
          else
          {
             fw.writeLine("must be awake");
-            fw.writeLine("Sleep time is " + this.SleepTime.Date + " " + this.SleepTime.TimeOfDay.ToString());
+            fw.writeLine("Sleep time is " + this.SleepTime.Date.ToShortDateString() + " " + this.SleepTime.TimeOfDay.ToString());
             fw.writeLine("curr time is " + currTime.Date.ToShortDateString() + " " + currTime.TimeOfDay.ToString());
             if ((this.SleepTime.Date < currTime.Date) || (this.SleepTime.Date <= currTime.Date && this.SleepTime.TimeOfDay <= currTime.TimeOfDay))
             {
