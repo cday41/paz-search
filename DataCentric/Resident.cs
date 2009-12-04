@@ -96,10 +96,10 @@ namespace SEARCH
          Check.Require(mMyAttributes != null, "Resident Attributes have not been set");
          Check.Require(this.IdNum >= 0, "Resident ID was not set");
          fw.writeLine("inside time step for resident number " + this.IdNum.ToString());
-         die(ref status);
+         die(ref status, currTime);
       }
 
-      public void winterKill()
+      public void winterKill(int currentTime)
       {
          try
          {
@@ -111,7 +111,7 @@ namespace SEARCH
             if (mMyAttributes.ResidentYearlyRisk > rollOfTheDice)
             {
                fw.writeLine("did not make it through the winter so setting mDead to true");
-               this.mTextFileWriter.addLine("died as winter kill");
+               this.mTextFileWriter.addLine("died as winter kill in " + currentTime.ToString());
                this.mIsDead = true;
             }
          }
@@ -127,7 +127,7 @@ namespace SEARCH
 		#endregion Public Methods 
 		#region Private Methods (1) 
 
-      private void die(ref string status)
+      private void die(ref string status, DateTime currentTime)
       {
          try
          {
@@ -139,7 +139,7 @@ namespace SEARCH
             {
                status = "dead FROM ROLL OF DICE";
                fw.writeLine("george dies");
-               this.mTextFileWriter.addLine("died durning timestep");
+               this.mTextFileWriter.addLine("died durning timestep at " + currentTime.ToString());
                this.mIsDead = true;
             }
          }

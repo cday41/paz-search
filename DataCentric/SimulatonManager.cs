@@ -513,7 +513,7 @@ namespace SEARCH
          this.nextDayStart = this.myDailyModifiers.NextStartDate;
          //09/09/2007 moved winter kill before changing maps
          //09/12/2009 changed to passing the social map so any residents that die, their area will be avaialable again.
-         this.mAnimalManager.winterKillResidents(this.MapManager.SocialMap);
+         this.mAnimalManager.winterKillResidents(this.MapManager.SocialMap, this.currTime.Year);
          //the old mMapManager out put path include last years YEAR so we need to strip it off and replace it with this years YEAR
          this.mMapManager.OutMapPath = this.mMapManager.OutMapPath.Remove(this.mMapManager.OutMapPath.LastIndexOf("\\"),5);
          this.mMapManager.OutMapPath = this.mMapManager.OutMapPath + "\\" + this.currTime.Year.ToString();

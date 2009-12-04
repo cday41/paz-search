@@ -687,7 +687,7 @@ namespace SEARCH
 
       }
 
-      public void winterKillResidents(Map currSocialMap)
+      public void winterKillResidents(Map currSocialMap, int currentTime)
       {
          try
          {
@@ -699,7 +699,7 @@ namespace SEARCH
             foreach (Resident r in res)
             {
                fw.writeLine("so we are going to call the resident winter kill method");
-               r.winterKill();
+               r.winterKill(currentTime);
                fw.writeLine("after calling resident winter kill the animal is dead = " + r.IsDead.ToString());
                if (r.IsDead)
                {

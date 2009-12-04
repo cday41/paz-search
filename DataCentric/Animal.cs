@@ -823,7 +823,7 @@ namespace SEARCH
             fw.writeLine("Waketime is " + this.WakeupTime.Date.ToShortDateString() + " " + this.WakeupTime.TimeOfDay.ToString());
 
             fw.writeLine("curr time is " + currTime.Date.ToShortDateString() + " " + currTime.TimeOfDay.ToString());
-            if ((this.WakeupTime.Date <= currTime.Date) || (this.WakeupTime.Date <= currTime.Date && this.WakeupTime.TimeOfDay <= currTime.TimeOfDay))
+            if ((this.WakeupTime.Date < currTime.Date) || (this.WakeupTime.Date <= currTime.Date && this.WakeupTime.TimeOfDay <= currTime.TimeOfDay))
             {
                this.IsAsleep = false;
                fw.writeLine("time to wake up, I am going home = " + this.goingHome.ToString());
@@ -843,7 +843,7 @@ namespace SEARCH
             fw.writeLine("must be awake");
             fw.writeLine("Sleep time is " + this.SleepTime.Date + " " + this.SleepTime.TimeOfDay.ToString());
             fw.writeLine("curr time is " + currTime.Date.ToShortDateString() + " " + currTime.TimeOfDay.ToString());
-            if ((this.WakeupTime.Date <= currTime.Date) || (this.WakeupTime.Date <= currTime.Date && this.WakeupTime.TimeOfDay <= currTime.TimeOfDay))
+            if ((this.SleepTime.Date < currTime.Date) || (this.SleepTime.Date <= currTime.Date && this.SleepTime.TimeOfDay <= currTime.TimeOfDay))
             {
                this.IsAsleep = true;
                this.myMover = SleepMover.getSleepMover();
@@ -870,7 +870,7 @@ namespace SEARCH
                this.StateModifer.Name + "," +
                this.mCurrEnergy.ToString() + "," +
                //BC Saturday, February 16, 2008
-               (this.mPredationRisk * inPercent).ToString() + "," +
+               (1 - (Math.Pow((1 - this.mPredationRisk), inPercent))).ToString() + "," +
                (this.mCaptureFood * inPercent).ToString() + "," +
                this.mMoveTurtosity.ToString() + "," +
                (this.mMoveSpeed * inPercent).ToString() + "," +
@@ -897,7 +897,7 @@ namespace SEARCH
          fw.writeLine("inside die with roll of " + rollOfTheDice.ToString());
          fw.writeLine("going to adust the chance of getting eaten current chance is " + mPredationRisk.ToString());
          fw.writeLine("and percent time step is " + percentTimeStep.ToString());
-         tempRisk = percentTimeStep * mPredationRisk;
+         tempRisk = (1 - (Math.Pow((1 - mPredationRisk), percentTimeStep)));
          fw.writeLine("new chance of getting ambushed is " + tempRisk.ToString());
          tempCloseCall = rollOfTheDice - tempRisk;
          fw.writeLine("Close call value is " + tempCloseCall.ToString());
