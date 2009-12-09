@@ -35,6 +35,7 @@ namespace FileWriter
       private static FileWriter formLogger;
       private static FileWriter homeRangeTriggerLogger;
       private static FileWriter homeSiteTriggerLogger;
+      private static FileWriter dataLogger;
 
       public FileWriter(string inFileName)
       {
@@ -43,7 +44,7 @@ namespace FileWriter
 
       public virtual void writeLine(string data)
       {
-            sw.WriteLine(DateTime.Now.ToString("hh:mm:ss:fff") + ":  " + data);
+            sw.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss:fff") + ":  " + data);
             sw.Flush();
       }
       public virtual void close()
@@ -195,11 +196,23 @@ namespace FileWriter
       }
 
 
+      public static FileWriter getDataLogger(string filePath)
+      {
+         if (dataLogger == null)
+         {
+            //get rid of any old log files
+            if (File.Exists(filePath))
+               File.Delete(filePath);
+            dataLogger = new FileWriter(filePath);
+         }
+         return dataLogger;
+      }
+
       public static void WriteErrorFile(System.Exception ex)
       {
          StreamWriter swE = new StreamWriter(@"C:\DispersalError.log",true);
          swE.WriteLine();
-         swE.WriteLine(DateTime.Now.ToString("hh:mm:ss:fff") + ":  " + ex.Message);
+         swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss:fff") + ":  " + ex.Message);
          swE.WriteLine(ex.StackTrace);
          swE.Close();
          swE = null;
@@ -208,7 +221,7 @@ namespace FileWriter
       {
          StreamWriter swE = new StreamWriter(@"C:\DispersalError.log",true);
          swE.WriteLine();
-         swE.WriteLine(DateTime.Now.ToString("hh:mm:ss:fff") + ":  " + data);
+         swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss:fff") + ":  " + data);
          swE.Close();
          swE = null;
       }

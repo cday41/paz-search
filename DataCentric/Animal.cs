@@ -431,10 +431,10 @@ namespace SEARCH
                   loseEnergy(tempPercentTimeStep);
                   eat(tempPercentTimeStep);
                   die(tempPercentTimeStep);
+                  this.updateBehavioralModifiers();
                   // only do these if going to take another partial step
                   if (percentTimeStep < 1)
                   {
-                     this.updateBehavioralModifiers();
                      this.updateMyLocationValues();
                      this.upDateMyValues();
                   }
@@ -908,21 +908,21 @@ namespace SEARCH
          {
             fw.writeLine("george dies from predation");
             this.mIsDead = true;
-            mTextFileWriter.addLine("George number " + this.IdNum.ToString() + " died from predation");
+            mTextFileWriter.addLine("Animal number " + this.IdNum.ToString() + " died from predation");
          }
          else if (mCurrEnergy < this.AnimalAtributes.MinEnergy_Survive)
          {
             fw.writeLine("george dies from starvation");
             this.mIsDead = true;
-            mTextFileWriter.addLine("George number " + this.IdNum.ToString() + " died from starvation");
+            mTextFileWriter.addLine("Animal number " + this.IdNum.ToString() + " died from starvation");
          }
 
 
-         if (tempCloseCall < this.AnimalAtributes.SafeRiskyTrigger) //george nearly died, so he feels like he had a close call
+         if (tempCloseCall < this.AnimalAtributes.RiskySafeTrigger) //george nearly died, so he feels like he had a close call
          {
             this.hadCloseCall = true;
          }
-         else if (tempCloseCall > this.AnimalAtributes.RiskySafeTrigger) //predator wasn't even close, so george no longer feels like he had a close call
+         else if (tempCloseCall < (this.AnimalAtributes.SafeRiskyTrigger+this.AnimalAtributes.RiskySafeTrigger)) //predator wasn't even close, so george no longer feels like he had a close call
          {
             this.hadCloseCall = false;
          }

@@ -463,7 +463,7 @@ namespace SEARCH
                {
                   fw.writeLine("so we are setting isDead to true");
                   if (a.TextFileWriter != null)
-                     a.TextFileWriter.addLine("Died during winter kill");
+                     a.TextFileWriter.addLine("Did not establish a home range so died during winter kill");
                   a.IsDead = true;
                }
             }

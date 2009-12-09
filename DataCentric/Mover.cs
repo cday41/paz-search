@@ -187,7 +187,7 @@ namespace SEARCH
             {
                //Wandered off the rest of the world
                inA.IsDead = true;
-               inA.TextFileWriter.addLine("George has left the building");
+               inA.TextFileWriter.addLine("Animal has left the map");
                percentTimeStep = 1;
                return;
             }

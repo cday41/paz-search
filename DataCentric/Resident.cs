@@ -111,7 +111,7 @@ namespace SEARCH
             if (mMyAttributes.ResidentYearlyRisk > rollOfTheDice)
             {
                fw.writeLine("did not make it through the winter so setting mDead to true");
-               this.mTextFileWriter.addLine("died as winter kill in " + currentTime.ToString());
+               this.mTextFileWriter.addLine("Resident died as winter kill in " + currentTime.ToString());
                this.mIsDead = true;
             }
          }
@@ -139,7 +139,7 @@ namespace SEARCH
             {
                status = "dead FROM ROLL OF DICE";
                fw.writeLine("george dies");
-               this.mTextFileWriter.addLine("died durning timestep at " + currentTime.ToString());
+               this.mTextFileWriter.addLine("Resident died during timestep at " + currentTime.ToString());
                this.mIsDead = true;
             }
          }
