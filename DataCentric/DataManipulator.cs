@@ -22,6 +22,7 @@ namespace SEARCH
       public DataManipulator(string fileName)
       {
          myProcessor = new Geoprocessor();
+        
          fw = new FileWriter.FileWriter(fileName);
       }
 
@@ -31,6 +32,8 @@ namespace SEARCH
          myProcessor.LogHistory = true;
          myProcessor.TemporaryMapLayers = true;
          myProcessor.SetEnvironmentValue("Extent", "MAXOF");
+         
+         
          tempLayer1 = "\\layer1";
          tempLayer2 = "\\layer2";
          selectLayer = "\\select_lyr";
@@ -46,6 +49,7 @@ namespace SEARCH
 
       FileWriter.FileWriter fw;
       Geoprocessor myProcessor;
+      ITopologicalOperator myTopOperator;
       StringBuilder sb;
       string pointLayer;
       string selectLayer;
@@ -129,12 +133,12 @@ namespace SEARCH
 
       public void Clip(string inFileNameClipFrom, string inFileNameClipFeature, string outFileName)
       {
-
          this.MakeLayer(inFileNameClipFrom, "clipFrom");
          this.MakeLayer(inFileNameClipFeature, "clipFeature");
          this.ClipFeatures("clipFrom", "clipFeature", outFileName);
       }
 
+     
       public void CopyToAnotherlMap(string NewMapPath, string OldMapPath)
       {
          this.MakeLayer(OldMapPath, this.tempLayer1);
@@ -407,6 +411,28 @@ namespace SEARCH
          //return fc;
       }
 
+      public bool MakeTimeStep(string inFileName, string outFileName, IPoint from, IPoint to)
+      {
+         IFeatureClass fc = null;
+         IPolyline line = null;
+         string path;
+         string fileName;
+         bool result = true;
+
+         fc = this.CreateEmptyFeatureClass(inFileName, "POLYLINE");
+         line = this.MakePolyLine(from, to);
+         this.addGeometry(fc, line as IGeometry);
+
+         ESRI.ArcGIS.AnalysisTools.Buffer buf = new ESRI.ArcGIS.AnalysisTools.Buffer();
+         buf.buffer_distance_or_field = 100;
+         buf.line_end_type = "ROUND";
+         buf.in_features = fc;
+         buf.out_feature_class = outFileName;
+         this.RunProcess(buf, null);
+
+         return result;
+
+      }
       public bool MakeDissolvedTimeStep(string inFullFilePath, string dissovlePath, IPolygon inPoly1, IPolygon inPoly2)
       {
          IFeatureClass fc = null;
@@ -454,6 +480,14 @@ namespace SEARCH
          sj.out_feature_class = path + "\\HomeSteps.shp";
          this.RunProcess(sj, null);
 
+      }
+
+      public IPolyline MakePolyLine(IPoint from, IPoint to)
+      {
+         IPolyline line = new PolylineClass();
+         line.FromPoint = from;
+         line.ToPoint = to;
+         return line;
       }
 
       public void MultiToSinglePart(string inFileName, string outFileName)
@@ -542,6 +576,16 @@ namespace SEARCH
 
       }
 
+      private void addGeometry(IFeatureClass inFC, IGeometry inGeo)
+      {
+         IFeature feature;
+         feature = inFC.CreateFeature();
+         feature.Shape = inGeo;
+         feature.Store();
+         System.Runtime.InteropServices.Marshal.ReleaseComObject(feature);
+
+      }
+
       private void buildLogger()
       {
          string s;
@@ -599,6 +643,7 @@ namespace SEARCH
          ESRI.ArcGIS.AnalysisTools.Clip c = new ESRI.ArcGIS.AnalysisTools.Clip();
          c.in_features = clipFromLayer;
          c.clip_features = clipFeatureLayer;
+         c.cluster_tolerance = "0.001 meters";
          c.out_feature_class = outFeatureClassName;
          RunProcess(c, null);
       }
@@ -624,6 +669,7 @@ namespace SEARCH
 
       private bool DissolveFeatures(IFeatureClass inFC, string outName, string fieldName)
       {
+         
          bool didDissolve = true;
          fw.writeLine("inside Dissolve Features");
          Dissolve d = new Dissolve();
@@ -693,8 +739,10 @@ namespace SEARCH
                for (int Count = 0; Count <= gp.MessageCount - 1; Count++)
                {
                   string s = gp.GetMessage(Count);
-                  if (s.Contains("ERROR"))
+                  if (s.Contains("ERROR"))// || s.Contains("WARNING 000117"))
                   {
+                     if (s.Contains("Virmem low memory"))
+                        System.Windows.Forms.MessageBox.Show(s);
                      noErrors = false;
                   }
                   this.fw.writeLine(s);
@@ -726,6 +774,9 @@ namespace SEARCH
                   string s = gp.GetMessage(Count);
                   if (s.Contains("ERROR") && !s.Contains(MessageToIgnore))
                   {
+                     if (s.Contains("Virmem low memory"))
+                        System.Windows.Forms.MessageBox.Show(s);
+
                      hasError = true;
 
                   }
@@ -761,6 +812,10 @@ namespace SEARCH
             myProcessor.OverwriteOutput = true;
             myProcessor.Execute(inProcess, null);
             wasSuccessful = ReturnMessages(myProcessor);
+#if DEBUG
+            //if (!wasSuccessful)
+             //  System.Windows.Forms.MessageBox.Show("Data error");
+#endif
 
          }
          catch (Exception ex)
@@ -855,6 +910,7 @@ namespace SEARCH
          this.CopyFeaturesToFeatureClass(selectLayer, outLayerName);
 
       }
+     
 
       private void UnionFeatures(string LayerList, string fc)
       {
