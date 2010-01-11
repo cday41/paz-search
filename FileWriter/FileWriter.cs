@@ -44,7 +44,7 @@ namespace FileWriter
 
       public virtual void writeLine(string data)
       {
-            sw.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss:fff") + ":  " + data);
+            sw.WriteLine(DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:fff") + ":  " + data);
             sw.Flush();
       }
       public virtual void close()
@@ -212,7 +212,7 @@ namespace FileWriter
       {
          StreamWriter swE = new StreamWriter(@"C:\DispersalError.log",true);
          swE.WriteLine();
-         swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss:fff") + ":  " + ex.Message);
+         swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:fff") + ":  " + ex.Message);
          swE.WriteLine(ex.StackTrace);
          swE.Close();
          swE = null;
@@ -221,7 +221,7 @@ namespace FileWriter
       {
          StreamWriter swE = new StreamWriter(@"C:\DispersalError.log",true);
          swE.WriteLine();
-         swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss:fff") + ":  " + data);
+         swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:fff") + ":  " + data);
          swE.Close();
          swE = null;
       }
