@@ -71,6 +71,7 @@ namespace SEARCH
                      fc2 = null;
                      tempPoly = null;
                      MapManager.RemoveFiles(clipPath);
+                     MapManager.RemoveFiles(dissolveHomeRangePolygon);
                      fw.writeLine("was not big enough so now the stretch factor is " + stretchFactor.ToString());
                   }
                   else
@@ -101,7 +102,7 @@ namespace SEARCH
          }
          catch (System.Exception ex)
          {
-
+            returnVal = "No Home Found";
             FileWriter.FileWriter.WriteErrorFile(ex);
          }
          finally
