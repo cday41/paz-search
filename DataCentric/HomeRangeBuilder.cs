@@ -16,7 +16,7 @@ namespace SEARCH
 
       public HomeRangeBuilder()
       {
-         myDataManipulator = new DataManipulator();
+         
          this.buildLogger();
 
       }
@@ -26,6 +26,7 @@ namespace SEARCH
 
       public string BuildHomeRange(Animal inAnimal, string currSocialFileName)
       {
+         myDataManipulator = new DataManipulator();
          string returnVal = "";
          double minArea = 0;
          double stretchFactor = 1.0;
