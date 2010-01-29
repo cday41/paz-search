@@ -263,24 +263,18 @@ namespace SEARCH
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
          
-         //List<Animal> liveAnimals = this.getAllLiveAnimals();
+         Animal[] liveAnimals = this.getAllLiveAnimals();
          Animal a;
          string status = "";
          try
          {
             fw.writeLine("inside animal manager do time step with modifiers");
            // foreach (Animal a in myAnimals)
-            for(int i=0;i<myAnimals.Count; i++)
+            for(int i=0;i<liveAnimals.Count(); i++)
             {
                a = this.myAnimals[i];
-               fw.writeLine("");
-               fw.writeLine("animal id = " + a.IdNum.ToString());
-               fw.writeLine("animal is type " + a.GetType().ToString());
+           //
 
-//               if (a.GetType().ToString().Equals("SEARCH.Resident", StringComparison.CurrentCultureIgnoreCase))
-//               {
-//                  int bob = 0;
-//               }
 
                 a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
                //check to see if they died if they did remove them from the list
@@ -693,9 +687,10 @@ namespace SEARCH
          {
             
             fw.writeLine("inside winterKillResidents");
-            fw.writeLine("going to loop through " + this.myAnimals.Count.ToString() + " in the collection.");
-
             List<Resident> res = this.getResidents();
+            fw.writeLine("going to loop through " + res.Count.ToString() + " in the collection.");
+
+           
             foreach (Resident r in res)
             {
                fw.writeLine("so we are going to call the resident winter kill method");
@@ -710,7 +705,7 @@ namespace SEARCH
                } 
             }
             
-            fw.writeLine("there are " + this.myAnimals.Count.ToString() + " animals left.");
+            fw.writeLine("there are " + this.getNumResidents().ToString() + " residents left.");
          }
          catch (System.Exception ex)
          {
@@ -775,10 +770,10 @@ namespace SEARCH
 
       }
 
-      private List<Animal> getAllLiveAnimals()
+      private Animal[] getAllLiveAnimals()
       {
          var temp = from a in myAnimals where a.IsDead == false select a;
-         return temp.ToList<Animal>();
+         return temp.ToArray();
       }
  
       private List<Animal> getDispersers()

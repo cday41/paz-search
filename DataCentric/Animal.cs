@@ -346,10 +346,15 @@ namespace SEARCH
 
       public void BuildTextWriter(string CurrYear, string OutPutDir)
       {
-         this.buildFileNamePrefix(CurrYear);
-         if (!Directory.Exists(OutPutDir))
-            Directory.CreateDirectory(OutPutDir);
-         this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+         //always gets called but does not always have a value for OutPutDir so check here
+         //cheesy I know.
+         if (!String.IsNullOrEmpty(OutPutDir))
+         {
+            this.buildFileNamePrefix(CurrYear);
+            if (!Directory.Exists(OutPutDir))
+               Directory.CreateDirectory(OutPutDir);
+            this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+         }
       }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)

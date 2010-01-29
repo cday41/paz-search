@@ -2857,6 +2857,11 @@ namespace SEARCH
                   success = this.mySimManager.AnimalManager.setSleepTime(this.mySimManager.StartSeasonDate.AddHours(this.mySimManager.AnimalManager.AnimalAttributes.WakeUpTime));
                   if (!success)
                      MessageBox.Show(this.mySimManager.AnimalManager.ErrMessage);
+                  fw.writeLine("writing parameter space to file:" + parameterFilePath);
+                  writeXML(this.parameterFilePath);
+                  fw.writeLine("inside the button click calling the sim manager do simulation");
+                  this.mySimManager.doSimulation(this);
+                  this.Close();
                }
             }
             else
