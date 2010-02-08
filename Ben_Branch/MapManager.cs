@@ -147,10 +147,9 @@ private MapManager()
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
-         myDataManipulator = new DataManipulator();
+         DataManipulator myTimeStepDataManipulator = new DataManipulator();
          try
          {
-            IPolygon clipPoly;
 
             fw.writeLine("");
             fw.writeLine("----------------------------------------------------------------------");
@@ -171,10 +170,10 @@ private MapManager()
             fw.writeLine("the  current temp timeStep map is " + timeStepPath);
             fw.writeLine("the  current dissolve map is " + dissolvePath);
             fw.writeLine("calling MakeDissolvedTimeStep");
-            this.myDataManipulator.MakeDissolvedTimeStep(this._currStepPath, timeStepPath, inPoly1, inPoly2);
+            myTimeStepDataManipulator.MakeDissolvedTimeStep(this._currStepPath, timeStepPath, inPoly1, inPoly2);
 
             fw.writeLine("back in AddTimeSteps now going to clip against the social map");
-            this.myDataManipulator.Clip(this.mySocialMap.FullFileName, timeStepPath, clipPath);
+            myTimeStepDataManipulator.Clip(this.mySocialMap.FullFileName, timeStepPath, clipPath);
             
           
             fw.writeLine("back from Clipping now update the Current Animal Map");
@@ -184,14 +183,14 @@ private MapManager()
             {
                //if the first time through then we only need to add it to the map
                fw.writeLine("Calling Copy to Animal Map since it is the first time step");
-               this.myDataManipulator.CopyToAnotherlMap(currMapPath, clipPath);
-               this.myDataManipulator.Dissolve(currMapPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
+               myTimeStepDataManipulator.CopyToAnotherlMap(currMapPath, clipPath);
+               myTimeStepDataManipulator.Dissolve(currMapPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
             }
             else
             {
                fw.writeLine("Calling update the animal map");
-               this.myDataManipulator.UnionAnimalClipData(currMapPath, clipPath, unionPath);
-               this.myDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
+               myTimeStepDataManipulator.UnionAnimalClipData(currMapPath, clipPath, unionPath);
+               myTimeStepDataManipulator.Dissolve(unionPath, dissolvePath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
 
             }
 

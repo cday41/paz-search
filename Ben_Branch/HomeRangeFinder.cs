@@ -96,7 +96,7 @@ namespace SEARCH
          }
       }
 
-      protected IPoint chooseHomeRangeCenter(List<EligibleHomeSite> inQualifiedSites, double minHomeRangeArea)
+      protected IPoint chooseHomeRangeCenter(List<EligibleHomeSite> inQualifiedSites, double inHomeRangeArea)
       {
          IPoint currPoint = new PointClass();
          double luckyNumber = rn.getUniformRandomNum();
@@ -112,8 +112,11 @@ namespace SEARCH
                count++;
                fw.writeLine("this sites rank is " + ehs.Rank.ToString());
                fw.writeLine("calling get area");
-
-               if (this.getArea(currPoint) >= (minHomeRangeArea*0.1))
+               
+               //Multiply the minimum home range area by 1/10 so that animals can
+               //select HR centers even if they haven't seen enough area around it yet
+               //i.e. we keep all points in contiguous area of >= 1/10th HR size
+               if (this.getArea(currPoint) >= (inHomeRangeArea*0.1))
                {
                  
                   fw.writeLine("had enough area we are out of here");
@@ -660,9 +663,9 @@ namespace SEARCH
          }
       }
 
-      protected bool setSuitablePolygons(double minAreaNeededTen, string inAnimalSex, string inAnimalMemoryMap)
+      protected bool setSuitablePolygons(double minAreaNeededOverall, string inAnimalSex, string inAnimalMemoryMap)
       {
-         double minAreaNeeded = minAreaNeededTen * 0.1;
+         double minAreaNeeded = minAreaNeededOverall * 0.1;
          bool result = true;
          try
          {
