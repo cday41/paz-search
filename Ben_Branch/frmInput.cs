@@ -2845,8 +2845,8 @@ namespace SEARCH
                   System.Convert.ToDouble(this.txtResDieBetweenSeason.Text),
                   System.Convert.ToDouble(this.txtResBreedPercent.Text),
                   System.Convert.ToDouble(this.txtResFemalePercent.Text),
-                  System.Convert.ToInt32(this.txtResOffspringMean.Text),
-                  System.Convert.ToInt32(this.txtResOffspringSD.Text));
+                  System.Convert.ToDouble(this.txtResOffspringMean.Text),
+                  System.Convert.ToDouble(this.txtResOffspringSD.Text));
 
               
 

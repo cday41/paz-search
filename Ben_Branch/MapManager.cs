@@ -42,6 +42,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 
 namespace SEARCH
@@ -150,7 +151,16 @@ private MapManager()
          DataManipulator myTimeStepDataManipulator = new DataManipulator();
          try
          {
-
+            Process[] processlist = Process.GetProcesses();
+            foreach(Process theprocess in processlist)
+            {
+                if (theprocess.ProcessName == "DataCentric")
+                {
+                    fw.writeLine("Process: " + theprocess.ProcessName + " ID: " + theprocess.Id.ToString());
+                    fw.writeLine("          Working Set: " + theprocess.WorkingSet64.ToString() + " Virtual Memory Allocation: " + theprocess.VirtualMemorySize64.ToString());
+                    fw.writeLine("          Memory Use: " + theprocess.PrivateMemorySize64.ToString() + " Virtual Memory Peak: " + theprocess.PeakVirtualMemorySize64.ToString());
+                }
+            }
             fw.writeLine("");
             fw.writeLine("----------------------------------------------------------------------");
             fw.writeLine("inside AddTime Steps for animal "+ AnimalID.ToString());

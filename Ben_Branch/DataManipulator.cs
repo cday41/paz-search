@@ -133,9 +133,9 @@ namespace SEARCH
 
       public void Clip(string inFileNameClipFrom, string inFileNameClipFeature, string outFileName)
       {
-         this.MakeLayer(inFileNameClipFrom, "clipFrom");
-         this.MakeLayer(inFileNameClipFeature, "clipFeature");
-         this.ClipFeatures("clipFrom", "clipFeature", outFileName);
+          this.MakeLayer(inFileNameClipFrom, "clipFrom");
+          this.MakeLayer(inFileNameClipFeature, "clipFeature");
+          this.ClipFeatures("clipFrom", "clipFeature", outFileName);
       }
 
      
@@ -643,12 +643,43 @@ namespace SEARCH
 
       private void ClipFeatures(string clipFromLayer, string clipFeatureLayer, string outFeatureClassName)
       {
+         int numTrys = 0;
          ESRI.ArcGIS.AnalysisTools.Clip c = new ESRI.ArcGIS.AnalysisTools.Clip();
          c.in_features = clipFromLayer;
          c.clip_features = clipFeatureLayer;
          c.cluster_tolerance = "0.001 meters";
          c.out_feature_class = outFeatureClassName;
-         RunProcess(c, null);
+         while (numTrys<=10)
+         {
+             if (numTrys == 10)
+             {
+                 System.Windows.Forms.MessageBox.Show("Tried clip 10 times and failed");
+             }
+             else
+             {
+                 if (RunProcess(c, null))
+                 {
+                     fw.writeLine("Passed clip features after " + (numTrys + 1).ToString() + " trys");
+                     numTrys = 999;
+                 }
+                 else
+                 {
+                     numTrys++;
+                     fw.writeLine("****************************Failed dissolve " + numTrys + " times");
+                     fw.writeLine("Attempting repair geometry of clipFromLayer");
+                     RepairGeometry r = new RepairGeometry();
+                     r.in_features = clipFromLayer;
+                     RunProcess(r, null);
+                     fw.writeLine("Attempting repair geometry of clipFeatureLayer");
+                     RepairGeometry r2 = new RepairGeometry();
+                     r2.in_features = clipFeatureLayer;
+                     RunProcess(r2, null);
+                     fw.writeLine("Reseting geoprocessor");
+                     myProcessor = null;
+                     myProcessor = new Geoprocessor();
+                 }
+             }
+         }
       }
 
       private bool CopyFeaturesToFeatureClass(string inLayer, string RecievingFeatureClass)
@@ -662,12 +693,39 @@ namespace SEARCH
 
       private void DissolveFeatures(string layerName, string outName, string fieldName)
       {
+         int numTrys = 0;
          Dissolve d = new Dissolve();
          d.in_features = layerName;
          d.out_feature_class = outName;
          d.dissolve_field = fieldName as object;
          d.multi_part = "SINGLE_PART";
-         RunProcess(d, null);
+         while (numTrys <= 10)
+         {
+             if (numTrys == 10)
+             {
+                 System.Windows.Forms.MessageBox.Show("Tried dissolve 10 times and failed");
+             }
+             else
+             {
+                 if (RunProcess(d, null))
+                 {
+                     fw.writeLine("Passed dissolve features after " + (numTrys + 1).ToString() + " trys");
+                     numTrys=999;
+                 }
+                 else
+                 {
+                     numTrys++;
+                     fw.writeLine("****************************Failed dissolve " + numTrys + " times");
+                     fw.writeLine("Attempting repair geometry");
+                     RepairGeometry r = new RepairGeometry();
+                     r.in_features = layerName;
+                     RunProcess(r, null);
+                     fw.writeLine("Reseting geoprocessor");
+                     myProcessor = null;
+                     myProcessor = new Geoprocessor();
+                 }
+             }
+         }
       }
 
       private bool DissolveFeatures(IFeatureClass inFC, string outName, string fieldName)
@@ -816,8 +874,8 @@ namespace SEARCH
       private bool RunProcess(IGPProcess inProcess, ITrackCancel inCancel)
       {
          bool wasSuccessful = false;
-         try
-         {
+         //try
+         //{
             string toolbox = inProcess.ToolboxName;
             fw.writeLine("inside run process");
             fw.writeLine("the process I want to run is " + inProcess.ToolName);
@@ -830,13 +888,13 @@ namespace SEARCH
              //  System.Windows.Forms.MessageBox.Show("Data error");
 #endif
 
-         }
-         catch (Exception ex)
-         {
-            wasSuccessful = false;
-            Console.WriteLine(ex.Message);
-            ReturnMessages(myProcessor);
-         }
+         //}
+         //catch (Exception ex)
+         //{
+         //   wasSuccessful = false;
+         //   Console.WriteLine(ex.Message);
+         //   ReturnMessages(myProcessor);
+         //}
          return wasSuccessful;
       }
 
