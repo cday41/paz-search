@@ -95,6 +95,7 @@ namespace SEARCH
       private int mFoodIndex;
       private int mSocialIndex;
       private int myIdNum;
+      private string myIdNumOrig;
       private double mCurrEnergy;
       private double mTemporalChanceOfEating;
       private double mTemporalRiskValue;
@@ -233,6 +234,12 @@ namespace SEARCH
          set { myIdNum = value; }
       }
 
+      public string IdNumOrig
+      {
+          get { return myIdNumOrig; }
+          set { myIdNumOrig = value; }
+      }
+
       public bool IsDead
       {
          get { return mIsDead; }
@@ -346,15 +353,10 @@ namespace SEARCH
 
       public void BuildTextWriter(string CurrYear, string OutPutDir)
       {
-         //always gets called but does not always have a value for OutPutDir so check here
-         //cheesy I know.
-         if (!String.IsNullOrEmpty(OutPutDir))
-         {
-            this.buildFileNamePrefix(CurrYear);
-            if (!Directory.Exists(OutPutDir))
-               Directory.CreateDirectory(OutPutDir);
-            this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
-         }
+         this.buildFileNamePrefix(CurrYear);
+         if (!Directory.Exists(OutPutDir))
+            Directory.CreateDirectory(OutPutDir);
+         this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
       }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)

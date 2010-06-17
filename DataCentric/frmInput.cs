@@ -496,14 +496,15 @@ namespace SEARCH
           this.tabTime.Size = new System.Drawing.Size(752, 430);
           this.tabTime.TabIndex = 5;
           this.tabTime.Text = "Time Parameters";
+          this.tabTime.UseVisualStyleBackColor = true;
           // 
           // btnLoadXML
           // 
-          this.btnLoadXML.Location = new System.Drawing.Point(624, 16);
+          this.btnLoadXML.Location = new System.Drawing.Point(540, 25);
           this.btnLoadXML.Name = "btnLoadXML";
-          this.btnLoadXML.Size = new System.Drawing.Size(88, 23);
+          this.btnLoadXML.Size = new System.Drawing.Size(178, 23);
           this.btnLoadXML.TabIndex = 0;
-          this.btnLoadXML.Text = "Load from File";
+          this.btnLoadXML.Text = "Load all parameters from XML file";
           this.btnLoadXML.Click += new System.EventHandler(this.btnLoadXML_Click);
           // 
           // btnTime
@@ -543,7 +544,7 @@ namespace SEARCH
           // 
           // nudWakeTime
           // 
-          this.nudWakeTime.Location = new System.Drawing.Point(16, 224);
+          this.nudWakeTime.Location = new System.Drawing.Point(19, 234);
           this.nudWakeTime.Maximum = new decimal(new int[] {
             23,
             0,
@@ -556,7 +557,7 @@ namespace SEARCH
           // label19
           // 
           this.label19.AutoSize = true;
-          this.label19.Location = new System.Drawing.Point(16, 200);
+          this.label19.Location = new System.Drawing.Point(13, 216);
           this.label19.Name = "label19";
           this.label19.Size = new System.Drawing.Size(136, 13);
           this.label19.TabIndex = 16;
@@ -566,17 +567,17 @@ namespace SEARCH
           // 
           this.label33.AutoSize = true;
           this.label33.Enabled = false;
-          this.label33.Location = new System.Drawing.Point(432, 200);
+          this.label33.Location = new System.Drawing.Point(447, 216);
           this.label33.Name = "label33";
-          this.label33.Size = new System.Drawing.Size(115, 13);
+          this.label33.Size = new System.Drawing.Size(111, 13);
           this.label33.TabIndex = 15;
-          this.label33.Text = "End Date of Simulation";
+          this.label33.Text = "End date of simulation";
           // 
           // txtEndDaySim
           // 
           this.txtEndDaySim.BackColor = System.Drawing.Color.White;
           this.txtEndDaySim.Enabled = false;
-          this.txtEndDaySim.Location = new System.Drawing.Point(432, 216);
+          this.txtEndDaySim.Location = new System.Drawing.Point(444, 234);
           this.txtEndDaySim.Name = "txtEndDaySim";
           this.txtEndDaySim.ReadOnly = true;
           this.txtEndDaySim.Size = new System.Drawing.Size(152, 20);
@@ -588,9 +589,9 @@ namespace SEARCH
           this.label34.AutoSize = true;
           this.label34.Location = new System.Drawing.Point(16, 88);
           this.label34.Name = "label34";
-          this.label34.Size = new System.Drawing.Size(118, 13);
+          this.label34.Size = new System.Drawing.Size(114, 13);
           this.label34.TabIndex = 13;
-          this.label34.Text = "Start Date of Simulation";
+          this.label34.Text = "Start date of simulation";
           // 
           // SimStartDate
           // 
@@ -604,14 +605,14 @@ namespace SEARCH
           this.label35.AutoSize = true;
           this.label35.Location = new System.Drawing.Point(232, 88);
           this.label35.Name = "label35";
-          this.label35.Size = new System.Drawing.Size(114, 13);
+          this.label35.Size = new System.Drawing.Size(144, 13);
           this.label35.TabIndex = 11;
-          this.label35.Text = "Number of years to run";
+          this.label35.Text = "Number of years in simulation";
           // 
           // txtNumYears
           // 
           this.txtNumYears.BackColor = System.Drawing.Color.White;
-          this.txtNumYears.Location = new System.Drawing.Point(232, 104);
+          this.txtNumYears.Location = new System.Drawing.Point(232, 107);
           this.txtNumYears.Name = "txtNumYears";
           this.txtNumYears.Size = new System.Drawing.Size(152, 20);
           this.txtNumYears.TabIndex = 2;
@@ -619,15 +620,15 @@ namespace SEARCH
           // label36
           // 
           this.label36.AutoSize = true;
-          this.label36.Location = new System.Drawing.Point(232, 200);
+          this.label36.Location = new System.Drawing.Point(229, 203);
           this.label36.Name = "label36";
-          this.label36.Size = new System.Drawing.Size(141, 13);
+          this.label36.Size = new System.Drawing.Size(101, 26);
           this.label36.TabIndex = 9;
-          this.label36.Text = "Minutes between time steps.";
+          this.label36.Text = "Number of minutes \r\nbetween time steps.";
           // 
           // txtTimeBetweenDailyTimeStep
           // 
-          this.txtTimeBetweenDailyTimeStep.Location = new System.Drawing.Point(232, 216);
+          this.txtTimeBetweenDailyTimeStep.Location = new System.Drawing.Point(232, 233);
           this.txtTimeBetweenDailyTimeStep.Name = "txtTimeBetweenDailyTimeStep";
           this.txtTimeBetweenDailyTimeStep.Size = new System.Drawing.Size(152, 20);
           this.txtTimeBetweenDailyTimeStep.TabIndex = 6;
@@ -636,17 +637,17 @@ namespace SEARCH
           // 
           this.label37.AutoSize = true;
           this.label37.Enabled = false;
-          this.label37.Location = new System.Drawing.Point(432, 152);
+          this.label37.Location = new System.Drawing.Point(447, 152);
           this.label37.Name = "label37";
-          this.label37.Size = new System.Drawing.Size(103, 13);
+          this.label37.Size = new System.Drawing.Size(143, 13);
           this.label37.TabIndex = 7;
-          this.label37.Text = "End Date of Season";
+          this.label37.Text = "End date of dispersal season";
           // 
           // txtEndDaySeason
           // 
           this.txtEndDaySeason.BackColor = System.Drawing.Color.White;
           this.txtEndDaySeason.Enabled = false;
-          this.txtEndDaySeason.Location = new System.Drawing.Point(432, 168);
+          this.txtEndDaySeason.Location = new System.Drawing.Point(444, 171);
           this.txtEndDaySeason.Name = "txtEndDaySeason";
           this.txtEndDaySeason.ReadOnly = true;
           this.txtEndDaySeason.Size = new System.Drawing.Size(152, 20);
@@ -658,11 +659,11 @@ namespace SEARCH
           // label38
           // 
           this.label38.AutoSize = true;
-          this.label38.Location = new System.Drawing.Point(232, 152);
+          this.label38.Location = new System.Drawing.Point(229, 139);
           this.label38.Name = "label38";
-          this.label38.Size = new System.Drawing.Size(138, 13);
+          this.label38.Size = new System.Drawing.Size(121, 26);
           this.label38.TabIndex = 5;
-          this.label38.Text = "Number of days in a season";
+          this.label38.Text = "Number of days in \r\ndispersal season (1-365)";
           // 
           // txtNumSeasonDays
           // 
@@ -677,9 +678,9 @@ namespace SEARCH
           this.label39.AutoSize = true;
           this.label39.Location = new System.Drawing.Point(16, 152);
           this.label39.Name = "label39";
-          this.label39.Size = new System.Drawing.Size(106, 13);
+          this.label39.Size = new System.Drawing.Size(146, 13);
           this.label39.TabIndex = 2;
-          this.label39.Text = "Start Date of Season";
+          this.label39.Text = "Start date of dispersal season";
           // 
           // dtpSeasonStartDate
           // 
@@ -703,7 +704,8 @@ namespace SEARCH
           this.tabSpecies.Name = "tabSpecies";
           this.tabSpecies.Size = new System.Drawing.Size(752, 430);
           this.tabSpecies.TabIndex = 1;
-          this.tabSpecies.Text = "Species Attributes";
+          this.tabSpecies.Text = "Species Parameters";
+          this.tabSpecies.UseVisualStyleBackColor = true;
           // 
           // lblDuration
           // 
@@ -721,16 +723,16 @@ namespace SEARCH
           this.groupBox10.Size = new System.Drawing.Size(176, 104);
           this.groupBox10.TabIndex = 1;
           this.groupBox10.TabStop = false;
-          this.groupBox10.Text = "Base Line Perceptual  Distance";
+          this.groupBox10.Text = "Perceptual Window";
           // 
           // label3
           // 
           this.label3.AutoSize = true;
           this.label3.Location = new System.Drawing.Point(16, 40);
           this.label3.Name = "label3";
-          this.label3.Size = new System.Drawing.Size(95, 13);
+          this.label3.Size = new System.Drawing.Size(107, 13);
           this.label3.TabIndex = 6;
-          this.label3.Text = "Distance in Meters";
+          this.label3.Text = "Baseline distance (m)";
           // 
           // txtPerception
           // 
@@ -752,20 +754,20 @@ namespace SEARCH
           this.groupBox4.Size = new System.Drawing.Size(480, 112);
           this.groupBox4.TabIndex = 3;
           this.groupBox4.TabStop = false;
-          this.groupBox4.Text = "Behavior Triggers";
+          this.groupBox4.Text = "Behavioral Triggers";
           // 
           // label20
           // 
           this.label20.AutoSize = true;
-          this.label20.Location = new System.Drawing.Point(320, 40);
+          this.label20.Location = new System.Drawing.Point(305, 27);
           this.label20.Name = "label20";
-          this.label20.Size = new System.Drawing.Size(73, 13);
+          this.label20.Size = new System.Drawing.Size(90, 26);
           this.label20.TabIndex = 5;
-          this.label20.Text = "Risky to Safe ";
+          this.label20.Text = "Probability of safe\r\nbehavior";
           // 
           // txtSafeToRisky
           // 
-          this.txtSafeToRisky.Location = new System.Drawing.Point(176, 56);
+          this.txtSafeToRisky.Location = new System.Drawing.Point(167, 56);
           this.txtSafeToRisky.Name = "txtSafeToRisky";
           this.txtSafeToRisky.Size = new System.Drawing.Size(100, 20);
           this.txtSafeToRisky.TabIndex = 10;
@@ -774,15 +776,15 @@ namespace SEARCH
           // label12
           // 
           this.label12.AutoSize = true;
-          this.label12.Location = new System.Drawing.Point(176, 40);
+          this.label12.Location = new System.Drawing.Point(164, 27);
           this.label12.Name = "label12";
-          this.label12.Size = new System.Drawing.Size(70, 13);
+          this.label12.Size = new System.Drawing.Size(94, 26);
           this.label12.TabIndex = 4;
-          this.label12.Text = "Safe to Risky";
+          this.label12.Text = "Probability of risky \r\nbehavior";
           // 
           // txtRiskyToSafe
           // 
-          this.txtRiskyToSafe.Location = new System.Drawing.Point(320, 56);
+          this.txtRiskyToSafe.Location = new System.Drawing.Point(308, 56);
           this.txtRiskyToSafe.Name = "txtRiskyToSafe";
           this.txtRiskyToSafe.Size = new System.Drawing.Size(100, 20);
           this.txtRiskyToSafe.TabIndex = 11;
@@ -798,11 +800,11 @@ namespace SEARCH
           // label21
           // 
           this.label21.AutoSize = true;
-          this.label21.Location = new System.Drawing.Point(21, 40);
+          this.label21.Location = new System.Drawing.Point(24, 27);
           this.label21.Name = "label21";
-          this.label21.Size = new System.Drawing.Size(115, 13);
+          this.label21.Size = new System.Drawing.Size(85, 26);
           this.label21.TabIndex = 0;
-          this.label21.Text = "Search/Forage Trigger";
+          this.label21.Text = "Search/forage \r\nenergy threshold";
           // 
           // groupBox3
           // 
@@ -817,31 +819,31 @@ namespace SEARCH
           this.groupBox3.Size = new System.Drawing.Size(456, 136);
           this.groupBox3.TabIndex = 2;
           this.groupBox3.TabStop = false;
-          this.groupBox3.Text = "Duration time periods ";
+          this.groupBox3.Text = "Activity Periods ";
           // 
           // label24
           // 
           this.label24.AutoSize = true;
           this.label24.Location = new System.Drawing.Point(88, 32);
           this.label24.Name = "label24";
-          this.label24.Size = new System.Drawing.Size(55, 13);
+          this.label24.Size = new System.Drawing.Size(89, 13);
           this.label24.TabIndex = 19;
-          this.label24.Text = "Mean Amt";
+          this.label24.Text = "Mean length (hrs)";
           // 
           // label23
           // 
           this.label23.AutoSize = true;
-          this.label23.Location = new System.Drawing.Point(296, 32);
+          this.label23.Location = new System.Drawing.Point(275, 32);
           this.label23.Name = "label23";
-          this.label23.Size = new System.Drawing.Size(73, 13);
+          this.label23.Size = new System.Drawing.Size(119, 13);
           this.label23.TabIndex = 18;
-          this.label23.Text = "Standard Dev";
+          this.label23.Text = "Standard deviation (hrs)";
           // 
           // txtDurSD
           // 
           this.txtDurSD.Location = new System.Drawing.Point(280, 56);
           this.txtDurSD.Name = "txtDurSD";
-          this.txtDurSD.Size = new System.Drawing.Size(104, 20);
+          this.txtDurSD.Size = new System.Drawing.Size(114, 20);
           this.txtDurSD.TabIndex = 6;
           // 
           // txtDurMean
@@ -856,9 +858,9 @@ namespace SEARCH
           this.btnAddRestDuration.Enabled = false;
           this.btnAddRestDuration.Location = new System.Drawing.Point(280, 80);
           this.btnAddRestDuration.Name = "btnAddRestDuration";
-          this.btnAddRestDuration.Size = new System.Drawing.Size(104, 32);
+          this.btnAddRestDuration.Size = new System.Drawing.Size(114, 32);
           this.btnAddRestDuration.TabIndex = 8;
-          this.btnAddRestDuration.Text = "Add Rest Period";
+          this.btnAddRestDuration.Text = "Add Resting Period";
           this.btnAddRestDuration.Click += new System.EventHandler(this.btnAddRestDuration_Click);
           // 
           // btnAddActiveDuration
@@ -890,18 +892,18 @@ namespace SEARCH
           this.label8.AutoSize = true;
           this.label8.Location = new System.Drawing.Point(325, 40);
           this.label8.Name = "label8";
-          this.label8.Size = new System.Drawing.Size(60, 13);
+          this.label8.Size = new System.Drawing.Size(83, 13);
           this.label8.TabIndex = 5;
-          this.label8.Text = "Min Energy";
+          this.label8.Text = "Minimum energy";
           // 
           // label7
           // 
           this.label7.AutoSize = true;
           this.label7.Location = new System.Drawing.Point(24, 40);
           this.label7.Name = "label7";
-          this.label7.Size = new System.Drawing.Size(67, 13);
+          this.label7.Size = new System.Drawing.Size(66, 13);
           this.label7.TabIndex = 4;
-          this.label7.Text = "Initial Energy";
+          this.label7.Text = "Initial energy";
           // 
           // txtMinEnergy
           // 
@@ -916,9 +918,9 @@ namespace SEARCH
           this.label2.AutoSize = true;
           this.label2.Location = new System.Drawing.Point(181, 40);
           this.label2.Name = "label2";
-          this.label2.Size = new System.Drawing.Size(63, 13);
+          this.label2.Size = new System.Drawing.Size(86, 13);
           this.label2.TabIndex = 3;
-          this.label2.Text = "Max Energy";
+          this.label2.Text = "Maximum energy";
           // 
           // txtMaxEnergy
           // 
@@ -956,7 +958,8 @@ namespace SEARCH
           this.tabHomeRange.Name = "tabHomeRange";
           this.tabHomeRange.Size = new System.Drawing.Size(752, 430);
           this.tabHomeRange.TabIndex = 4;
-          this.tabHomeRange.Text = "Home Range";
+          this.tabHomeRange.Text = "Home Range Parameters";
+          this.tabHomeRange.UseVisualStyleBackColor = true;
           // 
           // groupBox12
           // 
@@ -969,15 +972,15 @@ namespace SEARCH
           this.groupBox12.Size = new System.Drawing.Size(352, 112);
           this.groupBox12.TabIndex = 3;
           this.groupBox12.TabStop = false;
-          this.groupBox12.Text = "Choose Trigger";
+          this.groupBox12.Text = "Home Range Selection Trigger";
           // 
           // rdoNumSites
           // 
           this.rdoNumSites.Location = new System.Drawing.Point(24, 56);
           this.rdoNumSites.Name = "rdoNumSites";
-          this.rdoNumSites.Size = new System.Drawing.Size(136, 24);
+          this.rdoNumSites.Size = new System.Drawing.Size(178, 24);
           this.rdoNumSites.TabIndex = 5;
-          this.rdoNumSites.Text = "Number of Sites";
+          this.rdoNumSites.Text = "Number of suitable sites visited";
           // 
           // rdoNumSteps
           // 
@@ -987,7 +990,7 @@ namespace SEARCH
           this.rdoNumSteps.Size = new System.Drawing.Size(136, 24);
           this.rdoNumSteps.TabIndex = 4;
           this.rdoNumSteps.TabStop = true;
-          this.rdoNumSteps.Text = "Number of Steps";
+          this.rdoNumSteps.Text = "Number of active steps taken";
           this.rdoNumSteps.CheckedChanged += new System.EventHandler(this.rdoNumSteps_CheckedChanged);
           // 
           // lblTriggerNum
@@ -1029,23 +1032,25 @@ namespace SEARCH
           this.groupBox8.Size = new System.Drawing.Size(296, 360);
           this.groupBox8.TabIndex = 0;
           this.groupBox8.TabStop = false;
-          this.groupBox8.Text = "Area required for home range (sq km)";
+          this.groupBox8.Text = "Home Range Parameters";
           // 
           // label27
           // 
           this.label27.Location = new System.Drawing.Point(152, 32);
           this.label27.Name = "label27";
-          this.label27.Size = new System.Drawing.Size(96, 16);
+          this.label27.Size = new System.Drawing.Size(112, 16);
           this.label27.TabIndex = 3;
           this.label27.Text = "Females";
+          this.label27.TextAlign = System.Drawing.ContentAlignment.TopCenter;
           // 
           // label26
           // 
           this.label26.Location = new System.Drawing.Point(24, 32);
           this.label26.Name = "label26";
-          this.label26.Size = new System.Drawing.Size(96, 16);
+          this.label26.Size = new System.Drawing.Size(112, 16);
           this.label26.TabIndex = 2;
           this.label26.Text = "Males";
+          this.label26.TextAlign = System.Drawing.ContentAlignment.TopCenter;
           // 
           // txtFemaleHomeRangeArea
           // 
@@ -1065,11 +1070,12 @@ namespace SEARCH
           // 
           // label6
           // 
-          this.label6.Location = new System.Drawing.Point(24, 56);
+          this.label6.Location = new System.Drawing.Point(21, 56);
           this.label6.Name = "label6";
-          this.label6.Size = new System.Drawing.Size(248, 16);
+          this.label6.Size = new System.Drawing.Size(243, 16);
           this.label6.TabIndex = 2;
-          this.label6.Text = "Area required for home range (sq km)";
+          this.label6.Text = "Minimum home range area (sq. km)";
+          this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
           // 
           // txtFemaleDistMod
           // 
@@ -1089,9 +1095,10 @@ namespace SEARCH
           // 
           this.label10.Location = new System.Drawing.Point(24, 125);
           this.label10.Name = "label10";
-          this.label10.Size = new System.Drawing.Size(248, 32);
+          this.label10.Size = new System.Drawing.Size(240, 32);
           this.label10.TabIndex = 2;
-          this.label10.Text = "Distance Weighting Factor\r\n(Used in conjunction with Choose Criteria)";
+          this.label10.Text = "Distance weighting factor\r\n(Used in conjunction with selection criteria)";
+          this.label10.TextAlign = System.Drawing.ContentAlignment.TopCenter;
           // 
           // groupBox11
           // 
@@ -1104,7 +1111,7 @@ namespace SEARCH
           this.groupBox11.Size = new System.Drawing.Size(352, 104);
           this.groupBox11.TabIndex = 8;
           this.groupBox11.TabStop = false;
-          this.groupBox11.Text = "Choose Criteria";
+          this.groupBox11.Text = "Home Range Selection Criteria";
           // 
           // rdoCombo
           // 
@@ -1120,7 +1127,7 @@ namespace SEARCH
           this.rdoBestFood.Name = "rdoBestFood";
           this.rdoBestFood.Size = new System.Drawing.Size(104, 24);
           this.rdoBestFood.TabIndex = 9;
-          this.rdoBestFood.Text = "Best Food";
+          this.rdoBestFood.Text = "Best food";
           // 
           // rdoRisk
           // 
@@ -1128,17 +1135,17 @@ namespace SEARCH
           this.rdoRisk.Name = "rdoRisk";
           this.rdoRisk.Size = new System.Drawing.Size(104, 24);
           this.rdoRisk.TabIndex = 8;
-          this.rdoRisk.Text = "Least Risk";
+          this.rdoRisk.Text = "Least risk";
           // 
           // rdoClosest
           // 
           this.rdoClosest.Checked = true;
           this.rdoClosest.Location = new System.Drawing.Point(24, 24);
           this.rdoClosest.Name = "rdoClosest";
-          this.rdoClosest.Size = new System.Drawing.Size(104, 24);
+          this.rdoClosest.Size = new System.Drawing.Size(127, 24);
           this.rdoClosest.TabIndex = 5;
           this.rdoClosest.TabStop = true;
-          this.rdoClosest.Text = "Closest ";
+          this.rdoClosest.Text = "Shortest distance";
           // 
           // tabMap
           // 
@@ -1154,7 +1161,8 @@ namespace SEARCH
           this.tabMap.Name = "tabMap";
           this.tabMap.Size = new System.Drawing.Size(752, 430);
           this.tabMap.TabIndex = 0;
-          this.tabMap.Text = "Simulation MapManager";
+          this.tabMap.Text = "Simulation Maps";
+          this.tabMap.UseVisualStyleBackColor = true;
           // 
           // grpTime
           // 
@@ -1168,7 +1176,7 @@ namespace SEARCH
           this.grpTime.Size = new System.Drawing.Size(200, 389);
           this.grpTime.TabIndex = 13;
           this.grpTime.TabStop = false;
-          this.grpTime.Text = "Set Start Times";
+          this.grpTime.Text = "Set Map Start Times";
           this.grpTime.Visible = false;
           // 
           // btnSetMove
@@ -1283,7 +1291,7 @@ namespace SEARCH
           this.groupBox6.Size = new System.Drawing.Size(200, 392);
           this.groupBox6.TabIndex = 7;
           this.groupBox6.TabStop = false;
-          this.groupBox6.Text = "Validate All MapManager";
+          this.groupBox6.Text = "Load Map Folders";
           // 
           // tabModify
           // 
@@ -1301,7 +1309,8 @@ namespace SEARCH
           this.tabModify.Name = "tabModify";
           this.tabModify.Size = new System.Drawing.Size(752, 430);
           this.tabModify.TabIndex = 2;
-          this.tabModify.Text = "Movement Modifiers";
+          this.tabModify.Text = "Modifiers";
+          this.tabModify.UseVisualStyleBackColor = true;
           // 
           // btnSafeForageModifer
           // 
@@ -1309,7 +1318,7 @@ namespace SEARCH
           this.btnSafeForageModifer.Name = "btnSafeForageModifer";
           this.btnSafeForageModifer.Size = new System.Drawing.Size(208, 32);
           this.btnSafeForageModifer.TabIndex = 10;
-          this.btnSafeForageModifer.Text = "Safe Foraging Modifier";
+          this.btnSafeForageModifer.Text = "Add Safe Forage Modifier";
           this.btnSafeForageModifer.Click += new System.EventHandler(this.btnSafeForageModifer_Click);
           // 
           // btnSafeSearchModifier
@@ -1318,7 +1327,7 @@ namespace SEARCH
           this.btnSafeSearchModifier.Name = "btnSafeSearchModifier";
           this.btnSafeSearchModifier.Size = new System.Drawing.Size(208, 32);
           this.btnSafeSearchModifier.TabIndex = 9;
-          this.btnSafeSearchModifier.Text = "Safe Search Modifier";
+          this.btnSafeSearchModifier.Text = "Add Safe Search Modifier";
           this.btnSafeSearchModifier.Click += new System.EventHandler(this.btnSafeSearchModifier_Click);
           // 
           // btnRiskyForageModifer
@@ -1327,7 +1336,7 @@ namespace SEARCH
           this.btnRiskyForageModifer.Name = "btnRiskyForageModifer";
           this.btnRiskyForageModifer.Size = new System.Drawing.Size(208, 32);
           this.btnRiskyForageModifer.TabIndex = 7;
-          this.btnRiskyForageModifer.Text = "Risky Foraging Modifier";
+          this.btnRiskyForageModifer.Text = "Add Risky Forage Modifier";
           this.btnRiskyForageModifer.Click += new System.EventHandler(this.btnRiskyForageModifer_Click);
           // 
           // btnRiskySearchModifier
@@ -1336,7 +1345,7 @@ namespace SEARCH
           this.btnRiskySearchModifier.Name = "btnRiskySearchModifier";
           this.btnRiskySearchModifier.Size = new System.Drawing.Size(208, 32);
           this.btnRiskySearchModifier.TabIndex = 8;
-          this.btnRiskySearchModifier.Text = "Risky Search Modifer";
+          this.btnRiskySearchModifier.Text = "Add Risky Search Modifer";
           this.btnRiskySearchModifier.Click += new System.EventHandler(this.btnRiskySearchModifier_Click);
           // 
           // btnDailyModifier
@@ -1371,7 +1380,7 @@ namespace SEARCH
           this.btnFemaleGender.Name = "btnFemaleGender";
           this.btnFemaleGender.Size = new System.Drawing.Size(208, 32);
           this.btnFemaleGender.TabIndex = 0;
-          this.btnFemaleGender.Text = "Female Gender Modifier";
+          this.btnFemaleGender.Text = "Add Female Modifier";
           this.btnFemaleGender.Click += new System.EventHandler(this.btnFemaleGender_Click);
           // 
           // btnMoveOK
@@ -1389,7 +1398,7 @@ namespace SEARCH
           this.btnMaleGender.Name = "btnMaleGender";
           this.btnMaleGender.Size = new System.Drawing.Size(208, 32);
           this.btnMaleGender.TabIndex = 0;
-          this.btnMaleGender.Text = "Male Gender Modifer";
+          this.btnMaleGender.Text = "Add Male Modifer";
           this.btnMaleGender.Click += new System.EventHandler(this.btnMaleGender_Click);
           // 
           // tabSim
@@ -1404,6 +1413,7 @@ namespace SEARCH
           this.tabSim.Size = new System.Drawing.Size(752, 430);
           this.tabSim.TabIndex = 3;
           this.tabSim.Text = "Simulation Parameters";
+          this.tabSim.UseVisualStyleBackColor = true;
           this.tabSim.Enter += new System.EventHandler(this.tabSim_Enter);
           // 
           // groupBox14
@@ -1414,7 +1424,7 @@ namespace SEARCH
           this.groupBox14.Size = new System.Drawing.Size(424, 48);
           this.groupBox14.TabIndex = 4;
           this.groupBox14.TabStop = false;
-          this.groupBox14.Text = "Save Parameters to file";
+          this.groupBox14.Text = "Save All Parameters";
           // 
           // btnParameterFile
           // 
@@ -1422,7 +1432,7 @@ namespace SEARCH
           this.btnParameterFile.Name = "btnParameterFile";
           this.btnParameterFile.Size = new System.Drawing.Size(152, 23);
           this.btnParameterFile.TabIndex = 0;
-          this.btnParameterFile.Text = "Browse for Parameter File";
+          this.btnParameterFile.Text = "Save Parameters to XML file";
           this.btnParameterFile.Click += new System.EventHandler(this.btnParameterFile_Click);
           // 
           // pbarSim
@@ -1440,7 +1450,7 @@ namespace SEARCH
           this.btnTabSimOK.Name = "btnTabSimOK";
           this.btnTabSimOK.Size = new System.Drawing.Size(152, 32);
           this.btnTabSimOK.TabIndex = 0;
-          this.btnTabSimOK.Text = "Run simulation";
+          this.btnTabSimOK.Text = "Run Simulation";
           this.btnTabSimOK.Click += new System.EventHandler(this.btnTabSimOK_Click);
           // 
           // groupBox7
@@ -1460,7 +1470,7 @@ namespace SEARCH
           this.btnOutMapDir.Name = "btnOutMapDir";
           this.btnOutMapDir.Size = new System.Drawing.Size(152, 32);
           this.btnOutMapDir.TabIndex = 0;
-          this.btnOutMapDir.Text = "Set Output For MapManager";
+          this.btnOutMapDir.Text = "Set Map Output";
           this.btnOutMapDir.Click += new System.EventHandler(this.btnOutMapDir_Click);
           // 
           // chkTextOutPut
@@ -1498,9 +1508,9 @@ namespace SEARCH
           this.label18.AutoSize = true;
           this.label18.Location = new System.Drawing.Point(248, 144);
           this.label18.Name = "label18";
-          this.label18.Size = new System.Drawing.Size(83, 13);
+          this.label18.Size = new System.Drawing.Size(151, 13);
           this.label18.TabIndex = 9;
-          this.label18.Text = "SD of Litter Size";
+          this.label18.Text = "Standard deviation of litter size";
           // 
           // txtResOffspringSD
           // 
@@ -1534,20 +1544,20 @@ namespace SEARCH
           // label25
           // 
           this.label25.AutoSize = true;
-          this.label25.Location = new System.Drawing.Point(24, 48);
+          this.label25.Location = new System.Drawing.Point(24, 35);
           this.label25.Name = "label25";
-          this.label25.Size = new System.Drawing.Size(201, 13);
+          this.label25.Size = new System.Drawing.Size(138, 26);
           this.label25.TabIndex = 4;
-          this.label25.Text = "Chance of resident dying in one time step";
+          this.label25.Text = "Probability of resident dying \r\nin one time step";
           // 
           // label14
           // 
           this.label14.AutoSize = true;
-          this.label14.Location = new System.Drawing.Point(248, 48);
+          this.label14.Location = new System.Drawing.Point(245, 35);
           this.label14.Name = "label14";
-          this.label14.Size = new System.Drawing.Size(254, 13);
+          this.label14.Size = new System.Drawing.Size(138, 26);
           this.label14.TabIndex = 3;
-          this.label14.Text = "Chance of resident dying between dispersal seasons";
+          this.label14.Text = "Probability of resident dying \r\nbetween dispersal seasons";
           // 
           // txtResDieBetweenSeason
           // 
@@ -1589,9 +1599,9 @@ namespace SEARCH
           this.label17.AutoSize = true;
           this.label17.Location = new System.Drawing.Point(24, 144);
           this.label17.Name = "label17";
-          this.label17.Size = new System.Drawing.Size(83, 13);
+          this.label17.Size = new System.Drawing.Size(77, 13);
           this.label17.TabIndex = 3;
-          this.label17.Text = "Mean Litter Size";
+          this.label17.Text = "Mean litter size";
           // 
           // label11
           // 
@@ -2007,24 +2017,24 @@ namespace SEARCH
       #region tabmapcode
       private void btnSocialMaps_Click(object sender, System.EventArgs e)
       {
-         validateMaps("Social",ref socialDir,"Social Landscape","Energy/Food",btnFoodMaps);
+         validateMaps("Social",ref socialDir,"social","energy/food",btnFoodMaps);
          this.mySimManager.MapManager.mySocialMaps.MyPath = socialDir;
       }// end btnSocialMaps_Click
    
       private void btnFoodMaps_Click(object sender, System.EventArgs e)
       {
-         validateMaps("Food",ref foodDir,"Food Source","risk",btnPredationMap);
+         validateMaps("Food",ref foodDir,"food/energy","risk",btnPredationMap);
          this.mySimManager.MapManager.myFoodMaps.MyPath = foodDir;
       }// end btnFoodMaps_Click
       private void btnPredationMap_Click(object sender, System.EventArgs e)
       {
-         validateMaps("Predation",ref riskDir,"Predation Risk","movement",btnMove);
+         validateMaps("Predation",ref riskDir,"risk","movement",btnMove);
          this.mySimManager.MapManager.myPredationMaps.MyPath = riskDir;
       }// end btnPredationMap_Click
       private void btnMove_Click(object sender, System.EventArgs e)
       {
 
-         validateMaps("Move",ref moveDir,"Movement Modifier","Dispersal",btnRelease);
+         validateMaps("Move",ref moveDir,"movement","release",btnRelease);
          this.mySimManager.MapManager.myMoveMaps.MyPath = moveDir;
       }// end btnMove_Click
       private void btnDispersal_Click(object sender, System.EventArgs e)
@@ -2059,7 +2069,7 @@ namespace SEARCH
             //then it is being loaded by file and no need to show the dialog box.
             if(disDir == "")
             {
-               this.fdbCommon.Description = "Browse for Release Area MapManager";
+               this.fdbCommon.Description = "Browse for release maps";
                if (this.fdbCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                {
                   disDir = this.fdbCommon.SelectedPath;
@@ -2096,7 +2106,7 @@ namespace SEARCH
             //if the path is empty then we are loading manually.  If the path has a value we are loading from a file.
             if (path == "")
             {
-               this.fdbCommon.Description = "Browse for " + description + " MapManager";
+               this.fdbCommon.Description = "Browse for " + description + " maps";
                if (this.fdbCommon.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                {
                   path = this.fdbCommon.SelectedPath;
@@ -2177,7 +2187,7 @@ namespace SEARCH
          this.myMapManager.changeMaps(this.mySimManager.StartSimulationDate);
          this.mySimManager.buildAnimals();
          this.mySimManager.buildResidents();
-         MessageBox.Show("done building animals");
+         MessageBox.Show("Map times have been successfully set");
          this.ShowTabPage(this.tabSpecies);
          this.tabSpecies.Focus();
          fw.writeLine("leaving btnDispersal_Click");
@@ -2248,7 +2258,7 @@ namespace SEARCH
                numLeft=this.mySimManager.AnimalManager.AnimalAttributes.addDuration(d);
                this.btnAddActiveDuration.Enabled = false;
                this.btnAddRestDuration.Enabled = true;
-               this.lblDuration.Text += System.Environment.NewLine + "Active Duration of " + this.txtDurMean.Text + " hours";
+               this.lblDuration.Text += System.Environment.NewLine + this.txtDurMean.Text + " hour active period";
                finishAddingDuration(numLeft);
             }
          }
@@ -2273,7 +2283,7 @@ namespace SEARCH
                numLeft=this.mySimManager.AnimalManager.AnimalAttributes.addDuration(d);
                this.btnAddActiveDuration.Enabled = true;
                this.btnAddRestDuration.Enabled = false;
-               this.lblDuration.Text += System.Environment.NewLine + "Rest Duration of " + this.txtDurMean.Text + " hours";
+               this.lblDuration.Text += System.Environment.NewLine + this.txtDurMean.Text + " hour resting period";
                finishAddingDuration(numLeft);
             }
          }
@@ -2845,8 +2855,8 @@ namespace SEARCH
                   System.Convert.ToDouble(this.txtResDieBetweenSeason.Text),
                   System.Convert.ToDouble(this.txtResBreedPercent.Text),
                   System.Convert.ToDouble(this.txtResFemalePercent.Text),
-                  System.Convert.ToInt32(this.txtResOffspringMean.Text),
-                  System.Convert.ToInt32(this.txtResOffspringSD.Text));
+                  System.Convert.ToDouble(this.txtResOffspringMean.Text),
+                  System.Convert.ToDouble(this.txtResOffspringSD.Text));
 
               
 
@@ -2857,11 +2867,6 @@ namespace SEARCH
                   success = this.mySimManager.AnimalManager.setSleepTime(this.mySimManager.StartSeasonDate.AddHours(this.mySimManager.AnimalManager.AnimalAttributes.WakeUpTime));
                   if (!success)
                      MessageBox.Show(this.mySimManager.AnimalManager.ErrMessage);
-                  fw.writeLine("writing parameter space to file:" + parameterFilePath);
-                  writeXML(this.parameterFilePath);
-                  fw.writeLine("inside the button click calling the sim manager do simulation");
-                  this.mySimManager.doSimulation(this);
-                  this.Close();
                }
             }
             else
@@ -3404,7 +3409,7 @@ namespace SEARCH
          this.mySimManager.buildResidents();
          if(success)
          {
-            MessageBox.Show("done building animals");
+            MessageBox.Show("Map times have been successfully set");
             this.ShowTabPage(this.tabSpecies);
             this.tabSpecies.Focus();
             fw.writeLine("leaving btnDispersal_Click");

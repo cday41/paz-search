@@ -62,13 +62,13 @@ namespace SEARCH
       {
          if (genderType == "Male")
          {
-            this.Text = "Modifiers for the male of the species";
+            this.Text = "Modifiers for the males of the species";
             this.lblCaption.Text = "Male modifers";
             
          }
          else
          {
-            this.Text = "Modifiers for the female of the species";
+            this.Text = "Modifiers for the females of the species";
             this.lblCaption.Text = "Female modifers";
          }
             this.lblCaption.Visible = true;
@@ -79,7 +79,7 @@ namespace SEARCH
          this.dtPicker.Visible = true;
          this.dtPicker.ShowUpDown = true;
          this.dtPicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-         this.Text = "Set the Hourly Modifiers";
+         this.Text = "Modifiers for certain times of day";
       }
 
       public void setText(string inText)

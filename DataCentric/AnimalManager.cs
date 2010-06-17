@@ -263,25 +263,33 @@ namespace SEARCH
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
          
-         Animal[] liveAnimals = this.getAllLiveAnimals();
+         //List<Animal> liveAnimals = this.getAllLiveAnimals();
          Animal a;
          string status = "";
          try
          {
             fw.writeLine("inside animal manager do time step with modifiers");
            // foreach (Animal a in myAnimals)
-            for(int i=0;i<liveAnimals.Count(); i++)
+            for(int i=0;i<myAnimals.Count; i++)
             {
                a = this.myAnimals[i];
-           //
+               fw.writeLine("");
+               fw.writeLine("animal id = " + a.IdNum.ToString());
+               fw.writeLine("animal is type " + a.GetType().ToString());
 
+//               if (a.GetType().ToString().Equals("SEARCH.Resident", StringComparison.CurrentCultureIgnoreCase))
+//               {
+//                  int bob = 0;
+//               }
 
                 a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
                //check to see if they died if they did remove them from the list
                if (a.IsDead)
                {
+                   if (a.GetType().ToString().Equals("SEARCH.Resident", StringComparison.CurrentCultureIgnoreCase))
+                   { this.AdjustMapForDeadAnimal(currSocialMap, a); }
+                 
                  this.changeToDeadAnimal(a);
-                 this.AdjustMapForDeadAnimal(currSocialMap, a);
                }
                //check to see if they are changing from disperser to resident
                
@@ -295,6 +303,7 @@ namespace SEARCH
                   r.HomeRangeCenter = a.HomeRangeCenter;
                   r.HomeRangeCriteria = a.HomeRangeCriteria;
                   r.MyAttributes = this.ResidentAttributes;
+                  r.IdNumOrig = a.IdNum.ToString();
                   this.myAnimals.RemoveAt(i);
                   this.myAnimals.Insert(i, r);
                   status = "";
@@ -424,7 +433,7 @@ namespace SEARCH
                r.IdNum = this.currNumAnimals++;
                r.Location = inResAttributes[i].Location;
                r.HomeRangeCenter = r.Location as PointClass; ;
-               r.MyAttributes.OriginalID = inResAttributes[i].OrginalID;
+               r.IdNumOrig = inResAttributes[i].OrginalID;
                 
                this.myAnimals.Add(r);
             }
@@ -687,10 +696,9 @@ namespace SEARCH
          {
             
             fw.writeLine("inside winterKillResidents");
-            List<Resident> res = this.getResidents();
-            fw.writeLine("going to loop through " + res.Count.ToString() + " in the collection.");
+            fw.writeLine("going to loop through " + this.myAnimals.Count.ToString() + " in the collection.");
 
-           
+            List<Resident> res = this.getResidents();
             foreach (Resident r in res)
             {
                fw.writeLine("so we are going to call the resident winter kill method");
@@ -705,7 +713,7 @@ namespace SEARCH
                } 
             }
             
-            fw.writeLine("there are " + this.getNumResidents().ToString() + " residents left.");
+            fw.writeLine("there are " + this.myAnimals.Count.ToString() + " animals left.");
          }
          catch (System.Exception ex)
          {
@@ -721,6 +729,7 @@ namespace SEARCH
 
       private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
       {
+
          string fieldName;
          try
          {
@@ -728,8 +737,10 @@ namespace SEARCH
                fieldName = "OCCUP_MALE";
             else
                fieldName = "OCCUP_FEMA";
-            fw.writeLine("calling resetFields");
-            inSocialMap.resetFields(fieldName, a.IdNum.ToString(), "none");
+            fw.writeLine("calling resetFields"); 
+            inSocialMap.resetFields(fieldName, a.IdNumOrig, "none");
+             //Changed above so that we use the original id for removing animals. For non-initial residents this
+             //is equal to their id number
          }
          catch (Exception ex)
          {
@@ -770,10 +781,10 @@ namespace SEARCH
 
       }
 
-      private Animal[] getAllLiveAnimals()
+      private List<Animal> getAllLiveAnimals()
       {
          var temp = from a in myAnimals where a.IsDead == false select a;
-         return temp.ToArray();
+         return temp.ToList<Animal>();
       }
  
       private List<Animal> getDispersers()

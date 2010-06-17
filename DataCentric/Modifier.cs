@@ -64,21 +64,21 @@ namespace SEARCH
 
 
       [CategoryAttribute("Basic Modifier Settings"), 
-      DescriptionAttribute("Adjusts the probability of successfull foraging for one time step")]
+      DescriptionAttribute("Adjusts the probability of successfully foraging during one time step")]
       public double CaptureFood
       {
          get { return mCaptureFood; }
          set { mCaptureFood = value; }
       }
       [CategoryAttribute("Basic Modifier Settings"), 
-      DescriptionAttribute("Adjusts the probability of dieing from predation or other risks during one time step")]
+      DescriptionAttribute("Adjusts the probability of dying from predation or other risks during one time step")]
       public double PredationRisk
       {
          get { return mPredationRisk; }
          set { mPredationRisk = value; }
       }
       [CategoryAttribute("Basic Modifier Settings"), 
-      DescriptionAttribute("Adjusts the amount of area traveled in one time step")]
+      DescriptionAttribute("Adjusts the distance traveled in one time step")]
      
       public double MoveSpeed
       {
@@ -86,7 +86,7 @@ namespace SEARCH
          set { mMoveSpeed = value; }
       }
       [CategoryAttribute("Basic Modifier Settings"), 
-      DescriptionAttribute("Adjusts the proability of turning/going straight in one time step")]
+      DescriptionAttribute("Adjusts the degree of turning in one time step")]
       public double MoveTurtosity
       {
          get { return mMoveTurtosity; }
@@ -101,7 +101,7 @@ namespace SEARCH
          set { mEnergyUsed = value; }
       }
       [CategoryAttribute("Basic Modifier Settings"), 
-      DescriptionAttribute("Adjusts the perception distance for one time step")]
+      DescriptionAttribute("Adjusts the perceptual window for one time step")]
     
       public double PerceptonModifier
       {

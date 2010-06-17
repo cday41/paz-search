@@ -194,7 +194,6 @@ namespace SEARCH
             fw.writeLine("percent time step is " + percentTimeStep.ToString());
             fw.writeLine("now the heading value is " + inA.Heading.ToString());
             inA.updateMemory();
-           
          }//end of try
          catch(System.Exception ex)
          {
@@ -278,38 +277,7 @@ namespace SEARCH
          return newPoint;
       }//end of stepBack
 
-      public PointClass stepRight(Animal inA)
-      {
-         PointClass newPoint = new PointClass();
-         double stepLength = inA.MoveSpeed;
-
-         IPoint start = inA.Location;
-         double heading = inA.Heading;
-
-
-         fw.writeLine("inside step with the following values");
-         fw.writeLine("orginal stepLength is " + stepLength.ToString());
-         //fw.writeLine("turnAngle is " + turnAngle.ToString());
-         fw.writeLine("orgiginal heading is " + heading.ToString());
-         heading += Math.PI/2;
-         stepLength = stepLength * .001;
-         fw.writeLine("I want to go sideways so my new heading is " + heading.ToString());
-         fw.writeLine("but I am only going to go " + stepLength.ToString());
-         fw.writeLine("start x is " + start.X.ToString() + " start y is " + start.Y.ToString());
-         try
-         {
-            double newX = start.X + stepLength * System.Math.Cos(heading);
-            double newY = start.Y + stepLength * System.Math.Sin(heading);
-            newPoint.X = newX;
-            newPoint.Y = newY;
-         }
-         catch (System.Exception ex)
-         {
-            FileWriter.FileWriter.WriteErrorFile(ex);
-         }
-         fw.writeLine("leaving step with new  x is " + newPoint.X.ToString() + " start y is " + newPoint.Y.ToString());
-         return newPoint;
-      }// end of step right
+     
       private void buildLogger()
       {
          string s;

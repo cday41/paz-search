@@ -7,48 +7,48 @@ namespace SEARCH
 
 		#region Properties (6) 
 
-      [CategoryAttribute("Gender Modifiers"), 
-      DescriptionAttribute("Adjusts the amount of energy used during a time step")]
+      [CategoryAttribute("Gender Modifiers"),
+      DescriptionAttribute("Adjusts the amount of energy used in one time step")]
       public double EnergyUsedPerTimeStep
 		{
 			get { return mEnergyUsedPerTimeStep; }
 			set { mEnergyUsedPerTimeStep = value; }
 		}
 
-      [CategoryAttribute("Gender Modifiers"), 
-      DescriptionAttribute("Adjusts the amount of area covered in a single time step")]
+      [CategoryAttribute("Gender Modifiers"),
+      DescriptionAttribute("Adjusts the distance traveled in one time step")]
       public double MoveSpeed
 		{
 			get { return mMoveSpeed; }
 			set { mMoveSpeed = value; }
 		}
 
-      [CategoryAttribute("Gender Modifiers"), 
-      DescriptionAttribute("Adjusts the probability of going straight or turning during a time step")]
+      [CategoryAttribute("Gender Modifiers"),
+      DescriptionAttribute("Adjusts the degree of turning in one time step")]
       public double MoveTortusoity
 		{
 			get { return mMoveTortusoity; }
 			set { mMoveTortusoity = value; }
 		}
 
-      [CategoryAttribute("Gender Modifiers"), 
-      DescriptionAttribute("Adjusts the probability of capturing food")]
+      [CategoryAttribute("Gender Modifiers"),
+      DescriptionAttribute("Adjusts the probability of successfully foraging during one time step")]
       public double ProbCaptureFood
 		{
 			get { return mProbCaptureFood; }
 			set { mProbCaptureFood = value; }
 		}
 
-      [CategoryAttribute("Gender Modifiers"), 
-      DescriptionAttribute("Adjusts the probability of killed by a predator or other risk")]
+      [CategoryAttribute("Gender Modifiers"),
+      DescriptionAttribute("Adjusts the probability of dying from predation or other risks during one time step")]
       public double ProgKilledByPredator
 		{
 			get { return mProgKilledByPredator; }
 			set { mProgKilledByPredator = value; }
 		}
 
-      [CategoryAttribute("Gender Modifiers"), 
-      DescriptionAttribute("Adjusts the distance the animal can 'see' as it moves.")]
+      [CategoryAttribute("Gender Modifiers"),
+      DescriptionAttribute("Adjusts the perceptual window for one time step")]
       public double VisionRange
 		{
 			get { return mVisionRange; }

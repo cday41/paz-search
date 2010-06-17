@@ -42,6 +42,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using System.Collections.Specialized;
+using System.Diagnostics;
 
 
 namespace SEARCH
@@ -55,9 +56,31 @@ namespace SEARCH
    /// </summary>
    public class MapManager
    {
+		#region Constructors (1) 
+
+private MapManager()
+      {
+         //check on whether we are going to log or not
+         this.buildLogger();
+         // get the error messages ready         
+         initializeErrMessages();
+         myDataManipulator = new DataManipulator();
+         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
+         this.myFoodMaps = new Maps("Food");
+         this.myMoveMaps = new Maps("Move");
+         this.myPredationMaps = new Maps("Predation");
+         this.mySocialMaps = new Maps("Social");
+         this.myDispersalMaps = new Maps("Dispersal");
+         this.myAnimalMaps = new List<AnimalMap>();
+         SocialIndex = 0;
+         numHomeRanges = 0;
+
+      }
+
+		#endregion Constructors 
+
 		#region Fields (26) 
 
-      private string _currStepPath;
       private string errFileName;
       private System.Collections.Specialized.StringCollection errMessages;
       private int errNumber;
@@ -83,44 +106,9 @@ namespace SEARCH
       private static MapManager uniqueInstance;
       private IWorkspace wrkSpace;
       private IWorkspaceFactory wrkSpaceFactory;
+      private string _currStepPath;
 
 		#endregion Fields 
-
-		#region Enums (1) 
-
-      private enum ERR
-      {
-         WRONG_TYPE_OF_SHAPE_FILE,
-         CAN_NOT_FIND_REQUIRED_FIELD,
-         NO_FILES_FOUND_IN_DIRECTORY,
-         DIRECTORY_ALREADY_IN_USE,
-         NO_DIRECTORY_FOUND
-      }
-
-		#endregion Enums 
-
-		#region Constructors (1) 
-
-private MapManager()
-      {
-         //check on whether we are going to log or not
-         this.buildLogger();
-         // get the error messages ready         
-         initializeErrMessages();
-         wrkSpaceFactory = new ShapefileWorkspaceFactoryClass();
-         this.myFoodMaps = new Maps("Food");
-         this.myMoveMaps = new Maps("Move");
-         this.myPredationMaps = new Maps("Predation");
-         this.mySocialMaps = new Maps("Social");
-         this.myDispersalMaps = new Maps("Dispersal");
-         this.myAnimalMaps = new List<AnimalMap>();
-         this.myDataManipulator = new DataManipulator();
-         SocialIndex = 0;
-         numHomeRanges = 0;
-
-      }
-
-		#endregion Constructors 
 
 		#region Properties (4) 
 
@@ -154,32 +142,45 @@ private MapManager()
 
 		#endregion Properties 
 
-		#region Methods (52) 
+		#region Methods (49) 
 
-		// Public Methods (38) 
+		#region Public Methods (37) 
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
          DataManipulator myTimeStepDataManipulator = new DataManipulator();
          try
          {
-
+            Process[] processlist = Process.GetProcesses();
+            foreach(Process theprocess in processlist)
+            {
+                if (theprocess.ProcessName == "DataCentric")
+                {
+                    fw.writeLine("Process: " + theprocess.ProcessName + " ID: " + theprocess.Id.ToString());
+                    fw.writeLine("          Working Set: " + theprocess.WorkingSet64.ToString() + " Virtual Memory Allocation: " + theprocess.VirtualMemorySize64.ToString());
+                    fw.writeLine("          Memory Use: " + theprocess.PrivateMemorySize64.ToString() + " Virtual Memory Peak: " + theprocess.PeakVirtualMemorySize64.ToString());
+                }
+            }
             fw.writeLine("");
             fw.writeLine("----------------------------------------------------------------------");
             fw.writeLine("inside AddTime Steps for animal "+ AnimalID.ToString());
             fw.writeLine("and the time step is " + timeStep.ToString());
             string currMapPath = this.myAnimalMaps[AnimalID].FullFileName;
-            string newMapPath;
-            string oldMapPath;
-            string clipPath;
-            string unionPath;
-            string timeStepPath;
-            string dissolvePath;
-            MakeTimeStepPaths(AnimalID, timeStep, currMapPath, out newMapPath, out oldMapPath, out clipPath, out unionPath, out timeStepPath, out dissolvePath);
+            string newMapPath = this.makeNewMapPath(currMapPath, timeStep.ToString(), AnimalID.ToString());
+            string oldMapPath = this.makeNewMapPath(currMapPath, (timeStep - 1).ToString(), AnimalID.ToString());
+            string clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+            string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+            string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+            string dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+
+
+            fw.writeLine("the  current animal map is " + currMapPath);
+            fw.writeLine("the  current clip map is " + clipPath);
+            fw.writeLine("the  current union map is " + unionPath);
+            fw.writeLine("the  current temp timeStep map is " + timeStepPath);
+            fw.writeLine("the  current dissolve map is " + dissolvePath);
             fw.writeLine("calling MakeDissolvedTimeStep");
             myTimeStepDataManipulator.MakeDissolvedTimeStep(this._currStepPath, timeStepPath, inPoly1, inPoly2);
-            
-            
 
             fw.writeLine("back in AddTimeSteps now going to clip against the social map");
             myTimeStepDataManipulator.Clip(this.mySocialMap.FullFileName, timeStepPath, clipPath);
@@ -204,12 +205,17 @@ private MapManager()
             }
 
             fw.writeLine("now make the new animal map");
-            fw.writeLine("now we need to move the dissovled back to the orginal map");
-            fw.writeLine("now going to copy " + dissolvePath + " to " + currMapPath);
 
             this.makeMapCopies(System.IO.Path.GetDirectoryName(dissolvePath), System.IO.Path.GetFileNameWithoutExtension(dissolvePath), System.IO.Path.GetDirectoryName(currMapPath), System.IO.Path.GetFileNameWithoutExtension(newMapPath));
             this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
-            RemoveTempTimeStepPaths(oldMapPath, clipPath, unionPath, timeStepPath, dissolvePath);
+            fw.writeLine("now we need to move the dissovled back to the orginal map");
+            fw.writeLine("now going to copy " + dissolvePath + " to " + currMapPath);
+            fw.writeLine("time to remove those extra files");
+            this.removeExtraFiles(clipPath);
+            this.removeExtraFiles(unionPath);
+            this.removeExtraFiles(timeStepPath);
+            this.removeExtraFiles(dissolvePath);
+            this.removeExtraFiles(oldMapPath);
 
 
          }
@@ -239,7 +245,6 @@ private MapManager()
          bool result = false;
          try
          {
-            DataManipulator myHomeRangeDataManipulator = new DataManipulator();
             fw.writeLine("inside BuildHomeRange for George number " + inAnimal.IdNum.ToString());
             fw.writeLine("Building the new paths");
             string currSocialMapPath = this.SocialMap.FullFileName;
@@ -259,17 +264,17 @@ private MapManager()
                result = true;
                fw.writeLine("new home range name is " + NewHomeRangeFileName);
                fw.writeLine("going to union it up and create " + newUnionSocialMapPath);
-               myHomeRangeDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
+               this.myDataManipulator.UnionHomeRange(currSocialMapPath, NewHomeRangeFileName, newUnionSocialMapPath);
                fw.writeLine("Since the union tool can create a MultiPart we need to explode it using the Multi to Single");
                fw.writeLine("so the new map name will be " + MulitToSinglePath);
                fw.writeLine("now edit that map");
                this.EditNewHomeRangeUnion(newUnionSocialMapPath, inAnimal.Sex, inAnimal.IdNum.ToString());
                fw.writeLine("now call  myDataManipulator.CopyToAnother Map new map name is " + newTempSocialMapPath);
-               myHomeRangeDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, newUnionSocialMapPath);
+               this.myDataManipulator.CopyToAnotherlMap(newTempSocialMapPath, newUnionSocialMapPath);
                fw.writeLine("now call myDataManipulator.RemoveExtraFields");
-               myHomeRangeDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
+               this.myDataManipulator.RemoveExtraFields(newTempSocialMapPath, "FID_availa; SUITABIL_1; OCCUP_MA_1; OCCUP_FE_1; Delete_1");
                fw.writeLine("now calling myDataManipulator.DissolveAndReturn to make " + newSocialMapPath);
-               IFeatureClass newFC = myHomeRangeDataManipulator.DissolveAndReturn(newTempSocialMapPath, newSocialMapPath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
+               IFeatureClass newFC = this.myDataManipulator.DissolveAndReturn(newTempSocialMapPath, newSocialMapPath, "SUITABILIT;OCCUP_MALE;OCCUP_FEMA;Delete");
                fw.writeLine("Remove the old social map and assign the new one to me");
                this.SocialMap = null;
                this.SocialMap = new Map(newFC, newSocialMapPath);
@@ -392,6 +397,7 @@ private MapManager()
          return area;
       }
 
+     
       public crossOverInfo getCrossOverInfo(IPoint startPoint, IPoint endPoint)
       {
          fw.writeLine("inside get cross over info end point is null  = " + (null == endPoint).ToString());
@@ -515,7 +521,6 @@ private MapManager()
       public void GetInitialMapData(Animal inA)
       {
          int PolyIndex = 0;
-         int numTimesSteped = 0;
          fw.writeLine("inside get inital map data");
          fw.writeLine("getting move modifiers now");
          fw.writeLine("Animal number is " + inA.IdNum.ToString());
@@ -539,16 +544,8 @@ private MapManager()
             inA.MoveSpeed = 1;
             inA.EnergyUsed = 0;
             inA.PerceptonModifier = 1;
-            while (PolyIndex < 0 && numTimesSteped < 2)
-            {
+            while(PolyIndex < 0)
                PolyIndex = this.myMoveMap.getCurrentPolygon(inA.myMover.stepBack(inA));
-               numTimesSteped++;
-            }
-            if (numTimesSteped == 2)
-            {
-               PolyIndex = this.myMoveMap.getCurrentPolygon(inA.myMover.stepRight(inA));
-            }
-
 
          }
 
@@ -695,6 +692,14 @@ private MapManager()
 
       }
 
+      /********************************************************************************
+       *  Function name   : validateNFieldPolylMap
+       *  Description     : Will check to make sure it is a valid polygon shape file and 
+       *                    has the required number of fields
+       *  Return type     : bool 
+       *  Argument        : string [] inMapFileNames all the file names of the map we need 
+       *  Argument        : int NumFields the number of field the maps are supposed to have
+       * *******************************************************************************/
       public IGeometryDef getSpatialInfo()
       {
          IGeometryDef geoDef = null;
@@ -824,9 +829,14 @@ private MapManager()
                   case "Social":
 
 
+
                      fw.writeLine("inside case under Social loading the map");
                      if (mySocialMap == null)
                      {
+                        string copyName = "temp_copy";
+                        makeMapCopies(inPath, fileName, inPath, copyName);
+                        fullName = inPath + "\\" + copyName + ".shp";
+                        fileName = copyName;
 
                         mySocialMap = new Map(this.featureWrkSpace.OpenFeatureClass(fileName), fullName);
                      }
@@ -1032,6 +1042,7 @@ private MapManager()
          }
          return success;
       }
+     
 
       public bool removeExtraFiles(string FullFilePath)
       {
@@ -1328,7 +1339,9 @@ private MapManager()
          myMoveMaps.writeXMLTriggers(ref xw);
          myDispersalMaps.writeXMLTriggers(ref xw);
       }
-		// Private Methods (14) 
+
+		#endregion Public Methods 
+		#region Private Methods (12) 
 
       private void AddFirstMemoryPoly(int AnimalID, IPolygon inPoly1, IPolygon inPoly2)
       {
@@ -1522,23 +1535,6 @@ private MapManager()
 
       }
 
-      private void MakeTimeStepPaths(int AnimalID, int timeStep, string currMapPath, out string newMapPath, out string oldMapPath, out string clipPath, out string unionPath, out string timeStepPath, out string dissolvePath)
-      {
-         newMapPath = this.makeNewMapPath(currMapPath, timeStep.ToString(), AnimalID.ToString());
-         oldMapPath = this.makeNewMapPath(currMapPath, (timeStep - 1).ToString(), AnimalID.ToString());
-         clipPath = this.OutMapPath + "\\Clippy_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
-         unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
-         timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
-         dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
-
-
-         fw.writeLine("the  current animal map is " + currMapPath);
-         fw.writeLine("the  current clip map is " + clipPath);
-         fw.writeLine("the  current union map is " + unionPath);
-         fw.writeLine("the  current temp timeStep map is " + timeStepPath);
-         fw.writeLine("the  current dissolve map is " + dissolvePath);
-      }
-
       private void removeAnimalMap(string oldMapPath)
       {
 
@@ -1565,16 +1561,6 @@ private MapManager()
             throw;
          }
 
-      }
-
-      private void RemoveTempTimeStepPaths(string oldMapPath, string clipPath, string unionPath, string timeStepPath, string dissolvePath)
-      {
-         fw.writeLine("time to remove those extra files");
-         this.removeExtraFiles(clipPath);
-         this.removeExtraFiles(unionPath);
-         this.removeExtraFiles(timeStepPath);
-         this.removeExtraFiles(dissolvePath);
-         this.removeExtraFiles(oldMapPath);
       }
 
       private void removeTimeStepMaps(string AnimalID)
@@ -1730,6 +1716,16 @@ private MapManager()
          return result;
       }
 
+		#endregion Private Methods 
+
 		#endregion Methods 
+      private enum ERR
+      {
+         WRONG_TYPE_OF_SHAPE_FILE,
+         CAN_NOT_FIND_REQUIRED_FIELD,
+         NO_FILES_FOUND_IN_DIRECTORY,
+         DIRECTORY_ALREADY_IN_USE,
+         NO_DIRECTORY_FOUND
+      }
    }
 }

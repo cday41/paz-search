@@ -145,7 +145,13 @@ namespace SEARCH
                 fw.writeLine("MapType is Dispersal and changeMaps == true so need to make newly released animals");
                InitialAnimalAttributes[] inIAA;
                MapManager.GetUniqueInstance().GetInitialAnimalAttributes(out inIAA);
-               int numNewDispersers = inIAA.Length;
+               //int numNewDispersers = inIAA.Length;
+               int numNewDispersers = 0;
+               for (int animal = 0; animal < inIAA.Length; animal++)
+               {
+                   numNewDispersers += inIAA[animal].NumToMake;                   
+               }
+
                am.addNewDispersers(inIAA, now);
                fw.writeLine("Back from the animal manager making new animals");
                 fw.writeLine("trigger type is " + this.mMyTriggers[0].MyTriggerType.ToString());

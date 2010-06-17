@@ -362,7 +362,7 @@ namespace SEARCH
       }
 
       public bool setResidentAttributes(double inTimeStepRisk,double inYearlyRisk,
-         double inPercentBreed, double inPercentFemale,int inMeanLitterSize,int inSDLitterSize)
+         double inPercentBreed, double inPercentFemale,double inMeanLitterSize,double inSDLitterSize)
       {
          bool success=true;
          try

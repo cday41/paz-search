@@ -207,166 +207,170 @@ namespace SEARCH
       /// </summary>
       private void InitializeComponent()
       {
-         System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(YearlyForm));
-         this.lblDisplay = new System.Windows.Forms.Label();
-         this.label2 = new System.Windows.Forms.Label();
-         this.groupBox1 = new System.Windows.Forms.GroupBox();
-         this.txtNumYears = new System.Windows.Forms.TextBox();
-         this.groupBox2 = new System.Windows.Forms.GroupBox();
-         this.txtNumDays = new System.Windows.Forms.TextBox();
-         this.label4 = new System.Windows.Forms.Label();
-         this.btnChooseMaps = new System.Windows.Forms.Button();
-         this.btnOK = new System.Windows.Forms.Button();
-         this.groupBox3 = new System.Windows.Forms.GroupBox();
-         this.txtNumHours = new System.Windows.Forms.TextBox();
-         this.label1 = new System.Windows.Forms.Label();
-         this.dataGrid1 = new System.Windows.Forms.DataGrid();
-         this.groupBox1.SuspendLayout();
-         this.groupBox2.SuspendLayout();
-         this.groupBox3.SuspendLayout();
-         ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
-         this.SuspendLayout();
-         // 
-         // lblDisplay
-         // 
-         this.lblDisplay.Location = new System.Drawing.Point(264, 16);
-         this.lblDisplay.Name = "lblDisplay";
-         this.lblDisplay.Size = new System.Drawing.Size(256, 304);
-         this.lblDisplay.TabIndex = 0;
-         // 
-         // label2
-         // 
-         this.label2.Location = new System.Drawing.Point(8, 24);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(168, 16);
-         this.label2.TabIndex = 1;
-         this.label2.Text = "Number of sets of yearly maps";
-         // 
-         // groupBox1
-         // 
-         this.groupBox1.Controls.Add(this.txtNumYears);
-         this.groupBox1.Controls.Add(this.label2);
-         this.groupBox1.Location = new System.Drawing.Point(16, 16);
-         this.groupBox1.Name = "groupBox1";
-         this.groupBox1.Size = new System.Drawing.Size(232, 88);
-         this.groupBox1.TabIndex = 0;
-         this.groupBox1.TabStop = false;
-         this.groupBox1.Text = "Map Year Groups";
-         // 
-         // txtNumYears
-         // 
-         this.txtNumYears.Location = new System.Drawing.Point(168, 24);
-         this.txtNumYears.Name = "txtNumYears";
-         this.txtNumYears.Size = new System.Drawing.Size(48, 20);
-         this.txtNumYears.TabIndex = 0;
-         this.txtNumYears.Text = "1";
-         this.txtNumYears.LostFocus += new System.EventHandler(this.txtNumYears_LostFocus);
-         // 
-         // groupBox2
-         // 
-         this.groupBox2.Controls.Add(this.txtNumDays);
-         this.groupBox2.Controls.Add(this.label4);
-         this.groupBox2.Location = new System.Drawing.Point(16, 120);
-         this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(232, 112);
-         this.groupBox2.TabIndex = 1;
-         this.groupBox2.TabStop = false;
-         this.groupBox2.Text = "Map Day Groups";
-         // 
-         // txtNumDays
-         // 
-         this.txtNumDays.Enabled = false;
-         this.txtNumDays.Location = new System.Drawing.Point(168, 24);
-         this.txtNumDays.Name = "txtNumDays";
-         this.txtNumDays.Size = new System.Drawing.Size(48, 20);
-         this.txtNumDays.TabIndex = 0;
-         this.txtNumDays.Text = "1";
-         this.txtNumDays.LostFocus += new System.EventHandler(this.txtNumDays_LostFocus);
-         // 
-         // label4
-         // 
-         this.label4.Location = new System.Drawing.Point(8, 24);
-         this.label4.Name = "label4";
-         this.label4.Size = new System.Drawing.Size(152, 16);
-         this.label4.TabIndex = 6;
-         this.label4.Text = "Number of seasons per year";
-         // 
-         // btnChooseMaps
-         // 
-         this.btnChooseMaps.Enabled = false;
-         this.btnChooseMaps.Location = new System.Drawing.Point(256, 328);
-         this.btnChooseMaps.Name = "btnChooseMaps";
-         this.btnChooseMaps.Size = new System.Drawing.Size(136, 23);
-         this.btnChooseMaps.TabIndex = 3;
-         this.btnChooseMaps.Text = "Specify MapManager";
-         this.btnChooseMaps.Click += new System.EventHandler(this.btnChooseMaps_Click);
-         // 
-         // btnOK
-         // 
-         this.btnOK.Location = new System.Drawing.Point(424, 328);
-         this.btnOK.Name = "btnOK";
-         this.btnOK.TabIndex = 4;
-         this.btnOK.Text = "OK";
-         this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-         // 
-         // groupBox3
-         // 
-         this.groupBox3.Controls.Add(this.txtNumHours);
-         this.groupBox3.Controls.Add(this.label1);
-         this.groupBox3.Location = new System.Drawing.Point(16, 248);
-         this.groupBox3.Name = "groupBox3";
-         this.groupBox3.Size = new System.Drawing.Size(232, 104);
-         this.groupBox3.TabIndex = 2;
-         this.groupBox3.TabStop = false;
-         this.groupBox3.Text = "Map Hour Groups";
-         // 
-         // txtNumHours
-         // 
-         this.txtNumHours.Enabled = false;
-         this.txtNumHours.Location = new System.Drawing.Point(168, 24);
-         this.txtNumHours.Name = "txtNumHours";
-         this.txtNumHours.Size = new System.Drawing.Size(48, 20);
-         this.txtNumHours.TabIndex = 0;
-         this.txtNumHours.Text = "1";
-         this.txtNumHours.LostFocus += new System.EventHandler(this.txtNumHours_LostFocus);
-         // 
-         // label1
-         // 
-         this.label1.Location = new System.Drawing.Point(8, 24);
-         this.label1.Name = "label1";
-         this.label1.Size = new System.Drawing.Size(152, 23);
-         this.label1.TabIndex = 1;
-         this.label1.Text = "Number of map sets per day";
-         // 
-         // dataGrid1
-         // 
-         this.dataGrid1.DataMember = "";
-         this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
-         this.dataGrid1.Location = new System.Drawing.Point(256, 16);
-         this.dataGrid1.Name = "dataGrid1";
-         this.dataGrid1.ReadOnly = true;
-         this.dataGrid1.Size = new System.Drawing.Size(616, 296);
-         this.dataGrid1.TabIndex = 11;
-         // 
-         // YearlyForm
-         // 
-         this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-         this.ClientSize = new System.Drawing.Size(920, 365);
-         this.Controls.Add(this.dataGrid1);
-         this.Controls.Add(this.groupBox3);
-         this.Controls.Add(this.btnOK);
-         this.Controls.Add(this.groupBox2);
-         this.Controls.Add(this.groupBox1);
-         this.Controls.Add(this.lblDisplay);
-         this.Controls.Add(this.btnChooseMaps);
-         this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-         this.Name = "YearlyForm";
-         this.Text = "Set map swap times";
-         this.groupBox1.ResumeLayout(false);
-         this.groupBox2.ResumeLayout(false);
-         this.groupBox3.ResumeLayout(false);
-         ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
-         this.ResumeLayout(false);
+          System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YearlyForm));
+          this.lblDisplay = new System.Windows.Forms.Label();
+          this.label2 = new System.Windows.Forms.Label();
+          this.groupBox1 = new System.Windows.Forms.GroupBox();
+          this.txtNumYears = new System.Windows.Forms.TextBox();
+          this.groupBox2 = new System.Windows.Forms.GroupBox();
+          this.txtNumDays = new System.Windows.Forms.TextBox();
+          this.label4 = new System.Windows.Forms.Label();
+          this.btnChooseMaps = new System.Windows.Forms.Button();
+          this.btnOK = new System.Windows.Forms.Button();
+          this.groupBox3 = new System.Windows.Forms.GroupBox();
+          this.txtNumHours = new System.Windows.Forms.TextBox();
+          this.label1 = new System.Windows.Forms.Label();
+          this.dataGrid1 = new System.Windows.Forms.DataGrid();
+          this.groupBox1.SuspendLayout();
+          this.groupBox2.SuspendLayout();
+          this.groupBox3.SuspendLayout();
+          ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).BeginInit();
+          this.SuspendLayout();
+          // 
+          // lblDisplay
+          // 
+          this.lblDisplay.Location = new System.Drawing.Point(264, 16);
+          this.lblDisplay.Name = "lblDisplay";
+          this.lblDisplay.Size = new System.Drawing.Size(256, 304);
+          this.lblDisplay.TabIndex = 0;
+          // 
+          // label2
+          // 
+          this.label2.Location = new System.Drawing.Point(8, 24);
+          this.label2.Name = "label2";
+          this.label2.Size = new System.Drawing.Size(168, 16);
+          this.label2.TabIndex = 1;
+          this.label2.Text = "Number of yearly maps";
+          // 
+          // groupBox1
+          // 
+          this.groupBox1.Controls.Add(this.txtNumYears);
+          this.groupBox1.Controls.Add(this.label2);
+          this.groupBox1.Location = new System.Drawing.Point(16, 16);
+          this.groupBox1.Name = "groupBox1";
+          this.groupBox1.Size = new System.Drawing.Size(232, 88);
+          this.groupBox1.TabIndex = 0;
+          this.groupBox1.TabStop = false;
+          this.groupBox1.Text = "Yearly map sets";
+          // 
+          // txtNumYears
+          // 
+          this.txtNumYears.Location = new System.Drawing.Point(168, 24);
+          this.txtNumYears.Name = "txtNumYears";
+          this.txtNumYears.Size = new System.Drawing.Size(48, 20);
+          this.txtNumYears.TabIndex = 0;
+          this.txtNumYears.Text = "1";
+          this.txtNumYears.LostFocus += new System.EventHandler(this.txtNumYears_LostFocus);
+          // 
+          // groupBox2
+          // 
+          this.groupBox2.Controls.Add(this.txtNumDays);
+          this.groupBox2.Controls.Add(this.label4);
+          this.groupBox2.Location = new System.Drawing.Point(16, 120);
+          this.groupBox2.Name = "groupBox2";
+          this.groupBox2.Size = new System.Drawing.Size(232, 112);
+          this.groupBox2.TabIndex = 1;
+          this.groupBox2.TabStop = false;
+          this.groupBox2.Text = "Seasonal map sets";
+          // 
+          // txtNumDays
+          // 
+          this.txtNumDays.Enabled = false;
+          this.txtNumDays.Location = new System.Drawing.Point(168, 24);
+          this.txtNumDays.Name = "txtNumDays";
+          this.txtNumDays.Size = new System.Drawing.Size(48, 20);
+          this.txtNumDays.TabIndex = 0;
+          this.txtNumDays.Text = "1";
+          this.txtNumDays.LostFocus += new System.EventHandler(this.txtNumDays_LostFocus);
+          // 
+          // label4
+          // 
+          this.label4.Location = new System.Drawing.Point(8, 24);
+          this.label4.Name = "label4";
+          this.label4.Size = new System.Drawing.Size(152, 16);
+          this.label4.TabIndex = 6;
+          this.label4.Text = "Number of seasons per year";
+          // 
+          // btnChooseMaps
+          // 
+          this.btnChooseMaps.Enabled = false;
+          this.btnChooseMaps.Location = new System.Drawing.Point(256, 328);
+          this.btnChooseMaps.Name = "btnChooseMaps";
+          this.btnChooseMaps.Size = new System.Drawing.Size(211, 23);
+          this.btnChooseMaps.TabIndex = 3;
+          this.btnChooseMaps.Text = "Select maps and specify start times";
+          this.btnChooseMaps.Click += new System.EventHandler(this.btnChooseMaps_Click);
+          // 
+          // btnOK
+          // 
+          this.btnOK.Location = new System.Drawing.Point(491, 328);
+          this.btnOK.Name = "btnOK";
+          this.btnOK.Size = new System.Drawing.Size(75, 23);
+          this.btnOK.TabIndex = 4;
+          this.btnOK.Text = "OK";
+          this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+          // 
+          // groupBox3
+          // 
+          this.groupBox3.Controls.Add(this.txtNumHours);
+          this.groupBox3.Controls.Add(this.label1);
+          this.groupBox3.Location = new System.Drawing.Point(16, 248);
+          this.groupBox3.Name = "groupBox3";
+          this.groupBox3.Size = new System.Drawing.Size(232, 104);
+          this.groupBox3.TabIndex = 2;
+          this.groupBox3.TabStop = false;
+          this.groupBox3.Text = "Daily map sets";
+          // 
+          // txtNumHours
+          // 
+          this.txtNumHours.Enabled = false;
+          this.txtNumHours.Location = new System.Drawing.Point(168, 24);
+          this.txtNumHours.Name = "txtNumHours";
+          this.txtNumHours.Size = new System.Drawing.Size(48, 20);
+          this.txtNumHours.TabIndex = 0;
+          this.txtNumHours.Text = "1";
+          this.txtNumHours.LostFocus += new System.EventHandler(this.txtNumHours_LostFocus);
+          // 
+          // label1
+          // 
+          this.label1.Location = new System.Drawing.Point(8, 24);
+          this.label1.Name = "label1";
+          this.label1.Size = new System.Drawing.Size(152, 23);
+          this.label1.TabIndex = 1;
+          this.label1.Text = "Number of maps per day";
+          // 
+          // dataGrid1
+          // 
+          this.dataGrid1.DataMember = "";
+          this.dataGrid1.HeaderForeColor = System.Drawing.SystemColors.ControlText;
+          this.dataGrid1.Location = new System.Drawing.Point(256, 16);
+          this.dataGrid1.Name = "dataGrid1";
+          this.dataGrid1.ReadOnly = true;
+          this.dataGrid1.Size = new System.Drawing.Size(616, 296);
+          this.dataGrid1.TabIndex = 11;
+          // 
+          // YearlyForm
+          // 
+          this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
+          this.ClientSize = new System.Drawing.Size(920, 365);
+          this.Controls.Add(this.dataGrid1);
+          this.Controls.Add(this.groupBox3);
+          this.Controls.Add(this.btnOK);
+          this.Controls.Add(this.groupBox2);
+          this.Controls.Add(this.groupBox1);
+          this.Controls.Add(this.lblDisplay);
+          this.Controls.Add(this.btnChooseMaps);
+          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+          this.Name = "YearlyForm";
+          this.Text = "Set map swap times";
+          this.groupBox1.ResumeLayout(false);
+          this.groupBox1.PerformLayout();
+          this.groupBox2.ResumeLayout(false);
+          this.groupBox2.PerformLayout();
+          this.groupBox3.ResumeLayout(false);
+          this.groupBox3.PerformLayout();
+          ((System.ComponentModel.ISupportInitialize)(this.dataGrid1)).EndInit();
+          this.ResumeLayout(false);
 
       }
       #endregion
@@ -394,7 +398,7 @@ namespace SEARCH
                MessageBox.Show("The first year is set by default. Now set the swap times for the other years.");
                for (int i=1;i<numYears;i++)
                {
-                  tempYear = InputBox.ShowInputBox("Please enter year " + i.ToString() + " to swap out.","Enter 4 digit year");
+                  tempYear = InputBox.ShowInputBox("Please enter year " + i.ToString() + " to swap out (XXXX).","Yearly Map Sets");
                   while( tempYear.CompareTo(swapYears[i-1]) <= 0 || tempYear.CompareTo(this.mySimManager.EndSimulatonDate.Year.ToString()) > 0)
                   {
                      MessageBox.Show(tempYear + " is invalid. It must be between " + swapYears[i-1] + " and " + this.mySimManager.EndSimulatonDate.Year.ToString());
@@ -452,8 +456,8 @@ namespace SEARCH
             {
             
                swapDays = new string[numSeasons];
-               MessageBox.Show("Please enter a description for each group of days to swap out maps" + System.Environment.NewLine
-                  + "For example Spring,Summer,Leaf Off");
+               MessageBox.Show("Please enter a description of each season" + System.Environment.NewLine
+                  + "(e.g. Spring,Summer,Leaf Off, etc.)");
                for (int i=0;i<numSeasons;i++)
                {
                    swapDays[i] = InputBox.ShowInputBox("Please enter a name for season " + (i + 1).ToString(),"Enter Season Name");
@@ -522,8 +526,8 @@ namespace SEARCH
             {
             
                swapHours = new string[numHours];
-               MessageBox.Show("Please enter a description for each group of hours to swap out maps" + System.Environment.NewLine
-                  + "For example Early Morning, Daylight, Night");
+               MessageBox.Show("Please enter a description for each part of a day" + System.Environment.NewLine
+                  + "(e.g. early morning, daylight, night, sundown, etc.)");
                for (int i=0;i<numHours;i++)
                {
                   
