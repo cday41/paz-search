@@ -49,8 +49,8 @@ namespace SEARCH
          InitializeComponent();
 
          //trash out any former error files
-         if (System.IO.File.Exists(@"C:\DispersalError.log"))
-            System.IO.File.Delete(@"C:\DispersalError.log");
+         if (System.IO.File.Exists(@"C:\SEARCH\logs\DispersalError.log"))
+            System.IO.File.Delete(@"C:\SEARCH\logs\DispersalError.log");
 
          if(! IsLicensed())
          {

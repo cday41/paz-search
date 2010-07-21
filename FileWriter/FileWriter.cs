@@ -210,7 +210,7 @@ namespace FileWriter
 
       public static void WriteErrorFile(System.Exception ex)
       {
-         StreamWriter swE = new StreamWriter(@"C:\DispersalError.log",true);
+         StreamWriter swE = new StreamWriter(@"C:\SEARCH\logs\DispersalError.log",true);
          swE.WriteLine();
          swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:fff") + ":  " + ex.Message);
          swE.WriteLine(ex.StackTrace);
@@ -219,7 +219,7 @@ namespace FileWriter
       }
       public static void AddToErrorFile(string data)
       {
-         StreamWriter swE = new StreamWriter(@"C:\DispersalError.log",true);
+         StreamWriter swE = new StreamWriter(@"C:\SEARCH\logs\DispersalError.log",true);
          swE.WriteLine();
          swE.WriteLine(DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss:fff") + ":  " + data);
          swE.Close();
