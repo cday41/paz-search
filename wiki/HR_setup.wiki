@@ -5,7 +5,7 @@
 
 = Setting up a HR =
 
-  * At the HR center, [Animals] cast out 30 points based on random drawing of direction with distance of h meters from the home-range center where h = j x r x s where j is a random number drawn from a normal distribution of mean 1.2 and standard deviation of 0.1, r is the radius of a circle with the size of the animal‟s minimum home range (r = √ (HRmin/π)) and s is the stretch factor of 1.0 
+  * At the HR center, [Animals] cast out 30 points based on random drawing of direction with distance of h meters from the home-range center where h = j {{{* r *}}} s where j is a random number drawn from a normal distribution of mean 1.2 and standard deviation of 0.1, r is the radius of a circle with the size of the animal‟s minimum home range (r = √ (HRmin/π)) and s is the stretch factor of 1.0 
   * These 30 points are connected to form a polygon
   * These points are calculated by 
     # generating a list of 30 angles by getting a random number then multiply by Math.PI multiplied by 2
