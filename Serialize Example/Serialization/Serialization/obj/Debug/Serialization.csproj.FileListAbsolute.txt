@@ -1,0 +1,6 @@
+F:\Serialization\Serialization\bin\Debug\Serialization.exe.config
+F:\Serialization\Serialization\bin\Debug\Serialization.exe
+F:\Serialization\Serialization\bin\Debug\Serialization.pdb
+F:\Serialization\Serialization\obj\Debug\Serialization.csprojResolveAssemblyReference.cache
+F:\Serialization\Serialization\obj\Debug\Serialization.exe
+F:\Serialization\Serialization\obj\Debug\Serialization.pdb
