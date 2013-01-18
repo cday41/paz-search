@@ -2,11 +2,23 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace SEARCH
 {
 
    [Serializable()]
+   [XmlInclude(typeof(GenderModifiers))]
+   [XmlInclude(typeof(DailyModifier))]
+   [XmlInclude(typeof(BehaviourModifier))]
+   [XmlInclude(typeof(FemaleModifier))]
+   [XmlInclude(typeof(HourlyModifier))]
+   [XmlInclude(typeof(MaleModifier))]
+   [XmlInclude(typeof(TemporalModifiers))]
+   [XmlInclude(typeof(RiskyForageModifier))]
+   [XmlInclude(typeof(RiskySearchModifier))]
+   [XmlInclude(typeof(SafeForageModifier))]
+   [XmlInclude(typeof(SafeSearchModifier))]
    public  class Modifier
    {
 		#region Public Members (1) 

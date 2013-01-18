@@ -230,6 +230,7 @@
     <Compile Include="RiskySearch.cs" />
     <Compile Include="SafeForage.cs" />
     <Compile Include="SafeSearch.cs" />
+    <Compile Include="SerializeHelper.cs" />
     <Compile Include="SimulatonManager.cs" />
     <Compile Include="SiteHomeRangeTrigger.cs" />
     <Compile Include="SleepMover.cs" />

@@ -108,7 +108,7 @@ private MapManager()
       private string _currStepPath;
       private ILog mLog = LogManager.GetLogger("mapManager");
       private ILog eLog = LogManager.GetLogger("Error");
-      private bool loadFromBackup = false;
+      private bool loadfromBackup;
 
 		#endregion Fields 
 
@@ -142,16 +142,17 @@ private MapManager()
          set { mySocialMap = value; }
       }
 
+      public bool LoadBackup
+      {
+          get { return loadfromBackup; }
+          set { loadfromBackup = value; }
+      }
+
 		#endregion Properties 
 
 		#region Methods (49) 
 
 		#region Public Methods (37) 
-
-      public void setloadFromBackup(bool value)
-      {
-          this.loadFromBackup = value;
-      }
 
       public void AddTimeSteps(int AnimalID, IPolygon inPoly1, IPolygon inPoly2, int timeStep, string sex)
       {
@@ -362,6 +363,7 @@ private MapManager()
 //         }
 //         return am.mySelf;
 //      }
+
       public string getAnimalMapName(int index)
       {
          string fileName = "";
@@ -1003,7 +1005,7 @@ private MapManager()
          {
             IGeometryDef geoDef = this.getSpatialInfo();
             mLog.Debug("inside make new animal map for " + numAnimals.ToString() + " number of animals");
-            if (!this.loadFromBackup)
+            if (!LoadBackup)
             {
                 for (i = 0; i < numAnimals && success; i++)
                 {
@@ -1014,6 +1016,7 @@ private MapManager()
                 }
                 mLog.Debug("leaving make new animal maps");
             }
+            //Could probably find a better way to do this
             else
             {
                 int max = 0;
@@ -1056,7 +1059,7 @@ private MapManager()
                         for (k = min; k <= max; k++)
                         {
                             //Console.WriteLine("Animal number is " + k);
-                            myAnimalMaps.Add(new AnimalMap(k.ToString(), dirArray[i], geoDef, this.loadFromBackup));
+                            myAnimalMaps.Add(new AnimalMap(k.ToString(), dirArray[i], geoDef, LoadBackup));
                             myAnimalMaps[k].MySocialMap = this.mySocialMap;
                         }
                         min = -1;

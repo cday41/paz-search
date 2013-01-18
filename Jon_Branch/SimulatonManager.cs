@@ -74,7 +74,6 @@ namespace SEARCH
       private string mapOutputdir;
       private string textOutputdir;
       private bool loadfromBackup;
-      private int numOfAnimals;
 		#endregion Fields 
 
 		#region Properties (13) 
@@ -158,6 +157,12 @@ namespace SEARCH
          set { mTextOutPutFileName = value; }
       }
 
+       public bool LoadBackup
+       {
+           get { return loadfromBackup; }
+           set { loadfromBackup = value; }
+       }
+
 		#endregion Properties 
 
 		#region Methods (18) 
@@ -177,21 +182,6 @@ namespace SEARCH
          myDailyModifiers.Add(inDM.StartDate, inDM);
          mLog.Debug("now the Count is " + myDailyModifiers.Count.ToString());
       }
-
-      public void setloadBackup(bool value)
-      {
-          this.loadfromBackup = value;
-      }
-
-      public bool getloadBackup()
-      {
-          return this.loadfromBackup;
-      }
-
-       public void setNumberOfAnimals(int num)
-        {
-            numOfAnimals = num;
-        }
 
       /********************************************************************************
        *  Function name   : addHourlyModifier
@@ -267,27 +257,27 @@ namespace SEARCH
 
       /********************************************************************************
        *  Function name   : doSimulation
-       *  Description     : 
+       *  Description     : Contains the main loop for the simulation
        *  Return type     : void 
        * *******************************************************************************/
       public void doSimulation(frmInput inForm, Boolean backupSave, string backupSaveName, int backupSaveInterval, char backupSaveUnit, int backupSaveCount, Boolean backupLoad, string backupdir)
       {
+
          mLog.Debug("inside sim manager do simulation calling initialize daily sim");
          initializeSimulation();
 
          DateTime nextTime;
          TimeSpan addTime;
 
-          //Following code is for saving/loading version
+         //Sets up the timed saved intervals
          if (backupSaveUnit == 'm')
          {
              addTime = new TimeSpan(0, backupSaveInterval, 0);
          }
          else if (backupSaveUnit == 'h')
          {
-             addTime = new TimeSpan(backupSaveInterval, 0, 0);
+            addTime = new TimeSpan(backupSaveInterval, 0, 0);
          }
-
          else if (backupSaveUnit == 'd')
          {
              addTime = new TimeSpan(backupSaveInterval, 0, 0, 0);
@@ -296,7 +286,6 @@ namespace SEARCH
          {
              addTime = new TimeSpan();
          }
-
          nextTime = DateTime.Now.Add(addTime);
 
          //Loads a Backup
@@ -309,20 +298,18 @@ namespace SEARCH
          {
              // this needs to initialize to 0 if we aren't resuming from backup
              this.currSeason = 0;
-             this.currTime = this.mStartSeasonDate; // not  on restart.
-             this.currTime = this.currTime.AddHours(this.AnimalManager.AnimalAttributes.WakeUpTime); // not on restart
+             this.currTime = this.mStartSeasonDate;
+             this.currTime = this.currTime.AddHours(this.AnimalManager.AnimalAttributes.WakeUpTime);
              this.MapManager.CurrTime = this.currTime;
          }
 
-        //Saving + loading done
-
          mLog.Debug("now start the big loop for the sim");
-         // note currSeason could be chk boundary.
-         // really is number of years.
+
+         //Start the simulation loop
          for (; this.currSeason < this.mNumSeasons; this.currSeason++)
          {
-             // Heartbeat - is the program still running?
-             Console.WriteLine("Season: " + currSeason + "/" + this.mNumSeasons);
+            // Heartbeat - is the program still running?
+            Console.WriteLine("Season: " + currSeason + "/" + this.mNumSeasons);
 
             mLog.Debug("starting a season");
             mLog.Debug("currDate is " + this.currTime.ToShortDateString());
@@ -383,12 +370,7 @@ namespace SEARCH
          }
         // this.mMapManager.removeExtraFiles();
 
-         //System.Windows.Forms.MessageBox.Show("done");
-
          mLog.Debug("FINISHED SIM LOOP!");
-
-
-
       }
 
       public bool makeInitialAnimalMaps()
@@ -453,24 +435,20 @@ namespace SEARCH
       }
 
       public bool makeTempMap(string path)
-      { bool success = true;
-      try
-      {
-
-         this.MapManager.MakeCurrStepMap(path);
-
-
-      }
-      
-      catch (System.Exception ex)
-      {
-         System.Windows.Forms.MessageBox.Show(ex.Message);
-         eLog.Debug(ex);
-         success = false;
-         mErrMessage = "unable to make temp map look for error file";
-      }
-         return success;
-        
+      { 
+        bool success = true;
+        try
+        {
+             this.MapManager.MakeCurrStepMap(path);
+        }      
+        catch (System.Exception ex)
+        {
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+            eLog.Debug(ex);
+            success = false;
+             mErrMessage = "unable to make temp map look for error file";
+        }
+        return success;        
       }
 
       public void setResidentsTextOutPut(string path)
@@ -497,7 +475,6 @@ namespace SEARCH
             success = false;
          }
          return success;
-
       }
 
 
@@ -540,7 +517,6 @@ namespace SEARCH
        * *******************************************************************************/
       private void createBackup(string baseName, int saveCount)
       {
-          //There's a decidedly better way of doing this
           Console.Write("Creating Backup...  ");
           //Checks if temp exists and creates it if it does not
           if (!System.IO.Directory.Exists(baseName))
@@ -548,9 +524,10 @@ namespace SEARCH
               System.IO.Directory.CreateDirectory(baseName);
           }
           string output = "";
+          string filename = baseName + "\\animal.xml";
 
           //Output Animal Attributes
-          output += this.mAnimalManager.getStringOutput(); 
+          output += this.mAnimalManager.getStringOutput(filename); 
           //Output from the mapmanager          
           output += "MMCSP: " + this.mMapManager.CurrStepPath + "\n";
           //Outputs of date and iteration
@@ -559,7 +536,7 @@ namespace SEARCH
           output += "Currseason: " + (this.currSeason.ToString() + "\n");
          
           //For now backup to application directory
-          string filename = baseName + "\\checkpoint" + ".txt";
+          filename = baseName + "\\checkpoint" + ".txt";
           System.IO.File.WriteAllText(filename, output);
           if (this.mapOutputdir != this.textOutputdir)
           {
@@ -572,6 +549,7 @@ namespace SEARCH
           {
               dirCopy(this.mapOutputdir, baseName);
           }
+
           Console.Write("Done\n");             
       }
 
@@ -708,24 +686,18 @@ namespace SEARCH
       *  Description     : Loads important variables from fileName back into program. It also copies the map data stored in the temp directory to the given map output directory.
       *  Return type     : void 
       * *******************************************************************************/
-      private void loadBackup(string fileName)
+      private void loadBackup(string BackupDir)
       {
           Console.Write("Reloading From Backup... ");
           int i = 0;
           int j = 0;
           int k = 0;
           bool success = true;
-          //Checks if the temp directory exists
-          if (!System.IO.Directory.Exists(fileName))
-          {
-              Console.WriteLine("No checkpoint exists");
-              Environment.Exit(0);
-          }
+          string file = BackupDir + "\\checkpoint.txt";
           //Reads the file line by line parsing it for the needed information to restart the simulation
           //Also calls the necesary loadbackup function in each object.
           try
           {
-              string file = fileName + "\\checkpoint.txt";
               StreamReader reader = new FileInfo(file).OpenText();
               string line = reader.ReadLine();
               line = reader.ReadLine();
@@ -815,12 +787,12 @@ namespace SEARCH
                   i++;
                   line = reader.ReadLine();
               }
-              reader.Close();  
+              reader.Close();
           }
           catch (IOException)
           {
               Console.WriteLine("Reloading Failed");
-              Console.WriteLine("{0} is not readable", fileName);
+              Console.WriteLine("{0} is not readable", file);
               Console.ReadLine();
               Environment.Exit(-2);
           }

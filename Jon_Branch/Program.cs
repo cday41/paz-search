@@ -75,28 +75,28 @@ namespace DataCentric
             
             if (ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop))
             {
-                //Console.WriteLine("Inside binding");
                 ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
-                //Console.WriteLine("Bound and checked out license");
             }
             
             //Checks if the command line arugments are less than the minimum required amount
             if (args.Length < 3 )
             {
-                Console.WriteLine("ERROR: Program was not provided enough arguments.");
                 usage();
+                Console.WriteLine("ERROR: Program was not provided enough arguments.");
                 Environment.Exit(-1);
             }
-
-
+            
             frmInput f = new frmInput();
 
             string xmlInputFile = args[0];
             string mapOutputDirectory = args[1];
             string textOutputDir = args[2];
             string xmlBackup = null;
-            try
+
+            //Check if creating a backup xml file
+            if (args.Length > 3)
             {
+
                 string temp = args[3].ToLower();
                 temp = temp.Trim();
                 if ((temp == "-c") || (temp == "-l"))
@@ -108,14 +108,7 @@ namespace DataCentric
                     xmlBackup = args[3];
                 }
             }
-            catch(Exception ex)
-            {
-                //Should do something if there's an exception
-                Console.WriteLine(ex);
-                Application.Exit();
-                Environment.Exit(0);
 
-            }
             string mapDir = mapOutputDirectory;
             string textDir = textOutputDir;
 
@@ -163,7 +156,7 @@ namespace DataCentric
                                 backupSaveUnit = 'd';
                             }
                             backupSaveName = args[i + 3];
-                            if (backupSaveUnit == '0') throw new Exception("backup save unit must be i, m, h, or d");
+                            if (backupSaveUnit == 0) throw new Exception("backup save unit must be i, m, h, or d");
                             if (backupSaveInterval < 1) throw new Exception("backup save interval must be greater than 0");
                         }
                         //if loading
@@ -276,6 +269,7 @@ namespace DataCentric
             //        pt.Dispose();
             //    }
             //}
+            Console.ReadLine();
             Application.Exit();
             Environment.Exit(0);
 

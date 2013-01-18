@@ -78,14 +78,7 @@ namespace SEARCH
       private string myErrMessage;
       private List<Animal> myAnimals;
       private int currNumAnimals;
-      private bool loadFromBackup = false;
-      private int numToMake;
-
-      public void setloadFromBackup(bool value, int intValue)
-      {
-          this.loadFromBackup = value;
-          this.numToMake = intValue;
-      }
+      private bool loadfromBackup;
 
       public int getNumDispersers()
       {
@@ -379,7 +372,7 @@ namespace SEARCH
     *  Return type     : string
     * *******************************************************************************/
 
-      public String getStringOutput()
+      public String getStringOutput(string fileName)
       {
           //used in checkpointing     
           string output = "";
@@ -445,10 +438,7 @@ namespace SEARCH
 
           //this.myAnimals
           output += string.Format("myAnimals.count:{0}\n", this.myAnimals.Count); //Prints how many animals are in the array myAnimals
-          for (int i = 0; i < this.myAnimals.Count; i++)
-          {
-              output += string.Format("Animal:{0}\n", i) + myAnimals[i].getStringOutput();
-          }
+          SerializeHelper.SerializeObjectToFile(fileName, myAnimals);
           return output;
       }
 
@@ -600,8 +590,6 @@ namespace SEARCH
          Animal tmpAnimal;
                
          //fw.writeLine("inside make initial animals");
-         try
-         {
              //this is an array of attributes one of which is how many to make of this type
              for (int i = 0; i <= inIAA.Length - 1; i++)
              {
@@ -631,27 +619,6 @@ namespace SEARCH
                      this.myAnimals.Add(tmpAnimal);
                  }
              }
-             if (loadFromBackup)
-             {
-                 for (int i = this.currNumAnimals; i < this.numToMake; i++)
-                 {
-                     tmpAnimal = new Male();
-                     tmpAnimal.IdNum = this.currNumAnimals++;
-                     //tmpAnimal.Location.X = 0;
-                     //tmpAnimal.Location.Y = 0;
-                     tmpAnimal.AnimalAtributes = this.AnimalAttributes;
-                     tmpAnimal.myMover = this.mMover;
-                     tmpAnimal.AnimalManager = this;
-                     this.myAnimals.Add(tmpAnimal);
-                 }
-             }
-         }
-         catch (System.Exception ex)
-         {
-            eLog.Debug(ex);
-            mLog.Debug("");
-            success = false;
-         }
          return success;
       }
 
@@ -1274,7 +1241,9 @@ namespace SEARCH
               bf.Serialize(fos, animalManager);
               fos.Close();
               return true;
-          }catch{
+          }
+          catch
+          {
               fos.Close();
               return false; // something bad happened
           } 
@@ -1289,9 +1258,7 @@ namespace SEARCH
            }
            FileStream fis = File.OpenRead(filename);
            try
-           {
-
-              
+           {              
                BinaryFormatter bf = new BinaryFormatter();
                AnimalManager am = (SEARCH.AnimalManager)bf.Deserialize(fis);
                fis.Close();
@@ -1299,20 +1266,11 @@ namespace SEARCH
            }
            catch (Exception e)
            {
-
                Console.WriteLine(e.ToString());
                // something bad happened.
                fis.Close();
                return null;
            }
        }
-
    }
-
-
-
-   
-
-
-
 }

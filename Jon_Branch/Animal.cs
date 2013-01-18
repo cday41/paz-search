@@ -48,9 +48,15 @@ using DesignByContract;
 using System.Collections.Generic;
 using System.Threading;
 using log4net;
+using System.Xml.Serialization;
 namespace SEARCH
 {
-   public class Animal
+    [Serializable()]
+    [XmlInclude(typeof(Female))]
+    [XmlInclude(typeof(Male))]
+    [XmlInclude(typeof(Resident))]
+    [XmlInclude(typeof(DeadAnimal))]
+    public class Animal
    {
 		#region Constructors (1) 
 
@@ -69,7 +75,6 @@ namespace SEARCH
          this.hadCloseCall = false;
          this.goingHome = false;
          this.foundHome = false;
-
       }
 
 		#endregion Constructors 
@@ -109,39 +114,92 @@ namespace SEARCH
       private DateTime SleepTime;
       private int durationID;
       private HomeRangeCriteria homeRangeCriteria;
-      private IHomeRangeTrigger mHomeRangeTrigger;
-      private PointClass mHomeRangeCenter;
-      private IHomeRangeFinder mHomeRangeFinder;
+      [XmlIgnore] private IHomeRangeTrigger mHomeRangeTrigger;
+      [XmlIgnore] private PointClass mHomeRangeCenter;
+      [XmlIgnore] private IHomeRangeFinder mHomeRangeFinder;  //Not needed for serialization
       private AnimalAtributes mAnimalAtributes;
       private Modifier mGenderModifier;
       private Modifier mStateModifer;
-      private MapManager mMapManager;
+      [XmlIgnore] private MapManager mMapManager; //Not needed for serialization
       protected string sex;
-      private AnimalManager mAnimalManager;
-      private Mover mMover;
+      [XmlIgnore] private AnimalManager mAnimalManager; //Not needed for serialization
+      [XmlIgnore] private Mover mMover; //Not needed for serialization
       private IPointList mPath;
       private EligibleHomeSites mMyVisitedSites;
       private int timeStep;
       private string fileNamePrefix;
-      protected TextFileWriter mTextFileWriter;
-      protected RandomNumbers rn;
+      [XmlIgnore] protected TextFileWriter mTextFileWriter; //Not needed for serialization
+      [XmlIgnore] protected RandomNumbers rn; //Not needed for serialization
 
 		#endregion Fields 
 
 		#region Properties (35) 
+
+      public List<double> myPathX
+      {
+          get
+          {
+              try
+              {
+                  int j = mPath.getLastIndex();
+                  List<double> saveList = new List<double>();
+                  for (int i = 0; i < mPath.getLastIndex(); i++)
+                  {
+                      IPoint temp = mPath.getPointByIndex(i);
+                      double tempX = temp.X;
+                      saveList.Add(tempX);
+                  }
+                  return saveList;
+              }
+              catch (Exception ex)
+              {
+                  Console.WriteLine("Exception happend in stupid mypath stuff: " + ex);
+                  return null;
+              }
+          }
+          set
+          {
+          }
+      }
+
+      public List<double> myPathY
+      {
+          get
+          {
+              try
+              {
+                  int j = mPath.getLastIndex();
+                  List<double> saveList = new List<double>();
+                  for (int i = 0; i < mPath.getLastIndex(); i++)
+                  {
+                      IPoint temp = mPath.getPointByIndex(i);
+                      double tempY = temp.Y;
+                      saveList.Add(tempY);
+                  }
+                  return saveList;
+              }
+              catch (Exception ex)
+              {
+                  Console.WriteLine("Exception happend in stupid mypath stuff: " + ex);
+                  return null;
+              }
+          }
+          set
+          {
+          }
+      }
 
       public HomeRangeCriteria HomeRangeCriteria
       {
          get { return homeRangeCriteria; }
          set { homeRangeCriteria = value; }
       }
-
       public AnimalAtributes AnimalAtributes
       {
          get { return mAnimalAtributes; }
          set { mAnimalAtributes = value; }
       }
-
+      [XmlIgnore]
       public AnimalManager AnimalManager
       {
          get { return mAnimalManager; }
@@ -158,13 +216,7 @@ namespace SEARCH
       {
          get { return mCurrEnergy; }
          set { mCurrEnergy = value; }
-      }
-
-      
-
-      
-
-     
+      }  
 
       public double EnergyUsed
       {
@@ -194,7 +246,7 @@ namespace SEARCH
          get { return mFoodSD_Size; }
          set { mFoodSD_Size = value; }
       }
-
+      
       public Modifier GenderModifier
       {
          get { return mGenderModifier; }
@@ -206,21 +258,19 @@ namespace SEARCH
          get { return mHeading; }
          set { mHeading = value; }
       }
-
-     
-
+      [XmlIgnore]
       public PointClass HomeRangeCenter
       {
          get { return mHomeRangeCenter; }
          set { mHomeRangeCenter = value; }
       }
-
+      [XmlIgnore]
       public IHomeRangeFinder HomeRangeFinder
       {
          get { return mHomeRangeFinder; }
          set { mHomeRangeFinder = value; }
       }
-
+      [XmlIgnore]
       public IHomeRangeTrigger HomeRangeTrigger
       {
          get { return mHomeRangeTrigger; }
@@ -244,7 +294,7 @@ namespace SEARCH
          get { return mIsDead; }
          set { mIsDead = value; }
       }
-
+      [XmlIgnore]
       public IPoint Location
       {
          get { return myLocation; }
@@ -257,7 +307,7 @@ namespace SEARCH
             // fw.writeLine("new polygon is " + this.mPolygonIndex.ToString());
          }
       }
-
+      [XmlIgnore]
       public MapManager MapManager
       {
          get { return mMapManager; }
@@ -281,13 +331,12 @@ namespace SEARCH
          get { return this.mMoveTurtosity; }
          set { mMoveTurtosity = value; }
       }
-
+      [XmlIgnore]
       public Mover myMover
       {
          get { return mMover; }
          set { mMover = value; }
       }
-
       public EligibleHomeSites MyVisitedSites
       {
          get { return mMyVisitedSites; }
@@ -323,7 +372,7 @@ namespace SEARCH
          get { return mSocialIndex; }
          set { mSocialIndex = value; }
       }
-
+      
       public Modifier StateModifer
       {
          get { return mStateModifer; }
@@ -332,11 +381,23 @@ namespace SEARCH
             mStateModifer = value;
          }
       }
-
+      [XmlIgnore]
       public TextFileWriter TextFileWriter
       {
          get { return mTextFileWriter; }
          set { mTextFileWriter = value; }
+      }
+
+      public double myXCoord
+      {
+          get { if (myLocation != null) { return (myLocation.X); } else { return (-1); } }
+          set { if (myLocation != null) { myLocation.X = value; } }
+      }
+
+      public double myYCoord
+      {
+          get { if (myLocation != null) { return (myLocation.Y); } else { return (-1); } }
+          set { if (myLocation != null) { myLocation.Y = value; } }
       }
 
 		#endregion Properties 
@@ -371,10 +432,8 @@ namespace SEARCH
          int timesStuck = 0;
          bool timeToLookForHome = false;
 
-
          try
          {
-
             //this.timeStepPath++;
             #region
             mLog.Debug("");
@@ -401,7 +460,6 @@ namespace SEARCH
                // fw.writeLine("tempX = " + tempX.ToString());
                // fw.writeLine("tempY = " + tempY.ToString());
                // fw.writeLine("calling update behavioral modifier");
-
 
                move(ref percentTimeStep); mLog.Debug("move returned  " + percentTimeStep.ToString());
                mLog.Debug("previousPercentTimeStep is " + previousPercentTimeStep.ToString());
@@ -611,44 +669,6 @@ namespace SEARCH
               output += "currentEnergy:" + this.mCurrEnergy + ", ";
               output += "stateModifier:" + this.StateModifer.Name + ", ";
               output += "sex:" + this.sex + ",";
-
-              //Sadly doing a location.getStringOutput would still be messy due to the use of interfaces from ESRI
-              /*
-              output += "Location-Envelope-Height:" + this.Location.Envelope.Height.ToString() + ", ";
-              output += "Location-Envelope-Width:" + this.Location.Envelope.Width.ToString() + ", ";
-              output += "Location-Envelope-LowerLeft-ID:" + this.Location.Envelope.LowerLeft.ID.ToString() + ", ";
-              output += "Location-Envelope-LowerLeft-M:" + this.Location.Envelope.LowerLeft.M.ToString() + ", ";
-              output += "Location-Envelope-LowerLeft-X:" + this.Location.Envelope.LowerLeft.X.ToString() + ", ";
-              output += "Location-Envelope-LowerLeft-Y:" + this.Location.Envelope.LowerLeft.Y.ToString() + ", ";
-              output += "Location-Envelope-LowerLeft-Z:" + this.Location.Envelope.LowerLeft.Z.ToString() + ", ";
-              output += "Location-Envelope-LowerRight-ID:" + this.Location.Envelope.LowerRight.ID.ToString() + ", ";
-              output += "Location-Envelope-LowerRight-M:" + this.Location.Envelope.LowerRight.M.ToString() + ", ";
-              output += "Location-Envelope-LowerRight-X:" + this.Location.Envelope.LowerRight.X.ToString() + ", ";
-              output += "Location-Envelope-LowerRight-Y:" + this.Location.Envelope.LowerRight.Y.ToString() + ", ";
-              output += "Location-Envelope-LowerRight-Z:" + this.Location.Envelope.LowerRight.Z.ToString() + ", ";
-              output += "Location-Envelope-UpperLeft-ID:" + this.Location.Envelope.UpperLeft.ID.ToString() + ", ";
-              output += "Location-Envelope-UpperLeft-M:" + this.Location.Envelope.UpperLeft.M.ToString() + ", ";
-              output += "Location-Envelope-UpperLeft-X:" + this.Location.Envelope.UpperLeft.X.ToString() + ", ";
-              output += "Location-Envelope-UpperLeft-Y:" + this.Location.Envelope.UpperLeft.Y.ToString() + ", ";
-              output += "Location-Envelope-UpperLeft-Z:" + this.Location.Envelope.UpperLeft.Z.ToString() + ", ";
-              output += "Location-Envelope-UpperRight-ID:" + this.Location.Envelope.UpperRight.ID.ToString() + ", ";
-              output += "Location-Envelope-UpperRight-M:" + this.Location.Envelope.UpperRight.M.ToString() + ", ";
-              output += "Location-Envelope-UpperRight-X:" + this.Location.Envelope.UpperRight.X.ToString() + ", ";
-              output += "Location-Envelope-UpperRight-Y:" + this.Location.Envelope.UpperRight.Y.ToString() + ", ";
-              output += "Location-Envelope-UpperRight-Z:" + this.Location.Envelope.UpperRight.Z.ToString() + ", ";
-              output += "Location-Envelope-MMax:" + this.Location.Envelope.MMax.ToString() + ", ";
-              output += "Location-Envelope-MMin:" + this.Location.Envelope.MMin.ToString() + ", ";
-              output += "Location-Envelope-XMax:" + this.Location.Envelope.XMax.ToString() + ", ";
-              output += "Location-Envelope-XMin:" + this.Location.Envelope.XMin.ToString() + ", ";
-              output += "Location-Envelope-YMax:" + this.Location.Envelope.YMax.ToString() + ", ";
-              output += "Location-Envelope-YMin:" + this.Location.Envelope.YMin.ToString() + ", ";
-              output += "Location-Envelope-ZMax:" + this.Location.Envelope.ZMax.ToString() + ", ";
-              output += "Location-Envelope-ZMin:" + this.Location.Envelope.ZMin.ToString() + ", ";
-              output += "Location-ID:" + this.Location.ID.ToString() + ", ";
-              output += "Location-M:" + this.Location.M.ToString() + ", ";
-              output += "Location-X:" + this.Location.X.ToString() + ", ";
-              output += "Location-Y:" + this.Location.Y.ToString() + ", ";
-              output += "Location-Z:" + this.Location.Z.ToString() + ", ";*/
               output += "\n";
           }
           catch
@@ -690,77 +710,6 @@ namespace SEARCH
                   this.StateModifer.Name = pair[1].Trim();
                   pair = words[i++].Split(':');
                   this.sex = pair[1].Trim();
-                  /*
-                  this.Location.Envelope.Height = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.Width = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerLeft.ID = Convert.ToInt32(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerLeft.M = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerLeft.X = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerLeft.Y = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerLeft.Z = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerRight.ID = Convert.ToInt32(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerRight.M = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerRight.X = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerRight.Y = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.LowerRight.Z = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperLeft.ID = Convert.ToInt32(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperLeft.M = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperLeft.X = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperLeft.Y = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperLeft.Z = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperRight.ID = Convert.ToInt32(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperRight.M = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperRight.X = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperRight.Y = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.UpperRight.Z = Convert.ToDouble(pair[1].Trim());
-                  
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.MMax = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.MMin = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.XMax = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.XMin = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.YMax = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.YMin = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.ZMax = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Envelope.ZMin = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.ID = Convert.ToInt32(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.M = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.X = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Y = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.Location.Z = Convert.ToDouble(pair[1].Trim());*/
 
               }
               else if (i == 1)

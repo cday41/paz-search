@@ -2847,91 +2847,70 @@ namespace SEARCH
          
       }
 
-      public void doRun(string inputfile, string outputdir, string txtoutpudir, string backupxml, Boolean backupSave, string backupSaveName, int backupSaveInterval, char backupSaveUnit, int backupSaveCount, Boolean backupLoad, string backupdir)
-      {
-          //Console.WriteLine("In doRun");
-          int number = 0;
-          if (!IsLicensed())
-          {
-              Console.WriteLine("This application is not licensed with ARC GIS.");
-              Environment.Exit(-1);
-          }
-          if (backupLoad)
-          {
-              number = getNumberOfAnimals(backupdir);
-          }
-          mySimManager.setloadBackup(backupLoad);
-          myMapManager.setloadFromBackup(backupLoad);
-          mySimManager.AnimalManager.setloadFromBackup(backupLoad, number);
+       public void doRun(string inputfile, string outputdir, string txtoutpudir, string backupxml, Boolean backupSave, string backupSaveName, int backupSaveInterval, char backupSaveUnit, int backupSaveCount, Boolean backupLoad, string backupdir)
+       {
+           if (!IsLicensed())
+           {
+                Console.WriteLine("This application is not licensed with ARC GIS.");
+                Environment.Exit(-1);
+           }
 
-          // check for exceptions
-          loadXML(inputfile);
+           mySimManager.LoadBackup = backupLoad;
+           myMapManager.LoadBackup = backupLoad;
 
-          // set output path to map files.
-          try
-          {
-                  //this will help use group the maps by year run 
-            string newStartYear = this.mySimManager.StartSeasonDate.Year.ToString();
-            this.mySimManager.MapManager.OutMapPath = outputdir + '\\' + newStartYear;
-            if (!this.mySimManager.makeInitialAnimalMaps())
-            {
-                Console.WriteLine("makeInitialAnimalMaps is the problem");
-                //System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
-                //this.mySimManager.ErrMessage = "";
-            }
-            if (!this.mySimManager.makeResidentMaps())
-            {
-                Console.WriteLine("makeResidentMaps is the problem");
-                //System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
-                //this.mySimManager.ErrMessage = "";
-            }
-            if (!mySimManager.MapManager.MakeCurrStepMap(outputdir))
-            {
-                 Console.WriteLine("MakeCurrStepMap is the problem");
-                //System.Windows.Forms.MessageBox.Show(this.mySimManager.ErrMessage, "Error");
-                //this.mySimManager.ErrMessage = "";
-            }
-           }          
-          catch (System.Exception ex)
-          {
-              eLog.Debug(ex);
-          }
-          
-          //
-          this.mySimManager.setResidentAttributes(System.Convert.ToDouble(this.txtResDieTimeStep.Text),
-                  System.Convert.ToDouble(this.txtResDieBetweenSeason.Text),
-                  System.Convert.ToDouble(this.txtResBreedPercent.Text),
-                  System.Convert.ToDouble(this.txtResFemalePercent.Text),
-                  System.Convert.ToDouble(this.txtResOffspringMean.Text),
-                  System.Convert.ToDouble(this.txtResOffspringSD.Text));
-          this.mySimManager.NumSeasons = System.Convert.ToInt32(this.txtNumYears.Text);
+           //Loads intial values for a clean run into program from the input xml
+           loadXML(inputfile);
 
-          this.mySimManager.DoTextOutPut = true;
-          this.mySimManager.AnimalManager.AnimalAttributes.OutPutDir = txtoutpudir;
-          this.mySimManager.setResidentsTextOutPut(txtoutpudir);
-          this.mySimManager.getoutputdirs(outputdir, txtoutpudir);
+           //Starts the setting up for a new simulation
+           string newStartYear = this.mySimManager.StartSeasonDate.Year.ToString(); //Will need to be overwritten for reloads
+           this.mySimManager.MapManager.OutMapPath = outputdir + '\\' + newStartYear; //Will need to be overwritten for reloads
 
-          bool success = this.mySimManager.AnimalManager.setSleepTime(this.mySimManager.StartSeasonDate.AddHours(this.mySimManager.AnimalManager.AnimalAttributes.WakeUpTime));
-          if (!success)
-          {
-              Console.WriteLine("Something wrong with animal sleep time");
-              Environment.Exit(-1);
-          }
+           if (!this.mySimManager.makeInitialAnimalMaps()) //Need to overwrite necesary variables for reloading a simulation
+           {
+               Console.WriteLine("makeInitialAnimalMaps is the problem");
+           }
+           if (!this.mySimManager.makeResidentMaps()) //Need to overwrite necesary variables for reloading a simulation
+           {
+               Console.WriteLine("makeResidentMaps is the problem");
+           }
+           if (!mySimManager.MapManager.MakeCurrStepMap(outputdir)) //Need to overwrite necesary variables for reloading a simulation
+           {
+               Console.WriteLine("MakeCurrStepMap is the problem");
+           }
+           //Set the Resident Attributes
+           this.mySimManager.setResidentAttributes(System.Convert.ToDouble(this.txtResDieTimeStep.Text),
+           System.Convert.ToDouble(this.txtResDieBetweenSeason.Text),
+           System.Convert.ToDouble(this.txtResBreedPercent.Text),
+           System.Convert.ToDouble(this.txtResFemalePercent.Text),
+           System.Convert.ToDouble(this.txtResOffspringMean.Text),
+           System.Convert.ToDouble(this.txtResOffspringSD.Text));
+           //Set the number of seasons
+           this.mySimManager.NumSeasons = System.Convert.ToInt32(this.txtNumYears.Text);
+           //Set the text outputs
+           this.mySimManager.DoTextOutPut = true;
+           this.mySimManager.AnimalManager.AnimalAttributes.OutPutDir = txtoutpudir;
+           this.mySimManager.setResidentsTextOutPut(txtoutpudir);
+           this.mySimManager.getoutputdirs(outputdir, txtoutpudir);
+           //Set the sleep time
+           bool success = this.mySimManager.AnimalManager.setSleepTime(this.mySimManager.StartSeasonDate.AddHours(this.mySimManager.AnimalManager.AnimalAttributes.WakeUpTime));
+           if (!success)
+           {
+                Console.WriteLine("Something wrong with animal sleep time");
+                Environment.Exit(-1);
+           }
+           //Create a backup copy of the initial xml file
+           if (backupxml != null)
+           {
+               writeXML(backupxml);
+           }  
 
-          // check for exceptions
-          if (backupxml != null)
-          {
-              writeXML(backupxml);
-          }
-          //Console.WriteLine("Going to doSimulation");
-          // ready to run.
-          this.mySimManager.doSimulation(this, backupSave, backupSaveName, backupSaveInterval, backupSaveUnit, backupSaveCount, backupLoad, backupdir); //dave broke it here.
-          //Console.WriteLine("Finished doSimulation");
-          //this.mySimManager.doTestCheckPoint(this);
-          //Console.WriteLine("Setting managers to null");
-          this.myMapManager = null;
-          this.mySimManager = null;
-      }
+           // Starting the simulation
+           this.mySimManager.doSimulation(this, backupSave, backupSaveName, backupSaveInterval, backupSaveUnit, backupSaveCount, backupLoad, backupdir);
+
+           //Allowing the managers to be deleted
+           this.myMapManager = null;
+           this.mySimManager = null;       
+       } 
 
 
       /********************************************************************************
@@ -3782,27 +3761,6 @@ namespace SEARCH
             this.mySimManager.ErrMessage = "";
          }
          //btnTabSimOK.PerformClick();*/
-      }
-
-      private int getNumberOfAnimals(string backupdir)
-      {
-          int number = 0;
-          string path = backupdir + "\\checkpoint.txt";
-          if(System.IO.Directory.Exists(backupdir) && System.IO.File.Exists(path))
-          {
-              try
-              {
-                  StreamReader reader = new FileInfo(path).OpenText();
-                  string firstline = reader.ReadLine();
-                  string[] words = firstline.Split(':');
-                  number = Convert.ToInt32(words[1].Trim());
-              }
-              catch
-              {
-                  Console.WriteLine("Bad checkpoint file");
-              }
-          }
-          return number;
       }
       #endregion
    }

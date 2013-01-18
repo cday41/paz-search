@@ -19,9 +19,10 @@ namespace SEARCH
 		}
 
 		#endregion Constructors 
-		#region Properties (1) 
 
-		public IPoint this[int i]
+        #region Properties (1)
+
+        public IPoint this[int i]
 		{
 			get {return (IPoint)mPoints[i];}
 			set {mPoints.Add(value);}
