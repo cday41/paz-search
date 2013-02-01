@@ -129,11 +129,7 @@ private MapManager()
       public string OutMapPath
       {
          get { return mOutMapPath; }
-         set
-         {
-            mOutMapPath = value;
-
-         }
+         set { mOutMapPath = value; }
       }
 
       public Map SocialMap
@@ -702,6 +698,7 @@ private MapManager()
 
       public String getStringOutput()
       {
+          /*
           //Used in checkpointing
           String output = "";
           //do an output += for every variable used in the constructor and doTimeStep
@@ -720,7 +717,8 @@ private MapManager()
               output += String.Format("myAnimalMap{0}", i) + "-end" + ",";
           }
           */
-          return output;
+          Console.WriteLine("myAnimalMaps has {0} maps", myAnimalMaps.Count);
+          return ("");
       }
 
       /********************************************************************************
@@ -1191,7 +1189,6 @@ private MapManager()
          string currDir = System.IO.Path.GetDirectoryName(FullFilePath);
          string fileName = System.IO.Path.GetFileNameWithoutExtension(FullFilePath);
          string compareFileName;
-         bool success = true;
          try
          {
             fileNames = Directory.GetFiles(currDir);

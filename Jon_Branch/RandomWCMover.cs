@@ -55,7 +55,7 @@ namespace SEARCH
          double inTurnAngleVariability)
          :base (inPath,inBaseStepLength,inHeading,inTurnAngleVariability){}
 
-      private RandomWCMover(): base()
+      public RandomWCMover(): base()
       {
          rn = RandomNumbers.getInstance();
       }

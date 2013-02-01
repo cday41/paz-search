@@ -2849,12 +2849,6 @@ namespace SEARCH
 
        public void doRun(string inputfile, string outputdir, string txtoutpudir, string backupxml, Boolean backupSave, string backupSaveName, int backupSaveInterval, char backupSaveUnit, int backupSaveCount, Boolean backupLoad, string backupdir)
        {
-           if (!IsLicensed())
-           {
-                Console.WriteLine("This application is not licensed with ARC GIS.");
-                Environment.Exit(-1);
-           }
-
            mySimManager.LoadBackup = backupLoad;
            myMapManager.LoadBackup = backupLoad;
 

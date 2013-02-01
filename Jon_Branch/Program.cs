@@ -269,7 +269,6 @@ namespace DataCentric
             //        pt.Dispose();
             //    }
             //}
-            Console.ReadLine();
             Application.Exit();
             Environment.Exit(0);
 

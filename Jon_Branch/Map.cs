@@ -148,12 +148,6 @@ namespace SEARCH
          this.BeginTime = this.BeginTime.AddDays(1);
       }
 
-      public string getOutputString()
-      {
-          string output = "";
-          return output;
-      }
-
       public void addField(string name,esriFieldType type)
       {
          IFieldEdit fieldEdit;

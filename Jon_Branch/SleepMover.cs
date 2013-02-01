@@ -17,7 +17,6 @@ namespace SEARCH
          if (s==null)
             s=new SleepMover();
          return s;
-
       }
 
 //end of getTurnAngle
@@ -54,7 +53,7 @@ namespace SEARCH
 		#endregion Fields 
 		#region Constructors (1) 
 
-		private SleepMover()
+		public SleepMover()
 		{
          
 		}

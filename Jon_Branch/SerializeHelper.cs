@@ -31,14 +31,26 @@ namespace SEARCH
               sw.Close();
           }         
       }
-    public  static object DeserializeFromFile(string inFileName, object inO)
-      {
+     public static object DeserializeFromFile(string inFileName, object inO)
+     {
          XmlSerializer ser = new XmlSerializer(inO.GetType());
          StreamReader sr = new StreamReader(inFileName);
-         object o = ser.Deserialize(sr);
-         sr.Close();
-         return o;
-        
-      }
+         try
+         {
+             object o = ser.Deserialize(sr);
+             sr.Close();
+             return o;
+         }
+         catch (Exception ex)
+         {
+             sr.Close();
+             while (ex != null)
+             {
+                 Console.WriteLine(ex.Message);
+                 ex = ex.InnerException;
+             }
+             return null;
+         }
+     }
    }
 }

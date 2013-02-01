@@ -47,7 +47,7 @@ namespace SEARCH
 									double inHeading,
 									double inTurnAngleVariability):base (inPath,inBaseStepLength,inHeading,inTurnAngleVariability){}
 
-		private StraightMover(): base()
+		public StraightMover(): base()
 		{
 		}
 

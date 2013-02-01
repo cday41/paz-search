@@ -393,8 +393,7 @@ namespace SEARCH
             {
                success = false;
                mErrMessage = "No animals to create maps for";
-            }
-            
+            }            
          }
          catch(System.Exception ex)
          {
@@ -404,7 +403,6 @@ namespace SEARCH
          }
          mLog.Debug("Done making intital maps");
          return success;
-
       }
 
       public bool makeResidentMaps()
@@ -524,14 +522,12 @@ namespace SEARCH
               System.IO.Directory.CreateDirectory(baseName);
           }
           string output = "";
-          string filename = baseName + "\\animal.xml";
+          string filename = baseName + "\\Animals.xml";
 
           //Output Animal Attributes
           output += this.mAnimalManager.getStringOutput(filename); 
-          //Output from the mapmanager          
-          output += "MMCSP: " + this.mMapManager.CurrStepPath + "\n";
           //Outputs of date and iteration
-          output += "Date," + currTime.ToString("yyyy-MM-dd HH:mm tt") + "\n";
+          output += "Date: " + currTime.ToString("yyyy-MM-dd HH-mm tt") + "\n";
           output += "Iteration: " + (this.iteration) + "\n";
           output += "Currseason: " + (this.currSeason.ToString() + "\n");
          
@@ -540,9 +536,7 @@ namespace SEARCH
           System.IO.File.WriteAllText(filename, output);
           if (this.mapOutputdir != this.textOutputdir)
           {
-              //Copy the mapoutput dir to .\temp\mapOutput
               dirCopy(this.mapOutputdir, baseName);
-              //Copy the textouput dir to .\temp\textOutput
               dirCopy(this.textOutputdir, baseName);
           }
           else
@@ -552,14 +546,7 @@ namespace SEARCH
 
           Console.Write("Done\n");             
       }
-
-      /********************************************************************************
-       *  Function name   : dirCopy
-       *  Description     : Copies all of the source directory, including subdirectories, to the destination directory
-       *  Return type     : void 
-       *  argument0       : source directory
-       *  argument1       : destination directory
-       * *******************************************************************************/      
+   
       private void dirCopy(string sourceDir, string destiDir)
       {
           DirectoryInfo dir = new DirectoryInfo(sourceDir);
@@ -593,7 +580,6 @@ namespace SEARCH
           }
       }
 
-       //Does nothing?
       private void doOutput()
       {
       }
@@ -681,129 +667,46 @@ namespace SEARCH
          mLog.Debug("done initializing yearly simulation");
       }
 
-      /********************************************************************************
-      *  Function name   : loadBackup
-      *  Description     : Loads important variables from fileName back into program. It also copies the map data stored in the temp directory to the given map output directory.
-      *  Return type     : void 
-      * *******************************************************************************/
       private void loadBackup(string BackupDir)
       {
           Console.Write("Reloading From Backup... ");
           int i = 0;
-          int j = 0;
-          int k = 0;
-          bool success = true;
           string file = BackupDir + "\\checkpoint.txt";
-          //Reads the file line by line parsing it for the needed information to restart the simulation
-          //Also calls the necesary loadbackup function in each object.
           try
           {
               StreamReader reader = new FileInfo(file).OpenText();
               string line = reader.ReadLine();
-              line = reader.ReadLine();
               while (line != null)
               {
-                  if (i == 0)
+                  string[] words;
+                  switch (i++)
                   {
-                      //load into AnimalManager
-                      success = mAnimalManager.loadBackup(line, 0, 0);
-
-                      if (success != true)
-                      {
-                          throw new Exception("AnimalManager failed to load");
-                      }
+                      case 0:
+                          mAnimalManager.loadBackup(line, BackupDir);
+                          break;
+                      case 1:
+                          words = line.Split(':');
+                          this.currTime = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH-mm tt", null);
+                          break;
+                      case 2:
+                          words = line.Split(':');
+                          this.iteration = Convert.ToInt64(words[1].Trim());
+                          break;
+                      case 3:
+                          words = line.Split(':');
+                          this.currSeason = Convert.ToInt32(words[1].Trim());
+                          break;
                   }
-                  else if (i == 1)
-                  {
-                      //load into AnimalAtributes
-                      success = mAnimalManager.loadBackup(line, 1, 0); //Needs to be loaded from Animal Manager
-                      if (success != true)
-                      {
-                          throw new Exception("AnimalAtributes failed to load");
-                      }
-                  }
-                  else if (i == 2)
-                  {
-                      //Reading in how many line for Activity Duration
-                      string[] words = line.Split(':');
-                      j = Convert.ToInt32((words[1].Trim())) + i;
-                  }
-                  else if (i <= j)
-                  {
-                      //Load the Animal Attribtues Activity Durations
-                      success = mAnimalManager.loadBackup(line, 2, 0);
-                      if (success != true)
-                      {
-                          throw new Exception("AnimalAtributes failed to load");
-                      }
-                  }
-                  else if (i == (j + 1))
-                  {
-                      //Load animal count
-                      string[] words = line.Split(':');
-                      k = Convert.ToInt32((words[1].Trim())) + i;
-                  }
-                  else if (i <= k)
-                  {
-                      //Load in animal information
-                      string[] words = line.Split(':');
-                      int cur = Convert.ToInt32(words[1].Trim());  //Needed to keep track of position in the array
-                      string line0 = reader.ReadLine().Trim();
-                      if (line0.Length > 30)
-                      {
-                          //Animal is not dead and the object needs to be created
-                          success = mAnimalManager.loadBackup(line0, 3, cur);
-                      }
-                      else
-                      {
-                          //Animal is dead and the object shouldn't exist
-                          success = mAnimalManager.loadBackup(line0, 4, cur);
-                      }
-                      if (success != true)
-                      {
-                          throw new Exception("Animal failed to load");
-                      }
-                  }
-                  else if (i == (k + 1))
-                  {
-                      string[] words = line.Split(':');
-                      //this.mMapManager.CurrStepPath = words[1].Trim();
-                  }
-                  else if (i == (k + 2))
-                  {
-                      string[] words = line.Split(',');
-                      this.currTime = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
-                  }
-                  else if (i == (k + 3))
-                  {
-                      string[] words = line.Split(':');
-                      this.iteration = Convert.ToInt64(words[1].Trim());
-                  }
-                  else if (i == (k + 4))
-                  {
-                      string[] words = line.Split(':');
-                      this.currSeason = Convert.ToInt32(words[1].Trim());
-                  }
-                  i++;
                   line = reader.ReadLine();
               }
               reader.Close();
           }
-          catch (IOException)
-          {
-              Console.WriteLine("Reloading Failed");
-              Console.WriteLine("{0} is not readable", file);
-              Console.ReadLine();
-              Environment.Exit(-2);
-          }
           catch (Exception e)
           {
-              Console.Error.WriteLine("Reloading Failed");
-              Console.Error.WriteLine(e.Message);
-              Console.ReadLine();
+              Console.Error.Write("Failed \n");
+              Console.Error.WriteLine(e);
               Environment.Exit(-2);
           }
-          //inform the user is the reloaded completed
           Console.Write("Complete\n");       
       }
 
@@ -812,8 +715,6 @@ namespace SEARCH
 
          inForm.updateProgressBar(this.currTimeStep/this.mNumTotalTimeSteps);
       }
-
-
 		#endregion Private Methods 
 		#region Internal Methods (2) 
 

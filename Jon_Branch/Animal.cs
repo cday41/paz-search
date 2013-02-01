@@ -44,6 +44,7 @@ using ESRI.ArcGIS.Geometry;
 using ESRI.ArcGIS.Geodatabase;
 using System.IO;
 using System;
+using System.Reflection;
 using DesignByContract;
 using System.Collections.Generic;
 using System.Threading;
@@ -115,77 +116,70 @@ namespace SEARCH
       private int durationID;
       private HomeRangeCriteria homeRangeCriteria;
       [XmlIgnore] private IHomeRangeTrigger mHomeRangeTrigger;
-      [XmlIgnore] private PointClass mHomeRangeCenter;
-      [XmlIgnore] private IHomeRangeFinder mHomeRangeFinder;  //Not needed for serialization
+      private PointClass mHomeRangeCenter;
+      [XmlIgnore] private IHomeRangeFinder mHomeRangeFinder; 
       private AnimalAtributes mAnimalAtributes;
       private Modifier mGenderModifier;
       private Modifier mStateModifer;
-      [XmlIgnore] private MapManager mMapManager; //Not needed for serialization
+      [XmlIgnore] private MapManager mMapManager;
       protected string sex;
-      [XmlIgnore] private AnimalManager mAnimalManager; //Not needed for serialization
-      [XmlIgnore] private Mover mMover; //Not needed for serialization
+      [XmlIgnore] private AnimalManager mAnimalManager; 
+      private Mover mMover; 
       private IPointList mPath;
       private EligibleHomeSites mMyVisitedSites;
       private int timeStep;
       private string fileNamePrefix;
-      [XmlIgnore] protected TextFileWriter mTextFileWriter; //Not needed for serialization
-      [XmlIgnore] protected RandomNumbers rn; //Not needed for serialization
+      [XmlIgnore] protected TextFileWriter mTextFileWriter; 
+      [XmlIgnore] protected RandomNumbers rn; 
 
 		#endregion Fields 
 
 		#region Properties (35) 
 
-      public List<double> myPathX
+      public List<string> myPath
       {
           get
           {
               try
               {
                   int j = mPath.getLastIndex();
-                  List<double> saveList = new List<double>();
+                  List<string> saveList = new List<string>();
                   for (int i = 0; i < mPath.getLastIndex(); i++)
                   {
                       IPoint temp = mPath.getPointByIndex(i);
-                      double tempX = temp.X;
-                      saveList.Add(tempX);
+                      string myStr = temp.X.ToString() + "," + temp.Y.ToString();
+                      saveList.Add(myStr);
                   }
                   return saveList;
               }
               catch (Exception ex)
               {
-                  Console.WriteLine("Exception happend in stupid mypath stuff: " + ex);
+                  Console.WriteLine(ex);
                   return null;
               }
           }
           set
           {
-          }
-      }
-
-      public List<double> myPathY
-      {
-          get
-          {
-              try
+              if (value != null)
               {
-                  int j = mPath.getLastIndex();
-                  List<double> saveList = new List<double>();
-                  for (int i = 0; i < mPath.getLastIndex(); i++)
+                  try
                   {
-                      IPoint temp = mPath.getPointByIndex(i);
-                      double tempY = temp.Y;
-                      saveList.Add(tempY);
+                      foreach (string temp in value)
+                      {
+                          IPoint p = new PointClass();
+                          string[] parts = temp.Split(',');
+                          double x = Convert.ToDouble(parts[0].Trim());
+                          double y = Convert.ToDouble(parts[1].Trim());
+                          p.X = x;
+                          p.Y = y;
+                          mPath.add(p);
+                      }
                   }
-                  return saveList;
+                  catch (Exception err)
+                  {
+                      Console.WriteLine(err);
+                  }
               }
-              catch (Exception ex)
-              {
-                  Console.WriteLine("Exception happend in stupid mypath stuff: " + ex);
-                  return null;
-              }
-          }
-          set
-          {
           }
       }
 
@@ -391,13 +385,52 @@ namespace SEARCH
       public double myXCoord
       {
           get { if (myLocation != null) { return (myLocation.X); } else { return (-1); } }
-          set { if (myLocation != null) { myLocation.X = value; } }
+          set
+          {
+              if (myLocation != null) { myLocation.X = value; }
+              else
+              {
+                  IPoint p = new PointClass();
+                  p.X = value;
+                  myLocation = p;
+              }
+          }
       }
 
       public double myYCoord
       {
           get { if (myLocation != null) { return (myLocation.Y); } else { return (-1); } }
-          set { if (myLocation != null) { myLocation.Y = value; } }
+          set { 
+            if (myLocation != null) { myLocation.Y = value; } 
+            else { 
+                IPoint p = new PointClass();
+                p.Y = value;
+                myLocation = p;
+            }
+          }
+      }
+
+      public string myMoverType
+      {
+          get { if (myMover != null) { return myMover.GetType().ToString(); } return null; }
+          set 
+          { 
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            myMover = assembly.CreateInstance(value) as Mover;
+          }
+      }
+
+      public string myHomeRangeCenter
+      {
+          get { if (HomeRangeCenter != null) { return string.Format("{0},{1}", HomeRangeCenter.X, HomeRangeCenter.Y); } return null; }
+          set
+          {
+              string[] values = value.Split(',');
+              PointClass p = new PointClass();
+              p.X = Convert.ToDouble(values[0].Trim());
+              p.Y = Convert.ToDouble(values[1].Trim());
+              mHomeRangeCenter = p;
+          }
       }
 
 		#endregion Properties 
@@ -647,82 +680,6 @@ namespace SEARCH
       public int getNumStepsInPath()
       {
          return this.mPath.Count();
-      }
-      /********************************************************************************
-       *  Function name   : getStringOutput
-       *  Description     : Collects the information from the animal object for checkpointing
-       *  Return type     : string
-       * *******************************************************************************/
-      public String getStringOutput()
-      {
-          //used in checkpointing
-          string output = " ";
-          try
-          {
-              output += "myLocation.x:" + this.myLocation.X.ToString() + ", ";
-              output += "myLocation.y:" + this.myLocation.Y.ToString() + ", ";
-              output += "isDead:" + this.IsDead.ToString() + ", ";
-              output += "isAsleep:" + this.IsAsleep.ToString() + ", ";
-              output += "goingHome:" + this.goingHome.ToString() + ", ";
-              output += "foundHome:" + this.foundHome.ToString() + ", ";
-              output += "mPerceptionDist:" + this.mPerceptionDist.ToString() + ", ";
-              output += "currentEnergy:" + this.mCurrEnergy + ", ";
-              output += "stateModifier:" + this.StateModifer.Name + ", ";
-              output += "sex:" + this.sex + ",";
-              output += "\n";
-          }
-          catch
-          {
-              output = "isDead:True\n";
-          }
-          return output;
-      }
-    /********************************************************************************
-    *  Function name   : loadBackup
-    *  Description     : Loads the backup information for any animal object
-    *  Return type     : bool
-    * *******************************************************************************/
-      public bool loadBackup(string line, int i)
-      {
-          bool success = true;
-          try
-          {
-              if (i == 0)
-              {
-                  string[] words = line.Split(',');
-                  string[] pair = words[i++].Split(':');
-                  this.myLocation.X = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.myLocation.Y = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.mIsDead = Convert.ToBoolean(pair[1].Trim().ToLower());
-                  pair = words[i++].Split(':');
-                  this.IsAsleep = Convert.ToBoolean(pair[1].Trim().ToLower());
-                  pair = words[i++].Split(':');
-                  this.goingHome = Convert.ToBoolean(pair[1].Trim().ToLower());
-                  pair = words[i++].Split(':');
-                  this.foundHome = Convert.ToBoolean(pair[1].Trim().ToLower());
-                  pair = words[i++].Split(':');
-                  this.mPerceptionDist = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.mCurrEnergy = Convert.ToDouble(pair[1].Trim());
-                  pair = words[i++].Split(':');
-                  this.StateModifer.Name = pair[1].Trim();
-                  pair = words[i++].Split(':');
-                  this.sex = pair[1].Trim();
-
-              }
-              else if (i == 1)
-              {
-                  this.mIsDead = true;
-              }
-          }
-          catch (Exception e)
-          {
-              Console.WriteLine("Error: {0}", e);
-              success = false;
-          }
-          return success;
       }
 
       public bool isSiteGood()
