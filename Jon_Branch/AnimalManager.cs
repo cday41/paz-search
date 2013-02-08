@@ -78,7 +78,6 @@ namespace SEARCH
       private string myErrMessage;
       private List<Animal> myAnimals;
       private int currNumAnimals;
-      private bool loadfromBackup;
 
       public int getNumDispersers()
       {
@@ -377,8 +376,21 @@ namespace SEARCH
 
       public bool loadBackup(string line, string backup)
       {
+          //Force close the TextFileWriter for all initial animals
+          foreach (Animal a in myAnimals)
+          {
+              a.TextFileWriter.close();
+          }
           currNumAnimals =  Convert.ToInt32(((line.Split(':'))[1]).Trim());
-          myAnimals = SerializeHelper.DeserializeFromFile(backup + "\\Animals.xml", new List<Animal>()) as List<Animal>; 
+          myAnimals = SerializeHelper.DeserializeFromFile(backup + "\\Animals.xml", new List<Animal>()) as List<Animal>;
+          foreach (Animal a in myAnimals)
+          {
+              if (a.textFileName != null && a.TextFileWriter == null)
+              {
+                  a.BuildTextWriter();
+              }
+          }
+          
           return true;
       }
 

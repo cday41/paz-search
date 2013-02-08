@@ -13,24 +13,24 @@ namespace SEARCH
 
       public TextFileWriter(string path, string fileName)
       {
-         mOutPath = path;
+         bool exists = false;
          sc = new StringCollection();
-         if (mOutPath != null)
+         if (path != null)
          {
-             if (!System.IO.Directory.Exists(mOutPath))
+             if (!System.IO.Directory.Exists(path))
              {
-                 System.IO.Directory.CreateDirectory(mOutPath);
-                 sw = new StreamWriter(mOutPath + "\\" + fileName + ".txt", true);
-                 sw.AutoFlush = true;
+                 System.IO.Directory.CreateDirectory(path);
+             }
+             if(System.IO.File.Exists(path + "\\" + fileName + ".txt"))
+             {
+                 exists = true;
+             }
+             sw = new StreamWriter(path + "\\" + fileName + ".txt", true);
+             sw.AutoFlush = true;
+             if (!exists)
+             {
                  sw.WriteLine("Year, Day, Time, Animal #, X, Y, Asleep, Behavior Mode, Energy Level, Risk, ProbFoodCap, MVL, MSL, PercptionDist, Percent Step");
              }
-             else
-             {
-                 sw = new StreamWriter(mOutPath + "\\" + fileName + ".txt", true);
-                 sw.AutoFlush = true;
-                 sw.WriteLine("Year, Day, Time, Animal #, X, Y, Asleep, Behavior Mode, Energy Level, Risk, ProbFoodCap, MVL, MSL, PercptionDist, Percent Step");
-             }
-
          }
       }
 

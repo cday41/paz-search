@@ -11,6 +11,9 @@
  *****************************************************************************/
 
 using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Diagnostics;
 using System.IO;
 using log4net;
 namespace SEARCH
@@ -292,7 +295,7 @@ namespace SEARCH
          if (backupLoad)
          {
              this.loadBackup(backupdir);
-             this.currSeason = 0;
+             this.MapManager.CurrTime = this.currTime;
          }
          else
          {
@@ -314,6 +317,7 @@ namespace SEARCH
             mLog.Debug("starting a season");
             mLog.Debug("currDate is " + this.currTime.ToShortDateString());
             mLog.Debug("end season date is " + this.EndSeasonDate.ToShortDateString());
+            Console.WriteLine("Currtime: {0} EndSeasonDate: {1}", currTime, this.EndSeasonDate);
             while (currTime < this.EndSeasonDate)
             {
                 if (backupSave)
@@ -527,7 +531,7 @@ namespace SEARCH
           //Output Animal Attributes
           output += this.mAnimalManager.getStringOutput(filename); 
           //Outputs of date and iteration
-          output += "Date: " + currTime.ToString("yyyy-MM-dd HH-mm tt") + "\n";
+          output += "Date," + currTime.ToString("yyyy-MM-dd HH:mm tt") + "\n";
           output += "Iteration: " + (this.iteration) + "\n";
           output += "Currseason: " + (this.currSeason.ToString() + "\n");
          
@@ -685,8 +689,8 @@ namespace SEARCH
                           mAnimalManager.loadBackup(line, BackupDir);
                           break;
                       case 1:
-                          words = line.Split(':');
-                          this.currTime = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH-mm tt", null);
+                          words = line.Split(',');
+                          this.currTime = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
                           break;
                       case 2:
                           words = line.Split(':');

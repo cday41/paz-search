@@ -433,6 +433,12 @@ namespace SEARCH
           }
       }
 
+      public string textFileName
+      {
+          get { if (fileNamePrefix != null) { return fileNamePrefix; } return null; }
+          set { fileNamePrefix = value; }
+      }
+
 		#endregion Properties 
 
 		#region Methods (30) 
@@ -450,6 +456,14 @@ namespace SEARCH
          if (!Directory.Exists(OutPutDir))
             Directory.CreateDirectory(OutPutDir);
          this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+      }
+
+      public void BuildTextWriter()
+      {
+          string OutPutDir = this.AnimalAtributes.OutPutDir;
+          if (!Directory.Exists(OutPutDir))
+              Directory.CreateDirectory(OutPutDir);
+          this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
       }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)
