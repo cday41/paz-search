@@ -227,20 +227,19 @@ namespace SEARCH
       #endregion
 
       #region getters and setters
-		
-		public Duration [] ActivityDurations
-		{
-			get{ return myActivityDuration;}
-		}
-		public string OutPutDir
+
+      public Duration[] ActivityDurations
+      {
+          get { return myActivityDuration; }
+          set { myActivityDuration = value; }
+      }
+
+      public string OutPutDir
       {
          get { return mOutPutDir; }
          set  { mOutPutDir = value; 
          mLog.Debug("inside setting the output dir for animal attributes to " + value);}
       }
-
-
-
 
       public double InitialEnergy
       {

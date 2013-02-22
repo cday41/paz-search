@@ -1,10 +1,10 @@
 namespace SEARCH
 {
-   public interface  IHomeRangeTrigger
+   public abstract class IHomeRangeTrigger
    {
-      int numTimes{get;set;}
+      public abstract int numTimes{get;set;}
       
-      bool timeToLookForHome(Animal inA);
-      void reset(int num);
+      public abstract bool timeToLookForHome(Animal inA);
+      public abstract void reset(int num);
    }
 }

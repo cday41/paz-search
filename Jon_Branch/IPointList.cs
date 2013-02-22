@@ -45,7 +45,7 @@ namespace SEARCH
 
 		public int getLastIndex()
 		{
-			return this.mPoints.Count - 1;
+            return this.mPoints.Count - 1;
 		}
 
 		public IPoint getPointByIndex(int i)

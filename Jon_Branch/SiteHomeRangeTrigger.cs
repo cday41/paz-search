@@ -18,7 +18,11 @@ namespace SEARCH
          mLog.Debug("inside SiteHomeRangeTrigger constructor we need " + numTimes.ToString());
          this.mNumTimesNeeded = numTimes;
          goodSites = new int[inNumAnimals];
-      }
+        }
+
+        public SiteHomeRangeTrigger()
+        {
+        }
 
 		#endregion Constructors 
 
@@ -31,7 +35,7 @@ namespace SEARCH
       //this will hold the number of good sites each animal has visited
       //we are indexing by the animals id so goodSites[0] will hold the number of
       //good sites animal 0 has witnessed
-      private int[] goodSites;
+      public int[] goodSites {get; set;}
       private int mNumTimesNeeded;
 
 		#endregion Fields 
@@ -48,7 +52,7 @@ namespace SEARCH
 
       #region HomeRangeTrigger Members
 
-      public int numTimes
+      public override int numTimes
       {
          get
          {
@@ -60,12 +64,12 @@ namespace SEARCH
          }
       }
 
-      public void reset(int inNumAnimals)
+      public override void reset(int inNumAnimals)
       {
          
          goodSites = new int[inNumAnimals];
       }
-      public bool timeToLookForHome(Animal inA)
+      public override bool timeToLookForHome(Animal inA)
       {
          bool time = false;
          mLog.Debug("inside timeToLookForHome for animal number " + inA.IdNum.ToString());

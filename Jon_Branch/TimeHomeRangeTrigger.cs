@@ -16,6 +16,10 @@ namespace SEARCH
        private ILog mLog = LogManager.GetLogger("hrTrigger");
        private ILog eLog = LogManager.GetLogger("Error");
 
+      public TimeHomeRangeTrigger()
+      {
+      }
+
       public TimeHomeRangeTrigger(int numTimes,int numAnimals)
       {
          this.numTimesCalled = new int[numAnimals];
@@ -32,7 +36,7 @@ namespace SEARCH
 
       // private int numTimesCalled;
       private int mNumTimesNeeded;
-      private int[] numTimesCalled;
+      public int[] numTimesCalled {get; set;}
 
 		#endregion Fields 
 		#region Methods (1) 
@@ -45,7 +49,7 @@ namespace SEARCH
 
       #region HomeRangeTrigger Members
 
-      public int numTimes
+      public override int numTimes
       {
          get
          {
@@ -57,11 +61,12 @@ namespace SEARCH
          }
       }
 
-      public void reset (int numAnimals)
+      public override void reset (int numAnimals)
       {
           this.numTimesCalled = new int[numAnimals];
       }
-      public bool timeToLookForHome(Animal inA)
+
+      public override bool timeToLookForHome(Animal inA)
       {
          bool success = false;
          try

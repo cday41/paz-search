@@ -57,6 +57,8 @@ namespace SEARCH
     [XmlInclude(typeof(Male))]
     [XmlInclude(typeof(Resident))]
     [XmlInclude(typeof(DeadAnimal))]
+    [XmlInclude(typeof(TimeHomeRangeTrigger))]
+    [XmlInclude(typeof(SiteHomeRangeTrigger))]
     public class Animal
    {
 		#region Constructors (1) 
@@ -115,7 +117,7 @@ namespace SEARCH
       private DateTime SleepTime;
       private int durationID;
       private HomeRangeCriteria homeRangeCriteria;
-      [XmlIgnore] private IHomeRangeTrigger mHomeRangeTrigger;
+      private IHomeRangeTrigger mHomeRangeTrigger;
       private PointClass mHomeRangeCenter;
       [XmlIgnore] private IHomeRangeFinder mHomeRangeFinder; 
       private AnimalAtributes mAnimalAtributes;
@@ -136,52 +138,8 @@ namespace SEARCH
 
 		#region Properties (35) 
 
-      public List<string> myPath
-      {
-          get
-          {
-              try
-              {
-                  int j = mPath.getLastIndex();
-                  List<string> saveList = new List<string>();
-                  for (int i = 0; i < mPath.getLastIndex(); i++)
-                  {
-                      IPoint temp = mPath.getPointByIndex(i);
-                      string myStr = temp.X.ToString() + "," + temp.Y.ToString();
-                      saveList.Add(myStr);
-                  }
-                  return saveList;
-              }
-              catch (Exception ex)
-              {
-                  Console.WriteLine(ex);
-                  return null;
-              }
-          }
-          set
-          {
-              if (value != null)
-              {
-                  try
-                  {
-                      foreach (string temp in value)
-                      {
-                          IPoint p = new PointClass();
-                          string[] parts = temp.Split(',');
-                          double x = Convert.ToDouble(parts[0].Trim());
-                          double y = Convert.ToDouble(parts[1].Trim());
-                          p.X = x;
-                          p.Y = y;
-                          mPath.add(p);
-                      }
-                  }
-                  catch (Exception err)
-                  {
-                      Console.WriteLine(err);
-                  }
-              }
-          }
-      }
+      [XmlArrayItem(ElementName = "Coords")]
+      public List<string> myPath { get; set; }
 
       public HomeRangeCriteria HomeRangeCriteria
       {
@@ -264,7 +222,7 @@ namespace SEARCH
          get { return mHomeRangeFinder; }
          set { mHomeRangeFinder = value; }
       }
-      [XmlIgnore]
+
       public IHomeRangeTrigger HomeRangeTrigger
       {
          get { return mHomeRangeTrigger; }
@@ -370,10 +328,7 @@ namespace SEARCH
       public Modifier StateModifer
       {
          get { return mStateModifer; }
-         set
-         {
-            mStateModifer = value;
-         }
+         set { mStateModifer = value; }
       }
       [XmlIgnore]
       public TextFileWriter TextFileWriter
@@ -444,6 +399,43 @@ namespace SEARCH
 		#region Methods (30) 
 
 		#region Public Methods (12) 
+
+      public void convertIPointList()
+      {
+          try
+          {
+              int j = mPath.getLastIndex();
+              List<string> saveList = new List<string>();
+              for (int i = 0; i < mPath.getLastIndex(); i++)
+              {
+                  IPoint temp = mPath.getPointByIndex(i);
+                  string myStr = temp.X.ToString() + "," + temp.Y.ToString();
+                  saveList.Add(myStr);
+              }
+              myPath = saveList;
+          }
+          catch (Exception ex)
+          {
+              Console.WriteLine(ex);
+          }
+      }
+
+      public void rebuildIPointList()
+      {
+          foreach (string temp in myPath)
+          {
+              IPoint p = new PointClass();
+              double x = Convert.ToDouble((temp.Split(','))[0].Trim());
+              double y = Convert.ToDouble((temp.Split(','))[1].Trim());
+              p.X = x;
+              p.Y = y;
+              mPath.add(p);
+          }
+          if (mPath.getLastIndex() == 0)
+          {
+              Console.WriteLine("mPath is empty");
+          }
+      }
 
       public void BuildTextWriter(string currYear)
       {
@@ -643,7 +635,8 @@ namespace SEARCH
          }
          catch (System.Exception ex)
          {
-            eLog.Debug(ex);
+            string temp = "Animal " + this.IdNum.ToString() + " had an issue: ";
+            eLog.Debug(temp + ex);
          }
       }
 
@@ -828,8 +821,9 @@ namespace SEARCH
          }
          catch (System.Exception ex)
          {
-            mLog.Debug("error look for error file");
+            //mLog.Debug("error look for error file");
             // System.Windows.Forms.MessageBox.Show(ex.StackTrace);
+            eLog.Debug("Problem with animal ID: " + this.IdNum);
             eLog.Debug(ex);
          }
       }
@@ -1086,7 +1080,7 @@ namespace SEARCH
                this.StateModifer = this.AnimalManager.SafeForageMod;
             }
             else //animal isn't hungry, so is looking for a home
-            {
+            { 
                mLog.Debug("setting stateModifier to a new SafeSearchModifier");
                this.StateModifer = this.mAnimalManager.SafeSearchMod;
             }

@@ -50,8 +50,6 @@ namespace SEARCH
          mMover = RandomWCMover.getRandomWCMover();
          this.myAnimals = new List<Animal>();
          currNumAnimals = 0;
-   
-
       }
 
 		#endregion Constructors 
@@ -369,6 +367,10 @@ namespace SEARCH
       public String getStringOutput(string filename)
       {
           string output = string.Format("myAnimals.count:{0}\n", this.myAnimals.Count); //Prints how many animals are in the array myAnimals
+          foreach (Animal a in myAnimals)
+          {
+              a.convertIPointList();
+          }
           SerializeHelper.SerializeObjectToFile(filename, myAnimals);
           return output;
       }
@@ -389,8 +391,10 @@ namespace SEARCH
               {
                   a.BuildTextWriter();
               }
-          }
-          
+              a.rebuildIPointList();
+              a.HomeRangeFinder = this.mHomeRangeFinder;
+              a.AnimalManager = this;
+          }          
           return true;
       }
 

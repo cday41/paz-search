@@ -352,8 +352,8 @@ namespace SEARCH
                this.currTime = this.currTime.AddMinutes(this.mElapsedTimeBetweenTimeStep);
                if (currTime.Hour == 0)
                {
-                  initializeDailySimulation(); // does nothing
-                  //this.upDateForm(ref inForm); // does nothing
+                  initializeDailySimulation(); 
+                //this.upDateForm(ref inForm);
                }
             }
 
@@ -532,8 +532,10 @@ namespace SEARCH
           output += this.mAnimalManager.getStringOutput(filename); 
           //Outputs of date and iteration
           output += "Date," + currTime.ToString("yyyy-MM-dd HH:mm tt") + "\n";
-          output += "Iteration: " + (this.iteration) + "\n";
-          output += "Currseason: " + (this.currSeason.ToString() + "\n");
+          output += "Iteration: " + (iteration) + "\n";
+          output += "Currseason: " + currSeason.ToString() + "\n";
+          output += "EndofSeason, " + EndSeasonDate.ToString("yyyy-MM-dd HH:mm tt") + "\n";
+          //output += this.currTimeStep;
          
           //For now backup to application directory
           filename = baseName + "\\checkpoint" + ".txt";
@@ -690,15 +692,19 @@ namespace SEARCH
                           break;
                       case 1:
                           words = line.Split(',');
-                          this.currTime = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
+                          currTime = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
                           break;
                       case 2:
                           words = line.Split(':');
-                          this.iteration = Convert.ToInt64(words[1].Trim());
+                          iteration = Convert.ToInt64(words[1].Trim());
                           break;
                       case 3:
                           words = line.Split(':');
-                          this.currSeason = Convert.ToInt32(words[1].Trim());
+                          currSeason = Convert.ToInt32(words[1].Trim());
+                          break;
+                      case 4:
+                          words = line.Split(',');
+                          EndSeasonDate = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
                           break;
                   }
                   line = reader.ReadLine();
