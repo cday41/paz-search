@@ -392,7 +392,6 @@ namespace SEARCH
                   a.BuildTextWriter();
               }
               a.rebuildIPointList();
-              a.HomeRangeFinder = this.mHomeRangeFinder;
               a.AnimalManager = this;
           }          
           return true;

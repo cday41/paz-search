@@ -12,10 +12,10 @@ namespace SEARCH
    {
      public static void SerializeObjectToFile(string inFileName, object inO)
       {
-          StreamWriter sw = new StreamWriter(inFileName);
-          XmlSerializer ser = new XmlSerializer(inO.GetType());
-          ser.Serialize(sw, inO);
-          sw.Close();
+         StreamWriter sw = new StreamWriter(inFileName);
+         XmlSerializer ser = new XmlSerializer(inO.GetType());
+         ser.Serialize(sw, inO);
+         sw.Close();
       }
      public static object DeserializeFromFile(string inFileName, object inO)
      {

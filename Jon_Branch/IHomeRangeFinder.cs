@@ -1,14 +1,14 @@
 using ESRI.ArcGIS.Geodatabase;
 namespace SEARCH
 {
-   public interface IHomeRangeFinder
+   public abstract class IHomeRangeFinder
    {
 		#region Operations (2) 
 
      // bool FindHomeRange(Animal inAnimal,AnimalMap inMap);
-      bool setHomeRangeCenter(Animal inAnimal, IFeatureClass inAnmialMemoryMap);
+      public abstract bool setHomeRangeCenter(Animal inAnimal, IFeatureClass inAnmialMemoryMap);
 
-      bool setHomeRangeCenter(Animal inA, string inFileName);
+      public abstract bool setHomeRangeCenter(Animal inA, string inFileName);
 
 		#endregion Operations 
    }

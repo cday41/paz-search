@@ -723,12 +723,12 @@ namespace SEARCH
 
       #region IHomeRangeFinder Members
 
-      public virtual bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
+      public override bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
       {
          // TODO:  Add HomeRangeFinder.setHomeRangeCenter implementation
          return false;
       }
-      public virtual bool setHomeRangeCenter(Animal inA, string inFileName)
+      public override bool setHomeRangeCenter(Animal inA, string inFileName)
       {
          return false;
       }

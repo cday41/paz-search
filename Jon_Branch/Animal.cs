@@ -59,6 +59,11 @@ namespace SEARCH
     [XmlInclude(typeof(DeadAnimal))]
     [XmlInclude(typeof(TimeHomeRangeTrigger))]
     [XmlInclude(typeof(SiteHomeRangeTrigger))]
+    [XmlInclude(typeof(BestComboHomeRangeFinder))]
+    [XmlInclude(typeof(BestFoodHomeRangeFinder))]
+    [XmlInclude(typeof(BestRiskHomeRangeFinder))]
+    [XmlInclude(typeof(ClosestHomeRangeFinder))]
+    [XmlInclude(typeof(HomeRangeFinder))]
     public class Animal
    {
 		#region Constructors (1) 
@@ -119,14 +124,14 @@ namespace SEARCH
       private HomeRangeCriteria homeRangeCriteria;
       private IHomeRangeTrigger mHomeRangeTrigger;
       private PointClass mHomeRangeCenter;
-      [XmlIgnore] private IHomeRangeFinder mHomeRangeFinder; 
+      private IHomeRangeFinder mHomeRangeFinder; 
       private AnimalAtributes mAnimalAtributes;
       private Modifier mGenderModifier;
       private Modifier mStateModifer;
       [XmlIgnore] private MapManager mMapManager;
       protected string sex;
       [XmlIgnore] private AnimalManager mAnimalManager; 
-      private Mover mMover; 
+      [XmlIgnore] private Mover mMover; 
       private IPointList mPath;
       private EligibleHomeSites mMyVisitedSites;
       private int timeStep;
@@ -216,7 +221,7 @@ namespace SEARCH
          get { return mHomeRangeCenter; }
          set { mHomeRangeCenter = value; }
       }
-      [XmlIgnore]
+
       public IHomeRangeFinder HomeRangeFinder
       {
          get { return mHomeRangeFinder; }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <StartArguments>base_parameters.xml C:\test C:\test -c 10 i backupDir -l backupDir</StartArguments>
+    <StartArguments>map_swap.xml C:\test0 C:\test0 -c 15 i backupDir0</StartArguments>
     <RemoteDebugEnabled>false</RemoteDebugEnabled>
     <StartAction>Project</StartAction>
   </PropertyGroup>

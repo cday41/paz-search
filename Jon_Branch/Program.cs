@@ -177,7 +177,7 @@ namespace DataCentric
             }
 
             //When reloading, delete the directory if it exists, and remake it.
-            if (System.IO.Directory.Exists(mapOutputDirectory) || System.IO.Directory.Exists(textOutputDir))
+            if (System.IO.Directory.Exists(mapOutputDirectory) && System.IO.Directory.Exists(textOutputDir) && System.IO.Directory.Exists(backupdir))
             {
                 if (backupLoad)
                 {
@@ -200,7 +200,7 @@ namespace DataCentric
                     Environment.Exit(0);
                 }
             }
-            else
+            else if(System.IO.Directory.Exists(backupdir))
             {
                 if (backupLoad)
                 {

@@ -3374,12 +3374,21 @@ namespace SEARCH
          }//end of try
          catch (CraptasticXmlException e)
          {
+#if (DEBUG)
             MessageBox.Show("The parameter file is not well formed." + System.Environment.NewLine 
                + e.Message + System.Environment.NewLine + " Aborting load of parameters." );
+#else
+             eLog.Debug("The parameter file is not well formed." + System.Environment.NewLine
+               + e.Message + System.Environment.NewLine + " Aborting load of parameters.");
+#endif
          }//end of catch xml
          catch (InvalidMapException e)
          {
+#if (DEBUG)
             MessageBox.Show(e.Message + System.Environment.NewLine + " Aborting load of parameters." );
+#else
+             eLog.Debug(e.Message + System.Environment.NewLine + " Aborting load of parameters.");
+#endif
          }
          catch (Exception e)
          {
