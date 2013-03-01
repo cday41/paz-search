@@ -1014,7 +1014,9 @@ private MapManager()
                 }
                 mLog.Debug("leaving make new animal maps");
             }
-            //Could probably find a better way to do this
+            //Could probably find a better way to do this but... The animal's maps need to be reloaded in order.
+            //Cycle through the parent directory to travel to the years in order
+            //Cycle through the children directories to each animal's directory in order
             else
             {
                 int max = 0;
@@ -1029,7 +1031,7 @@ private MapManager()
                     {
                         tempArray = System.IO.Directory.GetDirectories(dirArray[i]);
                         int temp = Convert.ToInt32(System.IO.Path.GetFileName(dirArray[i]).Trim());
-                        //Console.WriteLine("Year is " + temp);
+                        //Cycle through the animal directories in order to find min and max
                         for (k = 0; k < tempArray.GetLength(0); k++)
                         {
                             string animalNum = System.IO.Path.GetFileName(tempArray[k]);
@@ -1051,12 +1053,13 @@ private MapManager()
                             }
                             catch (InvalidCastException)
                             {
-                                Console.WriteLine("ERROR: invalid directory " + animalNum + " in " + mOutMapPath);
+                                //Catches any directory that shouldn't be in the map directory
+                                eLog.Debug("ERROR: invalid directory " + animalNum + " in " + mOutMapPath);
                             }
                         }
                         for (k = min; k <= max; k++)
                         {
-                            //Console.WriteLine("Animal number is " + k);
+                            //Adds the map files in order
                             myAnimalMaps.Add(new AnimalMap(k.ToString(), dirArray[i], geoDef, LoadBackup));
                             myAnimalMaps[k].MySocialMap = this.mySocialMap;
                         }

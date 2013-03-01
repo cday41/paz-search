@@ -273,21 +273,20 @@ namespace SEARCH
          TimeSpan addTime;
 
          //Sets up the timed saved intervals
-         if (backupSaveUnit == 'm')
+         switch (backupSaveUnit)
          {
-             addTime = new TimeSpan(0, backupSaveInterval, 0);
-         }
-         else if (backupSaveUnit == 'h')
-         {
-            addTime = new TimeSpan(backupSaveInterval, 0, 0);
-         }
-         else if (backupSaveUnit == 'd')
-         {
-             addTime = new TimeSpan(backupSaveInterval, 0, 0, 0);
-         }
-         else
-         {
-             addTime = new TimeSpan();
+             case 'm':
+                 addTime = new TimeSpan(0, backupSaveInterval, 0);
+                 break;
+             case 'h':
+                 addTime = new TimeSpan(backupSaveInterval, 0, 0);
+                 break;
+             case 'd':
+                 addTime = new TimeSpan(backupSaveInterval, 0, 0, 0);
+                 break;
+             default:
+                 addTime = new TimeSpan();
+                 break;
          }
          nextTime = DateTime.Now.Add(addTime);
 
@@ -322,7 +321,7 @@ namespace SEARCH
             {
                 if (backupSave)
                 {
-                    if (backupSaveUnit == 'i')
+                    if (backupSaveUnit == 'i' && !backupLoad)
                     {
                         // Create backups every backupSaveInterval iterations
                         if ((this.iteration % backupSaveInterval) == (backupSaveInterval - 1))
@@ -332,6 +331,7 @@ namespace SEARCH
                     }
                     else
                     {
+                        backupLoad = false;
                         if (DateTime.Now.Ticks > nextTime.Ticks)
                         {
                             this.createBackup(backupSaveName, backupSaveCount);
@@ -425,8 +425,6 @@ namespace SEARCH
                   mErrMessage = mMapManager.getErrMessage();
                }
             }
-           
-
          }
          catch (Exception ex)
          {
@@ -520,7 +518,7 @@ namespace SEARCH
       private void createBackup(string baseName, int saveCount)
       {
           Console.Write("Creating Backup...  ");
-          //Checks if temp exists and creates it if it does not
+          //Checks if temp exists and creates it if it does not exist
           if (!System.IO.Directory.Exists(baseName))
           {
               System.IO.Directory.CreateDirectory(baseName);
@@ -673,6 +671,7 @@ namespace SEARCH
          mLog.Debug("done initializing yearly simulation");
       }
 
+       //Reloads SEARCH from a backupDirectory
       private void loadBackup(string BackupDir)
       {
           Console.Write("Reloading From Backup... ");
@@ -680,6 +679,7 @@ namespace SEARCH
           string file = BackupDir + "\\checkpoint.txt";
           try
           {
+              //Reload the information from the checkpoint text file
               StreamReader reader = new FileInfo(file).OpenText();
               string line = reader.ReadLine();
               while (line != null)
@@ -688,6 +688,7 @@ namespace SEARCH
                   switch (i++)
                   {
                       case 0:
+                          //Rebuilds both the array of animals(from the xml file) and loads information into AnimalManager
                           mAnimalManager.loadBackup(line, BackupDir);
                           break;
                       case 1:
@@ -713,7 +714,8 @@ namespace SEARCH
           }
           catch (Exception e)
           {
-              Console.Error.Write("Failed \n");
+              //The reloaded failed for whatever reason.
+              Console.Error.Write("Failed\n");
               Console.Error.WriteLine(e);
               Environment.Exit(-2);
           }

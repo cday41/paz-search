@@ -201,7 +201,6 @@ namespace SEARCH
       {
          this.resetResidentsHomeRange(newSocialMap);
          this.resetDisperserSocialIndex(newSocialMap);
-         
       }
 
       public int breedFemales(DateTime currTime)
@@ -336,10 +335,6 @@ namespace SEARCH
          }
       }
 
-     
-
-      
-
       public StringCollection getResidentIDs()
       {  
          System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
@@ -367,10 +362,12 @@ namespace SEARCH
       public String getStringOutput(string filename)
       {
           string output = string.Format("myAnimals.count:{0}\n", this.myAnimals.Count); //Prints how many animals are in the array myAnimals
+          //For each animal convert mPath over to a list of strings so it can be serialized
           foreach (Animal a in myAnimals)
           {
               a.convertIPointList();
           }
+          //Serialize the list
           SerializeHelper.SerializeObjectToFile(filename, myAnimals);
           return output;
       }
@@ -378,22 +375,31 @@ namespace SEARCH
 
       public bool loadBackup(string line, string backup)
       {
+          int i = 0;
           //Force close the TextFileWriter for all initial animals
           foreach (Animal a in myAnimals)
           {
               a.TextFileWriter.close();
           }
+          //Set the currNumAnimals to the saved number.
           currNumAnimals =  Convert.ToInt32(((line.Split(':'))[1]).Trim());
+          //Deserialize the list of animals from BackupDir\Animals.xml
           myAnimals = SerializeHelper.DeserializeFromFile(backup + "\\Animals.xml", new List<Animal>()) as List<Animal>;
+          //Finish reconstruction that couldn't be saved to the xml file
           foreach (Animal a in myAnimals)
           {
-              if (a.textFileName != null && a.TextFileWriter == null)
+              if (a.TextFileWriter == null)
               {
-                  a.BuildTextWriter();
+                  a.ReBuildTextWriter(this.AnimalAttributes.OutPutDir);
               }
               a.rebuildIPointList();
               a.AnimalManager = this;
-          }          
+              i++;
+          }
+          if (i != currNumAnimals)
+          {
+              Console.WriteLine("Something is wrong! i={0} cur={1}", i, currNumAnimals);
+          }
           return true;
       }
 

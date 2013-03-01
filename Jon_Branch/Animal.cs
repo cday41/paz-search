@@ -142,7 +142,7 @@ namespace SEARCH
 		#endregion Fields 
 
 		#region Properties (35) 
-
+        //Can't serialize the actual mPath so create a list of strings to rebuild mPath off of.
       [XmlArrayItem(ElementName = "Coords")]
       public List<string> myPath { get; set; }
 
@@ -341,40 +341,31 @@ namespace SEARCH
          get { return mTextFileWriter; }
          set { mTextFileWriter = value; }
       }
-
-      public double myXCoord
+        //Save the current location of the animal
+      public string myCurrentLocation
       {
-          get { if (myLocation != null) { return (myLocation.X); } else { return (-1); } }
+          get { if (myLocation != null) { return (myLocation.X.ToString() + "," + myLocation.Y.ToString()); } else { return null; } }
           set
           {
-              if (myLocation != null) { myLocation.X = value; }
+              //If there is an IPoint for myLocation just update the values
+              if (myLocation != null) { myLocation.X = Convert.ToDouble(value.Split(',')[0]); myLocation.Y = Convert.ToDouble(value.Split(',')[1]); }
+              //Create a new IPoint and load the old values into it
               else
               {
                   IPoint p = new PointClass();
-                  p.X = value;
+                  p.X = Convert.ToDouble(value.Split(',')[0]);
+                  p.Y = Convert.ToDouble(value.Split(',')[1]);
                   myLocation = p;
               }
           }
       }
 
-      public double myYCoord
-      {
-          get { if (myLocation != null) { return (myLocation.Y); } else { return (-1); } }
-          set { 
-            if (myLocation != null) { myLocation.Y = value; } 
-            else { 
-                IPoint p = new PointClass();
-                p.Y = value;
-                myLocation = p;
-            }
-          }
-      }
-
       public string myMoverType
       {
+          //Save the current MoverType
           get { if (myMover != null) { return myMover.GetType().ToString(); } return null; }
           set 
-          { 
+          { //Create a new Mover from the saved MoverType
             Assembly assembly = Assembly.GetExecutingAssembly();
             myMover = assembly.CreateInstance(value) as Mover;
           }
@@ -404,13 +395,16 @@ namespace SEARCH
 		#region Methods (30) 
 
 		#region Public Methods (12) 
-
+        
+        //Need to convert mPath from a list of Ipoints to a list of Strings, since IPoints will not xmlSerialize
+        //It saves the new list of strings into the myPath for serialization
       public void convertIPointList()
       {
           try
           {
               int j = mPath.getLastIndex();
               List<string> saveList = new List<string>();
+              //Foreach IPoint in mPath convert to a string and store it in the list
               for (int i = 0; i < mPath.getLastIndex(); i++)
               {
                   IPoint temp = mPath.getPointByIndex(i);
@@ -425,8 +419,10 @@ namespace SEARCH
           }
       }
 
+        //Reloads mPath from the saved list of strings myPath
       public void rebuildIPointList()
       {
+          //Creates a new IPoint reload values and store in mPath
           foreach (string temp in myPath)
           {
               IPoint p = new PointClass();
@@ -435,10 +431,6 @@ namespace SEARCH
               p.X = x;
               p.Y = y;
               mPath.add(p);
-          }
-          if (mPath.getLastIndex() == 0)
-          {
-              Console.WriteLine("mPath is empty");
           }
       }
 
@@ -455,12 +447,18 @@ namespace SEARCH
          this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
       }
 
-      public void BuildTextWriter()
+        //Rebuilds the TextWriter after a reload
+      public void ReBuildTextWriter(string OutPutDir)
       {
-          string OutPutDir = this.AnimalAtributes.OutPutDir;
+          //Update AnimalAtributes to point to the new OutputDirectory
+          //this.AnimalAtributes.OutPutDir = OutPutDir;
           if (!Directory.Exists(OutPutDir))
               Directory.CreateDirectory(OutPutDir);
-          this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+          //Builds the new TextFileWriter from the saved fileNamePrefix and the new OutPutDir
+          if (fileNamePrefix != null)
+          {
+              this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+          }
       }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)

@@ -2849,6 +2849,7 @@ namespace SEARCH
 
        public void doRun(string inputfile, string outputdir, string txtoutpudir, string backupxml, Boolean backupSave, string backupSaveName, int backupSaveInterval, char backupSaveUnit, int backupSaveCount, Boolean backupLoad, string backupdir)
        {
+           //Tells main managers to load data from the BackupDirectory
            mySimManager.LoadBackup = backupLoad;
            myMapManager.LoadBackup = backupLoad;
 
@@ -2856,18 +2857,18 @@ namespace SEARCH
            loadXML(inputfile);
 
            //Starts the setting up for a new simulation
-           string newStartYear = this.mySimManager.StartSeasonDate.Year.ToString(); //Will need to be overwritten for reloads
-           this.mySimManager.MapManager.OutMapPath = outputdir + '\\' + newStartYear; //Will need to be overwritten for reloads
+           string newStartYear = this.mySimManager.StartSeasonDate.Year.ToString();
+           this.mySimManager.MapManager.OutMapPath = outputdir + '\\' + newStartYear;
 
-           if (!this.mySimManager.makeInitialAnimalMaps()) //Need to overwrite necesary variables for reloading a simulation
+           if (!this.mySimManager.makeInitialAnimalMaps())
            {
                Console.WriteLine("makeInitialAnimalMaps is the problem");
            }
-           if (!this.mySimManager.makeResidentMaps()) //Need to overwrite necesary variables for reloading a simulation
+           if (!this.mySimManager.makeResidentMaps())
            {
                Console.WriteLine("makeResidentMaps is the problem");
            }
-           if (!mySimManager.MapManager.MakeCurrStepMap(outputdir)) //Need to overwrite necesary variables for reloading a simulation
+           if (!mySimManager.MapManager.MakeCurrStepMap(outputdir))
            {
                Console.WriteLine("MakeCurrStepMap is the problem");
            }
@@ -2892,7 +2893,7 @@ namespace SEARCH
                 Console.WriteLine("Something wrong with animal sleep time");
                 Environment.Exit(-1);
            }
-           //Create a backup copy of the initial xml file
+           //Create a backup copy of the initial xml file if desired
            if (backupxml != null)
            {
                writeXML(backupxml);
@@ -3392,7 +3393,11 @@ namespace SEARCH
          }
          catch (Exception e)
          {
+#if (DEBUG)
             MessageBox.Show("Error of type " + e.ToString() + " encountered. " + System.Environment.NewLine + e.Message + " \nAborting load of parameters.");
+#else
+             eLog.Debug("Error of type " + e.ToString() + " encountered. " + System.Environment.NewLine + e.Message + " \nAborting load of parameters.");
+#endif
          }
       }
       private void loadTimeTab(XPathNodeIterator inIterator)

@@ -18,8 +18,6 @@ namespace SEARCH
    /// </summary>
    public class AnimalMap:Map
    {
-
-
       #region MemberVariables
       private IBasicGeoprocessor ibg;
       private IFeatureClass mStepFeatureClass;
@@ -52,6 +50,7 @@ namespace SEARCH
          qf.WhereClause = "SUITABILIT = 'Suitable'";
          
       }
+
       public AnimalMap(string inName,string path,IGeometryDef inGeoDef, bool loadFromBackup):this()
       {
          mLog.Debug("my name is " + inName);
@@ -285,12 +284,16 @@ namespace SEARCH
          }
          catch (COMException COMEx)
          {
-        //    System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(),"COM Error: " + COMEx.ErrorCode.ToString()); 
+            //System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(),"COM Error: " + COMEx.ErrorCode.ToString()); 
          }
 
          catch (System.Exception ex)
          {
+#if(DEBUG)
           //  System.Windows.Forms.MessageBox.Show (ex.Source + " " );//+ ex.InnerException.ToString());
+#else
+             eLog.Debug(ex.Source);
+#endif
          }
 
          return ifc;
@@ -387,7 +390,7 @@ namespace SEARCH
             fieldEdit.Type_2 = esriFieldType.esriFieldTypeSmallInteger;
             fieldEdit.DefaultValue_2 =0;
             fieldsEdit.AddField(fieldEdit);
-
+             //If loading from backup open the feature class rather than create a new one
             if (loadFromBackup)
             {
                 this.mySelf = shapeWksp.OpenFeatureClass(shapeFileName);
@@ -655,10 +658,6 @@ namespace SEARCH
          get { return mSuitableFeatureClass; }
          set  { mSuitableFeatureClass = value; }
       }
-
-       
-
-      
 
       public string ErrMessage
       {
