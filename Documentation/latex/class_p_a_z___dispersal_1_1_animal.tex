@@ -1,0 +1,353 @@
+\hypertarget{class_p_a_z___dispersal_1_1_animal}{\section{P\-A\-Z\-\_\-\-Dispersal.\-Animal Class Reference}
+\label{class_p_a_z___dispersal_1_1_animal}\index{P\-A\-Z\-\_\-\-Dispersal.\-Animal@{P\-A\-Z\-\_\-\-Dispersal.\-Animal}}
+}
+Inheritance diagram for P\-A\-Z\-\_\-\-Dispersal.\-Animal\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=1.573034cm]{class_p_a_z___dispersal_1_1_animal}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_animal_a707202c67d92e518ac1c0d1d9450db59}{set\-Initial\-Sleep\-Time} (Date\-Time curr\-Time)
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_animal_a094cd789663017f68a37d2d209de578b}{Animal} ()
+\item 
+virtual void \hyperlink{class_p_a_z___dispersal_1_1_animal_aa022ce4eb091f08c8154a4a1f2423aa0}{do\-Time\-Step} (\hyperlink{class_p_a_z___dispersal_1_1_hourly_modifier}{Hourly\-Modifier} in\-H\-M, \hyperlink{class_p_a_z___dispersal_1_1_daily_modifier}{Daily\-Modifier} in\-D\-M, Date\-Time curr\-Time, bool do\-Text\-Output, ref string status)
+\item 
+Point\-Class \hyperlink{class_p_a_z___dispersal_1_1_animal_a95b617e87a9e787a05f5b6af25fad85d}{Get\-Eligible\-Step} (int step\-Num)
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_animal_a139ceed1c0bcb8512b59c1be24034aae}{get\-Location\-\_\-\-X\-Y} ()
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_animal_a71ce20106583f35521a001bca15ba1bc}{get\-Num\-Steps\-In\-Path} ()
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_animal_ac7d09fe4d61f49a3707243d0cf6cc592}{is\-Site\-Good} (ref File\-Writer.\-File\-Writer in\-Fw)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_animal_af616b2557381a6d7917b9866b2659cff}{is\-Site\-Good} ()
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_animal_a11db86519e37cf7820ce9fdc8f1cfe88}{set\-Initial\-Values} (Date\-Time curr\-Time)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_animal_ad9e58b8a05bf842e23e1a339d9b0f0bd}{update\-Memory} ()
+\item 
+virtual void \hyperlink{class_p_a_z___dispersal_1_1_animal_ad31c349db36a13a4936380004e441ce4}{dump} ()
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_animal_aa499a801bd5c708653f744425d770326}{build\-File\-Name\-Prefix} (string year)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_animal_a9449feb905213300ab7561b538045226}{m\-Is\-Dead}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_animal_a93b0c9ee51a31ce1ee9a1059a3382695}{sex}
+\item 
+File\-Writer.\-File\-Writer \hyperlink{class_p_a_z___dispersal_1_1_animal_a6b3d55044f533a214320e3d7cda53e1f}{fw}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_text_file_writer}{Text\-File\-Writer} \hyperlink{class_p_a_z___dispersal_1_1_animal_a80f1bef34437deba0686ae9ecce2888d}{m\-Text\-File\-Writer}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_random_numbers}{Random\-Numbers} \hyperlink{class_p_a_z___dispersal_1_1_animal_a85d08c4c6e9c53474fd15ab1d94f1531}{rn}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_animal_manager}{Animal\-Manager} \hyperlink{class_p_a_z___dispersal_1_1_animal_a93434cdcadd8cc60adfd8f6257863d63}{Animal\-Manager}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_animal_ade4ca84cbd927faa7ef3e502693543d9}{Is\-Dead}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_text_file_writer}{Text\-File\-Writer} \hyperlink{class_p_a_z___dispersal_1_1_animal_a67c037bed748f53627f9ae487e30bcd4}{Text\-File\-Writer}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_ae0a8190be3a3759481e75ff73ccb3df7}{Curr\-Energy}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_abf813d728a950aa945ab0cedbd180b0c}{Heading}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_map_manager}{Map\-Manager} \hyperlink{class_p_a_z___dispersal_1_1_animal_ae701729b17e958156ab9d9d962a97136}{Map\-Manager}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_animal_atributes}{Animal\-Atributes} \hyperlink{class_p_a_z___dispersal_1_1_animal_a4e9302f08068b0198e38394588e4ae4b}{Animal\-Atributes}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_aef9f44560e29734b8768eb4bf742e8bf}{Home\-Range\-Area}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a1d9ab58dca1086c53d3f4529951a4726}{Distance\-Mean}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a3bb0abb4fb605546208a38cdc4aafea4}{Distance\-S\-E}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_adf739e4a578bdaf50f231b73f7ed82f2}{Distance\-Weight}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_modifier}{Modifier} \hyperlink{class_p_a_z___dispersal_1_1_animal_a5763f42a5f0e97b8fecb3f8291eac9f2}{State\-Modifer}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_animal_a8f30d4349646345b433c8aa8d89bb06b}{Move\-Index}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_animal_a930880299c52165d637b1fe5da019847}{Risk\-Index}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_animal_aa6c7baa58fd47cb3784c9c80747fe78a}{Food\-Index}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_animal_a3328c62f7d87e809c2a1ae7f7edb8ec9}{Social\-Index}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_modifier}{Modifier} \hyperlink{class_p_a_z___dispersal_1_1_animal_a8e60a64c969784e04bd3dc0dd2ff9ecd}{Gender\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_mover}{Mover} \hyperlink{class_p_a_z___dispersal_1_1_animal_a9d150235d8e38fe541ba963f2c0ab382}{my\-Mover}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_animal_a03b99c123798422c9552a90b4ac97957}{Id\-Num}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+I\-Point \hyperlink{class_p_a_z___dispersal_1_1_animal_a146711c1abca26bf3c2946269b399b58}{Location}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a045feeb73b308e3f069047054541f172}{Capture\-Food}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a0f6c51e1b35349ce54af5dbab96d5ee1}{Food\-Mean\-Size}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a8ba27380534690ce514c124868974773}{Food\-S\-D\-\_\-\-Size}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_ae8a45a1b5f8eb626687229a451344e1e}{Predation\-Risk}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a488f95919d2be77bc7d9ace60b910074}{Move\-Speed}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a5fa4bba2b4b86d25238efcbb2173df22}{Move\-Turtosity}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a748babf634db70b0b81b2ddfc9fc8d07}{Energy\-Used}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_animal_a584fd1ec29a4a1f4c7877932fce0a8f1}{Percepton\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Point\-Class \hyperlink{class_p_a_z___dispersal_1_1_animal_a87ae2528a7ab8720a8b36a14f34f8e39}{Home\-Range\-Center}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{interface_p_a_z___dispersal_1_1_i_home_range_finder}{I\-Home\-Range\-Finder} \hyperlink{class_p_a_z___dispersal_1_1_animal_af549289a84e74f4c4235ab2da6c217ae}{Home\-Range\-Finder}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{interface_p_a_z___dispersal_1_1_i_home_range_trigger}{I\-Home\-Range\-Trigger} \hyperlink{class_p_a_z___dispersal_1_1_animal_a5b249a386894fdbc269bf80e6cd0ff0c}{Home\-Range\-Trigger}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_animal_a17dd6d708b1db4d4977b9ae0ee33302a}{Sex}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_animal_afa85616582408ae8508eb09eb3727092}{File\-Name\-Prefix}\hspace{0.3cm}{\ttfamily  \mbox{[}get\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_eligible_home_sites}{Eligible\-Home\-Sites} \hyperlink{class_p_a_z___dispersal_1_1_animal_afecf8ed2f4c83de2593170ada2e3f71b}{My\-Sites}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a094cd789663017f68a37d2d209de578b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Animal@{Animal}}
+\index{Animal@{Animal}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Animal}]{\setlength{\rightskip}{0pt plus 5cm}P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Animal (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_a094cd789663017f68a37d2d209de578b}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_aa499a801bd5c708653f744425d770326}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!build\-File\-Name\-Prefix@{build\-File\-Name\-Prefix}}
+\index{build\-File\-Name\-Prefix@{build\-File\-Name\-Prefix}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{build\-File\-Name\-Prefix}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-build\-File\-Name\-Prefix (
+\begin{DoxyParamCaption}
+\item[{string}]{year}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_p_a_z___dispersal_1_1_animal_aa499a801bd5c708653f744425d770326}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_aa022ce4eb091f08c8154a4a1f2423aa0}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!do\-Time\-Step@{do\-Time\-Step}}
+\index{do\-Time\-Step@{do\-Time\-Step}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{do\-Time\-Step}]{\setlength{\rightskip}{0pt plus 5cm}virtual void P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-do\-Time\-Step (
+\begin{DoxyParamCaption}
+\item[{{\bf Hourly\-Modifier}}]{in\-H\-M, }
+\item[{{\bf Daily\-Modifier}}]{in\-D\-M, }
+\item[{Date\-Time}]{curr\-Time, }
+\item[{bool}]{do\-Text\-Output, }
+\item[{ref string}]{status}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_p_a_z___dispersal_1_1_animal_aa022ce4eb091f08c8154a4a1f2423aa0}
+
+
+Reimplemented in \hyperlink{class_p_a_z___dispersal_1_1_resident_a82d5c8a08cd04495428744cafc31aa51}{P\-A\-Z\-\_\-\-Dispersal.\-Resident}, and \hyperlink{class_p_a_z___dispersal_1_1_dead_animal_a00104210ca55f2d6187a00db26d776ed}{P\-A\-Z\-\_\-\-Dispersal.\-Dead\-Animal}.
+
+\hypertarget{class_p_a_z___dispersal_1_1_animal_ad31c349db36a13a4936380004e441ce4}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!dump@{dump}}
+\index{dump@{dump}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{dump}]{\setlength{\rightskip}{0pt plus 5cm}virtual void P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-dump (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_p_a_z___dispersal_1_1_animal_ad31c349db36a13a4936380004e441ce4}
+
+
+Reimplemented in \hyperlink{class_p_a_z___dispersal_1_1_female_af2ae82ab990f28089cb812a8784b6bde}{P\-A\-Z\-\_\-\-Dispersal.\-Female}, and \hyperlink{class_p_a_z___dispersal_1_1_male_afa5ab284f9969e432ff53462d8f7c02f}{P\-A\-Z\-\_\-\-Dispersal.\-Male}.
+
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a95b617e87a9e787a05f5b6af25fad85d}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Get\-Eligible\-Step@{Get\-Eligible\-Step}}
+\index{Get\-Eligible\-Step@{Get\-Eligible\-Step}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Get\-Eligible\-Step}]{\setlength{\rightskip}{0pt plus 5cm}Point\-Class P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Get\-Eligible\-Step (
+\begin{DoxyParamCaption}
+\item[{int}]{step\-Num}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_a95b617e87a9e787a05f5b6af25fad85d}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a139ceed1c0bcb8512b59c1be24034aae}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!get\-Location\-\_\-\-X\-Y@{get\-Location\-\_\-\-X\-Y}}
+\index{get\-Location\-\_\-\-X\-Y@{get\-Location\-\_\-\-X\-Y}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{get\-Location\-\_\-\-X\-Y}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-get\-Location\-\_\-\-X\-Y (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_a139ceed1c0bcb8512b59c1be24034aae}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a71ce20106583f35521a001bca15ba1bc}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!get\-Num\-Steps\-In\-Path@{get\-Num\-Steps\-In\-Path}}
+\index{get\-Num\-Steps\-In\-Path@{get\-Num\-Steps\-In\-Path}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{get\-Num\-Steps\-In\-Path}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-get\-Num\-Steps\-In\-Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_a71ce20106583f35521a001bca15ba1bc}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_ac7d09fe4d61f49a3707243d0cf6cc592}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!is\-Site\-Good@{is\-Site\-Good}}
+\index{is\-Site\-Good@{is\-Site\-Good}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{is\-Site\-Good}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-is\-Site\-Good (
+\begin{DoxyParamCaption}
+\item[{ref File\-Writer.\-File\-Writer}]{in\-Fw}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_ac7d09fe4d61f49a3707243d0cf6cc592}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_af616b2557381a6d7917b9866b2659cff}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!is\-Site\-Good@{is\-Site\-Good}}
+\index{is\-Site\-Good@{is\-Site\-Good}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{is\-Site\-Good}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-is\-Site\-Good (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_af616b2557381a6d7917b9866b2659cff}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a707202c67d92e518ac1c0d1d9450db59}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!set\-Initial\-Sleep\-Time@{set\-Initial\-Sleep\-Time}}
+\index{set\-Initial\-Sleep\-Time@{set\-Initial\-Sleep\-Time}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{set\-Initial\-Sleep\-Time}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-set\-Initial\-Sleep\-Time (
+\begin{DoxyParamCaption}
+\item[{Date\-Time}]{curr\-Time}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_a707202c67d92e518ac1c0d1d9450db59}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a11db86519e37cf7820ce9fdc8f1cfe88}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!set\-Initial\-Values@{set\-Initial\-Values}}
+\index{set\-Initial\-Values@{set\-Initial\-Values}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{set\-Initial\-Values}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-set\-Initial\-Values (
+\begin{DoxyParamCaption}
+\item[{Date\-Time}]{curr\-Time}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_a11db86519e37cf7820ce9fdc8f1cfe88}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_ad9e58b8a05bf842e23e1a339d9b0f0bd}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!update\-Memory@{update\-Memory}}
+\index{update\-Memory@{update\-Memory}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{update\-Memory}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-update\-Memory (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_animal_ad9e58b8a05bf842e23e1a339d9b0f0bd}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a6b3d55044f533a214320e3d7cda53e1f}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!fw@{fw}}
+\index{fw@{fw}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{fw}]{\setlength{\rightskip}{0pt plus 5cm}File\-Writer.\-File\-Writer P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-fw\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_p_a_z___dispersal_1_1_animal_a6b3d55044f533a214320e3d7cda53e1f}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a9449feb905213300ab7561b538045226}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!m\-Is\-Dead@{m\-Is\-Dead}}
+\index{m\-Is\-Dead@{m\-Is\-Dead}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{m\-Is\-Dead}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-m\-Is\-Dead\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_p_a_z___dispersal_1_1_animal_a9449feb905213300ab7561b538045226}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a80f1bef34437deba0686ae9ecce2888d}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!m\-Text\-File\-Writer@{m\-Text\-File\-Writer}}
+\index{m\-Text\-File\-Writer@{m\-Text\-File\-Writer}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{m\-Text\-File\-Writer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Text\-File\-Writer} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-m\-Text\-File\-Writer\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_p_a_z___dispersal_1_1_animal_a80f1bef34437deba0686ae9ecce2888d}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a85d08c4c6e9c53474fd15ab1d94f1531}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!rn@{rn}}
+\index{rn@{rn}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{rn}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Random\-Numbers} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-rn\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_p_a_z___dispersal_1_1_animal_a85d08c4c6e9c53474fd15ab1d94f1531}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a93b0c9ee51a31ce1ee9a1059a3382695}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!sex@{sex}}
+\index{sex@{sex}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{sex}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-sex\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_p_a_z___dispersal_1_1_animal_a93b0c9ee51a31ce1ee9a1059a3382695}
+
+
+\subsection{Property Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a4e9302f08068b0198e38394588e4ae4b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Animal\-Atributes@{Animal\-Atributes}}
+\index{Animal\-Atributes@{Animal\-Atributes}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Animal\-Atributes}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Animal\-Atributes} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Animal\-Atributes\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a4e9302f08068b0198e38394588e4ae4b}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a93434cdcadd8cc60adfd8f6257863d63}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Animal\-Manager@{Animal\-Manager}}
+\index{Animal\-Manager@{Animal\-Manager}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Animal\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Animal\-Manager} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Animal\-Manager\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a93434cdcadd8cc60adfd8f6257863d63}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a045feeb73b308e3f069047054541f172}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Capture\-Food@{Capture\-Food}}
+\index{Capture\-Food@{Capture\-Food}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Capture\-Food}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Capture\-Food\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a045feeb73b308e3f069047054541f172}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_ae0a8190be3a3759481e75ff73ccb3df7}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Curr\-Energy@{Curr\-Energy}}
+\index{Curr\-Energy@{Curr\-Energy}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Curr\-Energy}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Curr\-Energy\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_ae0a8190be3a3759481e75ff73ccb3df7}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a1d9ab58dca1086c53d3f4529951a4726}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Distance\-Mean@{Distance\-Mean}}
+\index{Distance\-Mean@{Distance\-Mean}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Distance\-Mean}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Distance\-Mean\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a1d9ab58dca1086c53d3f4529951a4726}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a3bb0abb4fb605546208a38cdc4aafea4}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Distance\-S\-E@{Distance\-S\-E}}
+\index{Distance\-S\-E@{Distance\-S\-E}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Distance\-S\-E}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Distance\-S\-E\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a3bb0abb4fb605546208a38cdc4aafea4}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_adf739e4a578bdaf50f231b73f7ed82f2}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Distance\-Weight@{Distance\-Weight}}
+\index{Distance\-Weight@{Distance\-Weight}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Distance\-Weight}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Distance\-Weight\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_adf739e4a578bdaf50f231b73f7ed82f2}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a748babf634db70b0b81b2ddfc9fc8d07}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Energy\-Used@{Energy\-Used}}
+\index{Energy\-Used@{Energy\-Used}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Energy\-Used}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Energy\-Used\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a748babf634db70b0b81b2ddfc9fc8d07}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_afa85616582408ae8508eb09eb3727092}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!File\-Name\-Prefix@{File\-Name\-Prefix}}
+\index{File\-Name\-Prefix@{File\-Name\-Prefix}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{File\-Name\-Prefix}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-File\-Name\-Prefix\hspace{0.3cm}{\ttfamily [get]}}}\label{class_p_a_z___dispersal_1_1_animal_afa85616582408ae8508eb09eb3727092}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_aa6c7baa58fd47cb3784c9c80747fe78a}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Food\-Index@{Food\-Index}}
+\index{Food\-Index@{Food\-Index}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Food\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Food\-Index\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_aa6c7baa58fd47cb3784c9c80747fe78a}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a0f6c51e1b35349ce54af5dbab96d5ee1}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Food\-Mean\-Size@{Food\-Mean\-Size}}
+\index{Food\-Mean\-Size@{Food\-Mean\-Size}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Food\-Mean\-Size}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Food\-Mean\-Size\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a0f6c51e1b35349ce54af5dbab96d5ee1}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a8ba27380534690ce514c124868974773}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Food\-S\-D\-\_\-\-Size@{Food\-S\-D\-\_\-\-Size}}
+\index{Food\-S\-D\-\_\-\-Size@{Food\-S\-D\-\_\-\-Size}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Food\-S\-D\-\_\-\-Size}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Food\-S\-D\-\_\-\-Size\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a8ba27380534690ce514c124868974773}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a8e60a64c969784e04bd3dc0dd2ff9ecd}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Gender\-Modifier@{Gender\-Modifier}}
+\index{Gender\-Modifier@{Gender\-Modifier}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Gender\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Modifier} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Gender\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a8e60a64c969784e04bd3dc0dd2ff9ecd}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_abf813d728a950aa945ab0cedbd180b0c}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Heading@{Heading}}
+\index{Heading@{Heading}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Heading}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Heading\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_abf813d728a950aa945ab0cedbd180b0c}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_aef9f44560e29734b8768eb4bf742e8bf}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Home\-Range\-Area@{Home\-Range\-Area}}
+\index{Home\-Range\-Area@{Home\-Range\-Area}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Home\-Range\-Area}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Home\-Range\-Area\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_aef9f44560e29734b8768eb4bf742e8bf}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a87ae2528a7ab8720a8b36a14f34f8e39}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Home\-Range\-Center@{Home\-Range\-Center}}
+\index{Home\-Range\-Center@{Home\-Range\-Center}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Home\-Range\-Center}]{\setlength{\rightskip}{0pt plus 5cm}Point\-Class P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Home\-Range\-Center\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a87ae2528a7ab8720a8b36a14f34f8e39}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_af549289a84e74f4c4235ab2da6c217ae}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Home\-Range\-Finder@{Home\-Range\-Finder}}
+\index{Home\-Range\-Finder@{Home\-Range\-Finder}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Home\-Range\-Finder}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-Home\-Range\-Finder} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Home\-Range\-Finder\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_af549289a84e74f4c4235ab2da6c217ae}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a5b249a386894fdbc269bf80e6cd0ff0c}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Home\-Range\-Trigger@{Home\-Range\-Trigger}}
+\index{Home\-Range\-Trigger@{Home\-Range\-Trigger}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Home\-Range\-Trigger}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\-Home\-Range\-Trigger} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Home\-Range\-Trigger\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a5b249a386894fdbc269bf80e6cd0ff0c}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a03b99c123798422c9552a90b4ac97957}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Id\-Num@{Id\-Num}}
+\index{Id\-Num@{Id\-Num}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Id\-Num}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Id\-Num\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a03b99c123798422c9552a90b4ac97957}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_ade4ca84cbd927faa7ef3e502693543d9}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Is\-Dead@{Is\-Dead}}
+\index{Is\-Dead@{Is\-Dead}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Is\-Dead}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Is\-Dead\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_ade4ca84cbd927faa7ef3e502693543d9}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a146711c1abca26bf3c2946269b399b58}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Location@{Location}}
+\index{Location@{Location}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Location}]{\setlength{\rightskip}{0pt plus 5cm}I\-Point P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Location\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a146711c1abca26bf3c2946269b399b58}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_ae701729b17e958156ab9d9d962a97136}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Map\-Manager@{Map\-Manager}}
+\index{Map\-Manager@{Map\-Manager}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Map\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Map\-Manager} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Map\-Manager\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_ae701729b17e958156ab9d9d962a97136}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a8f30d4349646345b433c8aa8d89bb06b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Move\-Index@{Move\-Index}}
+\index{Move\-Index@{Move\-Index}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Move\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Move\-Index\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a8f30d4349646345b433c8aa8d89bb06b}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a488f95919d2be77bc7d9ace60b910074}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Move\-Speed@{Move\-Speed}}
+\index{Move\-Speed@{Move\-Speed}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Move\-Speed}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Move\-Speed\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a488f95919d2be77bc7d9ace60b910074}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a5fa4bba2b4b86d25238efcbb2173df22}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Move\-Turtosity@{Move\-Turtosity}}
+\index{Move\-Turtosity@{Move\-Turtosity}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Move\-Turtosity}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Move\-Turtosity\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a5fa4bba2b4b86d25238efcbb2173df22}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a9d150235d8e38fe541ba963f2c0ab382}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!my\-Mover@{my\-Mover}}
+\index{my\-Mover@{my\-Mover}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{my\-Mover}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mover} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-my\-Mover\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a9d150235d8e38fe541ba963f2c0ab382}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_afecf8ed2f4c83de2593170ada2e3f71b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!My\-Sites@{My\-Sites}}
+\index{My\-Sites@{My\-Sites}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{My\-Sites}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Eligible\-Home\-Sites} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-My\-Sites\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_afecf8ed2f4c83de2593170ada2e3f71b}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a584fd1ec29a4a1f4c7877932fce0a8f1}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Percepton\-Modifier@{Percepton\-Modifier}}
+\index{Percepton\-Modifier@{Percepton\-Modifier}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Percepton\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Percepton\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a584fd1ec29a4a1f4c7877932fce0a8f1}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_ae8a45a1b5f8eb626687229a451344e1e}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Predation\-Risk@{Predation\-Risk}}
+\index{Predation\-Risk@{Predation\-Risk}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Predation\-Risk}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Predation\-Risk\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_ae8a45a1b5f8eb626687229a451344e1e}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a930880299c52165d637b1fe5da019847}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Risk\-Index@{Risk\-Index}}
+\index{Risk\-Index@{Risk\-Index}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Risk\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Risk\-Index\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a930880299c52165d637b1fe5da019847}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a17dd6d708b1db4d4977b9ae0ee33302a}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Sex@{Sex}}
+\index{Sex@{Sex}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Sex}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Sex\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a17dd6d708b1db4d4977b9ae0ee33302a}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a3328c62f7d87e809c2a1ae7f7edb8ec9}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Social\-Index@{Social\-Index}}
+\index{Social\-Index@{Social\-Index}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Social\-Index}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Social\-Index\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a3328c62f7d87e809c2a1ae7f7edb8ec9}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a5763f42a5f0e97b8fecb3f8291eac9f2}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!State\-Modifer@{State\-Modifer}}
+\index{State\-Modifer@{State\-Modifer}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{State\-Modifer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Modifier} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-State\-Modifer\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a5763f42a5f0e97b8fecb3f8291eac9f2}
+\hypertarget{class_p_a_z___dispersal_1_1_animal_a67c037bed748f53627f9ae487e30bcd4}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}!Text\-File\-Writer@{Text\-File\-Writer}}
+\index{Text\-File\-Writer@{Text\-File\-Writer}!PAZ_Dispersal::Animal@{P\-A\-Z\-\_\-\-Dispersal\-::\-Animal}}
+\subsubsection[{Text\-File\-Writer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Text\-File\-Writer} P\-A\-Z\-\_\-\-Dispersal.\-Animal.\-Text\-File\-Writer\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_animal_a67c037bed748f53627f9ae487e30bcd4}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+C\-:/\-Users/\-Ben/\-Desktop/vlog4net\-A\-R\-C10\-\_\-64\-\_\-newhoming/\-Data\-Centric/\-Backup/\hyperlink{_backup_2_animal_8cs}{Animal.\-cs}\end{DoxyCompactItemize}

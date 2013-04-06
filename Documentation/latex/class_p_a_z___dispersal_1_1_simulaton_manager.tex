@@ -1,0 +1,184 @@
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager}{\section{P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager Class Reference}
+\label{class_p_a_z___dispersal_1_1_simulaton_manager}\index{P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager}}
+}
+
+
+-\/\-The Client asks the Singleton to get its unique instance . It accesses a Singleton instance solely through Singleton's Instance operation.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a7ab698bb3791956ac0849098d0197758}{Simulaton\-Manager} ()
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_abfbb0a63ca1e603eb024a5e8246ba8f2}{do\-Simulation} (\hyperlink{class_p_a_z___dispersal_1_1frm_input}{frm\-Input} in\-Form)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_af1d3411c610aa6ba33afd3e9f521959f}{build\-Animals} ()
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a394efa5d2387595316f6384261c0ecc9}{build\-Residents} ()
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a6f107bfeffad6bbc891dea45b1014273}{add\-Hourly\-Modifier} (\hyperlink{class_p_a_z___dispersal_1_1_hourly_modifier}{Hourly\-Modifier} in\-Hm)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_acb4df08abf94c7f54fbb8e230ff45152}{add\-Daily\-Modifier} (\hyperlink{class_p_a_z___dispersal_1_1_daily_modifier}{Daily\-Modifier} in\-D\-M)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_ab05f98e4a38f57839d8b5e63a1d9d855}{make\-Initial\-Animal\-Maps} ()
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a05f9f403cf934986da84cd4dcf328026}{make\-Temp\-Map} (string path)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_ad8bfeccd009abeb1ece6fb3a23ad68cb}{set\-Resident\-Attributes} (double in\-Time\-Step\-Risk, double in\-Yearly\-Risk, double in\-Percent\-Breed, double in\-Percent\-Female, int in\-Mean\-Litter\-Size, int in\-S\-D\-Litter\-Size)
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_map_manager}{Map\-Manager} \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_ae2aafc3645c01db118e8fba20deac2f0}{Map\-Manager}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_afafcb7459906d960654e0796c2e47b9a}{Err\-Message}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_animal_manager}{Animal\-Manager} \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a21ea646e2f58c7474f647f24025cc80d}{Animal\-Manager}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a85765d6c66f5dbffb2a4860400528a13}{Do\-Text\-Out\-Put}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_ac99cb22bafc101d81d55584b8dc6173b}{Text\-Out\-Put\-File\-Name}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a4a4d0083f499cf6ecca4a42843c6e090}{Map\-Out\-Put\-Path}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a442cd7035f2d81a51fe43f7f95823049}{End\-Simulaton\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a704c71c91f39ebae5fcb7832afec0ce3}{Start\-Simulation\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_aa4928883555eb4d8964934922f8a9bf6}{End\-Season\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a4eef20447b641a3fc1f2e46da3b70926}{Num\-Days\-Season}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a93fd42db203730d4f6c536f2b7e68de6}{Num\-Seasons}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_a9aa1c622f93d7bb92daa707a1f043908}{Elapsed\-Time\-Between\-Time\-Step}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_p_a_z___dispersal_1_1_simulaton_manager_abd1c16b30088278e3e388b624603331b}{Start\-Season\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+-\/\-The Client asks the Singleton to get its unique instance . It accesses a Singleton instance solely through Singleton's Instance operation. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a7ab698bb3791956ac0849098d0197758}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Simulaton\-Manager@{Simulaton\-Manager}}
+\index{Simulaton\-Manager@{Simulaton\-Manager}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Simulaton\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Simulaton\-Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a7ab698bb3791956ac0849098d0197758}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_acb4df08abf94c7f54fbb8e230ff45152}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!add\-Daily\-Modifier@{add\-Daily\-Modifier}}
+\index{add\-Daily\-Modifier@{add\-Daily\-Modifier}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{add\-Daily\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-add\-Daily\-Modifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Daily\-Modifier}}]{in\-D\-M}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_acb4df08abf94c7f54fbb8e230ff45152}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a6f107bfeffad6bbc891dea45b1014273}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!add\-Hourly\-Modifier@{add\-Hourly\-Modifier}}
+\index{add\-Hourly\-Modifier@{add\-Hourly\-Modifier}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{add\-Hourly\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-add\-Hourly\-Modifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Hourly\-Modifier}}]{in\-Hm}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a6f107bfeffad6bbc891dea45b1014273}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_af1d3411c610aa6ba33afd3e9f521959f}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!build\-Animals@{build\-Animals}}
+\index{build\-Animals@{build\-Animals}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{build\-Animals}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-build\-Animals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_af1d3411c610aa6ba33afd3e9f521959f}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a394efa5d2387595316f6384261c0ecc9}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!build\-Residents@{build\-Residents}}
+\index{build\-Residents@{build\-Residents}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{build\-Residents}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-build\-Residents (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a394efa5d2387595316f6384261c0ecc9}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_abfbb0a63ca1e603eb024a5e8246ba8f2}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!do\-Simulation@{do\-Simulation}}
+\index{do\-Simulation@{do\-Simulation}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{do\-Simulation}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-do\-Simulation (
+\begin{DoxyParamCaption}
+\item[{{\bf frm\-Input}}]{in\-Form}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_abfbb0a63ca1e603eb024a5e8246ba8f2}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_ab05f98e4a38f57839d8b5e63a1d9d855}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!make\-Initial\-Animal\-Maps@{make\-Initial\-Animal\-Maps}}
+\index{make\-Initial\-Animal\-Maps@{make\-Initial\-Animal\-Maps}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{make\-Initial\-Animal\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-make\-Initial\-Animal\-Maps (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_ab05f98e4a38f57839d8b5e63a1d9d855}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a05f9f403cf934986da84cd4dcf328026}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!make\-Temp\-Map@{make\-Temp\-Map}}
+\index{make\-Temp\-Map@{make\-Temp\-Map}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{make\-Temp\-Map}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-make\-Temp\-Map (
+\begin{DoxyParamCaption}
+\item[{string}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a05f9f403cf934986da84cd4dcf328026}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_ad8bfeccd009abeb1ece6fb3a23ad68cb}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!set\-Resident\-Attributes@{set\-Resident\-Attributes}}
+\index{set\-Resident\-Attributes@{set\-Resident\-Attributes}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{set\-Resident\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-set\-Resident\-Attributes (
+\begin{DoxyParamCaption}
+\item[{double}]{in\-Time\-Step\-Risk, }
+\item[{double}]{in\-Yearly\-Risk, }
+\item[{double}]{in\-Percent\-Breed, }
+\item[{double}]{in\-Percent\-Female, }
+\item[{int}]{in\-Mean\-Litter\-Size, }
+\item[{int}]{in\-S\-D\-Litter\-Size}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_ad8bfeccd009abeb1ece6fb3a23ad68cb}
+
+
+\subsection{Property Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a21ea646e2f58c7474f647f24025cc80d}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Animal\-Manager@{Animal\-Manager}}
+\index{Animal\-Manager@{Animal\-Manager}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Animal\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Animal\-Manager} P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Animal\-Manager\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a21ea646e2f58c7474f647f24025cc80d}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a85765d6c66f5dbffb2a4860400528a13}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Do\-Text\-Out\-Put@{Do\-Text\-Out\-Put}}
+\index{Do\-Text\-Out\-Put@{Do\-Text\-Out\-Put}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Do\-Text\-Out\-Put}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Do\-Text\-Out\-Put\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a85765d6c66f5dbffb2a4860400528a13}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a9aa1c622f93d7bb92daa707a1f043908}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Elapsed\-Time\-Between\-Time\-Step@{Elapsed\-Time\-Between\-Time\-Step}}
+\index{Elapsed\-Time\-Between\-Time\-Step@{Elapsed\-Time\-Between\-Time\-Step}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Elapsed\-Time\-Between\-Time\-Step}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Elapsed\-Time\-Between\-Time\-Step\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a9aa1c622f93d7bb92daa707a1f043908}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_aa4928883555eb4d8964934922f8a9bf6}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!End\-Season\-Date@{End\-Season\-Date}}
+\index{End\-Season\-Date@{End\-Season\-Date}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{End\-Season\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-End\-Season\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_aa4928883555eb4d8964934922f8a9bf6}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a442cd7035f2d81a51fe43f7f95823049}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!End\-Simulaton\-Date@{End\-Simulaton\-Date}}
+\index{End\-Simulaton\-Date@{End\-Simulaton\-Date}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{End\-Simulaton\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-End\-Simulaton\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a442cd7035f2d81a51fe43f7f95823049}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_afafcb7459906d960654e0796c2e47b9a}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Err\-Message@{Err\-Message}}
+\index{Err\-Message@{Err\-Message}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Err\-Message}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Err\-Message\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_afafcb7459906d960654e0796c2e47b9a}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_ae2aafc3645c01db118e8fba20deac2f0}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Map\-Manager@{Map\-Manager}}
+\index{Map\-Manager@{Map\-Manager}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Map\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Map\-Manager} P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Map\-Manager\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_ae2aafc3645c01db118e8fba20deac2f0}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a4a4d0083f499cf6ecca4a42843c6e090}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Map\-Out\-Put\-Path@{Map\-Out\-Put\-Path}}
+\index{Map\-Out\-Put\-Path@{Map\-Out\-Put\-Path}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Map\-Out\-Put\-Path}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Map\-Out\-Put\-Path\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a4a4d0083f499cf6ecca4a42843c6e090}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a4eef20447b641a3fc1f2e46da3b70926}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Num\-Days\-Season@{Num\-Days\-Season}}
+\index{Num\-Days\-Season@{Num\-Days\-Season}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Num\-Days\-Season}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Num\-Days\-Season\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a4eef20447b641a3fc1f2e46da3b70926}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a93fd42db203730d4f6c536f2b7e68de6}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Num\-Seasons@{Num\-Seasons}}
+\index{Num\-Seasons@{Num\-Seasons}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Num\-Seasons}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Num\-Seasons\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a93fd42db203730d4f6c536f2b7e68de6}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_abd1c16b30088278e3e388b624603331b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Start\-Season\-Date@{Start\-Season\-Date}}
+\index{Start\-Season\-Date@{Start\-Season\-Date}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Start\-Season\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Start\-Season\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_abd1c16b30088278e3e388b624603331b}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_a704c71c91f39ebae5fcb7832afec0ce3}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Start\-Simulation\-Date@{Start\-Simulation\-Date}}
+\index{Start\-Simulation\-Date@{Start\-Simulation\-Date}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Start\-Simulation\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Start\-Simulation\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_a704c71c91f39ebae5fcb7832afec0ce3}
+\hypertarget{class_p_a_z___dispersal_1_1_simulaton_manager_ac99cb22bafc101d81d55584b8dc6173b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}!Text\-Out\-Put\-File\-Name@{Text\-Out\-Put\-File\-Name}}
+\index{Text\-Out\-Put\-File\-Name@{Text\-Out\-Put\-File\-Name}!PAZ_Dispersal::SimulatonManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Simulaton\-Manager}}
+\subsubsection[{Text\-Out\-Put\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Simulaton\-Manager.\-Text\-Out\-Put\-File\-Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_simulaton_manager_ac99cb22bafc101d81d55584b8dc6173b}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+C\-:/\-Users/\-Ben/\-Desktop/vlog4net\-A\-R\-C10\-\_\-64\-\_\-newhoming/\-Data\-Centric/\-Backup/\hyperlink{_backup_2_simulaton_manager_8cs}{Simulaton\-Manager.\-cs}\end{DoxyCompactItemize}

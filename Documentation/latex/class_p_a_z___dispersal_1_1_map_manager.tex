@@ -1,0 +1,488 @@
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager}{\section{P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager Class Reference}
+\label{class_p_a_z___dispersal_1_1_map_manager}\index{P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager}}
+}
+
+
+-\/\-The Singleton defines an Instance operation that lets clients access its unique instance. -\/\-It may be responsible for creating its own unique instance.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a32297816a2eae43e60c2f0bfac768bdd}{Add\-Time\-Steps} (int Animal\-I\-D, I\-Polygon in\-Poly1, I\-Polygon in\-Poly2, int time\-Step, string sex)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a3a43673be7aa46110f50ffc3928bb618}{add\-Year\-To\-Maps} ()
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a5eb41b396f99a6d93ec188d7769bc29c}{Build\-Home\-Range} (\hyperlink{class_p_a_z___dispersal_1_1_animal}{Animal} in\-Animal)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_afbf3b9ee22de6048b336efe818996a04}{change\-Maps} (Date\-Time now, \hyperlink{class_p_a_z___dispersal_1_1_animal_manager}{Animal\-Manager} am)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a0eb8b57d8273e4e78f7ad9464fc044d4}{change\-Maps} (Date\-Time now)
+\item 
+I\-Feature\-Class \hyperlink{class_p_a_z___dispersal_1_1_map_manager_aec123ec3b343c110fd5618e2f45f2a49}{get\-Animal\-Map} (int index)
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a2ac8de0200c743af92d9bceaa9e6e4de}{get\-Animal\-Map\-Name} (int index)
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a196615bbae850168e246480e82f02434}{get\-Area} (int index)
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1cross_over_info}{cross\-Over\-Info} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a1102ca53f4fe8ef6d9b5f46679b71f03}{get\-Cross\-Over\-Info} (I\-Point start\-Point, I\-Point end\-Point)
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1cross_over_info}{cross\-Over\-Info} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a36b64fe9c25cf153bd8eb44c37b4b942}{get\-Cross\-Over\-Info} (I\-Point start\-Point, I\-Point end\-Point, ref int curr\-Poly\-Index, ref int new\-Poly\-Index)
+\item 
+int \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a53e0a9444d87b27d463cf20fa9d2cb79}{get\-Curr\-Move\-Polygon} (I\-Point in\-Point)
+\item 
+double \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a705d85041d1af38fff4cadfdbfe80ffd}{get\-Distance} (I\-Point start, I\-Point end)
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_map_manager_aecc5d4dd82658f9223d1f605330bb162}{get\-Err\-Message} ()
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_aef8b344c9fc11db2278cd55173bccd99}{Get\-Food\-Data} (I\-Point location, ref int Poly\-Index, ref double chance, ref double mean, ref double sd)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_af4ae7927b9a8fac4c3e73e4cb279584c}{Get\-Inital\-Resident\-Attributes} (out \hyperlink{class_p_a_z___dispersal_1_1_initial_animal_attributes}{Initial\-Animal\-Attributes}\mbox{[}$\,$\mbox{]} out\-Attributes)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a85e980f29acef80d9d2d62d9d4586b86}{Get\-Initial\-Animal\-Attributes} (out \hyperlink{class_p_a_z___dispersal_1_1_initial_animal_attributes}{Initial\-Animal\-Attributes}\mbox{[}$\,$\mbox{]} out\-Attributes)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a69387ea3309f4d4105b55759ab444a89}{Get\-Initial\-Map\-Data} (\hyperlink{class_p_a_z___dispersal_1_1_animal}{Animal} in\-A)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a2d7dd0c555493440e2b112d91c5dfa91}{Get\-Move\-Modifiers} (I\-Point in\-Point, ref int Poly\-Index, ref double M\-V\-L, ref double M\-S\-L, ref double Perception\-Modifier, ref double Energy\-Used)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a06e9c2fa1af02d2145e36bc6c6e81dac}{get\-Num\-Residents} (out int num\-Males, out int num\-Females)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_ae32a1df198fdf62600743f028f6e587f}{Get\-Risk\-Modifier} (I\-Point location, ref int Poly\-Index, ref double risk)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a41cf203a2f6c7a9ef11d4400411c15b3}{get\-Social\-Index} (I\-Point in\-Point, ref int in\-Polygon\-Index)
+\item 
+I\-Geometry\-Def \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a3c236056acfd293ba8422296db91b89f}{get\-Spatial\-Info} ()
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a2d3fb1854e328aecd91ef5302231be3f}{is\-Occupied} (I\-Point in\-Point)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a99c9fc2025e67262b36659c7273831e0}{is\-Occupied} (int in\-Poly\-Index, string sex, ref File\-Writer.\-File\-Writer in\-Fw)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_ab3443a8886e1e41cfe3f855997d5e9f6}{is\-Point\-On\-Move\-Map} (I\-Point in\-Point)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_ad1834025420d5e729fc87f60641db120}{is\-Suitable} (int in\-Poly\-Index, ref File\-Writer.\-File\-Writer in\-Fw)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_ad7b3000224a9c084701f03d122dd03db}{load\-One\-Map} (string in\-Map\-Type, string file\-Name, string in\-Path)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a57f66882c07427a9ed3e36ddfe851053}{load\-X\-M\-L\-Triggers} (string map\-Type, X\-Path\-Node\-Iterator in\-Iterator)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a90cb486db47510eb8488c76232c428d4}{Make\-Curr\-Step\-Map} (string path)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a42ee652bd2c0537d6ed82158508a5da7}{make\-Home\-Range} (\hyperlink{class_p_a_z___dispersal_1_1_animal}{Animal} in\-A)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a528cc431d9c3f3c763662367983578fb}{make\-New\-Animal\-Maps} (int num\-Animals)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_aaec73916462af9547754f729cd71de47}{make\-New\-Disperser\-Animal\-Maps} (\hyperlink{class_p_a_z___dispersal_1_1_animal_manager}{Animal\-Manager} am)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_aa6d04e7003d94bbedc9c47ce7fb55aa9}{make\-Next\-Generation\-Animal\-Maps} (int num\-Residents, int num\-Dispersers)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a9aecf9bb85d1cc78c3e5eb41f0ab2eaf}{make\-Next\-Generation\-Animal\-Maps} (\hyperlink{class_p_a_z___dispersal_1_1_animal_manager}{Animal\-Manager} am, string year)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a734ad95eae6ebc0f1666bd69a09d050a}{remove\-Extra\-Files} (string Full\-File\-Path)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_adbc7ab1d1cf427c4108ce567cc24d6da}{set\-Up\-New\-Years\-Maps} (Date\-Time now, \hyperlink{class_p_a_z___dispersal_1_1_animal_manager}{Animal\-Manager} am)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_abeaf45083c035ffcab521e616441d10e}{validate\-Map} (string inmap\-Type, ref string in\-Filename, string in\-Path)
+\item 
+bool \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a6afb5324e3b2161559ff268f22b17876}{validate\-Map} (string in\-Map\-Name, string in\-Map\-Dir)
+\item 
+void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_ab74efd03a52403e80f7e2cca935d8b25}{write\-X\-M\-L\-Triggers} (ref Xml\-Text\-Writer xw)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{class_p_a_z___dispersal_1_1_map_manager}{Map\-Manager} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a59b8b0b823db0809b7184914d915f05b}{Get\-Unique\-Instance} ()
+\item 
+static void \hyperlink{class_p_a_z___dispersal_1_1_map_manager_ae50db13380cd6ff252f98e211e7ee1f6}{Remove\-Files} (string Full\-File\-Path)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_maps}{Maps} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a46ed368f21eb7204a1061f967a1fea61}{my\-Dispersal\-Maps} = null
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_maps}{Maps} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a16be6a0f305cb26685248eb2b658d470}{my\-Food\-Maps} = null
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_maps}{Maps} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a29890f2edf688c9d8074c958b975bf69}{my\-Move\-Maps} = null
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_maps}{Maps} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a9259a49d2d326fbe475c174c570e8dd9}{my\-Predation\-Maps} = null
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_maps}{Maps} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_aecd0f430db82d40e85e3a22fa35df2f5}{my\-Social\-Maps} = null
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_map_manager_ab34e661a959f5acd4315c7e9a9623176}{Curr\-Step\-Path}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_p_a_z___dispersal_1_1_map_manager_acbccb9e68a2dbc494b018372a07bc24b}{Out\-Map\-Path}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_p_a_z___dispersal_1_1_map_manager_a13778e64a53b47dd98652a98076fc5da}{Curr\-Time}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_p_a_z___dispersal_1_1_map}{Map} \hyperlink{class_p_a_z___dispersal_1_1_map_manager_aa28bad04a98c0e53ab03c435ae31f6aa}{Social\-Map}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+-\/\-The Singleton defines an Instance operation that lets clients access its unique instance. -\/\-It may be responsible for creating its own unique instance. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a32297816a2eae43e60c2f0bfac768bdd}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Add\-Time\-Steps@{Add\-Time\-Steps}}
+\index{Add\-Time\-Steps@{Add\-Time\-Steps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Add\-Time\-Steps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Add\-Time\-Steps (
+\begin{DoxyParamCaption}
+\item[{int}]{Animal\-I\-D, }
+\item[{I\-Polygon}]{in\-Poly1, }
+\item[{I\-Polygon}]{in\-Poly2, }
+\item[{int}]{time\-Step, }
+\item[{string}]{sex}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a32297816a2eae43e60c2f0bfac768bdd}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a3a43673be7aa46110f50ffc3928bb618}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!add\-Year\-To\-Maps@{add\-Year\-To\-Maps}}
+\index{add\-Year\-To\-Maps@{add\-Year\-To\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{add\-Year\-To\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-add\-Year\-To\-Maps (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a3a43673be7aa46110f50ffc3928bb618}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a5eb41b396f99a6d93ec188d7769bc29c}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Build\-Home\-Range@{Build\-Home\-Range}}
+\index{Build\-Home\-Range@{Build\-Home\-Range}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Build\-Home\-Range}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Build\-Home\-Range (
+\begin{DoxyParamCaption}
+\item[{{\bf Animal}}]{in\-Animal}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a5eb41b396f99a6d93ec188d7769bc29c}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_afbf3b9ee22de6048b336efe818996a04}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!change\-Maps@{change\-Maps}}
+\index{change\-Maps@{change\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{change\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-change\-Maps (
+\begin{DoxyParamCaption}
+\item[{Date\-Time}]{now, }
+\item[{{\bf Animal\-Manager}}]{am}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_afbf3b9ee22de6048b336efe818996a04}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a0eb8b57d8273e4e78f7ad9464fc044d4}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!change\-Maps@{change\-Maps}}
+\index{change\-Maps@{change\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{change\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-change\-Maps (
+\begin{DoxyParamCaption}
+\item[{Date\-Time}]{now}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a0eb8b57d8273e4e78f7ad9464fc044d4}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_aec123ec3b343c110fd5618e2f45f2a49}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Animal\-Map@{get\-Animal\-Map}}
+\index{get\-Animal\-Map@{get\-Animal\-Map}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Animal\-Map}]{\setlength{\rightskip}{0pt plus 5cm}I\-Feature\-Class P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Animal\-Map (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_aec123ec3b343c110fd5618e2f45f2a49}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a2ac8de0200c743af92d9bceaa9e6e4de}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Animal\-Map\-Name@{get\-Animal\-Map\-Name}}
+\index{get\-Animal\-Map\-Name@{get\-Animal\-Map\-Name}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Animal\-Map\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Animal\-Map\-Name (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a2ac8de0200c743af92d9bceaa9e6e4de}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a196615bbae850168e246480e82f02434}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Area@{get\-Area}}
+\index{get\-Area@{get\-Area}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Area}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Area (
+\begin{DoxyParamCaption}
+\item[{int}]{index}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a196615bbae850168e246480e82f02434}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a1102ca53f4fe8ef6d9b5f46679b71f03}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Cross\-Over\-Info@{get\-Cross\-Over\-Info}}
+\index{get\-Cross\-Over\-Info@{get\-Cross\-Over\-Info}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Cross\-Over\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf cross\-Over\-Info} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Cross\-Over\-Info (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{start\-Point, }
+\item[{I\-Point}]{end\-Point}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a1102ca53f4fe8ef6d9b5f46679b71f03}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a36b64fe9c25cf153bd8eb44c37b4b942}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Cross\-Over\-Info@{get\-Cross\-Over\-Info}}
+\index{get\-Cross\-Over\-Info@{get\-Cross\-Over\-Info}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Cross\-Over\-Info}]{\setlength{\rightskip}{0pt plus 5cm}{\bf cross\-Over\-Info} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Cross\-Over\-Info (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{start\-Point, }
+\item[{I\-Point}]{end\-Point, }
+\item[{ref int}]{curr\-Poly\-Index, }
+\item[{ref int}]{new\-Poly\-Index}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a36b64fe9c25cf153bd8eb44c37b4b942}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a53e0a9444d87b27d463cf20fa9d2cb79}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Curr\-Move\-Polygon@{get\-Curr\-Move\-Polygon}}
+\index{get\-Curr\-Move\-Polygon@{get\-Curr\-Move\-Polygon}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Curr\-Move\-Polygon}]{\setlength{\rightskip}{0pt plus 5cm}int P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Curr\-Move\-Polygon (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{in\-Point}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a53e0a9444d87b27d463cf20fa9d2cb79}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a705d85041d1af38fff4cadfdbfe80ffd}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Distance@{get\-Distance}}
+\index{get\-Distance@{get\-Distance}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Distance}]{\setlength{\rightskip}{0pt plus 5cm}double P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Distance (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{start, }
+\item[{I\-Point}]{end}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a705d85041d1af38fff4cadfdbfe80ffd}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_aecc5d4dd82658f9223d1f605330bb162}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Err\-Message@{get\-Err\-Message}}
+\index{get\-Err\-Message@{get\-Err\-Message}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Err\-Message}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Err\-Message (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_aecc5d4dd82658f9223d1f605330bb162}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_aef8b344c9fc11db2278cd55173bccd99}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Get\-Food\-Data@{Get\-Food\-Data}}
+\index{Get\-Food\-Data@{Get\-Food\-Data}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Get\-Food\-Data}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Get\-Food\-Data (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{location, }
+\item[{ref int}]{Poly\-Index, }
+\item[{ref double}]{chance, }
+\item[{ref double}]{mean, }
+\item[{ref double}]{sd}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_aef8b344c9fc11db2278cd55173bccd99}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_af4ae7927b9a8fac4c3e73e4cb279584c}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Get\-Inital\-Resident\-Attributes@{Get\-Inital\-Resident\-Attributes}}
+\index{Get\-Inital\-Resident\-Attributes@{Get\-Inital\-Resident\-Attributes}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Get\-Inital\-Resident\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Get\-Inital\-Resident\-Attributes (
+\begin{DoxyParamCaption}
+\item[{out {\bf Initial\-Animal\-Attributes}\mbox{[}$\,$\mbox{]}}]{out\-Attributes}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_af4ae7927b9a8fac4c3e73e4cb279584c}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a85e980f29acef80d9d2d62d9d4586b86}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Get\-Initial\-Animal\-Attributes@{Get\-Initial\-Animal\-Attributes}}
+\index{Get\-Initial\-Animal\-Attributes@{Get\-Initial\-Animal\-Attributes}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Get\-Initial\-Animal\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Get\-Initial\-Animal\-Attributes (
+\begin{DoxyParamCaption}
+\item[{out {\bf Initial\-Animal\-Attributes}\mbox{[}$\,$\mbox{]}}]{out\-Attributes}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a85e980f29acef80d9d2d62d9d4586b86}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a69387ea3309f4d4105b55759ab444a89}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Get\-Initial\-Map\-Data@{Get\-Initial\-Map\-Data}}
+\index{Get\-Initial\-Map\-Data@{Get\-Initial\-Map\-Data}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Get\-Initial\-Map\-Data}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Get\-Initial\-Map\-Data (
+\begin{DoxyParamCaption}
+\item[{{\bf Animal}}]{in\-A}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a69387ea3309f4d4105b55759ab444a89}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a2d7dd0c555493440e2b112d91c5dfa91}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Get\-Move\-Modifiers@{Get\-Move\-Modifiers}}
+\index{Get\-Move\-Modifiers@{Get\-Move\-Modifiers}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Get\-Move\-Modifiers}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Get\-Move\-Modifiers (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{in\-Point, }
+\item[{ref int}]{Poly\-Index, }
+\item[{ref double}]{M\-V\-L, }
+\item[{ref double}]{M\-S\-L, }
+\item[{ref double}]{Perception\-Modifier, }
+\item[{ref double}]{Energy\-Used}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a2d7dd0c555493440e2b112d91c5dfa91}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a06e9c2fa1af02d2145e36bc6c6e81dac}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Num\-Residents@{get\-Num\-Residents}}
+\index{get\-Num\-Residents@{get\-Num\-Residents}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Num\-Residents}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Num\-Residents (
+\begin{DoxyParamCaption}
+\item[{out int}]{num\-Males, }
+\item[{out int}]{num\-Females}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a06e9c2fa1af02d2145e36bc6c6e81dac}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_ae32a1df198fdf62600743f028f6e587f}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Get\-Risk\-Modifier@{Get\-Risk\-Modifier}}
+\index{Get\-Risk\-Modifier@{Get\-Risk\-Modifier}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Get\-Risk\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Get\-Risk\-Modifier (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{location, }
+\item[{ref int}]{Poly\-Index, }
+\item[{ref double}]{risk}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_ae32a1df198fdf62600743f028f6e587f}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a41cf203a2f6c7a9ef11d4400411c15b3}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Social\-Index@{get\-Social\-Index}}
+\index{get\-Social\-Index@{get\-Social\-Index}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Social\-Index}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Social\-Index (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{in\-Point, }
+\item[{ref int}]{in\-Polygon\-Index}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a41cf203a2f6c7a9ef11d4400411c15b3}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a3c236056acfd293ba8422296db91b89f}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!get\-Spatial\-Info@{get\-Spatial\-Info}}
+\index{get\-Spatial\-Info@{get\-Spatial\-Info}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{get\-Spatial\-Info}]{\setlength{\rightskip}{0pt plus 5cm}I\-Geometry\-Def P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-get\-Spatial\-Info (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a3c236056acfd293ba8422296db91b89f}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a59b8b0b823db0809b7184914d915f05b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Get\-Unique\-Instance@{Get\-Unique\-Instance}}
+\index{Get\-Unique\-Instance@{Get\-Unique\-Instance}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Get\-Unique\-Instance}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf Map\-Manager} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Get\-Unique\-Instance (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_a_z___dispersal_1_1_map_manager_a59b8b0b823db0809b7184914d915f05b}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a2d3fb1854e328aecd91ef5302231be3f}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!is\-Occupied@{is\-Occupied}}
+\index{is\-Occupied@{is\-Occupied}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{is\-Occupied}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-is\-Occupied (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{in\-Point}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a2d3fb1854e328aecd91ef5302231be3f}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a99c9fc2025e67262b36659c7273831e0}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!is\-Occupied@{is\-Occupied}}
+\index{is\-Occupied@{is\-Occupied}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{is\-Occupied}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-is\-Occupied (
+\begin{DoxyParamCaption}
+\item[{int}]{in\-Poly\-Index, }
+\item[{string}]{sex, }
+\item[{ref File\-Writer.\-File\-Writer}]{in\-Fw}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a99c9fc2025e67262b36659c7273831e0}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_ab3443a8886e1e41cfe3f855997d5e9f6}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!is\-Point\-On\-Move\-Map@{is\-Point\-On\-Move\-Map}}
+\index{is\-Point\-On\-Move\-Map@{is\-Point\-On\-Move\-Map}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{is\-Point\-On\-Move\-Map}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-is\-Point\-On\-Move\-Map (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{in\-Point}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_ab3443a8886e1e41cfe3f855997d5e9f6}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_ad1834025420d5e729fc87f60641db120}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!is\-Suitable@{is\-Suitable}}
+\index{is\-Suitable@{is\-Suitable}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{is\-Suitable}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-is\-Suitable (
+\begin{DoxyParamCaption}
+\item[{int}]{in\-Poly\-Index, }
+\item[{ref File\-Writer.\-File\-Writer}]{in\-Fw}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_ad1834025420d5e729fc87f60641db120}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_ad7b3000224a9c084701f03d122dd03db}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!load\-One\-Map@{load\-One\-Map}}
+\index{load\-One\-Map@{load\-One\-Map}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{load\-One\-Map}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-load\-One\-Map (
+\begin{DoxyParamCaption}
+\item[{string}]{in\-Map\-Type, }
+\item[{string}]{file\-Name, }
+\item[{string}]{in\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_ad7b3000224a9c084701f03d122dd03db}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a57f66882c07427a9ed3e36ddfe851053}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!load\-X\-M\-L\-Triggers@{load\-X\-M\-L\-Triggers}}
+\index{load\-X\-M\-L\-Triggers@{load\-X\-M\-L\-Triggers}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{load\-X\-M\-L\-Triggers}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-load\-X\-M\-L\-Triggers (
+\begin{DoxyParamCaption}
+\item[{string}]{map\-Type, }
+\item[{X\-Path\-Node\-Iterator}]{in\-Iterator}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a57f66882c07427a9ed3e36ddfe851053}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a90cb486db47510eb8488c76232c428d4}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Make\-Curr\-Step\-Map@{Make\-Curr\-Step\-Map}}
+\index{Make\-Curr\-Step\-Map@{Make\-Curr\-Step\-Map}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Make\-Curr\-Step\-Map}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Make\-Curr\-Step\-Map (
+\begin{DoxyParamCaption}
+\item[{string}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a90cb486db47510eb8488c76232c428d4}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a42ee652bd2c0537d6ed82158508a5da7}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!make\-Home\-Range@{make\-Home\-Range}}
+\index{make\-Home\-Range@{make\-Home\-Range}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{make\-Home\-Range}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-make\-Home\-Range (
+\begin{DoxyParamCaption}
+\item[{{\bf Animal}}]{in\-A}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a42ee652bd2c0537d6ed82158508a5da7}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a528cc431d9c3f3c763662367983578fb}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!make\-New\-Animal\-Maps@{make\-New\-Animal\-Maps}}
+\index{make\-New\-Animal\-Maps@{make\-New\-Animal\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{make\-New\-Animal\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-make\-New\-Animal\-Maps (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-Animals}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a528cc431d9c3f3c763662367983578fb}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_aaec73916462af9547754f729cd71de47}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!make\-New\-Disperser\-Animal\-Maps@{make\-New\-Disperser\-Animal\-Maps}}
+\index{make\-New\-Disperser\-Animal\-Maps@{make\-New\-Disperser\-Animal\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{make\-New\-Disperser\-Animal\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-make\-New\-Disperser\-Animal\-Maps (
+\begin{DoxyParamCaption}
+\item[{{\bf Animal\-Manager}}]{am}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_aaec73916462af9547754f729cd71de47}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_aa6d04e7003d94bbedc9c47ce7fb55aa9}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!make\-Next\-Generation\-Animal\-Maps@{make\-Next\-Generation\-Animal\-Maps}}
+\index{make\-Next\-Generation\-Animal\-Maps@{make\-Next\-Generation\-Animal\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{make\-Next\-Generation\-Animal\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-make\-Next\-Generation\-Animal\-Maps (
+\begin{DoxyParamCaption}
+\item[{int}]{num\-Residents, }
+\item[{int}]{num\-Dispersers}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_aa6d04e7003d94bbedc9c47ce7fb55aa9}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a9aecf9bb85d1cc78c3e5eb41f0ab2eaf}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!make\-Next\-Generation\-Animal\-Maps@{make\-Next\-Generation\-Animal\-Maps}}
+\index{make\-Next\-Generation\-Animal\-Maps@{make\-Next\-Generation\-Animal\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{make\-Next\-Generation\-Animal\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-make\-Next\-Generation\-Animal\-Maps (
+\begin{DoxyParamCaption}
+\item[{{\bf Animal\-Manager}}]{am, }
+\item[{string}]{year}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a9aecf9bb85d1cc78c3e5eb41f0ab2eaf}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a734ad95eae6ebc0f1666bd69a09d050a}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!remove\-Extra\-Files@{remove\-Extra\-Files}}
+\index{remove\-Extra\-Files@{remove\-Extra\-Files}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{remove\-Extra\-Files}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-remove\-Extra\-Files (
+\begin{DoxyParamCaption}
+\item[{string}]{Full\-File\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a734ad95eae6ebc0f1666bd69a09d050a}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_ae50db13380cd6ff252f98e211e7ee1f6}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Remove\-Files@{Remove\-Files}}
+\index{Remove\-Files@{Remove\-Files}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Remove\-Files}]{\setlength{\rightskip}{0pt plus 5cm}static void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Remove\-Files (
+\begin{DoxyParamCaption}
+\item[{string}]{Full\-File\-Path}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_p_a_z___dispersal_1_1_map_manager_ae50db13380cd6ff252f98e211e7ee1f6}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_adbc7ab1d1cf427c4108ce567cc24d6da}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!set\-Up\-New\-Years\-Maps@{set\-Up\-New\-Years\-Maps}}
+\index{set\-Up\-New\-Years\-Maps@{set\-Up\-New\-Years\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{set\-Up\-New\-Years\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-set\-Up\-New\-Years\-Maps (
+\begin{DoxyParamCaption}
+\item[{Date\-Time}]{now, }
+\item[{{\bf Animal\-Manager}}]{am}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_adbc7ab1d1cf427c4108ce567cc24d6da}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_abeaf45083c035ffcab521e616441d10e}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!validate\-Map@{validate\-Map}}
+\index{validate\-Map@{validate\-Map}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{validate\-Map}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-validate\-Map (
+\begin{DoxyParamCaption}
+\item[{string}]{inmap\-Type, }
+\item[{ref string}]{in\-Filename, }
+\item[{string}]{in\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_abeaf45083c035ffcab521e616441d10e}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a6afb5324e3b2161559ff268f22b17876}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!validate\-Map@{validate\-Map}}
+\index{validate\-Map@{validate\-Map}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{validate\-Map}]{\setlength{\rightskip}{0pt plus 5cm}bool P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-validate\-Map (
+\begin{DoxyParamCaption}
+\item[{string}]{in\-Map\-Name, }
+\item[{string}]{in\-Map\-Dir}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_a6afb5324e3b2161559ff268f22b17876}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_ab74efd03a52403e80f7e2cca935d8b25}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!write\-X\-M\-L\-Triggers@{write\-X\-M\-L\-Triggers}}
+\index{write\-X\-M\-L\-Triggers@{write\-X\-M\-L\-Triggers}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{write\-X\-M\-L\-Triggers}]{\setlength{\rightskip}{0pt plus 5cm}void P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-write\-X\-M\-L\-Triggers (
+\begin{DoxyParamCaption}
+\item[{ref Xml\-Text\-Writer}]{xw}
+\end{DoxyParamCaption}
+)}}\label{class_p_a_z___dispersal_1_1_map_manager_ab74efd03a52403e80f7e2cca935d8b25}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a46ed368f21eb7204a1061f967a1fea61}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!my\-Dispersal\-Maps@{my\-Dispersal\-Maps}}
+\index{my\-Dispersal\-Maps@{my\-Dispersal\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{my\-Dispersal\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Maps} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-my\-Dispersal\-Maps = null}}\label{class_p_a_z___dispersal_1_1_map_manager_a46ed368f21eb7204a1061f967a1fea61}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a16be6a0f305cb26685248eb2b658d470}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!my\-Food\-Maps@{my\-Food\-Maps}}
+\index{my\-Food\-Maps@{my\-Food\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{my\-Food\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Maps} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-my\-Food\-Maps = null}}\label{class_p_a_z___dispersal_1_1_map_manager_a16be6a0f305cb26685248eb2b658d470}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a29890f2edf688c9d8074c958b975bf69}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!my\-Move\-Maps@{my\-Move\-Maps}}
+\index{my\-Move\-Maps@{my\-Move\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{my\-Move\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Maps} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-my\-Move\-Maps = null}}\label{class_p_a_z___dispersal_1_1_map_manager_a29890f2edf688c9d8074c958b975bf69}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a9259a49d2d326fbe475c174c570e8dd9}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!my\-Predation\-Maps@{my\-Predation\-Maps}}
+\index{my\-Predation\-Maps@{my\-Predation\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{my\-Predation\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Maps} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-my\-Predation\-Maps = null}}\label{class_p_a_z___dispersal_1_1_map_manager_a9259a49d2d326fbe475c174c570e8dd9}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_aecd0f430db82d40e85e3a22fa35df2f5}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!my\-Social\-Maps@{my\-Social\-Maps}}
+\index{my\-Social\-Maps@{my\-Social\-Maps}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{my\-Social\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Maps} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-my\-Social\-Maps = null}}\label{class_p_a_z___dispersal_1_1_map_manager_aecd0f430db82d40e85e3a22fa35df2f5}
+
+
+\subsection{Property Documentation}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_ab34e661a959f5acd4315c7e9a9623176}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Curr\-Step\-Path@{Curr\-Step\-Path}}
+\index{Curr\-Step\-Path@{Curr\-Step\-Path}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Curr\-Step\-Path}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Curr\-Step\-Path\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_map_manager_ab34e661a959f5acd4315c7e9a9623176}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_a13778e64a53b47dd98652a98076fc5da}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Curr\-Time@{Curr\-Time}}
+\index{Curr\-Time@{Curr\-Time}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Curr\-Time}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Curr\-Time\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_map_manager_a13778e64a53b47dd98652a98076fc5da}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_acbccb9e68a2dbc494b018372a07bc24b}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Out\-Map\-Path@{Out\-Map\-Path}}
+\index{Out\-Map\-Path@{Out\-Map\-Path}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Out\-Map\-Path}]{\setlength{\rightskip}{0pt plus 5cm}string P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Out\-Map\-Path\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_map_manager_acbccb9e68a2dbc494b018372a07bc24b}
+\hypertarget{class_p_a_z___dispersal_1_1_map_manager_aa28bad04a98c0e53ab03c435ae31f6aa}{\index{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}!Social\-Map@{Social\-Map}}
+\index{Social\-Map@{Social\-Map}!PAZ_Dispersal::MapManager@{P\-A\-Z\-\_\-\-Dispersal\-::\-Map\-Manager}}
+\subsubsection[{Social\-Map}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Map} P\-A\-Z\-\_\-\-Dispersal.\-Map\-Manager.\-Social\-Map\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_p_a_z___dispersal_1_1_map_manager_aa28bad04a98c0e53ab03c435ae31f6aa}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+C\-:/\-Users/\-Ben/\-Desktop/vlog4net\-A\-R\-C10\-\_\-64\-\_\-newhoming/\-Data\-Centric/\-Backup/\hyperlink{_backup_2_map_manager_8cs}{Map\-Manager.\-cs}\end{DoxyCompactItemize}

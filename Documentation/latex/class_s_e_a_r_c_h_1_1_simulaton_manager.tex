@@ -1,0 +1,202 @@
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager}{\section{S\-E\-A\-R\-C\-H.\-Simulaton\-Manager Class Reference}
+\label{class_s_e_a_r_c_h_1_1_simulaton_manager}\index{S\-E\-A\-R\-C\-H.\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H.\-Simulaton\-Manager}}
+}
+
+
+-\/\-The Client asks the Singleton to get its unique instance . It accesses a Singleton instance solely through Singleton's Instance operation.  
+
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a95ad0a5a8dbe4988d71d7a677a70769e}{Simulaton\-Manager} ()
+\item 
+void \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a9657bba4a36ac70cecf22c35b8112298}{add\-Daily\-Modifier} (\hyperlink{class_s_e_a_r_c_h_1_1_daily_modifier}{Daily\-Modifier} in\-D\-M)
+\item 
+void \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_aab0124936a4fe932e3803527f996faca}{add\-Hourly\-Modifier} (\hyperlink{class_s_e_a_r_c_h_1_1_hourly_modifier}{Hourly\-Modifier} in\-Hm)
+\item 
+bool \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a6c48b286777a875e82efaf8f9cf4cd72}{build\-Animals} ()
+\item 
+bool \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a16ff580d96ea8e1fa4fd3dc08d6a5e61}{build\-Residents} ()
+\item 
+void \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_ada1ed055be96685ccca12dd6e6d1dc4a}{do\-Simulation} (\hyperlink{class_s_e_a_r_c_h_1_1frm_input}{frm\-Input} in\-Form)
+\item 
+bool \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_aab843881bab783ac55bcaafd0b4609d1}{make\-Initial\-Animal\-Maps} ()
+\item 
+bool \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_ab960c75bf04a58e10cbe47b2712cfbcc}{make\-Resident\-Maps} ()
+\item 
+bool \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a803d588dfdc97b9d788c08031e170939}{make\-Temp\-Map} (string path)
+\item 
+void \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a0ba373c5f331bd9224a0c00bb8e1705c}{set\-Residents\-Text\-Out\-Put} (string path)
+\item 
+bool \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_ae03bae84f1c0a77c2fdca0107cc20189}{set\-Resident\-Attributes} (double in\-Time\-Step\-Risk, double in\-Yearly\-Risk, double in\-Percent\-Breed, double in\-Percent\-Female, double in\-Mean\-Litter\-Size, double in\-S\-D\-Litter\-Size)
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_animal_manager}{Animal\-Manager} \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a973ada3841ee555105f7924b2686f1d4}{Animal\-Manager}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+bool \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_af30500a864ff11f63588abdb37b2e088}{Do\-Text\-Out\-Put}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a4330d8b9acc4030ed87e68946c9c08e7}{Elapsed\-Time\-Between\-Time\-Step}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_ad2e4b697ea8f94a61ec5a1fc18b5d61e}{End\-Season\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a32cb04f903957d18c0d69463584f5bca}{End\-Simulaton\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_aaadb2a776a0a68224eea1fb757677cd5}{Err\-Message}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_map_manager}{Map\-Manager} \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a74157972d3b6ef60e20edceddec3f1c4}{Map\-Manager}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a7f17624a62673a19589d21ba614e243a}{Map\-Out\-Put\-Path}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_ae6d6a9635f0b3866305e128d3e531cb1}{Num\-Days\-Season}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+int \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_ae0c2642afa2afc728ebd0b6aed63fccd}{Num\-Seasons}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a3d2b067d7bcbb09387ce086fff4778a5}{Start\-Season\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+Date\-Time \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a97422d3d9b72cfc76e05f55f903d9833}{Start\-Simulation\-Date}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+string \hyperlink{class_s_e_a_r_c_h_1_1_simulaton_manager_a98b5aed35f8e2da23b5b099487e0a57c}{Text\-Out\-Put\-File\-Name}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+-\/\-The Client asks the Singleton to get its unique instance . It accesses a Singleton instance solely through Singleton's Instance operation. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a95ad0a5a8dbe4988d71d7a677a70769e}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Simulaton\-Manager@{Simulaton\-Manager}}
+\index{Simulaton\-Manager@{Simulaton\-Manager}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Simulaton\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Simulaton\-Manager (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a95ad0a5a8dbe4988d71d7a677a70769e}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a9657bba4a36ac70cecf22c35b8112298}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!add\-Daily\-Modifier@{add\-Daily\-Modifier}}
+\index{add\-Daily\-Modifier@{add\-Daily\-Modifier}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{add\-Daily\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}void S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-add\-Daily\-Modifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Daily\-Modifier}}]{in\-D\-M}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a9657bba4a36ac70cecf22c35b8112298}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_aab0124936a4fe932e3803527f996faca}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!add\-Hourly\-Modifier@{add\-Hourly\-Modifier}}
+\index{add\-Hourly\-Modifier@{add\-Hourly\-Modifier}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{add\-Hourly\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}void S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-add\-Hourly\-Modifier (
+\begin{DoxyParamCaption}
+\item[{{\bf Hourly\-Modifier}}]{in\-Hm}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_aab0124936a4fe932e3803527f996faca}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a6c48b286777a875e82efaf8f9cf4cd72}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!build\-Animals@{build\-Animals}}
+\index{build\-Animals@{build\-Animals}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{build\-Animals}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-build\-Animals (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a6c48b286777a875e82efaf8f9cf4cd72}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a16ff580d96ea8e1fa4fd3dc08d6a5e61}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!build\-Residents@{build\-Residents}}
+\index{build\-Residents@{build\-Residents}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{build\-Residents}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-build\-Residents (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a16ff580d96ea8e1fa4fd3dc08d6a5e61}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_ada1ed055be96685ccca12dd6e6d1dc4a}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!do\-Simulation@{do\-Simulation}}
+\index{do\-Simulation@{do\-Simulation}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{do\-Simulation}]{\setlength{\rightskip}{0pt plus 5cm}void S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-do\-Simulation (
+\begin{DoxyParamCaption}
+\item[{{\bf frm\-Input}}]{in\-Form}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_ada1ed055be96685ccca12dd6e6d1dc4a}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_aab843881bab783ac55bcaafd0b4609d1}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!make\-Initial\-Animal\-Maps@{make\-Initial\-Animal\-Maps}}
+\index{make\-Initial\-Animal\-Maps@{make\-Initial\-Animal\-Maps}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{make\-Initial\-Animal\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-make\-Initial\-Animal\-Maps (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_aab843881bab783ac55bcaafd0b4609d1}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_ab960c75bf04a58e10cbe47b2712cfbcc}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!make\-Resident\-Maps@{make\-Resident\-Maps}}
+\index{make\-Resident\-Maps@{make\-Resident\-Maps}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{make\-Resident\-Maps}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-make\-Resident\-Maps (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_ab960c75bf04a58e10cbe47b2712cfbcc}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a803d588dfdc97b9d788c08031e170939}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!make\-Temp\-Map@{make\-Temp\-Map}}
+\index{make\-Temp\-Map@{make\-Temp\-Map}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{make\-Temp\-Map}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-make\-Temp\-Map (
+\begin{DoxyParamCaption}
+\item[{string}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a803d588dfdc97b9d788c08031e170939}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_ae03bae84f1c0a77c2fdca0107cc20189}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!set\-Resident\-Attributes@{set\-Resident\-Attributes}}
+\index{set\-Resident\-Attributes@{set\-Resident\-Attributes}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{set\-Resident\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-set\-Resident\-Attributes (
+\begin{DoxyParamCaption}
+\item[{double}]{in\-Time\-Step\-Risk, }
+\item[{double}]{in\-Yearly\-Risk, }
+\item[{double}]{in\-Percent\-Breed, }
+\item[{double}]{in\-Percent\-Female, }
+\item[{double}]{in\-Mean\-Litter\-Size, }
+\item[{double}]{in\-S\-D\-Litter\-Size}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_ae03bae84f1c0a77c2fdca0107cc20189}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a0ba373c5f331bd9224a0c00bb8e1705c}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!set\-Residents\-Text\-Out\-Put@{set\-Residents\-Text\-Out\-Put}}
+\index{set\-Residents\-Text\-Out\-Put@{set\-Residents\-Text\-Out\-Put}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{set\-Residents\-Text\-Out\-Put}]{\setlength{\rightskip}{0pt plus 5cm}void S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-set\-Residents\-Text\-Out\-Put (
+\begin{DoxyParamCaption}
+\item[{string}]{path}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a0ba373c5f331bd9224a0c00bb8e1705c}
+
+
+\subsection{Property Documentation}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a973ada3841ee555105f7924b2686f1d4}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Animal\-Manager@{Animal\-Manager}}
+\index{Animal\-Manager@{Animal\-Manager}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Animal\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Animal\-Manager} S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Animal\-Manager\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a973ada3841ee555105f7924b2686f1d4}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_af30500a864ff11f63588abdb37b2e088}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Do\-Text\-Out\-Put@{Do\-Text\-Out\-Put}}
+\index{Do\-Text\-Out\-Put@{Do\-Text\-Out\-Put}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Do\-Text\-Out\-Put}]{\setlength{\rightskip}{0pt plus 5cm}bool S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Do\-Text\-Out\-Put\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_af30500a864ff11f63588abdb37b2e088}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a4330d8b9acc4030ed87e68946c9c08e7}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Elapsed\-Time\-Between\-Time\-Step@{Elapsed\-Time\-Between\-Time\-Step}}
+\index{Elapsed\-Time\-Between\-Time\-Step@{Elapsed\-Time\-Between\-Time\-Step}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Elapsed\-Time\-Between\-Time\-Step}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Elapsed\-Time\-Between\-Time\-Step\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a4330d8b9acc4030ed87e68946c9c08e7}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_ad2e4b697ea8f94a61ec5a1fc18b5d61e}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!End\-Season\-Date@{End\-Season\-Date}}
+\index{End\-Season\-Date@{End\-Season\-Date}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{End\-Season\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-End\-Season\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_ad2e4b697ea8f94a61ec5a1fc18b5d61e}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a32cb04f903957d18c0d69463584f5bca}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!End\-Simulaton\-Date@{End\-Simulaton\-Date}}
+\index{End\-Simulaton\-Date@{End\-Simulaton\-Date}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{End\-Simulaton\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-End\-Simulaton\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a32cb04f903957d18c0d69463584f5bca}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_aaadb2a776a0a68224eea1fb757677cd5}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Err\-Message@{Err\-Message}}
+\index{Err\-Message@{Err\-Message}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Err\-Message}]{\setlength{\rightskip}{0pt plus 5cm}string S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Err\-Message\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_aaadb2a776a0a68224eea1fb757677cd5}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a74157972d3b6ef60e20edceddec3f1c4}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Map\-Manager@{Map\-Manager}}
+\index{Map\-Manager@{Map\-Manager}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Map\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Map\-Manager} S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Map\-Manager\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a74157972d3b6ef60e20edceddec3f1c4}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a7f17624a62673a19589d21ba614e243a}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Map\-Out\-Put\-Path@{Map\-Out\-Put\-Path}}
+\index{Map\-Out\-Put\-Path@{Map\-Out\-Put\-Path}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Map\-Out\-Put\-Path}]{\setlength{\rightskip}{0pt plus 5cm}string S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Map\-Out\-Put\-Path\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a7f17624a62673a19589d21ba614e243a}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_ae6d6a9635f0b3866305e128d3e531cb1}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Num\-Days\-Season@{Num\-Days\-Season}}
+\index{Num\-Days\-Season@{Num\-Days\-Season}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Num\-Days\-Season}]{\setlength{\rightskip}{0pt plus 5cm}int S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Num\-Days\-Season\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_ae6d6a9635f0b3866305e128d3e531cb1}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_ae0c2642afa2afc728ebd0b6aed63fccd}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Num\-Seasons@{Num\-Seasons}}
+\index{Num\-Seasons@{Num\-Seasons}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Num\-Seasons}]{\setlength{\rightskip}{0pt plus 5cm}int S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Num\-Seasons\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_ae0c2642afa2afc728ebd0b6aed63fccd}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a3d2b067d7bcbb09387ce086fff4778a5}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Start\-Season\-Date@{Start\-Season\-Date}}
+\index{Start\-Season\-Date@{Start\-Season\-Date}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Start\-Season\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Start\-Season\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a3d2b067d7bcbb09387ce086fff4778a5}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a97422d3d9b72cfc76e05f55f903d9833}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Start\-Simulation\-Date@{Start\-Simulation\-Date}}
+\index{Start\-Simulation\-Date@{Start\-Simulation\-Date}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Start\-Simulation\-Date}]{\setlength{\rightskip}{0pt plus 5cm}Date\-Time S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Start\-Simulation\-Date\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a97422d3d9b72cfc76e05f55f903d9833}
+\hypertarget{class_s_e_a_r_c_h_1_1_simulaton_manager_a98b5aed35f8e2da23b5b099487e0a57c}{\index{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}!Text\-Out\-Put\-File\-Name@{Text\-Out\-Put\-File\-Name}}
+\index{Text\-Out\-Put\-File\-Name@{Text\-Out\-Put\-File\-Name}!SEARCH::SimulatonManager@{S\-E\-A\-R\-C\-H\-::\-Simulaton\-Manager}}
+\subsubsection[{Text\-Out\-Put\-File\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string S\-E\-A\-R\-C\-H.\-Simulaton\-Manager.\-Text\-Out\-Put\-File\-Name\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_simulaton_manager_a98b5aed35f8e2da23b5b099487e0a57c}
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Desktop/vlog4net\-A\-R\-C10\-\_\-64\-\_\-newhoming/\-Data\-Centric/\hyperlink{_simulaton_manager_8cs}{Simulaton\-Manager.\-cs}\end{DoxyCompactItemize}

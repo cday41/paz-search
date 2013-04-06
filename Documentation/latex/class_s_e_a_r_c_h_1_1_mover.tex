@@ -1,0 +1,237 @@
+\hypertarget{class_s_e_a_r_c_h_1_1_mover}{\section{S\-E\-A\-R\-C\-H.\-Mover Class Reference}
+\label{class_s_e_a_r_c_h_1_1_mover}\index{S\-E\-A\-R\-C\-H.\-Mover@{S\-E\-A\-R\-C\-H.\-Mover}}
+}
+
+
+Summary description for \hyperlink{class_s_e_a_r_c_h_1_1_mover}{Mover}.  
+
+
+Inheritance diagram for S\-E\-A\-R\-C\-H.\-Mover\-:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=0.982456cm]{class_s_e_a_r_c_h_1_1_mover}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_mover_aafc7e67b5b0bd68f9cfec99f68d76309}{Mover} ()
+\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_mover_ac79713250c11901b081e460f3a0aef0c}{Mover} (System.\-Collections.\-Array\-List in\-Path)
+\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_mover_a05f02fd5a8ba930d331210167c8268a0}{Mover} (System.\-Collections.\-Array\-List in\-Path, double in\-Base\-Step\-Length, double in\-Heading, double in\-Turn\-Angle\-Variability)
+\item 
+virtual void \hyperlink{class_s_e_a_r_c_h_1_1_mover_ab2dfc659f3817ea48d66ff4d7e464d1d}{move} (ref double percent\-Time\-Step, \hyperlink{class_s_e_a_r_c_h_1_1_animal}{Animal} in\-A)
+\item 
+abstract double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a879a44d5a0c57434375a69c8d8d00e35}{get\-Turn\-Angle} (double turtosity)
+\item 
+abstract double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a3e547800bbc34492f4251adee70dbf02}{get\-Step\-Length} ()
+\item 
+Point\-Class \hyperlink{class_s_e_a_r_c_h_1_1_mover_ae1603ac731e59e6b4ffc485e5b81e846}{step\-Back} (\hyperlink{class_s_e_a_r_c_h_1_1_animal}{Animal} in\-A)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static Point\-Class \hyperlink{class_s_e_a_r_c_h_1_1_mover_a0f3de12a1d5f59f098be3220d98ebd62}{step\-Forward} (I\-Point start\-Point, I\-Point end\-Point)
+\item 
+static void \hyperlink{class_s_e_a_r_c_h_1_1_mover_a360265c7744b22b0dc484135b6b77dad}{step\-Forward} (ref \hyperlink{class_s_e_a_r_c_h_1_1_animal}{Animal} in\-A)
+\item 
+static Point\-Class \hyperlink{class_s_e_a_r_c_h_1_1_mover_a84c8c83bb560d911cb9681ff32b93383}{step\-Back} (I\-Point start\-Point, I\-Point end\-Point)
+\item 
+static string \hyperlink{class_s_e_a_r_c_h_1_1_mover_a69c5168d8551e5c51893a9cbea9c93d4}{Point\-To\-String} (I\-Point in\-Point)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_map_manager}{Map\-Manager} \hyperlink{class_s_e_a_r_c_h_1_1_mover_a6ea0ee67a11b4bfe8802ff096c53e908}{my\-Map\-Manager}
+\end{DoxyCompactItemize}
+\subsection*{Properties}
+\begin{DoxyCompactItemize}
+\item 
+System.\-Collections.\-Array\-List \hyperlink{class_s_e_a_r_c_h_1_1_mover_aaf46431549d9887e3710f2831cd906db}{Path}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_aee1e8a76587d4b51e7db5b475b86ac97}{base\-Step\-Length}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em This property represent the step length of any object that has a movement state. It is used by the \hyperlink{class_s_e_a_r_c_h_1_1_mover_ab2dfc659f3817ea48d66ff4d7e464d1d}{move()} method to determine the distance traveled during a particular time step. \end{DoxyCompactList}\item 
+\hyperlink{class_s_e_a_r_c_h_1_1_point}{Point} \hyperlink{class_s_e_a_r_c_h_1_1_mover_adbd8f2d23d7a01350e2d598b15a0447d}{current\-Location}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a460b88ef4c0b1be0b4dfb20bb7d8cc6c}{heading}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em This property represent the heading of any object that has a movement state. It is used by the \hyperlink{class_s_e_a_r_c_h_1_1_mover_ab2dfc659f3817ea48d66ff4d7e464d1d}{move()} method to determine the distance traveled during a particular time step. \end{DoxyCompactList}\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_ad26237e095a0ed3f40e097c699a22310}{turn\-Angle\-Variability}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\begin{DoxyCompactList}\small\item\em This property is used by the random turn angle function to specify the degree of variation in the returned turn angle. \end{DoxyCompactList}\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a09fda49c5f301e043fbe3fee2e5bf2eb}{terrain\-Step\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a1fb4ef0de58f74cdda8ba9487b4fe78c}{time\-Day\-Angle\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a64d50790add5dc402d87727fc149b8ee}{terrain\-Angle\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a7aea3c84939c22c9936941d025db6221}{time\-Day\-Step\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_ad3fbdb8aa27d97c46638cbf5cb80ed2e}{time\-Year\-Step\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\item 
+double \hyperlink{class_s_e_a_r_c_h_1_1_mover_a73145c64b8c7be641c632dca87dc492d}{time\-Year\-Angle\-Modifier}\hspace{0.3cm}{\ttfamily  \mbox{[}get, set\mbox{]}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Summary description for \hyperlink{class_s_e_a_r_c_h_1_1_mover}{Mover}. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_aafc7e67b5b0bd68f9cfec99f68d76309}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!Mover@{Mover}}
+\index{Mover@{Mover}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{Mover}]{\setlength{\rightskip}{0pt plus 5cm}S\-E\-A\-R\-C\-H.\-Mover.\-Mover (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_mover_aafc7e67b5b0bd68f9cfec99f68d76309}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_ac79713250c11901b081e460f3a0aef0c}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!Mover@{Mover}}
+\index{Mover@{Mover}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{Mover}]{\setlength{\rightskip}{0pt plus 5cm}S\-E\-A\-R\-C\-H.\-Mover.\-Mover (
+\begin{DoxyParamCaption}
+\item[{System.\-Collections.\-Array\-List}]{in\-Path}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_mover_ac79713250c11901b081e460f3a0aef0c}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a05f02fd5a8ba930d331210167c8268a0}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!Mover@{Mover}}
+\index{Mover@{Mover}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{Mover}]{\setlength{\rightskip}{0pt plus 5cm}S\-E\-A\-R\-C\-H.\-Mover.\-Mover (
+\begin{DoxyParamCaption}
+\item[{System.\-Collections.\-Array\-List}]{in\-Path, }
+\item[{double}]{in\-Base\-Step\-Length, }
+\item[{double}]{in\-Heading, }
+\item[{double}]{in\-Turn\-Angle\-Variability}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_mover_a05f02fd5a8ba930d331210167c8268a0}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a3e547800bbc34492f4251adee70dbf02}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!get\-Step\-Length@{get\-Step\-Length}}
+\index{get\-Step\-Length@{get\-Step\-Length}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{get\-Step\-Length}]{\setlength{\rightskip}{0pt plus 5cm}abstract double S\-E\-A\-R\-C\-H.\-Mover.\-get\-Step\-Length (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_s_e_a_r_c_h_1_1_mover_a3e547800bbc34492f4251adee70dbf02}
+
+
+Implemented in \hyperlink{class_s_e_a_r_c_h_1_1_random_w_c_mover_a50f9ef5586b7740beeeb197b7334a560}{S\-E\-A\-R\-C\-H.\-Random\-W\-C\-Mover}, \hyperlink{class_s_e_a_r_c_h_1_1_sleep_mover_a00e109927daf570d0c406339478131f9}{S\-E\-A\-R\-C\-H.\-Sleep\-Mover}, \hyperlink{class_s_e_a_r_c_h_1_1_beam_me_home_scotty_mover_a93c92d2db0bb4df1703a5f4f38c2eb02}{S\-E\-A\-R\-C\-H.\-Beam\-Me\-Home\-Scotty\-Mover}, \hyperlink{class_s_e_a_r_c_h_1_1_directed_mover_ae103ba51cc5633f8f08a0f103869b446}{S\-E\-A\-R\-C\-H.\-Directed\-Mover}, and \hyperlink{class_s_e_a_r_c_h_1_1_straight_mover_a146501b931a5784a3b68f7251048729f}{S\-E\-A\-R\-C\-H.\-Straight\-Mover}.
+
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a879a44d5a0c57434375a69c8d8d00e35}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!get\-Turn\-Angle@{get\-Turn\-Angle}}
+\index{get\-Turn\-Angle@{get\-Turn\-Angle}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{get\-Turn\-Angle}]{\setlength{\rightskip}{0pt plus 5cm}abstract double S\-E\-A\-R\-C\-H.\-Mover.\-get\-Turn\-Angle (
+\begin{DoxyParamCaption}
+\item[{double}]{turtosity}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [pure virtual]}}}\label{class_s_e_a_r_c_h_1_1_mover_a879a44d5a0c57434375a69c8d8d00e35}
+
+
+Implemented in \hyperlink{class_s_e_a_r_c_h_1_1_random_w_c_mover_af859a09b56a19e9e8a772bebbf802142}{S\-E\-A\-R\-C\-H.\-Random\-W\-C\-Mover}, \hyperlink{class_s_e_a_r_c_h_1_1_sleep_mover_a47d7e8dbf23341dd28383c9996d1b8c6}{S\-E\-A\-R\-C\-H.\-Sleep\-Mover}, \hyperlink{class_s_e_a_r_c_h_1_1_beam_me_home_scotty_mover_ae8123c9563cd5149d6ce679fe4b13357}{S\-E\-A\-R\-C\-H.\-Beam\-Me\-Home\-Scotty\-Mover}, \hyperlink{class_s_e_a_r_c_h_1_1_directed_mover_ac0ecb54d6c5b3c63d4959ce2ad5ba8b3}{S\-E\-A\-R\-C\-H.\-Directed\-Mover}, and \hyperlink{class_s_e_a_r_c_h_1_1_straight_mover_ad40a2a1e1e3103786928f7be8c30d5b1}{S\-E\-A\-R\-C\-H.\-Straight\-Mover}.
+
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_ab2dfc659f3817ea48d66ff4d7e464d1d}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!move@{move}}
+\index{move@{move}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{move}]{\setlength{\rightskip}{0pt plus 5cm}virtual void S\-E\-A\-R\-C\-H.\-Mover.\-move (
+\begin{DoxyParamCaption}
+\item[{ref double}]{percent\-Time\-Step, }
+\item[{{\bf Animal}}]{in\-A}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [virtual]}}}\label{class_s_e_a_r_c_h_1_1_mover_ab2dfc659f3817ea48d66ff4d7e464d1d}
+
+
+Reimplemented in \hyperlink{class_s_e_a_r_c_h_1_1_sleep_mover_a0bd6a7a748ebf84be7d7f209b395a8ce}{S\-E\-A\-R\-C\-H.\-Sleep\-Mover}, \hyperlink{class_s_e_a_r_c_h_1_1_beam_me_home_scotty_mover_aae251857ff44aea02591128c50a16e96}{S\-E\-A\-R\-C\-H.\-Beam\-Me\-Home\-Scotty\-Mover}, and \hyperlink{class_s_e_a_r_c_h_1_1_directed_mover_ac691f4b33dfc353cc0e5823649ecd874}{S\-E\-A\-R\-C\-H.\-Directed\-Mover}.
+
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a69c5168d8551e5c51893a9cbea9c93d4}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!Point\-To\-String@{Point\-To\-String}}
+\index{Point\-To\-String@{Point\-To\-String}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{Point\-To\-String}]{\setlength{\rightskip}{0pt plus 5cm}static string S\-E\-A\-R\-C\-H.\-Mover.\-Point\-To\-String (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{in\-Point}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_s_e_a_r_c_h_1_1_mover_a69c5168d8551e5c51893a9cbea9c93d4}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_ae1603ac731e59e6b4ffc485e5b81e846}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!step\-Back@{step\-Back}}
+\index{step\-Back@{step\-Back}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{step\-Back}]{\setlength{\rightskip}{0pt plus 5cm}Point\-Class S\-E\-A\-R\-C\-H.\-Mover.\-step\-Back (
+\begin{DoxyParamCaption}
+\item[{{\bf Animal}}]{in\-A}
+\end{DoxyParamCaption}
+)}}\label{class_s_e_a_r_c_h_1_1_mover_ae1603ac731e59e6b4ffc485e5b81e846}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a84c8c83bb560d911cb9681ff32b93383}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!step\-Back@{step\-Back}}
+\index{step\-Back@{step\-Back}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{step\-Back}]{\setlength{\rightskip}{0pt plus 5cm}static Point\-Class S\-E\-A\-R\-C\-H.\-Mover.\-step\-Back (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{start\-Point, }
+\item[{I\-Point}]{end\-Point}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_s_e_a_r_c_h_1_1_mover_a84c8c83bb560d911cb9681ff32b93383}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a0f3de12a1d5f59f098be3220d98ebd62}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!step\-Forward@{step\-Forward}}
+\index{step\-Forward@{step\-Forward}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{step\-Forward}]{\setlength{\rightskip}{0pt plus 5cm}static Point\-Class S\-E\-A\-R\-C\-H.\-Mover.\-step\-Forward (
+\begin{DoxyParamCaption}
+\item[{I\-Point}]{start\-Point, }
+\item[{I\-Point}]{end\-Point}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_s_e_a_r_c_h_1_1_mover_a0f3de12a1d5f59f098be3220d98ebd62}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a360265c7744b22b0dc484135b6b77dad}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!step\-Forward@{step\-Forward}}
+\index{step\-Forward@{step\-Forward}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{step\-Forward}]{\setlength{\rightskip}{0pt plus 5cm}static void S\-E\-A\-R\-C\-H.\-Mover.\-step\-Forward (
+\begin{DoxyParamCaption}
+\item[{ref {\bf Animal}}]{in\-A}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_s_e_a_r_c_h_1_1_mover_a360265c7744b22b0dc484135b6b77dad}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a6ea0ee67a11b4bfe8802ff096c53e908}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!my\-Map\-Manager@{my\-Map\-Manager}}
+\index{my\-Map\-Manager@{my\-Map\-Manager}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{my\-Map\-Manager}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Map\-Manager} S\-E\-A\-R\-C\-H.\-Mover.\-my\-Map\-Manager\hspace{0.3cm}{\ttfamily [protected]}}}\label{class_s_e_a_r_c_h_1_1_mover_a6ea0ee67a11b4bfe8802ff096c53e908}
+
+
+\subsection{Property Documentation}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_aee1e8a76587d4b51e7db5b475b86ac97}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!base\-Step\-Length@{base\-Step\-Length}}
+\index{base\-Step\-Length@{base\-Step\-Length}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{base\-Step\-Length}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-base\-Step\-Length\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_aee1e8a76587d4b51e7db5b475b86ac97}
+
+
+This property represent the step length of any object that has a movement state. It is used by the \hyperlink{class_s_e_a_r_c_h_1_1_mover_ab2dfc659f3817ea48d66ff4d7e464d1d}{move()} method to determine the distance traveled during a particular time step. 
+
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_adbd8f2d23d7a01350e2d598b15a0447d}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!current\-Location@{current\-Location}}
+\index{current\-Location@{current\-Location}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{current\-Location}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Point} S\-E\-A\-R\-C\-H.\-Mover.\-current\-Location\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_adbd8f2d23d7a01350e2d598b15a0447d}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a460b88ef4c0b1be0b4dfb20bb7d8cc6c}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!heading@{heading}}
+\index{heading@{heading}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{heading}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-heading\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_a460b88ef4c0b1be0b4dfb20bb7d8cc6c}
+
+
+This property represent the heading of any object that has a movement state. It is used by the \hyperlink{class_s_e_a_r_c_h_1_1_mover_ab2dfc659f3817ea48d66ff4d7e464d1d}{move()} method to determine the distance traveled during a particular time step. 
+
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_aaf46431549d9887e3710f2831cd906db}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!Path@{Path}}
+\index{Path@{Path}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{Path}]{\setlength{\rightskip}{0pt plus 5cm}System.\-Collections.\-Array\-List S\-E\-A\-R\-C\-H.\-Mover.\-Path\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_aaf46431549d9887e3710f2831cd906db}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a64d50790add5dc402d87727fc149b8ee}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!terrain\-Angle\-Modifier@{terrain\-Angle\-Modifier}}
+\index{terrain\-Angle\-Modifier@{terrain\-Angle\-Modifier}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{terrain\-Angle\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-terrain\-Angle\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_a64d50790add5dc402d87727fc149b8ee}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a09fda49c5f301e043fbe3fee2e5bf2eb}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!terrain\-Step\-Modifier@{terrain\-Step\-Modifier}}
+\index{terrain\-Step\-Modifier@{terrain\-Step\-Modifier}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{terrain\-Step\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-terrain\-Step\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_a09fda49c5f301e043fbe3fee2e5bf2eb}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a1fb4ef0de58f74cdda8ba9487b4fe78c}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!time\-Day\-Angle\-Modifier@{time\-Day\-Angle\-Modifier}}
+\index{time\-Day\-Angle\-Modifier@{time\-Day\-Angle\-Modifier}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{time\-Day\-Angle\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-time\-Day\-Angle\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_a1fb4ef0de58f74cdda8ba9487b4fe78c}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a7aea3c84939c22c9936941d025db6221}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!time\-Day\-Step\-Modifier@{time\-Day\-Step\-Modifier}}
+\index{time\-Day\-Step\-Modifier@{time\-Day\-Step\-Modifier}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{time\-Day\-Step\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-time\-Day\-Step\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_a7aea3c84939c22c9936941d025db6221}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_a73145c64b8c7be641c632dca87dc492d}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!time\-Year\-Angle\-Modifier@{time\-Year\-Angle\-Modifier}}
+\index{time\-Year\-Angle\-Modifier@{time\-Year\-Angle\-Modifier}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{time\-Year\-Angle\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-time\-Year\-Angle\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_a73145c64b8c7be641c632dca87dc492d}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_ad3fbdb8aa27d97c46638cbf5cb80ed2e}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!time\-Year\-Step\-Modifier@{time\-Year\-Step\-Modifier}}
+\index{time\-Year\-Step\-Modifier@{time\-Year\-Step\-Modifier}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{time\-Year\-Step\-Modifier}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-time\-Year\-Step\-Modifier\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_ad3fbdb8aa27d97c46638cbf5cb80ed2e}
+\hypertarget{class_s_e_a_r_c_h_1_1_mover_ad26237e095a0ed3f40e097c699a22310}{\index{S\-E\-A\-R\-C\-H\-::\-Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}!turn\-Angle\-Variability@{turn\-Angle\-Variability}}
+\index{turn\-Angle\-Variability@{turn\-Angle\-Variability}!SEARCH::Mover@{S\-E\-A\-R\-C\-H\-::\-Mover}}
+\subsubsection[{turn\-Angle\-Variability}]{\setlength{\rightskip}{0pt plus 5cm}double S\-E\-A\-R\-C\-H.\-Mover.\-turn\-Angle\-Variability\hspace{0.3cm}{\ttfamily [get]}, {\ttfamily [set]}}}\label{class_s_e_a_r_c_h_1_1_mover_ad26237e095a0ed3f40e097c699a22310}
+
+
+This property is used by the random turn angle function to specify the degree of variation in the returned turn angle. 
+
+
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+Desktop/vlog4net\-A\-R\-C10\-\_\-64\-\_\-newhoming/\-Data\-Centric/\hyperlink{_mover_8cs}{Mover.\-cs}\end{DoxyCompactItemize}
