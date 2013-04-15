@@ -1077,6 +1077,7 @@ namespace SEARCH
          {
            
             eLog.Debug(ex);
+            eLog.Debug("Error with file:" + this.fullFileName + "type:" + this.mTypeOfMap + "index: " + inPolygonIndex);
    
 #if (DEBUG)
             System.Windows.Forms.MessageBox.Show(ex.Message);

@@ -2139,7 +2139,10 @@ namespace SEARCH
          }
          catch (InvalidMapException e)
          {
+#if DEBUG
             MessageBox.Show(e.Message);
+#endif
+            eLog.Debug(e.Message);
          }
          catch (System.Exception ex)
          {
@@ -2242,7 +2245,10 @@ namespace SEARCH
                }
                catch (System.Exception ex)
                {
+#if DEBUG
                   MessageBox.Show(ex.StackTrace);
+#endif
+                  eLog.Debug(ex.StackTrace);
                }
             }
          }
@@ -2742,8 +2748,8 @@ namespace SEARCH
          {
 #if (DEBUG)
             MessageBox.Show(ex.Message);
-            eLog.Debug(ex);
 #endif
+             eLog.Debug(ex);
          }
       }
       #endregion
@@ -2961,7 +2967,7 @@ namespace SEARCH
           mLog.Debug("inside the button click calling the sim manager do simulation");
           // this.mySimManager.doSimulation(this); // need to update form to support backups or change doSimulation to not take backup data
           throw new Exception("Call to doSimulation was disabled");
-          this.Close();
+          //this.Close();
       }
 
       private void tabSim_Enter(object sender, EventArgs e)

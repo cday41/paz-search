@@ -207,6 +207,8 @@ private MapManager()
             }
 
             mLog.Debug("now make the new animal map");
+           
+             releaseObject(myTimeStepDataManipulator);
 
             this.makeMapCopies(System.IO.Path.GetDirectoryName(dissolvePath), System.IO.Path.GetFileNameWithoutExtension(dissolvePath), System.IO.Path.GetDirectoryName(currMapPath), System.IO.Path.GetFileNameWithoutExtension(newMapPath));
             this.myAnimalMaps[AnimalID].FullFileName = newMapPath;
@@ -696,31 +698,6 @@ private MapManager()
 
       }
 
-      public String getStringOutput()
-      {
-          /*
-          //Used in checkpointing
-          String output = "";
-          //do an output += for every variable used in the constructor and doTimeStep
-          output += "myFoodMaps:" + this.myFoodMaps.getStringOutput() + "\n";
-          output += "myMoveMaps:" + this.myMoveMaps.getStringOutput() + "\n";
-          output += "myPredationMaps:" + this.myPredationMaps.getStringOutput() + "\n";
-          output += "mySocialMaps:" + this.mySocialMaps.getStringOutput() + "\n";
-          output += "myDispersalMaps:" + this.myDispersalMaps.getStringOutput() + "\n";
-          output += "SocialIndex:" + SocialIndex.ToString() + "\n";
-          output += "numHomeRanges:" + numHomeRanges.ToString() + "\n";
-          /* Need to track down the variables for the AnimalMaps, which then goes to Map.
-          for (int i = 0; i < this.myAnimalMaps.Count; i++)
-          {
-              output += String.Format("myAnimalMap{0}", i) + "-start" + ",";
-              output += this.myAnimalMaps[i].getStringOutput();
-              output += String.Format("myAnimalMap{0}", i) + "-end" + ",";
-          }
-          */
-          Console.WriteLine("myAnimalMaps has {0} maps", myAnimalMaps.Count);
-          return ("");
-      }
-
       /********************************************************************************
        *  Function name   : validateNFieldPolylMap
        *  Description     : Will check to make sure it is a valid polygon shape file and 
@@ -925,7 +902,8 @@ private MapManager()
                      break;
                   default:
                      mLog.Debug("bombed with invalid name ");
-                     System.Windows.Forms.MessageBox.Show("Not a valid map type" + inMapType);
+                     mLog.Debug("Not a valid map type" + inMapType);
+                     //System.Windows.Forms.MessageBox.Show("Not a valid map type" + inMapType);
                      break;
                }// end switch on map name
             }
@@ -977,6 +955,7 @@ private MapManager()
          catch (ArgumentException ae)
          {
             // System.Windows.Forms.MessageBox.Show(ae.Message);
+             eLog.Debug(ae);
          }
          catch (System.Exception ex)
          {
@@ -1791,6 +1770,23 @@ private MapManager()
       }
 
 		#endregion Private Methods 
+
+      private void releaseObject(object obj)
+      {
+          try
+          {
+              System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+              obj = null;
+          }
+          catch (Exception ex)
+          {
+              obj = null;
+          }
+          finally
+          {
+              GC.Collect();
+          }
+      } 
 
 		#endregion Methods 
       private enum ERR

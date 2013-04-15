@@ -417,8 +417,8 @@ namespace SEARCH
       {
          IFeatureClass fc = null;
          IPolyline line = null;
-         string path;
-         string fileName;
+         //string path;
+         //string fileName;
          bool result = true;
 
          fc = this.CreateEmptyFeatureClass(inFileName, "POLYLINE");
@@ -736,8 +736,10 @@ namespace SEARCH
 	}
 	catch (Exception ex)
 	{
-		
-        //System.Windows.Forms.MessageBox.Show(ex.ToString());
+#if DEBUG		
+        System.Windows.Forms.MessageBox.Show(ex.ToString());
+#endif
+        eLog.Debug(ex);
 	}
       }
 

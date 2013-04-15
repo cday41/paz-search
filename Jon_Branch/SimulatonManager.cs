@@ -317,6 +317,7 @@ namespace SEARCH
             mLog.Debug("currDate is " + this.currTime.ToShortDateString());
             mLog.Debug("end season date is " + this.EndSeasonDate.ToShortDateString());
             Console.WriteLine("Currtime: {0} EndSeasonDate: {1}", currTime, this.EndSeasonDate);
+
             while (currTime < this.EndSeasonDate)
             {
                 if (backupSave)
@@ -344,7 +345,7 @@ namespace SEARCH
                 this.iteration++;
                 // Heartbeat - is the program still running?
                 
-                Console.WriteLine("Time: " + currTime + " leading to " + this.EndSeasonDate + " iteration:" + this.iteration);
+                //Console.WriteLine("Time: " + currTime + " leading to " + this.EndSeasonDate + " iteration:" + this.iteration);
 
                this.doTimeStep(); // changes the modifiers, update animal manager.
                this.currTimeStep++; // used for progress bar update.

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+//using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using ESRI.ArcGIS.esriSystem;
+using ESRI.ArcGIS.ADF.COMSupport;
 
 using SEARCH;
 
@@ -65,7 +66,7 @@ namespace DataCentric
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        //[STAThread] - uncommment this if you want this to run from form, not command line
+        [STAThread] //Runs faster with the tag, but seems to have some issue with exiting
         static void Main(string[] args)
         {
             //Application.EnableVisualStyles();
@@ -219,59 +220,9 @@ namespace DataCentric
 
             f.doRun(xmlInputFile, mapOutputDirectory, textOutputDir, xmlBackup, backupSave, backupSaveName, backupSaveInterval, backupSaveUnit, backupSaveCount, backupLoad, backupdir);
 
-            //Console.WriteLine("Finished doRun");
+            ESRI.ArcGIS.ADF.COMSupport.AOUninitialize.Shutdown();
+            System.Environment.Exit(0);
             
-            //Tried disposing form
-            //f.Dispose();
-            //if (f.IsDisposed)
-            //{
-            //    Console.WriteLine("Disposed form!");
-            //}
-
-            
-            //Tried multiple types of exits
-            //Do we need to force an exit here?
-            //Environment.FailFast(null);
-            //Console.WriteLine("Trying return");
-            //return;
-            //Console.WriteLine("Trying Application.Exit()");
-            //Application.Exit();
-            //Console.WriteLine("Trying Environment.Exit(0)");
-            //Environment.Exit(0);
-
-
-            //Tried garbage collection
-            //GC.Collect();
-            //Console.WriteLine("Waiting for finalizers");
-            //GC.WaitForPendingFinalizers();
-
-            //Tried sleeping
-            //System.Threading.Thread.Sleep(5000);
-
-            //Process thisProc = Process.GetCurrentProcess();
-            //ProcessThreadCollection myThreads = thisProc.Threads;
-            //foreach (ProcessThread pt in myThreads)
-            //{
-            //    DateTime startTime = pt.StartTime;
-            //    TimeSpan cpuTime = pt.TotalProcessorTime;
-                //int priority = pt.BasePriority;
-            //    ThreadState ts = pt.ThreadState;
-
-            //    Console.WriteLine("thread:  {0}", pt.Id);
-            //    Console.WriteLine("    started: {0}", startTime.ToString());
-            //    Console.WriteLine("    CPU time: {0}", cpuTime);
-            //    Console.WriteLine("    priority: {0}", priority);
-            //    Console.WriteLine("    thread state: {0}", ts.ToString());
-
-            //    if (priority == 10)
-            //    {
-            //        Console.WriteLine("Disposing Thread!!!!");
-            //        pt.Dispose();
-            //    }
-            //}
-            Application.Exit();
-            Environment.Exit(0);
-
             //thisProc.Kill();         
             //Console.WriteLine("End of program");
 

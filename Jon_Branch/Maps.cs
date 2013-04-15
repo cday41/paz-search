@@ -302,16 +302,6 @@ namespace SEARCH
          xw.Flush();
       }
 
-      public string getStringOutput()
-      {
-          String output = " ";
-          output += this.mMapType.ToString() + ", ";
-          output += this.mMyPath.ToString() + ", ";
-          output += this.previousIndex.ToString() + ", ";
-          return output;
-
-      }
-
       #endregion
 
       #region privateMethods

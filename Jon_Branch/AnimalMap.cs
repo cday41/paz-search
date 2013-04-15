@@ -78,19 +78,7 @@ namespace SEARCH
       {
           this.loadFromBackup = value;
       }
-
-
-       //Does nothing of any value
-      public string getStringOutput()
-      {
-          //Used for checkpointing
-          string output = "";
-          //Needed Variables
-          //output += "mMySocialMap:" + mMySocialMap.getStringOutput();
-
-          return output;
-      }
-     
+    
       public void addPolygon (IPolygon inPoly)
       {
          IFeature feature = null;
@@ -284,16 +272,16 @@ namespace SEARCH
          }
          catch (COMException COMEx)
          {
-            //System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(),"COM Error: " + COMEx.ErrorCode.ToString()); 
+            //System.Windows.Forms.MessageBox.Show(COMEx.GetBaseException().ToString(),"COM Error: " + COMEx.ErrorCode.ToString());
+             eLog.Debug(COMEx.Source);
          }
 
          catch (System.Exception ex)
          {
 #if(DEBUG)
-          //  System.Windows.Forms.MessageBox.Show (ex.Source + " " );//+ ex.InnerException.ToString());
-#else
-             eLog.Debug(ex.Source);
+           //System.Windows.Forms.MessageBox.Show (ex.Source + " " );//+ ex.InnerException.ToString());
 #endif
+             eLog.Debug(ex.Source);
          }
 
          return ifc;

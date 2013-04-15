@@ -8,7 +8,7 @@ namespace SEARCH
 
 	   private RandomNumbers()
 	   {             
-		 rand = new System.Random();
+		 rand = new System.Random(1);
          numGen = new MathNet.Numerics.Generators.NormalGenerator();
          mMean = 0;
          mSD = 0;         
