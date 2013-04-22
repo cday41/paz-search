@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-//using System.Windows.Forms;
+using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using ESRI.ArcGIS.esriSystem;
-using ESRI.ArcGIS.ADF.COMSupport;
+using ESRI.ArcGIS.ADF;
 
 using SEARCH;
 

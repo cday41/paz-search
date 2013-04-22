@@ -2990,7 +2990,7 @@ namespace SEARCH
 
 
       public bool IsLicensed()
-      {          
+      {/*          
          bool hasLicense = true;
          try
          {
@@ -3012,8 +3012,8 @@ namespace SEARCH
          {
             hasLicense = false;
             eLog.Debug(ex);
-         }
-         return hasLicense;
+         }*/
+         return true;
       }
 
       private esriLicenseStatus CheckOutLicenses(esriLicenseProductCode productCode) 
