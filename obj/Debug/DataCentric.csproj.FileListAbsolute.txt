@@ -1,0 +1,64 @@
+Z:\workspace_SVN\SEARCH\bin\Debug\DataCentric.exe.config
+Z:\workspace_SVN\SEARCH\obj\Debug\ResolveAssemblyReference.cache
+Z:\workspace_SVN\SEARCH\obj\Debug\SEARCH.frmInput.resources
+Z:\workspace_SVN\SEARCH\obj\Debug\SEARCH.frmMapSelectForm.resources
+Z:\workspace_SVN\SEARCH\obj\Debug\SEARCH.frmMapTimes.resources
+Z:\workspace_SVN\SEARCH\obj\Debug\SEARCH.frmModifierInput.resources
+Z:\workspace_SVN\SEARCH\obj\Debug\SEARCH.Forms.frmSeason.resources
+Z:\workspace_SVN\SEARCH\obj\Debug\SEARCH.YearlyForm.resources
+Z:\workspace_SVN\SEARCH\obj\Debug\ResGen.read.1.tlog
+Z:\workspace_SVN\SEARCH\obj\Debug\ResGen.write.1.tlog
+Z:\workspace_SVN\SEARCH\bin\Debug\DataCentric.exe
+Z:\workspace_SVN\SEARCH\bin\Debug\DataCentric.pdb
+Z:\workspace_SVN\SEARCH\bin\Debug\bobResize.dll
+Z:\workspace_SVN\SEARCH\bin\Debug\DesignbyContract1.dll
+Z:\workspace_SVN\SEARCH\bin\Debug\inputBox.dll
+Z:\workspace_SVN\SEARCH\bin\Debug\log4net.dll
+Z:\workspace_SVN\SEARCH\bin\Debug\MathNet.Numerics.dll
+Z:\workspace_SVN\SEARCH\bin\Debug\txtBoxArray.dll
+Z:\workspace_SVN\SEARCH\obj\Debug\DataCentric.exe
+Z:\workspace_SVN\SEARCH\obj\Debug\DataCentric.pdb
+O:\scratch\cmbarret\SEARCH\bin\Debug\DataCentric.exe.config
+O:\scratch\cmbarret\SEARCH\obj\Debug\DataCentric.exe
+O:\scratch\cmbarret\SEARCH\obj\Debug\DataCentric.pdb
+O:\scratch\cmbarret\SEARCH\bin\Debug\DataCentric.exe
+O:\scratch\cmbarret\SEARCH\bin\Debug\DataCentric.pdb
+O:\scratch\cmbarret\SEARCH\bin\Debug\log4net.dll
+O:\scratch\cmbarret\SEARCH\obj\Debug\ResolveAssemblyReference.cache
+O:\scratch\cmbarret\SEARCH\obj\Debug\SEARCH.frmInput.resources
+O:\scratch\cmbarret\SEARCH\obj\Debug\SEARCH.frmMapSelectForm.resources
+O:\scratch\cmbarret\SEARCH\obj\Debug\SEARCH.frmMapTimes.resources
+O:\scratch\cmbarret\SEARCH\obj\Debug\SEARCH.frmModifierInput.resources
+O:\scratch\cmbarret\SEARCH\obj\Debug\SEARCH.Forms.frmSeason.resources
+O:\scratch\cmbarret\SEARCH\obj\Debug\SEARCH.YearlyForm.resources
+O:\scratch\cmbarret\SEARCH\obj\Debug\ResGen.read.1.tlog
+O:\scratch\cmbarret\SEARCH\obj\Debug\ResGen.write.1.tlog
+C:\SEARCH\bin\Debug\DataCentric.exe.config
+C:\SEARCH\obj\Debug\DataCentric.exe
+C:\SEARCH\obj\Debug\DataCentric.pdb
+C:\SEARCH\bin\Debug\DataCentric.exe
+C:\SEARCH\bin\Debug\DataCentric.pdb
+C:\SEARCH\bin\Debug\log4net.dll
+C:\SEARCH\obj\Debug\ResolveAssemblyReference.cache
+C:\SEARCH\obj\Debug\SEARCH.frmInput.resources
+C:\SEARCH\obj\Debug\SEARCH.frmMapSelectForm.resources
+C:\SEARCH\obj\Debug\SEARCH.frmMapTimes.resources
+C:\SEARCH\obj\Debug\SEARCH.frmModifierInput.resources
+C:\SEARCH\obj\Debug\SEARCH.Forms.frmSeason.resources
+C:\SEARCH\obj\Debug\SEARCH.YearlyForm.resources
+C:\SEARCH\obj\Debug\ResGen.read.1.tlog
+C:\SEARCH\obj\Debug\ResGen.write.1.tlog
+C:\Fun Projects\ClusterSEARCH\SEARCH\bin\Debug\DataCentric.exe.config
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\DataCentric.exe
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\DataCentric.pdb
+C:\Fun Projects\ClusterSEARCH\SEARCH\bin\Debug\DataCentric.exe
+C:\Fun Projects\ClusterSEARCH\SEARCH\bin\Debug\DataCentric.pdb
+C:\Fun Projects\ClusterSEARCH\SEARCH\bin\Debug\log4net.dll
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\SEARCH.frmInput.resources
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\SEARCH.frmMapSelectForm.resources
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\SEARCH.frmMapTimes.resources
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\SEARCH.frmModifierInput.resources
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\SEARCH.Forms.frmSeason.resources
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\SEARCH.YearlyForm.resources
+C:\Fun Projects\ClusterSEARCH\SEARCH\obj\Debug\DataCentric.csproj.GenerateResource.Cache
+C:\Fun Projects\ClusterSEARCH\SEARCH\bin\Debug\log4net.config
