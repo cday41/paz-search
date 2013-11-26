@@ -16,6 +16,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using log4net;
+using DataCentric;
 namespace SEARCH
 {
    /// <summary>
@@ -33,7 +34,6 @@ namespace SEARCH
          myHourlyModifiers = HourlyModifierCollection.GetUniqueInstance();
          myDailyModifiers = DailyModiferCollection.GetUniqueInstance();
          mElapsedTimeBetweenTimeStep = 0;
-     //    this.makeTempMap(@"C:\MapTest");
          mLog.Debug("back in sim manager with a modifier Count of " + myHourlyModifiers.Count.ToString());
       }
 
@@ -269,8 +269,8 @@ namespace SEARCH
        *  Description     : Contains the main loop for the simulation
        *  Return type     : void 
        * *******************************************************************************/
-      public void doSimulation(frmInput inForm, Boolean backupSave, string backupSaveName, int backupSaveInterval, char backupSaveUnit, int backupSaveCount, Boolean backupLoad, string backupdir)
-      {
+      public void doSimulation( BackUpParams inParams)// Boolean backupSave, string backupSaveName, int backupSaveInterval, char backupSaveUnit, int backupSaveCount, Boolean backupLoad, string backupdir)
+      {//frmInput inForm,
 
          mLog.Debug("inside sim manager do simulation calling initialize daily sim");
          initializeSimulation();
@@ -279,16 +279,16 @@ namespace SEARCH
          TimeSpan addTime;
 
          //Sets up the timed saved intervals
-         switch (backupSaveUnit)
+         switch (inParams.backupSaveUnit)
          {
              case 'm':
-                 addTime = new TimeSpan(0, backupSaveInterval, 0);
+               addTime = new TimeSpan (0, inParams.backupSaveInterval, 0);
                  break;
              case 'h':
-                 addTime = new TimeSpan(backupSaveInterval, 0, 0);
+                 addTime = new TimeSpan (inParams.backupSaveInterval, 0, 0);
                  break;
              case 'd':
-                 addTime = new TimeSpan(backupSaveInterval, 0, 0, 0);
+                 addTime = new TimeSpan (inParams.backupSaveInterval, 0, 0, 0);
                  break;
              default:
                  addTime = new TimeSpan();
@@ -297,7 +297,7 @@ namespace SEARCH
          nextTime = DateTime.Now.Add(addTime);
 
          //Loads a Backup
-         if (backupLoad)
+         if (inParams.backupLoad)
          {
            //  this.loadBackup(backupdir);
              this.MapManager.CurrTime = this.currTime;
@@ -326,22 +326,22 @@ namespace SEARCH
 
             while (currTime < this.EndSeasonDate)
             {
-                if (backupSave)
+               if (inParams.backupSave)
                 {
-                    if (backupSaveUnit == 'i' && !backupLoad)
+                   if (inParams.backupSaveUnit == 'i' && !inParams.backupLoad)
                     {
                         // Create backups every backupSaveInterval iterations
-                        if ((this.iteration % backupSaveInterval) == (backupSaveInterval - 1))
-                       { 
-                            this.createBackup(backupSaveName, backupSaveCount);
+                       if ((this.iteration % inParams.backupSaveInterval) == (inParams.backupSaveInterval - 1))
+                       {
+                          this.createBackup (inParams.backupSaveName, inParams.backupSaveCount);
                         }
                     }
                     else
                     {
-                        backupLoad = false;
+                       inParams.backupLoad = false;
                         if (DateTime.Now.Ticks > nextTime.Ticks)
                         {
-                            this.createBackup(backupSaveName, backupSaveCount);
+                           this.createBackup (inParams.backupSaveName, inParams.backupSaveCount);
                             nextTime = DateTime.Now.Add(addTime);
                         }
                     }
@@ -706,7 +706,7 @@ namespace SEARCH
                   {
                       case 0:
                           //Rebuilds both the array of animals(from the xml file) and loads information into AnimalManager
-                          mAnimalManager.loadBackup(line, BackupDir);
+                          mAnimalManager.loadBackup(line, BackupDir, this.mStartSimulationDate.Year.ToString());
                           break;
                       case 1:
                           words = line.Split(',');

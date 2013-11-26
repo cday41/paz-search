@@ -54,13 +54,11 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="bobResize, Version=1.0.0.0, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Round_2\Utilities\bobResize\bin\bobResize.dll</HintPath>
+    <Reference Include="bobResize">
+      <HintPath>References\bobResize.dll</HintPath>
     </Reference>
-    <Reference Include="DesignbyContract1, Version=1.0.2353.14804, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Round_2\Utilities\DesignbyContract1\bin\Debug\DesignbyContract1.dll</HintPath>
+    <Reference Include="DesignbyContract1">
+      <HintPath>References\DesignbyContract1.dll</HintPath>
     </Reference>
     <Reference Include="ESRI.ArcGIS.ADF, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -102,17 +100,17 @@
     <Reference Include="ESRI.ArcGIS.Version, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="inputBox, Version=1.0.2705.17677, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Round_2\Utilities\inputBox\bin\Debug\inputBox.dll</HintPath>
+    <Reference Include="FileWriter">
+      <HintPath>References\FileWriter.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\log4net.dll</HintPath>
+    <Reference Include="inputBox">
+      <HintPath>References\inputBox.dll</HintPath>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=0.3.0.0, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Round_2\Utilities\MathNet.Numerics-v0.3\bin\MathNet.Numerics.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>packages\log4net.2.0.3\lib\net35-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>References\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -125,9 +123,8 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="txtBoxArray, Version=1.0.2704.26301, Culture=neutral">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Round_2\Utilities\txtBoxArray\bin\Debug\txtBoxArray.dll</HintPath>
+    <Reference Include="txtBoxArray">
+      <HintPath>References\txtBoxArray.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +132,7 @@
     <Compile Include="AnimalAtributes.cs" />
     <Compile Include="AnimalManager.cs" />
     <Compile Include="AnimalMap.cs" />
-    <Compile Include="AnimalValidator.cs" />
+    <Compile Include="BackUpParams.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataManipulator.cs" />
     <Compile Include="DeadAnimal.cs" />
@@ -276,12 +273,16 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ArcGISCodeMigration_Log.txt" />

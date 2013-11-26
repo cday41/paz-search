@@ -447,23 +447,25 @@ namespace SEARCH
               this.buildFileNamePrefix(CurrYear);
               if (!Directory.Exists(OutPutDir))
                   Directory.CreateDirectory(OutPutDir);
-              this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+              this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix );
           }
       }
 
         //Rebuilds the TextWriter after a reload
       public void ReBuildTextWriter(string OutPutDir)
       {
-          //Update AnimalAtributes to point to the new OutputDirectory
-          //this.AnimalAtributes.OutPutDir = OutPutDir;
-          // BC 08/08/2013 this was doing shit I removed it
-          //if (!Directory.Exists(OutPutDir))
-          //    Directory.CreateDirectory(OutPutDir);
-          //Builds the new TextFileWriter from the saved fileNamePrefix and the new OutPutDir
-          if (fileNamePrefix != null)
-          {
-              this.TextFileWriter = new TextFileWriter(this.AnimalAtributes.OutPutDir, this.fileNamePrefix);
-          }
+         
+            //Update AnimalAtributes to point to the new OutputDirectory
+            //this.AnimalAtributes.OutPutDir = OutPutDir;
+            // BC 08/08/2013 this was doing shit I removed it
+            //if (!Directory.Exists(OutPutDir))
+            //    Directory.CreateDirectory(OutPutDir);
+            //Builds the new TextFileWriter from the saved fileNamePrefix and the new OutPutDir
+            if (fileNamePrefix != null)
+            {
+               this.TextFileWriter = new TextFileWriter (this.AnimalAtributes.OutPutDir, this.fileNamePrefix);
+            }
+        
       }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)

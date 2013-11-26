@@ -386,13 +386,15 @@ namespace SEARCH
       }
 
 
-      public bool loadBackup(string line, string backup)
+      public bool loadBackup(string line, string backup,string inStartYear)
       {
           mLog.Debug("");
           mLog.Debug("");
           mLog.Debug("******************************************************************");
           mLog.Debug("inside load backup");
           int i = 0;
+
+          myAnimals.Clear ();
           //Force close the TextFileWriter for all initial animals
           foreach (Animal a in myAnimals)
           {
@@ -411,8 +413,14 @@ namespace SEARCH
             mLog.Debug(""); 
           mLog.Debug("");
           //Finish reconstruction that couldn't be saved to the xml file
+          setResidentsTextOutput (this.AnimalAttributes.OutPutDir, inStartYear);
           foreach (Animal a in myAnimals)
           {
+             if (a is Resident)
+             {
+                Resident r = a as Resident;
+                r.SaySomething ("From Backup");
+             }
               if (a.TextFileWriter == null)
               {
                   a.ReBuildTextWriter(this.AnimalAttributes.OutPutDir);
@@ -1061,8 +1069,11 @@ namespace SEARCH
       public void setResidentsTextOutput(string path, string year)
       {
          List<Resident> res = this.getResidents();
-         foreach(Resident r in res)
-            r.BuildTextWriter(year,path + "\\Resident");
+         foreach (Resident r in res)
+         {
+            r.BuildTextWriter (year, path + "\\Resident");
+            r.TextFileWriter.OutPath = path + "\\Resident";
+         }
       }
 
       private void setResidentAttributes()

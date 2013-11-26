@@ -12,21 +12,16 @@ namespace DataCentric
 {
     static class Program
     {
-        #region Non-Public Members (1) 
+      #region Methods (5) 
 
-        #region Methods (1) 
+      #region Private Methods (5) 
 
-        static void usage()
+       private static void CheckLicense ()
         {
-            Console.Error.WriteLine("program xmlInputFile mapOutput textOuput xmlBackup [optional]");
-            Console.Error.WriteLine("Options:");
-            Console.Error.WriteLine("-c interval unit BackupDirectory");
-            Console.Error.WriteLine("   Create backups");
-            Console.Error.WriteLine("   interval: how long between backups (number)");
-            Console.Error.WriteLine("   unit: how interval is measured: i iterations, m minutes, h hours, d days");
-            Console.Error.WriteLine("-l BackupDirectory");
-            Console.Error.WriteLine("   Loads backup from directory");
-            Console.Error.WriteLine("   BackupDirectory: The directory storing the backup information");            
+           if (ESRI.ArcGIS.RuntimeManager.Bind (ESRI.ArcGIS.ProductCode.EngineOrDesktop))
+           {
+              ESRI.ArcGIS.RuntimeManager.BindLicense (ESRI.ArcGIS.ProductCode.EngineOrDesktop);
+           }
         }
 
         static void dirCopy(string sourceDir, string destiDir)
@@ -62,174 +57,195 @@ namespace DataCentric
             }
         }
 
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-       // [STAThread] //Runs faster with the tag, but seems to have some issue with exiting
-        static void Main(string[] args)
+        private static BackUpParams DoBackUpLoad (string[] args, string mapOutputDirectory, string textOutputDir)
         {
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run( new frm Input());
-            //Console.WriteLine("I'm in is licensed");
-            
-            if (ESRI.ArcGIS.RuntimeManager.Bind(ESRI.ArcGIS.ProductCode.EngineOrDesktop))
-            {
-                ESRI.ArcGIS.RuntimeManager.BindLicense(ESRI.ArcGIS.ProductCode.EngineOrDesktop);
-            }
-            
-            //Checks if the command line arugments are less than the minimum required amount
-            if (args.Length < 3 )
-            {
-                usage();
-                Console.WriteLine("ERROR: Program was not provided enough arguments.");
-                Environment.Exit(-1);
-            }
-            
-            frmInput f = new frmInput();
 
-            string xmlInputFile = args[0];
-            string mapOutputDirectory = args[1];
-            string textOutputDir = args[2];
-            string xmlBackup = null;
-
-            //Check if creating a backup xml file
-            if (args.Length > 3)
-            {
-
-                string temp = args[3].ToLower();
-                temp = temp.Trim();
-                if ((temp == "-c") || (temp == "-l"))
-                {
-                    xmlBackup = null;
-                }
-                else
-                {
-                    xmlBackup = args[3];
-                }
-            }
-
-            string mapDir = mapOutputDirectory;
-            string textDir = textOutputDir;
-
-            #region backup configuration
-            // These variables describe if and how to save or load backups
-            // Maybe there should be a struct or class for this data to make doRun call less bulky?
-            // Otherwise, make this a property of frmInput or SimulationManager and use setters to
-            // configure.
-
-            string backupSaveName = ""; // base name of backup files
-            string backupdir = ""; //name of backup to load
-            Boolean backupSave = false; // save backups?
-            Boolean backupLoad = false; // load backup?
-            int backupSaveInterval = 0; // backup how often? (a number)
-            int backupSaveCount = 0; //Doesn't matter
-            char backupSaveUnit = '0'; // backup how often? (minutes, hours, days, iterations)
-
-
-            // Parse optional command line arguments if they exist
-            try
-            {
-                if (args.Length > 3)
-                {
-                    for (int i = 3; i < args.Length; i++)
+           BackUpParams backupParms = new BackUpParams ();
+           // Parse optional command line arguments if they exist
+           try
+           {
+              if (args.Length > 3)
+              {
+                 for (int i = 3; i < args.Length; i++)
+                 {
+                    //if checkpointing
+                    if (args[i] == "-c")
                     {
-                        //if checkpointing
-                        if (args[i] == "-c")
-                        {
-                            backupSave = true;
-                            backupSaveInterval = int.Parse(args[i + 1]);
-                            if (args[i + 2] == "i")
-                            {
-                                backupSaveUnit = 'i';
-                            }
-                            if (args[i + 2] == "m")
-                            {
-                                backupSaveUnit = 'm';
-                            }
-                            if (args[i + 2] == "h")
-                            {
-                                backupSaveUnit = 'h';
-                            }
-                            if (args[i + 2] == "d")
-                            {
-                                backupSaveUnit = 'd';
-                            }
-                            backupSaveName = args[i + 3];
-                            if (backupSaveUnit == 0) throw new Exception("backup save unit must be i, m, h, or d");
-                            if (backupSaveInterval < 1) throw new Exception("backup save interval must be greater than 0");
-                        }
-                        //if loading
-                        if (args[i] == "-l")
-                        {
-                            backupLoad = true;
-                            backupdir = args[i + 1];
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.Error.WriteLine(e.Message);
-                Console.Error.WriteLine("Incorrect backup configuration");
-                usage();
-                Environment.Exit(-1);
-            }
+                       backupParms.backupSave = true;
+                       backupParms.backupSaveInterval = int.Parse (args[i + 1]);
+                       backupParms.backupSaveUnit = 'z';
+                       switch (args[i + 2])
+                       {
+                          case "i":
+                             backupParms.backupSaveUnit = 'i';
+                             break;
+                          case "m":
+                             backupParms.backupSaveUnit = 'm';
+                             break;
+                          case "h":
+                             backupParms.backupSaveUnit = 'h';
+                             break;
+                          case "d":
+                             backupParms.backupSaveUnit = 'd';
+                             break;
+                       }
 
-            //When reloading, delete the directory if it exists, and remake it.
-            if (System.IO.Directory.Exists(mapOutputDirectory) && System.IO.Directory.Exists(textOutputDir) && System.IO.Directory.Exists(backupdir))
-            {
-                if (backupLoad)
-                {
-                    if (mapOutputDirectory == textOutputDir)
-                    {
-                        System.IO.Directory.Delete(mapOutputDirectory, true);
-                        dirCopy(backupdir, mapOutputDirectory);
+                       backupParms.backupSaveName = args[i + 3];
+                       if (backupParms.backupSaveUnit == 'z') throw new Exception ("backup save unit must be i, m, h, or d");
+                       if (backupParms.backupSaveInterval < 1) throw new Exception ("backup save interval must be greater than 0");
                     }
-                    else
+                    //if loading
+                    if (args[i] == "-l")
                     {
-                        System.IO.Directory.Delete(mapOutputDirectory, true);
-                        System.IO.Directory.Delete(textOutputDir, true);
-                        dirCopy(backupdir, mapOutputDirectory);
-                        System.IO.Directory.CreateDirectory(textOutputDir);
+                       backupParms.backupLoad = true;
+                       backupParms.backupdir = args[i + 1];
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Warning: Directory already exist");
-                    Environment.Exit(0);
-                }
-            }
-            else if(System.IO.Directory.Exists(backupdir))
-            {
-                if (backupLoad)
-                {
-                    if (mapOutputDirectory == textOutputDir)
-                    {
-                        dirCopy(backupdir, mapOutputDirectory);
-                    }
-                    else
-                    {
-                        dirCopy(backupdir, mapOutputDirectory);
-                        System.IO.Directory.CreateDirectory(textOutputDir);
-                    }
-                }
-            }
-            #endregion
+                 }
+              }
+           }
+           catch (Exception e)
+           {
+              Console.Error.WriteLine (e.Message);
+              Console.Error.WriteLine ("Incorrect backup configuration");
+              usage ();
+              Environment.Exit (-1);
+           }
 
-            f.doRun(xmlInputFile, mapOutputDirectory, textOutputDir, xmlBackup, backupSave, backupSaveName, backupSaveInterval, backupSaveUnit, backupSaveCount, backupLoad, backupdir);
-
-            //ESRI.ArcGIS.ADF.COMSupport.AOUninitialize.Shutdown();
-            System.Environment.Exit(0);
-            
-            //thisProc.Kill();         
-            //Console.WriteLine("End of program");
-
+           //When reloading, delete the directory if it exists, and remake it.
+           if (System.IO.Directory.Exists (mapOutputDirectory) && System.IO.Directory.Exists (textOutputDir) && System.IO.Directory.Exists (backupParms.backupdir))
+           {
+              if (backupParms.backupLoad)
+              {
+                 if (mapOutputDirectory == textOutputDir)
+                 {
+                    // Directory.GetFiles(mapOutputDirectory,"*",SearchOption.AllDirectories)
+                    System.IO.Directory.Delete (mapOutputDirectory, true);
+                    dirCopy (backupParms.backupdir, mapOutputDirectory);
+                 }
+                 else
+                 {
+                    System.IO.Directory.Delete (mapOutputDirectory, true);
+                    System.IO.Directory.Delete (textOutputDir, true);
+                    dirCopy (backupParms.backupdir, mapOutputDirectory);
+                    System.IO.Directory.CreateDirectory (textOutputDir);
+                 }
+              }
+              else
+              {
+                 Console.WriteLine ("Warning: Directory already exist");
+                 Environment.Exit (0);
+              }
+           }
+           else if (System.IO.Directory.Exists (backupParms.backupdir))
+           {
+              if (backupParms.backupLoad)
+              {
+                 if (mapOutputDirectory == textOutputDir)
+                 {
+                    dirCopy (backupParms.backupdir, mapOutputDirectory);
+                 }
+                 else
+                 {
+                    dirCopy (backupParms.backupdir, mapOutputDirectory);
+                    System.IO.Directory.CreateDirectory (textOutputDir);
+                 }
+              }
+           }
+           return backupParms;
         }
 
-        #endregion Methods 
+        private static void LoadArgs (string[] args, out string xmlInputFile, out string mapOutputDirectory, out string textOutputDir, out string xmlBackup)
+        {
+           //Checks if the command line arugments are less than the minimum required amount
+           if (args.Length < 3)
+           {
+              usage ();
+              Console.WriteLine ("ERROR: Program was not provided enough arguments.");
+              Environment.Exit (-1);
+           }
 
-        #endregion Non-Public Members 
+
+
+           xmlInputFile = args[0];
+           mapOutputDirectory = args[1];
+           textOutputDir = args[2];
+           xmlBackup = null;
+
+           //Check if creating a backup xml file
+           if (args.Length > 3)
+           {
+
+              string temp = args[3].ToLower ();
+              temp = temp.Trim ();
+              if ((temp == "-c") || (temp == "-l"))
+              {
+                 xmlBackup = null;
+              }
+              else
+              {
+                 xmlBackup = args[3];
+              }
+           }
+
+           string mapDir = mapOutputDirectory;
+           string textDir = textOutputDir;
+        }
+
+        static void usage()
+        {
+            Console.Error.WriteLine("program xmlInputFile mapOutput textOuput xmlBackup [optional]");
+            Console.Error.WriteLine("Options:");
+            Console.Error.WriteLine("-c interval unit BackupDirectory");
+            Console.Error.WriteLine("   Create backups");
+            Console.Error.WriteLine("   interval: how long between backups (number)");
+            Console.Error.WriteLine("   unit: how interval is measured: i iterations, m minutes, h hours, d days");
+            Console.Error.WriteLine("-l BackupDirectory");
+            Console.Error.WriteLine("   Loads backup from directory");
+            Console.Error.WriteLine("   BackupDirectory: The directory storing the backup information");            
+        }
+
+      #endregion Private Methods 
+
+      #endregion Methods 
+
+      #region Main()
+       /// <summary>
+       /// The main entry point for the application.
+       /// </summary>
+       // [STAThread] //Runs faster with the tag, but seems to have some issue with exiting
+       static void Main (string[] args)
+       {
+          string xmlInputFile;
+          string mapOutputDirectory;
+          string textOutputDir;
+          string xmlBackup;
+#if DEBUG
+          Console.WriteLine ("calling check license");
+#endif
+
+          CheckLicense ();
+          frmInput f = new frmInput ();
+
+#if DEBUG
+          Console.WriteLine ("calling LoadArgs");
+#endif
+          LoadArgs (args, out xmlInputFile, out mapOutputDirectory, out textOutputDir, out xmlBackup);
+#if DEBUG
+          Console.WriteLine ("Calling DoBackUpLoad");
+#endif       
+          BackUpParams backupParms = DoBackUpLoad (args, mapOutputDirectory, textOutputDir);
+#if DEBUG
+          Console.WriteLine ("Calling DoRun");
+#endif          
+          f.doRun (xmlInputFile, mapOutputDirectory, textOutputDir, xmlBackup, backupParms);
+
+          //ESRI.ArcGIS.ADF.COMSupport.AOUninitialize.Shutdown();
+          System.Environment.Exit (0);
+
+          //thisProc.Kill();         
+          //Console.WriteLine("End of program");
+
+       }
+       #endregion
     }
 }

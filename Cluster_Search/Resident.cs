@@ -47,6 +47,10 @@ namespace SEARCH
         #region Methods (4) 
 
         #region Public Methods (3) 
+      public void SaySomething(string inSomething)
+      {
+         this.mTextFileWriter.addLine (inSomething);
+      }
 
       public void breed(out int numMales, out int numFemales)
       {

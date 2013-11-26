@@ -1044,12 +1044,25 @@ private MapManager()
          int i = 0;
          try
          {
+#if DEBUG
+
+            if (Directory.Exists (mOutMapPath))
+            {
+               DirectoryInfo di = new DirectoryInfo (mOutMapPath);
+               foreach (DirectoryInfo dd in di.GetDirectories ())
+               {
+                  dd.Delete (true);
+               }
+            }
+#endif
             IGeometryDef geoDef = this.getSpatialInfo();
             mLog.Debug("inside make new animal map for " + numAnimals.ToString() + " number of animals");
             if (!LoadBackup)
             {
                 for (i = 0; i < numAnimals && success; i++)
                 {
+
+                      
                     myAnimalMaps.Add(new AnimalMap(i.ToString(), mOutMapPath, geoDef));
                     //set reference to social map so we can add those fields on the makeMap call
                     myAnimalMaps[i].MySocialMap = this.mySocialMap;
