@@ -450,6 +450,7 @@ namespace SEARCH
               this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix );
           }
       }
+     
 
         //Rebuilds the TextWriter after a reload
       public void ReBuildTextWriter(string OutPutDir)
@@ -465,7 +466,6 @@ namespace SEARCH
             {
                this.TextFileWriter = new TextFileWriter (this.AnimalAtributes.OutPutDir, this.fileNamePrefix);
             }
-        
       }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)
