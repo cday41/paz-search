@@ -15,7 +15,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>
     </StartupObject>
@@ -33,6 +33,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,10 +56,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="bobResize">
-      <HintPath>References\bobResize.dll</HintPath>
+      <HintPath>Reference DLLs\bobResize.dll</HintPath>
     </Reference>
     <Reference Include="DesignbyContract1">
-      <HintPath>References\DesignbyContract1.dll</HintPath>
+      <HintPath>Reference DLLs\DesignbyContract1.dll</HintPath>
     </Reference>
     <Reference Include="ESRI.ArcGIS.ADF, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -100,14 +101,11 @@
     <Reference Include="ESRI.ArcGIS.Version, Version=10.0.0.0, Culture=neutral, PublicKeyToken=8fc3cc631e44ad86, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="FileWriter">
-      <HintPath>References\FileWriter.dll</HintPath>
-    </Reference>
     <Reference Include="inputBox">
-      <HintPath>References\inputBox.dll</HintPath>
+      <HintPath>Reference DLLs\inputBox.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>packages\log4net.2.0.3\lib\net35-full\log4net.dll</HintPath>
+      <HintPath>packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
       <HintPath>References\MathNet.Numerics.dll</HintPath>
@@ -286,6 +284,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ArcGISCodeMigration_Log.txt" />
+    <Content Include="Reference DLLs\MathNet.Numerics.dll" />
+    <Content Include="Reference DLLs\txtBoxArray.dll" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

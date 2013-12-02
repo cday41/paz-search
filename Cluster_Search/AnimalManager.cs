@@ -34,7 +34,35 @@ namespace SEARCH
     [Serializable()]
     public class AnimalManager  
    {
-        #region Constructors (1) 
+		#region Fields (20) 
+
+      private IEnumerator currAnimal;
+      private int currNumAnimals;
+      
+      private AnimalAtributes mAnimalAttributes;
+      private HomeRangeCriteria mFemaleHomeRangeCriteria;
+      private FemaleModifier mFemaleModifier;
+      private IHomeRangeFinder mHomeRangeFinder;
+      private IHomeRangeTrigger mHomeRangeTrigger;
+      private ILog mLog = LogManager.GetLogger("animalManager");
+      private ILog eLog = LogManager.GetLogger("Error");
+      private HomeRangeCriteria mMaleHomeRangeCriteria;
+      private MaleModifier mMaleModifier;
+      private Dictionary<IPoint, MapValue> mMapValues;
+ // ersi may need custom serializer. mark as transient.
+      private Mover mMover;
+ // containes ref to map manager // mark as transient.
+      private ResidentAttributes mResidentAttributes;
+      private Modifier mRiskyForageMod;
+      private Modifier mRiskySearchMod;
+      private Modifier mSafeForageMod;
+      private Modifier mSafeSearchMod;
+      private List<Animal> myAnimals;
+      private string myErrMessage;
+
+		#endregion Fields 
+
+		#region Constructors (1) 
 
       public AnimalManager()
       {
@@ -52,49 +80,9 @@ namespace SEARCH
          currNumAnimals = 0;
       }
 
-        #endregion Constructors 
+		#endregion Constructors 
 
-        #region Fields (17) 
-
-      private IEnumerator currAnimal;
-      private AnimalAtributes mAnimalAttributes;
-      private HomeRangeCriteria mFemaleHomeRangeCriteria;
-      private FemaleModifier mFemaleModifier;
-      private IHomeRangeFinder mHomeRangeFinder;
-      private IHomeRangeTrigger mHomeRangeTrigger;
-      private HomeRangeCriteria mMaleHomeRangeCriteria;
-      private MaleModifier mMaleModifier;
-      private Dictionary<IPoint, MapValue> mMapValues; // ersi may need custom serializer. mark as transient.
-
-      private Mover mMover; // containes ref to map manager // mark as transient.
-      
-      private ResidentAttributes mResidentAttributes;
-      private Modifier mRiskyForageMod;
-      private Modifier mRiskySearchMod;
-      private Modifier mSafeForageMod;
-      private Modifier mSafeSearchMod;
-      private string myErrMessage;
-      private List<Animal> myAnimals;
-      private int currNumAnimals;
-
-      public int getNumDispersers()
-      {
-         return getDispersers().Count;
-      }
-
-        public int getTotalNum()
-      {
-          return this.myAnimals.Count();
-      }
-
-      public int getNumResidents()
-      {
-         return getResidents().Count;
-      }
-
-        #endregion Fields 
-
-        #region Properties (9) 
+		#region Properties (9) 
 
       public AnimalAtributes AnimalAttributes
       {
@@ -167,14 +155,11 @@ namespace SEARCH
             mLog.Debug("inside animal manager setting the mSafeSearchMod"); }
       }
 
-        #endregion Properties 
+		#endregion Properties 
 
-        #region Methods (32) 
+		#region Methods (40) 
 
-        #region Public Methods (20) 
-
-      private ILog mLog = LogManager.GetLogger("animalManager");
-      private ILog eLog = LogManager.GetLogger("Error");
+		// Public Methods (27) 
 
       public void addNewDispersers(InitialAnimalAttributes[] inIAA, DateTime currTime)
       {
@@ -302,9 +287,13 @@ namespace SEARCH
                {
                   mLog.Debug("switching " + a.IdNum.ToString() + " to a resident");
                   Resident r = new Resident();
+                  
                   r.Sex = a.Sex;
                   r.IdNum = a.IdNum;
+                 
                   r.TextFileWriter = a.TextFileWriter;
+                 string fileName = r.TextFileWriter.RelocateFile();
+                  r.FileNamePrefix = a.FileNamePrefix;
                   r.HomeRangeCenter = a.HomeRangeCenter;
                   r.HomeRangeCriteria = a.HomeRangeCriteria;
                   r.MyAttributes = this.ResidentAttributes;
@@ -334,6 +323,30 @@ namespace SEARCH
          {
             a.dump();
          }
+      }
+
+      public List<Animal> getDispersers()
+      {
+         List<Animal> dispersers = new List<Animal>();
+         foreach (Animal a in this.myAnimals)
+         {
+            if (a.GetType().Name != "Resident" && a.IsDead == false)
+            {
+               dispersers.Add(a);
+            }
+         }
+         return dispersers;
+
+      }
+
+      public int getNumDispersers()
+      {
+         return getDispersers().Count;
+      }
+
+      public int getNumResidents()
+      {
+         return getResidents().Count;
       }
 
       public StringCollection getResidentIDs()
@@ -385,6 +398,34 @@ namespace SEARCH
           return output;
       }
 
+        public int getTotalNum()
+      {
+          return this.myAnimals.Count();
+      }
+
+       //todo
+       public static AnimalManager load(string filename)
+       {
+           if (!File.Exists(filename))
+           {
+               return null;
+           }
+           FileStream fis = File.OpenRead(filename);
+           try
+           {              
+               BinaryFormatter bf = new BinaryFormatter();
+               AnimalManager am = (SEARCH.AnimalManager)bf.Deserialize(fis);
+               fis.Close();
+               return am;
+           }
+           catch (Exception e)
+           {
+               Console.WriteLine(e.ToString());
+               // something bad happened.
+               fis.Close();
+               return null;
+           }
+       }
 
       public bool loadBackup(string line, string backup,string inStartYear)
       {
@@ -395,12 +436,7 @@ namespace SEARCH
           int i = 0;
 
           myAnimals.Clear ();
-          //Force close the TextFileWriter for all initial animals
-          foreach (Animal a in myAnimals)
-          {
-              if(a.TextFileWriter != null)
-                a.TextFileWriter.close();
-          }
+   
           //Set the currNumAnimals to the saved number.
           currNumAnimals =  Convert.ToInt32(((line.Split(':'))[1]).Trim());
           mLog.Debug("we are going to load " + currNumAnimals.ToString());
@@ -435,7 +471,6 @@ namespace SEARCH
           }
           return true;
       }
-
 
       public bool makeInitialAnimals(InitialAnimalAttributes[] inIAA)
       {
@@ -549,6 +584,24 @@ namespace SEARCH
             eLog.Debug(ex);
          }
          
+      }
+
+       // toto
+       public static bool save(string filename,AnimalManager animalManager)
+      {
+          FileStream fos = File.Create(filename);
+          try
+          {
+              BinaryFormatter bf = new BinaryFormatter();
+              bf.Serialize(fos, animalManager);
+              fos.Close();
+              return true;
+          }
+          catch
+          {
+              fos.Close();
+              return false; // something bad happened
+          } 
       }
 
       public bool setAttributes()
@@ -730,6 +783,16 @@ namespace SEARCH
          }
       }
 
+      public void setResidentsTextOutput(string path, string year)
+      {
+         List<Resident> res = this.getResidents();
+         foreach (Resident r in res)
+         {
+            
+            r.BuildTextWriter (year, path + "\\Resident");             
+         }
+      }
+
       public bool setSleepTime(DateTime currTime)
       {
          string CurrYear = currTime.Year.ToString();
@@ -792,9 +855,7 @@ namespace SEARCH
             eLog.Debug(ex);
          }
       }
-
-        #endregion Public Methods 
-        #region Private Methods (12) 
+		// Private Methods (13) 
 
       private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
       {
@@ -821,37 +882,18 @@ namespace SEARCH
          }
       }
 
-
       private List<Animal> getAllLiveAnimals()
       {
          var temp = from a in myAnimals where a.IsDead == false select a;
          return temp.ToList<Animal>();
       }
- 
-      public List<Animal> getDispersers()
-      {
-         List<Animal> dispersers = new List<Animal>();
-         foreach (Animal a in this.myAnimals)
-         {
-            if (a.GetType().Name != "Resident" && a.IsDead == false)
-            {
-               dispersers.Add(a);
-            }
-         }
-         return dispersers;
 
-      }
        private List<Animal> getDispersers(string inSex)
       {
          var temp = from a in myAnimals where a.GetType().Name.Equals(inSex, StringComparison.CurrentCultureIgnoreCase)  && !a.IsDead select a;
          return temp.ToList<Animal>();
       }
-      private List<Resident> getResidents(string inSex)
-      {
 
-         var temp = from a in myAnimals where a.GetType().Name.Equals("resident", StringComparison.CurrentCultureIgnoreCase) && !a.IsDead && a.Sex.Equals(inSex, StringComparison.CurrentCultureIgnoreCase) select a as Resident;
-         return temp.ToList<Resident>();
-      }
       private List<Resident> getResidents()
       {
 
@@ -874,6 +916,13 @@ namespace SEARCH
             eLog.Debug(ex);
          }
          return r;
+      }
+
+      private List<Resident> getResidents(string inSex)
+      {
+
+         var temp = from a in myAnimals where a.GetType().Name.Equals("resident", StringComparison.CurrentCultureIgnoreCase) && !a.IsDead && a.Sex.Equals(inSex, StringComparison.CurrentCultureIgnoreCase) select a as Resident;
+         return temp.ToList<Resident>();
       }
 
       private void makeNextGenAnimal(InitialAnimalAttributes inIAA, DateTime currTime)
@@ -1066,16 +1115,6 @@ namespace SEARCH
 
       }
 
-      public void setResidentsTextOutput(string path, string year)
-      {
-         List<Resident> res = this.getResidents();
-         foreach (Resident r in res)
-         {
-            r.BuildTextWriter (year, path + "\\Resident");
-            r.TextFileWriter.OutPath = path + "\\Resident";
-         }
-      }
-
       private void setResidentAttributes()
       {
          List<Resident> rs = getResidents();
@@ -1083,51 +1122,6 @@ namespace SEARCH
             r.MyAttributes = this.ResidentAttributes;
       }
 
-        #endregion Private Methods 
-
-        #endregion Methods 
-      
-       
-       // toto
-       public static bool save(string filename,AnimalManager animalManager)
-      {
-          FileStream fos = File.Create(filename);
-          try
-          {
-              BinaryFormatter bf = new BinaryFormatter();
-              bf.Serialize(fos, animalManager);
-              fos.Close();
-              return true;
-          }
-          catch
-          {
-              fos.Close();
-              return false; // something bad happened
-          } 
-      }
-
-       //todo
-       public static AnimalManager load(string filename)
-       {
-           if (!File.Exists(filename))
-           {
-               return null;
-           }
-           FileStream fis = File.OpenRead(filename);
-           try
-           {              
-               BinaryFormatter bf = new BinaryFormatter();
-               AnimalManager am = (SEARCH.AnimalManager)bf.Deserialize(fis);
-               fis.Close();
-               return am;
-           }
-           catch (Exception e)
-           {
-               Console.WriteLine(e.ToString());
-               // something bad happened.
-               fis.Close();
-               return null;
-           }
-       }
+		#endregion Methods 
    }
 }

@@ -69,12 +69,12 @@ namespace DataCentric
                  for (int i = 3; i < args.Length; i++)
                  {
                     //if checkpointing
-                    if (args[i] == "-c")
+                    if (args[i].ToLower() == "-c")
                     {
                        backupParms.backupSave = true;
                        backupParms.backupSaveInterval = int.Parse (args[i + 1]);
                        backupParms.backupSaveUnit = 'z';
-                       switch (args[i + 2])
+                       switch (args[i + 2].ToLower())
                        {
                           case "i":
                              backupParms.backupSaveUnit = 'i';
@@ -95,7 +95,7 @@ namespace DataCentric
                        if (backupParms.backupSaveInterval < 1) throw new Exception ("backup save interval must be greater than 0");
                     }
                     //if loading
-                    if (args[i] == "-l")
+                    if (args[i].ToLower() == "-l")
                     {
                        backupParms.backupLoad = true;
                        backupParms.backupdir = args[i + 1];
@@ -118,7 +118,7 @@ namespace DataCentric
               {
                  if (mapOutputDirectory == textOutputDir)
                  {
-                    // Directory.GetFiles(mapOutputDirectory,"*",SearchOption.AllDirectories)
+                    Directory.GetFiles(mapOutputDirectory, "*", SearchOption.AllDirectories);
                     System.IO.Directory.Delete (mapOutputDirectory, true);
                     dirCopy (backupParms.backupdir, mapOutputDirectory);
                  }

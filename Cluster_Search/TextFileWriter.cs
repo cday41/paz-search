@@ -5,16 +5,21 @@ namespace SEARCH
 {
    public class TextFileWriter
    {
-        #region Public Members (5) 
-
-        #region Constructors (1) 
+		#region Fields (4) 
 
        private ILog eLog = LogManager.GetLogger("Error");
+      private string mOutPath;
+      private StringCollection sc;
+      private System.IO.StreamWriter sw;
+
+		#endregion Fields 
+
+		#region Constructors (1) 
 
       public TextFileWriter(string path, string fileName)
       {
          bool exists = false;
-         sc = new StringCollection();
+       //  sc = new StringCollection();
          if (path != null)
          {
              if (!System.IO.Directory.Exists(path))
@@ -27,6 +32,7 @@ namespace SEARCH
                
              }
              sw = new StreamWriter(path + "\\" + fileName + ".txt", true);
+             this.OutPath = path + "\\" + fileName + ".txt";
              sw.AutoFlush = true;
              if (!exists)
              {
@@ -35,8 +41,9 @@ namespace SEARCH
          }
       }
 
-        #endregion Constructors 
-        #region Properties (1) 
+		#endregion Constructors 
+
+		#region Properties (1) 
 
       public string OutPath
       {
@@ -44,8 +51,11 @@ namespace SEARCH
          set { mOutPath = value; }
       }
 
-        #endregion Properties 
-        #region Methods (3) 
+		#endregion Properties 
+
+		#region Methods (3) 
+
+		// Public Methods (3) 
 
       public void addLine(string inValue)
       {
@@ -66,6 +76,22 @@ namespace SEARCH
          sw.Close();
       }
 
+      public string RelocateFile()
+      {
+         string fileName = Path.GetFileName(this.mOutPath);
+         string path = Path.GetDirectoryName(this.mOutPath);
+         sw.Close();
+         string newFileName = Path.Combine(path,"Resident", fileName);
+         if(File.Exists(newFileName)) File.Delete(newFileName);
+         File.Copy(this.mOutPath, newFileName);
+         sw = new StreamWriter(newFileName, true);
+         File.Delete(mOutPath);
+         this.OutPath = newFileName;
+         sw.AutoFlush = true;
+       
+         return newFileName;
+      }
+
       public void WriteOutTimeStep()
       {
          foreach (string s in this.sc)
@@ -75,20 +101,6 @@ namespace SEARCH
          this.sc.Clear();
       }
 
-        #endregion Methods 
-
-        #endregion Public Members 
-
-        #region Non-Public Members (3) 
-
-        #region Fields (3) 
-
-      private string mOutPath;
-      private StringCollection sc;
-      private System.IO.StreamWriter sw;
-
-        #endregion Fields 
-
-        #endregion Non-Public Members 
+		#endregion Methods 
    }
 }

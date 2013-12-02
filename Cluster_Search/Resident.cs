@@ -25,6 +25,7 @@ namespace SEARCH
         #region Fields (2) 
 
       private ResidentAttributes mMyAttributes;
+      private string myTextFilePath;
       
 
         #endregion Fields 
@@ -52,12 +53,27 @@ namespace SEARCH
          this.mTextFileWriter.addLine (inSomething);
       }
 
+      public void BuildTextWriter(string CurrYear, string OutPutDir)
+      {
+         myTextFilePath = OutPutDir;
+         if(String.IsNullOrEmpty(FileNamePrefix))
+         {
+
+         base.BuildTextWriter(CurrYear,OutPutDir);
+         }
+         else
+         {
+            this.TextFileWriter = new TextFileWriter(OutPutDir, FileNamePrefix);
+         }
+
+      }
+    
       public void breed(out int numMales, out int numFemales)
       {
          int numChildren = 0;
          numMales = 0;
          numFemales = 0;
-         //TODO REMOVE VARIABLE USED ONLY FOR LOGGING
+
          double rollDice;
          try
          {
@@ -165,4 +181,5 @@ namespace SEARCH
 
         #endregion Methods 
    }
+
 }

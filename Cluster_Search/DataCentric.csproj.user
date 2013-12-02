@@ -6,7 +6,7 @@
     <StartAction>Project</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"C:\Cluster_Search\SearchMaps\bobtest.xml" C:\Cluster_Search\AnimalLogs C:\Cluster_Search\AnimalLogs -c 2 i "C:\Cluster_Search\BackUp"  -l "C:\Cluster_Search\BackUp"</StartArguments>
+    <StartArguments>"F:\Searchinputandbackup\Bobtest.Xml" F:\Searchinputandbackup\Animallogs F:\Searchinputandbackup\Animallogs -C 2 I "F:\Searchinputandbackup\Backup"  -L "F:\Searchinputandbackup\Backup"</StartArguments>
   </PropertyGroup>
   <PropertyGroup>
     <PublishUrlHistory>publish\</PublishUrlHistory>

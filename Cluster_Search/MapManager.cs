@@ -980,7 +980,7 @@ private MapManager()
       {
           int max = 0;
           int min = -1;
-          int k;
+        //  int k;
           string[] tempArray;
           string parentDir = System.IO.Directory.GetParent(mOutMapPath).ToString();
           string[] dirArray = System.IO.Directory.GetDirectories(parentDir);

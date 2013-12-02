@@ -538,6 +538,12 @@ namespace SEARCH
           {
               System.IO.Directory.CreateDirectory(baseName);
           }
+         else
+          {
+             /*Clean out all the old files so the directory only has the latest and greatest*/
+             System.IO.Directory.Delete(baseName,true);
+             System.IO.Directory.CreateDirectory(baseName);
+            }
           string output = "";
           string filename = baseName + "\\Animals.xml";
 
@@ -701,7 +707,7 @@ namespace SEARCH
               string line = reader.ReadLine();
               while (line != null)
               {
-                  string[] words;
+                 string[] words = line.Split(',');
                   switch (i++)
                   {
                       case 0:
@@ -722,7 +728,7 @@ namespace SEARCH
                           break;
                       case 4:
                           words = line.Split(',');
-                          EndSeasonDate = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
+                       //   EndSeasonDate = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
                           break;
                   }
                   line = reader.ReadLine();

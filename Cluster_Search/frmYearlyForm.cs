@@ -6,8 +6,9 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using SEARCH;
 
-using inputBox;
+//using inputBox;
 using log4net;
+using inputBox;
 
 namespace SEARCH
 {
