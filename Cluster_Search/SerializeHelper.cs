@@ -12,6 +12,11 @@ namespace SEARCH
    {
      public static void SerializeObjectToFile(string inFileName, object inO)
       {
+         string backupDir = Path.GetDirectoryName(inFileName);
+        if (! Directory.Exists(backupDir))
+        {
+         Directory.CreateDirectory(backupDir);
+         }
          StreamWriter sw = new StreamWriter(inFileName);
          XmlSerializer ser = new XmlSerializer(inO.GetType());
          ser.Serialize(sw, inO);

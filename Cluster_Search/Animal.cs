@@ -118,7 +118,9 @@ namespace SEARCH
       private double mTemporalPerceptonDistance;
       protected bool mIsDead;
       private bool IsAsleep;
+       [XmlIgnore]
       private DateTime WakeupTime;
+            [XmlIgnore]
       private DateTime SleepTime;
       private int durationID;
       private HomeRangeCriteria homeRangeCriteria;
@@ -390,7 +392,20 @@ namespace SEARCH
           get { if (fileNamePrefix != null) { return fileNamePrefix; } return null; }
           set { fileNamePrefix = value; }
       }
+      
+  
+       public string MyWakeTime
+      {
+         get { return this.WakeupTime.ToString("o"); }
+         set { this.WakeupTime =  DateTime.Parse( value); }
+      }
 
+   
+       public string MySleepTime
+       {
+          get { return this.SleepTime.ToString("o"); }
+          set { this.SleepTime = DateTime.Parse(value); }
+       }
         #endregion Properties 
 
         #region Methods (30) 

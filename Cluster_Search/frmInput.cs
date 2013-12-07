@@ -1838,7 +1838,7 @@ namespace SEARCH
                 if (strText.Length == 0)
                 {
                     success = false;
-                    MessageBox.Show("You left out an entry you must enter something even a zero", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("You left out an entry you must enter something even a zero " + inTextBoxes[j].ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     inTextBoxes.setFocus(j);
                     break;
                 }
