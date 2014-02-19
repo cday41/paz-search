@@ -16,7 +16,6 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
 using log4net;
-using DataCentric;
 namespace SEARCH
 {
    /// <summary>
@@ -323,6 +322,7 @@ namespace SEARCH
             mLog.Debug("currDate is " + this.currTime.ToShortDateString());
             mLog.Debug("end season date is " + this.EndSeasonDate.ToShortDateString());
             Console.WriteLine("Currtime: {0} EndSeasonDate: {1}", currTime, this.EndSeasonDate);
+            Console.Write("Run time is " + DateTime.Now.ToShortTimeString());
 
             while (currTime < this.EndSeasonDate)
             {
@@ -408,11 +408,7 @@ namespace SEARCH
                   mErrMessage = mMapManager.getErrMessage();
                }
             }
-            else
-            {
-               success = false;
-               mErrMessage = "No animals to create maps for";
-            }            
+                
          }
          catch(System.Exception ex)
          {
@@ -728,7 +724,7 @@ namespace SEARCH
                           break;
                       case 4:
                           words = line.Split(',');
-                       //   EndSeasonDate = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
+                          EndSeasonDate = DateTime.ParseExact(words[1].Trim(), "yyyy-MM-dd HH:mm tt", null);
                           break;
                   }
                   line = reader.ReadLine();
@@ -759,7 +755,7 @@ namespace SEARCH
          DailyModiferCollection mySingleton = DailyModiferCollection.GetUniqueInstance();
          return mySingleton;
       }
-
+   
       internal HourlyModifierCollection GetHourlyModifierCollection()
       {
          mLog.Debug("inside sim manager getting a collecton of Hourly modifiers");

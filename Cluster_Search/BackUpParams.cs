@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataCentric
+namespace SEARCH
 {
    public struct BackUpParams
    {

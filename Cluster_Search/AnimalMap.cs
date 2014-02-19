@@ -384,14 +384,19 @@ namespace SEARCH
          try
          {
              shapePath = shapePath + "\\" + shapeFileName;
+            
 
 
              //C:\test\2013\0\0
              if (!loadFromBackup)
              {
+#if DEBUG
+                if (Directory.Exists(shapePath)) Directory.Delete(shapePath,true);
+#endif
                 Directory.CreateDirectory(shapePath);
                 this.myPath = shapePath;
              }
+            
            
             IWorkspaceFactory shpWkspFactory = new ShapefileWorkspaceFactoryClass();
             IPropertySet connectionProperty = new PropertySetClass();

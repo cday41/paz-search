@@ -8,8 +8,8 @@
     <ProjectGuid>{4D24422E-7F53-4415-A1D0-7387F6678CA4}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataCentric</RootNamespace>
-    <AssemblyName>DataCentric</AssemblyName>
+    <RootNamespace>SEARCH</RootNamespace>
+    <AssemblyName>SEARCH</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>

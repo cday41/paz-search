@@ -28,7 +28,6 @@ using System.Xml.XPath;
 using System.Diagnostics;
 using SEARCH;
 using log4net;
-using DataCentric;
 //using GISHACK;
 
 namespace SEARCH
@@ -3344,7 +3343,7 @@ namespace SEARCH
         {
             try
             {
-                System.Xml.XPath.XPathDocument doc = new System.Xml.XPath.XPathDocument(file);
+             System.Xml.XPath.XPathDocument doc = new System.Xml.XPath.XPathDocument(file);
                 System.Xml.XPath.XPathNavigator nav = doc.CreateNavigator();
                 System.Xml.XPath.XPathNodeIterator result;
                 result = nav.Select("//Tab[@name=\"Time\"]");

@@ -8,7 +8,7 @@ using ESRI.ArcGIS.ADF.COMSupport;
 
 using SEARCH;
 
-namespace DataCentric
+namespace SEARCH
 {
     static class Program
     {
@@ -212,7 +212,7 @@ namespace DataCentric
        /// <summary>
        /// The main entry point for the application.
        /// </summary>
-       // [STAThread] //Runs faster with the tag, but seems to have some issue with exiting
+       [STAThread] //Runs faster with the tag, but seems to have some issue with exiting
        static void Main (string[] args)
        {
           string xmlInputFile;

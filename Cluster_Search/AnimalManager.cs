@@ -38,14 +38,13 @@ namespace SEARCH
 
       private IEnumerator currAnimal;
       private int currNumAnimals;
-      
+      private ILog eLog = LogManager.GetLogger("Error");
       private AnimalAtributes mAnimalAttributes;
       private HomeRangeCriteria mFemaleHomeRangeCriteria;
       private FemaleModifier mFemaleModifier;
       private IHomeRangeFinder mHomeRangeFinder;
       private IHomeRangeTrigger mHomeRangeTrigger;
       private ILog mLog = LogManager.GetLogger("animalManager");
-      private ILog eLog = LogManager.GetLogger("Error");
       private HomeRangeCriteria mMaleHomeRangeCriteria;
       private MaleModifier mMaleModifier;
       private Dictionary<IPoint, MapValue> mMapValues;
@@ -256,7 +255,7 @@ namespace SEARCH
 
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
-         
+         Console.WriteLine("Do time step at runtime " + DateTime.Now.ToShortTimeString());
          //List<Animal> liveAnimals = this.getAllLiveAnimals();
          Animal a;
          string status = "";
@@ -271,6 +270,10 @@ namespace SEARCH
                mLog.Debug("animal id = " + a.IdNum.ToString());
                mLog.Debug("animal is type " + a.GetType().ToString());
 
+               //no sense trying a time step if already dead
+               //Continue will let us skip the rest of this loop and 
+               // pick up the next animal.
+               if(a.IsDead) continue;
 
                 a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
                //check to see if they died if they did remove them from the list
@@ -375,27 +378,42 @@ namespace SEARCH
 
       public String getStringOutput(string filename)
       {
-           string output = string.Format("myAnimals.count:{0}\n", this.myAnimals.Count); //Prints how many animals are in the array myAnimals
+         string output = string.Format("myAnimals count:{0}\n", myAnimals.Count); //Prints how many animals are in the array myAnimals
 
-          mLog.Debug("");
-          mLog.Debug("");
-          mLog.Debug("");
-          mLog.Debug("");
-          mLog.Debug("**************************************************************************************");
-          mLog.Debug("going to serialize out " + output + " animals");
-          //For each animal convert mPath over to a list of strings so it can be serialized
-          foreach (Animal a in myAnimals)
-          {
-              a.convertIPointList();
-              mLog.Debug("");
-              mLog.Debug("animal id = " + a.IdNum.ToString());
-              mLog.Debug("animal is type " + a.GetType().ToString());
-          }
-          //Serialize the list
-          //BC 08/09/2013 try to erase the file then recreate it
-          if(System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
-          SerializeHelper.SerializeObjectToFile(filename, myAnimals);
-          return output;
+
+         mLog.Debug("");
+         mLog.Debug("");
+         mLog.Debug("");
+         mLog.Debug("");
+         mLog.Debug("**************************************************************************************");
+         mLog.Debug("going to serialize out " + output + " animals");
+         mLog.Debug("Run time is " + DateTime.Now.ToShortTimeString());
+
+#if DEBUG
+Console.WriteLine("going to serialize out " + output + " animals");
+Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
+#endif
+
+         //For each animal convert mPath over to a list of strings so it can be serialized
+         foreach (Animal a in myAnimals)
+         {
+            a.convertIPointList();
+            mLog.Debug("");
+            mLog.Debug("animal id = " + a.IdNum.ToString());
+            mLog.Debug("animal is type " + a.GetType().ToString());
+         }
+         //Serialize the list
+         //BC 08/09/2013 try to erase the file then recreate it
+         if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
+         mLog.Debug("Calling the serialization method");
+         SerializeHelper.SerializeObjectToFile(filename, myAnimals);
+#if DEBUG
+Console.WriteLine("Done Serializing");
+Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
+#endif
+
+         return output;
+
       }
 
         public int getTotalNum()
@@ -433,6 +451,10 @@ namespace SEARCH
           mLog.Debug("");
           mLog.Debug("******************************************************************");
           mLog.Debug("inside load backup");
+
+#if DEBUG
+          Console.WriteLine("start loading backup runime is " + DateTime.Now.ToShortTimeString());
+#endif
           int i = 0;
 
           myAnimals.Clear ();
@@ -462,13 +484,16 @@ namespace SEARCH
                   a.ReBuildTextWriter(this.AnimalAttributes.OutPutDir);
               }
               a.rebuildIPointList();
-              a.AnimalManager = this;
+               a.AnimalManager = this;
               i++;
           }
           if (i != currNumAnimals)
           {
               Console.WriteLine("Something is wrong! i={0} cur={1}", i, currNumAnimals);
           }
+#if DEBUG
+          Console.WriteLine("done loading backup runime is " + DateTime.Now.ToShortTimeString());
+#endif
           return true;
       }
 
