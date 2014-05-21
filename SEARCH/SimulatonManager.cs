@@ -318,11 +318,11 @@ namespace SEARCH
             // Heartbeat - is the program still running?
             Console.WriteLine("Season: " + currSeason + "/" + this.mNumSeasons);
 
-            mLog.Debug("starting a season");
-            mLog.Debug("currDate is " + this.currTime.ToShortDateString());
-            mLog.Debug("end season date is " + this.EndSeasonDate.ToShortDateString());
-            Console.WriteLine("Currtime: {0} EndSeasonDate: {1}", currTime, this.EndSeasonDate);
-            Console.Write("Run time is " + DateTime.Now.ToShortTimeString());
+            //mLog.Debug("starting a season");
+            //mLog.Debug("currDate is " + this.currTime.ToShortDateString());
+            //mLog.Debug("end season date is " + this.EndSeasonDate.ToShortDateString());
+            //Console.WriteLine("Currtime: {0} EndSeasonDate: {1}", currTime, this.EndSeasonDate);
+            //Console.Write("Run time is " + DateTime.Now.ToShortTimeString());
 
             while (currTime < this.EndSeasonDate)
             {
@@ -384,11 +384,12 @@ namespace SEARCH
 
          mLog.Debug("FINISHED SIM LOOP!");
       }
-      public void reloadMaps()
+    
+      public void reloadAnimals()
       {
           List<Animal> a = this.AnimalManager.getDispersers();
           int numAnimals = this.AnimalManager.getTotalNum();
-          bool success = this.mMapManager.reloadAnimalMaps();
+        
         
 
       }

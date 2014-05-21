@@ -521,9 +521,6 @@ namespace SEARCH
 
                tempX = this.myLocation.X;
                tempY = this.myLocation.Y;
-               // fw.writeLine("tempX = " + tempX.ToString());
-               // fw.writeLine("tempY = " + tempY.ToString());
-               // fw.writeLine("calling update behavioral modifier");
 
                move(ref percentTimeStep); mLog.Debug("move returned  " + percentTimeStep.ToString());
                mLog.Debug("previousPercentTimeStep is " + previousPercentTimeStep.ToString());
@@ -610,6 +607,7 @@ namespace SEARCH
                      // only change to resident if we were able to build the home range
                      if (this.MapManager.BuildHomeRange(this))
                      {
+                        Console.WriteLine ("number " + this.IdNum.ToString () + " is home.");
                         mLog.Debug("found a home");
                         mLog.Debug("ok we are home now setting the location = home range center");
                         mLog.Debug("the new X should = " + this.HomeRangeCenter.X.ToString());

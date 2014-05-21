@@ -44,6 +44,7 @@ using System.Xml.XPath;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using log4net;
+using System.Xml.Serialization;
 
 
 namespace SEARCH
@@ -80,7 +81,7 @@ private MapManager()
         #endregion Constructors 
 
         #region Fields (26) 
-
+  
       private string errFileName;
       private System.Collections.Specialized.StringCollection errMessages;
       private int errNumber;
@@ -112,7 +113,7 @@ private MapManager()
 
         #endregion Fields 
 
-        #region Properties (4) 
+      #region Properties
 
       public string CurrStepPath
       {
@@ -131,13 +132,13 @@ private MapManager()
          get { return mOutMapPath; }
          set { mOutMapPath = value; }
       }
-
+    //  [XmlIgnore]
       public Map SocialMap
       {
          get { return mySocialMap; }
          set { mySocialMap = value; }
       }
-
+   
       public bool LoadBackup
       {
           get { return loadfromBackup; }
@@ -283,6 +284,7 @@ private MapManager()
                mLog.Debug("Remove the old social map and assign the new one to me");
                this.SocialMap = null;
                this.SocialMap = new Map(newFC, newSocialMapPath);
+               mLog.Debug ("the new path is " + newSocialMapPath);
                mLog.Debug("now blow away the temp maps for next time");
                this.removeExtraFiles(newUnionSocialMapPath);
                this.removeExtraFiles(newTempPolyGonPath);
@@ -975,8 +977,23 @@ private MapManager()
          return true;
       }
 
-
-      public bool reloadAnimalMaps()
+      public bool ReloadFromBackUp(string inBackupDir)
+      {
+         this.reloadSocialMap (inBackupDir);
+         return this.reloadAnimalMaps ();
+      }
+      private void reloadSocialMap(string inBackUpDir)
+      {
+         string backupfile = System.IO.Path.Combine (inBackUpDir, "Map.xml");
+      
+      Map m =  SerializeHelper.DeserializeFromFile (backupfile, new Map()) as Map;
+      string file = System.IO.Path.GetFileNameWithoutExtension (m.FullFileName);
+      string path = System.IO.Path.GetDirectoryName (m.FullFileName);
+      this.loadOneMap ("Social",file,path);
+         
+         
+      }
+      private bool reloadAnimalMaps()
       {
           int max = 0;
           int min = -1;
@@ -985,20 +1002,10 @@ private MapManager()
           string parentDir = System.IO.Directory.GetParent(mOutMapPath).ToString();
           string[] dirArray = System.IO.Directory.GetDirectories(parentDir);
 
-
           for (int i = 0; i < dirArray.Length; i++)
           {
               tempArray = System.IO.Directory.GetDirectories(dirArray[i]);
               reloadAnimalMaps(ref max, ref min, tempArray);
-              //// look for resident maps
-              //tempArray = System.IO.Directory.GetDirectories(dirArray[i], "Resident");
-              //foreach (string s in tempArray)
-              //{
-              //    string[] residents = System.IO.Directory.GetDirectories(s);
-              //    reloadAnimalMaps(ref max, ref min, residents);
-              //}
-
-
           }
           return true;
       }

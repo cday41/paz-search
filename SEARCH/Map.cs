@@ -9,11 +9,12 @@ using System.Threading;
 using Microsoft.Win32;
 using System.Collections;
 using log4net;
+using System.Xml.Serialization;
 namespace SEARCH
 {
    public class Map
    {
-		#region Constructors (4) 
+      #region Constructors (4) 
 
       public Map(string path,string fileName,IGeometryDef inGeoDef,IFields inFieldsCollection):this()
       {
@@ -73,9 +74,9 @@ namespace SEARCH
         
       }
 
-		#endregion Constructors 
+      #endregion Constructors 
 
-		#region Fields (17) 
+      #region Fields (17) 
 
       protected IDatasetName dsName;
       private string fullFileName;
@@ -96,9 +97,9 @@ namespace SEARCH
       private log4net.ILog mLog = LogManager.GetLogger("mapLog");
       private log4net.ILog eLog = LogManager.GetLogger("Error");
 
-		#endregion Fields 
+      #endregion Fields 
 
-		#region Properties (6) 
+      #region Properties (6) 
 
       public DateTime BeginTime
       {
@@ -117,7 +118,7 @@ namespace SEARCH
          get { return fullFileName; }
          set { this.fullFileName = value; }
       }
-
+      [XmlIgnore]
       public IFeatureClass mySelf
       {
          get { return mMySelf; }
@@ -136,11 +137,11 @@ namespace SEARCH
          set  { mTypeOfMap = value; }
       }
 
-		#endregion Properties 
+      #endregion Properties 
 
-		#region Methods (44) 
+      #region Methods (44) 
 
-		#region Public Methods (29) 
+      #region Public Methods (29) 
 
       public void addDay()
       {
@@ -378,7 +379,7 @@ namespace SEARCH
          }
          mLog.Debug("leaving getAllValuesForSinglePolygon");
          return this.myHash;
-	
+   
       }
 
       public double getArea(IPoint inPoint)
@@ -1010,7 +1011,7 @@ namespace SEARCH
 
             // Open the feature class
             name = (IName) datasetName;
-		
+      
             
          }
          catch(System.Exception ex)
@@ -1192,8 +1193,8 @@ namespace SEARCH
          mLog.Debug("leaving resetFields");
       }
 
-		#endregion Public Methods 
-		#region Private Methods (10) 
+      #endregion Public Methods 
+      #region Private Methods (10) 
 
 
       private IPoint getCenterOfPolygon(IFeature tempPoly)
@@ -1442,8 +1443,8 @@ namespace SEARCH
          return " X = " + p.X.ToString() + " Y = " + p.Y.ToString();
       }
 
-		#endregion Private Methods 
-		#region Protected Methods (5) 
+      #endregion Private Methods 
+      #region Protected Methods (5) 
 
       protected void buildDataSetName(string inName)
       {
@@ -1537,8 +1538,8 @@ namespace SEARCH
         
       }
 
-		#endregion Protected Methods 
+      #endregion Protected Methods 
 
-		#endregion Methods 
+      #endregion Methods 
    }
 }

@@ -34,7 +34,7 @@ namespace SEARCH
     [Serializable()]
     public class AnimalManager  
    {
-		#region Fields (20) 
+      #region Fields (20) 
 
       private IEnumerator currAnimal;
       private int currNumAnimals;
@@ -59,9 +59,9 @@ namespace SEARCH
       private List<Animal> myAnimals;
       private string myErrMessage;
 
-		#endregion Fields 
+      #endregion Fields 
 
-		#region Constructors (1) 
+      #region Constructors (1) 
 
       public AnimalManager()
       {
@@ -79,9 +79,9 @@ namespace SEARCH
          currNumAnimals = 0;
       }
 
-		#endregion Constructors 
+      #endregion Constructors 
 
-		#region Properties (9) 
+      #region Properties (9) 
 
       public AnimalAtributes AnimalAttributes
       {
@@ -154,11 +154,11 @@ namespace SEARCH
             mLog.Debug("inside animal manager setting the mSafeSearchMod"); }
       }
 
-		#endregion Properties 
+      #endregion Properties 
 
-		#region Methods (40) 
+      #region Methods (40) 
 
-		// Public Methods (27) 
+      // Public Methods (27) 
 
       public void addNewDispersers(InitialAnimalAttributes[] inIAA, DateTime currTime)
       {
@@ -255,7 +255,7 @@ namespace SEARCH
 
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
-         Console.WriteLine("Do time step at runtime " + DateTime.Now.ToShortTimeString());
+         
          //List<Animal> liveAnimals = this.getAllLiveAnimals();
          Animal a;
          string status = "";
@@ -379,7 +379,7 @@ namespace SEARCH
       public String getStringOutput(string filename)
       {
          string output = string.Format("myAnimals count:{0}\n", myAnimals.Count); //Prints how many animals are in the array myAnimals
-
+         string MapBackUpFileName = System.IO.Path.Combine(System.IO.Path.GetDirectoryName (filename),"Map.xml");
 
          mLog.Debug("");
          mLog.Debug("");
@@ -390,8 +390,8 @@ namespace SEARCH
          mLog.Debug("Run time is " + DateTime.Now.ToShortTimeString());
 
 #if DEBUG
-Console.WriteLine("going to serialize out " + output + " animals");
-Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
+//Console.WriteLine("going to serialize out " + output + " animals");
+//Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
 #endif
 
          //For each animal convert mPath over to a list of strings so it can be serialized
@@ -407,9 +407,12 @@ Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
          if (System.IO.File.Exists(filename)) System.IO.File.Delete(filename);
          mLog.Debug("Calling the serialization method");
          SerializeHelper.SerializeObjectToFile(filename, myAnimals);
+         //BC 05/20/14 Use this so we can get the path when we reload.
+         SerializeHelper.SerializeObjectToFile (MapBackUpFileName, this.myAnimals[0].MapManager.SocialMap);
+         
 #if DEBUG
-Console.WriteLine("Done Serializing");
-Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
+//Console.WriteLine("Done Serializing");
+//Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
 #endif
 
          return output;
@@ -417,7 +420,8 @@ Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
       }
 
         public int getTotalNum()
-      {
+        {
+      
           return this.myAnimals.Count();
       }
 
@@ -880,7 +884,7 @@ Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
             eLog.Debug(ex);
          }
       }
-		// Private Methods (13) 
+      // Private Methods (13) 
 
       private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
       {
@@ -1147,6 +1151,6 @@ Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
             r.MyAttributes = this.ResidentAttributes;
       }
 
-		#endregion Methods 
+      #endregion Methods 
    }
 }
