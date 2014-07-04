@@ -400,11 +400,13 @@ namespace SEARCH
          try
          {
             mLog.Debug("inside make inital animal maps for the sim manager");
-            numInitialAnimals = this.AnimalManager.getNumDispersers();
+
+            //numInitialAnimals = this.AnimalManager.getNumDispersers();
+            numInitialAnimals = this.AnimalManager.getTotalNum();
             if (numInitialAnimals > 0)
             {
                success=this.mMapManager.makeNewAnimalMaps(numInitialAnimals);
-               if (success == false)
+               
                {
                   mErrMessage = mMapManager.getErrMessage();
                }
@@ -431,7 +433,7 @@ namespace SEARCH
             numResidents = this.AnimalManager.getNumResidents();
             if (numResidents > 0)
             {
-               success = this.mMapManager.makeNewResidentAnimalMaps(numResidents);
+            //   success = this.mMapManager.makeNewResidentAnimalMaps(numResidents);
                if (success == false)
                {
                   mErrMessage = mMapManager.getErrMessage();
@@ -538,7 +540,7 @@ namespace SEARCH
          else
           {
              /*Clean out all the old files so the directory only has the latest and greatest*/
-             System.IO.Directory.Delete(baseName,true);
+             System.IO.Directory.Delete(baseName.Trim(),true);
              System.IO.Directory.CreateDirectory(baseName);
             }
           string output = "";
@@ -554,7 +556,9 @@ namespace SEARCH
           output += "Currseason: " + currSeason.ToString() + "\n";
           output += "EndofSeason, " + EndSeasonDate.ToString("yyyy-MM-dd HH:mm tt") + "\n";
           //output += this.currTimeStep;
-         
+          
+        
+
           //For now backup to application directory
           filename = baseName + "\\checkpoint" + ".txt";
           System.IO.File.WriteAllText(filename, output);
@@ -567,6 +571,14 @@ namespace SEARCH
           {
               dirCopy(this.mapOutputdir, baseName);
           }
+
+          //HACK stop sim
+          if (iteration > 67)
+          {
+
+             Process.GetCurrentProcess().Kill();
+          }
+
 
           Console.Write("Done\n");             
       }

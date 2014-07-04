@@ -74,8 +74,6 @@ namespace SEARCH
                 buildTextBoxes(this.tabSim, ref this.simulationText);
                 buildTextBoxes(this.tabHomeRange, ref this.homeRangeText);
                 buildTextBoxes(this.tabTime, ref this.timeText);
-
-                Trace.WriteLine("Just created frmInput");
             }
             catch (SystemException ex)
             {
@@ -2867,10 +2865,10 @@ namespace SEARCH
                 {
                     Console.WriteLine("makeInitialAnimalMaps is the problem");
                 }
-                if (!this.mySimManager.makeResidentMaps())
-                {
-                    Console.WriteLine("makeResidentMaps is the problem");
-                }
+                //if (!this.mySimManager.makeResidentMaps())
+                //{
+                //    Console.WriteLine("makeResidentMaps is the problem");
+                //}
                
             }
 

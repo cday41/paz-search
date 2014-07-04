@@ -31,6 +31,7 @@ using log4net;
 
 namespace SEARCH
 {
+     [Serializable()]
    /// <summary>
    /// Summary description for EligibleHomeSites.
    /// </summary>

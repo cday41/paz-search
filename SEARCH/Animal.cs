@@ -64,6 +64,7 @@ namespace SEARCH
     [XmlInclude(typeof(BestRiskHomeRangeFinder))]
     [XmlInclude(typeof(ClosestHomeRangeFinder))]
     [XmlInclude(typeof(HomeRangeFinder))]
+    [XmlInclude(typeof(EligibleHomeSites))]
     public class Animal
    {
         #region Constructors (1) 
@@ -118,9 +119,9 @@ namespace SEARCH
       private double mTemporalPerceptonDistance;
       protected bool mIsDead;
       private bool IsAsleep;
-       [XmlIgnore]
+      // [XmlIgnore]
       private DateTime WakeupTime;
-            [XmlIgnore]
+     //       [XmlIgnore]
       private DateTime SleepTime;
       private int durationID;
       private HomeRangeCriteria homeRangeCriteria;
@@ -640,6 +641,7 @@ namespace SEARCH
                   if (this.IsAsleep == false)
                   {
                      this.mMyVisitedSites.addSite(new EligibleHomeSite(this.mCaptureFood, this.mPredationRisk, this.myLocation.X, this.myLocation.Y));
+                     mLog.Debug("we now have " + MyVisitedSites.MySites.Count.ToString() + " sites");
                   }
 
                   if (this.goingHome && this.IsAsleep == false)
@@ -656,6 +658,14 @@ namespace SEARCH
                }
             }
             changeActiveState(currTime);
+
+            //HACK
+
+            for(int i=0; i< MyVisitedSites.SiteCount;i++)
+            {
+               mLog.Debug(MyVisitedSites.MySites[i].X.ToString() + " " + MyVisitedSites.MySites[i].Y.ToString());
+            }
+         
          }
          catch (System.Exception ex)
          {

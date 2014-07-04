@@ -12,6 +12,7 @@ using ESRI.ArcGIS.Geometry;
 using log4net;
 namespace SEARCH
 {
+     [Serializable()]
    /// <summary>
    /// //holds the information about areas we have visited
    /// </summary>
