@@ -1,22 +1,22 @@
 /******************************************************************************
  * CHANGE LOG
- *    
+ *
  *    Author:        Author: Bob Cummings
  *    Date:          Friday, October 05, 2007 6:34:57 AM
- *    Description:   Moved checking for time to look for home call in 
- *                   public virtual void doTimeStep to only occur while 
+ *    Description:   Moved checking for time to look for home call in
+ *                   public virtual void doTimeStep to only occur while
  *                   the animal is active.
  *    Side Effect:   Will change the number of time steps from N hours from
  *                   start of season to N hours individual is active.
- * 
+ *
  * ****************************************************************************
  *    Author:        Bob Cummings
  *    Date:          Thursday, October 11, 2007 7:04:26 PM
  *    Description:   Added several temporal variables.  We were modify the wrong
- *                   variables.  So now we have variables that are from the map, and 
+ *                   variables.  So now we have variables that are from the map, and
  *                   modifiers that are temporial based.  Then we make a new temp variable
  *                   from both values.  This allowed us to not have to update values
- *                   from the maps unless George moved out his current polygon. 
+ *                   from the maps unless George moved out his current polygon.
  ******************************************************************************
  *    Author:        Bob Cummings
  *    Date:          Saturday, February 16, 2008 11:35:14 AM
@@ -36,38 +36,37 @@
  * ****************************************************************************
 *    Author:        Bob Cummings
 *    Date:          Tuesday, November 24, 2009
-*    Description:   Changed the way the we are checking for if it is time to 
+*    Description:   Changed the way the we are checking for if it is time to
  *                   change activity state.
 * ****************************************************************************/
 
-using ESRI.ArcGIS.Geometry;
-using ESRI.ArcGIS.Geodatabase;
-using System.IO;
 using System;
-using System.Reflection;
-using DesignByContract;
 using System.Collections.Generic;
-using System.Threading;
-using log4net;
+using System.IO;
+using System.Reflection;
 using System.Xml.Serialization;
+using DesignByContract;
+using ESRI.ArcGIS.Geometry;
+using log4net;
+
 namespace SEARCH
 {
-    [Serializable()]
-    [XmlInclude(typeof(Female))]
-    [XmlInclude(typeof(Male))]
-    [XmlInclude(typeof(Resident))]
-    [XmlInclude(typeof(DeadAnimal))]
-    [XmlInclude(typeof(TimeHomeRangeTrigger))]
-    [XmlInclude(typeof(SiteHomeRangeTrigger))]
-    [XmlInclude(typeof(BestComboHomeRangeFinder))]
-    [XmlInclude(typeof(BestFoodHomeRangeFinder))]
-    [XmlInclude(typeof(BestRiskHomeRangeFinder))]
-    [XmlInclude(typeof(ClosestHomeRangeFinder))]
-    [XmlInclude(typeof(HomeRangeFinder))]
-    [XmlInclude(typeof(EligibleHomeSites))]
-    public class Animal
+   [Serializable()]
+   [XmlInclude(typeof(Female))]
+   [XmlInclude(typeof(Male))]
+   [XmlInclude(typeof(Resident))]
+   [XmlInclude(typeof(DeadAnimal))]
+   [XmlInclude(typeof(TimeHomeRangeTrigger))]
+   [XmlInclude(typeof(SiteHomeRangeTrigger))]
+   [XmlInclude(typeof(BestComboHomeRangeFinder))]
+   [XmlInclude(typeof(BestFoodHomeRangeFinder))]
+   [XmlInclude(typeof(BestRiskHomeRangeFinder))]
+   [XmlInclude(typeof(ClosestHomeRangeFinder))]
+   [XmlInclude(typeof(HomeRangeFinder))]
+   [XmlInclude(typeof(EligibleHomeSites))]
+   public class Animal
    {
-        #region Constructors (1) 
+      #region Constructors (1)
 
       //end of updateBehavioralModifiers
       public Animal()
@@ -86,9 +85,9 @@ namespace SEARCH
          this.foundHome = false;
       }
 
-        #endregion Constructors 
+      #endregion Constructors
 
-        #region Fields (48) 
+      #region Fields (48)
 
       private double mCaptureFood;
       private double mFoodMeanSize;
@@ -117,35 +116,52 @@ namespace SEARCH
       private double mTemporalMoveTurtosity;
       private double mTemporalEnergyUsed;
       private double mTemporalPerceptonDistance;
-      protected bool mIsDead;
+      private bool mIsDead;
+
+      protected bool MIsDead
+      {
+         get { return mIsDead; }
+         set { mIsDead = value; }
+      }
       private bool IsAsleep;
-      // [XmlIgnore]
       private DateTime WakeupTime;
-     //       [XmlIgnore]
       private DateTime SleepTime;
       private int durationID;
       private HomeRangeCriteria homeRangeCriteria;
       private IHomeRangeTrigger mHomeRangeTrigger;
       private PointClass mHomeRangeCenter;
-      private IHomeRangeFinder mHomeRangeFinder; 
+      private IHomeRangeFinder mHomeRangeFinder;
       private AnimalAtributes mAnimalAtributes;
       private Modifier mGenderModifier;
       private Modifier mStateModifer;
-      [XmlIgnore] private MapManager mMapManager;
+
+      [XmlIgnore]
+      private MapManager mMapManager;
+
       protected string sex;
-      [XmlIgnore] private AnimalManager mAnimalManager; 
-      [XmlIgnore] private Mover mMover; 
+
+      [XmlIgnore]
+      private AnimalManager mAnimalManager;
+
+      [XmlIgnore]
+      private Mover mMover;
+
       private IPointList mPath;
       private EligibleHomeSites mMyVisitedSites;
       private int timeStep;
       private string fileNamePrefix;
-      [XmlIgnore] protected TextFileWriter mTextFileWriter; 
-      [XmlIgnore] protected RandomNumbers rn; 
 
-        #endregion Fields 
+      [XmlIgnore]
+      protected TextFileWriter mTextFileWriter;
 
-        #region Properties (35) 
-        //Can't serialize the actual mPath so create a list of strings to rebuild mPath off of.
+      [XmlIgnore]
+      protected RandomNumbers rn;
+
+      #endregion Fields
+
+      #region Properties (35)
+
+      //Can't serialize the actual mPath so create a list of strings to rebuild mPath off of.
       [XmlArrayItem(ElementName = "Coords")]
       public List<string> myPath { get; set; }
 
@@ -154,11 +170,13 @@ namespace SEARCH
          get { return homeRangeCriteria; }
          set { homeRangeCriteria = value; }
       }
+
       public AnimalAtributes AnimalAtributes
       {
          get { return mAnimalAtributes; }
          set { mAnimalAtributes = value; }
       }
+
       [XmlIgnore]
       public AnimalManager AnimalManager
       {
@@ -176,7 +194,7 @@ namespace SEARCH
       {
          get { return mCurrEnergy; }
          set { mCurrEnergy = value; }
-      }  
+      }
 
       public double EnergyUsed
       {
@@ -187,7 +205,7 @@ namespace SEARCH
       public string FileNamePrefix
       {
          get { return fileNamePrefix; }
-          set { fileNamePrefix = value; }
+         set { fileNamePrefix = value; }
       }
 
       public int FoodIndex
@@ -207,7 +225,7 @@ namespace SEARCH
          get { return mFoodSD_Size; }
          set { mFoodSD_Size = value; }
       }
-      
+
       public Modifier GenderModifier
       {
          get { return mGenderModifier; }
@@ -219,6 +237,7 @@ namespace SEARCH
          get { return mHeading; }
          set { mHeading = value; }
       }
+
       [XmlIgnore]
       public PointClass HomeRangeCenter
       {
@@ -246,8 +265,8 @@ namespace SEARCH
 
       public string IdNumOrig
       {
-          get { return myIdNumOrig; }
-          set { myIdNumOrig = value; }
+         get { return myIdNumOrig; }
+         set { myIdNumOrig = value; }
       }
 
       public bool IsDead
@@ -255,6 +274,7 @@ namespace SEARCH
          get { return mIsDead; }
          set { mIsDead = value; }
       }
+
       [XmlIgnore]
       public IPoint Location
       {
@@ -264,10 +284,11 @@ namespace SEARCH
             myLocation = value;
             this.mPath.add(myLocation);
             // fw.writeLine("current polygon is " + this.mPolygonIndex.ToString());
-            // this.mPolygonIndex = this.MapManager.getCurrPolygon(myLocation);   
+            // this.mPolygonIndex = this.MapManager.getCurrPolygon(myLocation);
             // fw.writeLine("new polygon is " + this.mPolygonIndex.ToString());
          }
       }
+
       [XmlIgnore]
       public MapManager MapManager
       {
@@ -292,12 +313,14 @@ namespace SEARCH
          get { return this.mMoveTurtosity; }
          set { mMoveTurtosity = value; }
       }
+
       [XmlIgnore]
       public Mover myMover
       {
          get { return mMover; }
          set { mMover = value; }
       }
+
       public EligibleHomeSites MyVisitedSites
       {
          get { return mMyVisitedSites; }
@@ -333,122 +356,123 @@ namespace SEARCH
          get { return mSocialIndex; }
          set { mSocialIndex = value; }
       }
-      
+
       public Modifier StateModifer
       {
          get { return mStateModifer; }
          set { mStateModifer = value; }
       }
+
       [XmlIgnore]
       public TextFileWriter TextFileWriter
       {
          get { return mTextFileWriter; }
          set { mTextFileWriter = value; }
       }
-        //Save the current location of the animal
+
+      //Save the current location of the animal
       public string myCurrentLocation
       {
-          get { if (myLocation != null) { return (myLocation.X.ToString() + "," + myLocation.Y.ToString()); } else { return null; } }
-          set
-          {
-              //If there is an IPoint for myLocation just update the values
-              if (myLocation != null) { myLocation.X = Convert.ToDouble(value.Split(',')[0]); myLocation.Y = Convert.ToDouble(value.Split(',')[1]); }
-              //Create a new IPoint and load the old values into it
-              else
-              {
-                  IPoint p = new PointClass();
-                  p.X = Convert.ToDouble(value.Split(',')[0]);
-                  p.Y = Convert.ToDouble(value.Split(',')[1]);
-                  myLocation = p;
-              }
-          }
+         get { if (myLocation != null) { return (myLocation.X.ToString() + "," + myLocation.Y.ToString()); } else { return null; } }
+         set
+         {
+            //If there is an IPoint for myLocation just update the values
+            if (myLocation != null) { myLocation.X = Convert.ToDouble(value.Split(',')[0]); myLocation.Y = Convert.ToDouble(value.Split(',')[1]); }
+            //Create a new IPoint and load the old values into it
+            else
+            {
+               IPoint p = new PointClass();
+               p.X = Convert.ToDouble(value.Split(',')[0]);
+               p.Y = Convert.ToDouble(value.Split(',')[1]);
+               myLocation = p;
+            }
+         }
       }
 
       public string myMoverType
       {
-          //Save the current MoverType
-          get { if (myMover != null) { return myMover.GetType().ToString(); } return null; }
-          set 
-          { //Create a new Mover from the saved MoverType
+         //Save the current MoverType
+         get { if (myMover != null) { return myMover.GetType().ToString(); } return null; }
+         set
+         { //Create a new Mover from the saved MoverType
             Assembly assembly = Assembly.GetExecutingAssembly();
             myMover = assembly.CreateInstance(value) as Mover;
-          }
+         }
       }
 
       public string myHomeRangeCenter
       {
-          get { if (HomeRangeCenter != null) { return string.Format("{0},{1}", HomeRangeCenter.X, HomeRangeCenter.Y); } return null; }
-          set
-          {
-              string[] values = value.Split(',');
-              PointClass p = new PointClass();
-              p.X = Convert.ToDouble(values[0].Trim());
-              p.Y = Convert.ToDouble(values[1].Trim());
-              mHomeRangeCenter = p;
-          }
+         get { if (HomeRangeCenter != null) { return string.Format("{0},{1}", HomeRangeCenter.X, HomeRangeCenter.Y); } return null; }
+         set
+         {
+            string[] values = value.Split(',');
+            PointClass p = new PointClass();
+            p.X = Convert.ToDouble(values[0].Trim());
+            p.Y = Convert.ToDouble(values[1].Trim());
+            mHomeRangeCenter = p;
+         }
       }
 
       public string textFileName
       {
-          get { if (fileNamePrefix != null) { return fileNamePrefix; } return null; }
-          set { fileNamePrefix = value; }
+         get { if (fileNamePrefix != null) { return fileNamePrefix; } return null; }
+         set { fileNamePrefix = value; }
       }
-      
-  
-       public string MyWakeTime
+
+      public string MyWakeTime
       {
          get { return this.WakeupTime.ToString("o"); }
-         set { this.WakeupTime =  DateTime.Parse( value); }
+         set { this.WakeupTime = DateTime.Parse(value); }
       }
 
-   
-       public string MySleepTime
-       {
-          get { return this.SleepTime.ToString("o"); }
-          set { this.SleepTime = DateTime.Parse(value); }
-       }
-        #endregion Properties 
+      public string MySleepTime
+      {
+         get { return this.SleepTime.ToString("o"); }
+         set { this.SleepTime = DateTime.Parse(value); }
+      }
 
-        #region Methods (30) 
+      #endregion Properties
 
-        #region Public Methods (12) 
-        
-        //Need to convert mPath from a list of Ipoints to a list of Strings, since IPoints will not xmlSerialize
-        //It saves the new list of strings into the myPath for serialization
+      #region Methods (30)
+
+      #region Public Methods (12)
+
+      //Need to convert mPath from a list of Ipoints to a list of Strings, since IPoints will not xmlSerialize
+      //It saves the new list of strings into the myPath for serialization
       public void convertIPointList()
       {
-          try
-          {
-              int j = mPath.getLastIndex();
-              List<string> saveList = new List<string>();
-              //Foreach IPoint in mPath convert to a string and store it in the list
-              for (int i = 0; i < mPath.getLastIndex(); i++)
-              {
-                  IPoint temp = mPath.getPointByIndex(i);
-                  string myStr = temp.X.ToString() + "," + temp.Y.ToString();
-                  saveList.Add(myStr);
-              }
-              myPath = saveList;
-          }
-          catch (Exception ex)
-          {
-              Console.WriteLine(ex);
-          }
+         try
+         {
+            int j = mPath.getLastIndex();
+            List<string> saveList = new List<string>();
+            //Foreach IPoint in mPath convert to a string and store it in the list
+            for (int i = 0; i < mPath.getLastIndex(); i++)
+            {
+               IPoint temp = mPath.getPointByIndex(i);
+               string myStr = temp.X.ToString() + "," + temp.Y.ToString();
+               saveList.Add(myStr);
+            }
+            myPath = saveList;
+         }
+         catch (Exception ex)
+         {
+            Console.WriteLine(ex);
+         }
       }
 
-        //Reloads mPath from the saved list of strings myPath
+      //Reloads mPath from the saved list of strings myPath
       public void rebuildIPointList()
       {
-          //Creates a new IPoint reload values and store in mPath
-          foreach (string temp in myPath)
-          {
-              IPoint p = new PointClass();
-              double x = Convert.ToDouble((temp.Split(','))[0].Trim());
-              double y = Convert.ToDouble((temp.Split(','))[1].Trim());
-              p.X = x;
-              p.Y = y;
-              mPath.add(p);
-          }
+         //Creates a new IPoint reload values and store in mPath
+         foreach (string temp in myPath)
+         {
+            IPoint p = new PointClass();
+            double x = Convert.ToDouble((temp.Split(','))[0].Trim());
+            double y = Convert.ToDouble((temp.Split(','))[1].Trim());
+            p.X = x;
+            p.Y = y;
+            mPath.add(p);
+         }
       }
 
       public void BuildTextWriter(string currYear)
@@ -458,30 +482,28 @@ namespace SEARCH
 
       public void BuildTextWriter(string CurrYear, string OutPutDir)
       {
-          if (this.TextFileWriter == null)
-          {
-              this.buildFileNamePrefix(CurrYear);
-              if (!Directory.Exists(OutPutDir))
-                  Directory.CreateDirectory(OutPutDir);
-              this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix );
-          }
+         if (this.TextFileWriter == null)
+         {
+            this.buildFileNamePrefix(CurrYear);
+            if (!Directory.Exists(OutPutDir))
+               Directory.CreateDirectory(OutPutDir);
+            this.TextFileWriter = new TextFileWriter(OutPutDir, this.fileNamePrefix);
+         }
       }
-     
 
-        //Rebuilds the TextWriter after a reload
+      //Rebuilds the TextWriter after a reload
       public void ReBuildTextWriter(string OutPutDir)
       {
-         
-            //Update AnimalAtributes to point to the new OutputDirectory
-            //this.AnimalAtributes.OutPutDir = OutPutDir;
-            // BC 08/08/2013 this was doing shit I removed it
-            //if (!Directory.Exists(OutPutDir))
-            //    Directory.CreateDirectory(OutPutDir);
-            //Builds the new TextFileWriter from the saved fileNamePrefix and the new OutPutDir
-            if (fileNamePrefix != null)
-            {
-               this.TextFileWriter = new TextFileWriter (this.AnimalAtributes.OutPutDir, this.fileNamePrefix);
-            }
+         //Update AnimalAtributes to point to the new OutputDirectory
+         //this.AnimalAtributes.OutPutDir = OutPutDir;
+         // BC 08/08/2013 this was doing shit I removed it
+         //if (!Directory.Exists(OutPutDir))
+         //    Directory.CreateDirectory(OutPutDir);
+         //Builds the new TextFileWriter from the saved fileNamePrefix and the new OutPutDir
+         if (fileNamePrefix != null)
+         {
+            this.TextFileWriter = new TextFileWriter(this.AnimalAtributes.OutPutDir, this.fileNamePrefix);
+         }
       }
 
       public virtual void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool doTextOutput, ref string status)
@@ -514,7 +536,7 @@ namespace SEARCH
             this.upDateMyValues();
             while (percentTimeStep < 1 && !this.mIsDead)
             {
-               //if(this.Location.X == 0) System.Windows.Forms.MessageBox.Show("No Location"); 
+               //if(this.Location.X == 0) System.Windows.Forms.MessageBox.Show("No Location");
 
                this.timeStep++;
 
@@ -530,13 +552,12 @@ namespace SEARCH
                //Saturday, March 15, 2008 added checking to see if his is dead from wandering off the map
                if (!this.IsDead)
                {
-
                   //Saturday, September 22, 2007 10:03:58 AM Author: Bob Cummings
                   //Added tempPercentTimeStep for accurate percentage on second and subsequent moves in same timestep
                   //so temp should equal 1 - current percent - last times current percent to get this times current percent
                   //Sunday, May 04, 2008 4:14:38 PM Author: Bob Cummings
                   //For some reason I had tempPercentTimeStep = 1 - percentTimeStep - tempPercentTimeStep
-                  //But the percent time step is accumlative and the temp% is individual 
+                  //But the percent time step is accumlative and the temp% is individual
                   //so added a another temp variable to keep track of accumalting percentTimeSteps
 
                   //Monday, June 09, 2008
@@ -574,8 +595,8 @@ namespace SEARCH
                {
                   mLog.Debug("ok now see if it is time to look for a home yet");
                   //Author: Bob Cummings Friday, October 05, 2007
-                  //moved this to inside if statement to stop looking for a home 
-                  //while asleep.  
+                  //moved this to inside if statement to stop looking for a home
+                  //while asleep.
                   timeToLookForHome = this.mHomeRangeTrigger.timeToLookForHome(this);
                   mLog.Debug("Time to look for a home came back with a value of " + timeToLookForHome.ToString());
                }
@@ -603,12 +624,11 @@ namespace SEARCH
                   mLog.Debug("I can see " + this.mPerceptionDist.ToString());
                   if (distToHome < this.mPerceptionDist)
                   {
-                    
                      mLog.Debug("now building the home range");
                      // only change to resident if we were able to build the home range
                      if (this.MapManager.BuildHomeRange(this))
                      {
-                        Console.WriteLine ("number " + this.IdNum.ToString () + " is home.");
+                        Console.WriteLine("number " + this.IdNum.ToString() + " is home.");
                         mLog.Debug("found a home");
                         mLog.Debug("ok we are home now setting the location = home range center");
                         mLog.Debug("the new X should = " + this.HomeRangeCenter.X.ToString());
@@ -628,7 +648,6 @@ namespace SEARCH
                         goingHome = false;
                         myMover = RandomWCMover.getRandomWCMover();
                         MyVisitedSites.RemoveSite(this.HomeRangeCenter);
-
                      }
                   }
                }
@@ -654,18 +673,10 @@ namespace SEARCH
                         //get out of the loop
                         percentTimeStep = 1.5;
                      }
-                  } 
+                  }
                }
             }
             changeActiveState(currTime);
-
-            //HACK
-
-            for(int i=0; i< MyVisitedSites.SiteCount;i++)
-            {
-               mLog.Debug(MyVisitedSites.MySites[i].X.ToString() + " " + MyVisitedSites.MySites[i].Y.ToString());
-            }
-         
          }
          catch (System.Exception ex)
          {
@@ -677,9 +688,10 @@ namespace SEARCH
       //end of updateMemory
       /********************************************************************************
        *   Function name   : dump
-       *   Description     : 
-       *   Return type     : virtual void 
+       *   Description     :
+       *   Return type     : virtual void
        * ********************************************************************************/
+
       public virtual void dump()
       {
          try
@@ -752,7 +764,6 @@ namespace SEARCH
 
       public void setInitialSleepTime(DateTime currTime)
       {
-
          mLog.Debug("inside set inital sleeptime curr time is " + currTime.ToShortDateString() + "  " + currTime.ToShortTimeString());
          this.WakeupTime = currTime;
          this.calcSleepTime();
@@ -762,10 +773,8 @@ namespace SEARCH
       {
          try
          {
-            
             mLog.Debug("inside setInitialValues for animal " + this.myIdNum.ToString());
             mLog.Debug("the time is " + currTime.ToShortDateString());
-            
 
             if (this.mMoveIndex < 0)
                setInitialLocaton();
@@ -862,11 +871,12 @@ namespace SEARCH
          }
       }
 
-        #endregion Public Methods 
-        #region Private Methods (17) 
+      #endregion Public Methods
+      #region Private Methods (17)
 
       private ILog mLog = LogManager.GetLogger("animalLog");
       private ILog eLog = LogManager.GetLogger("Error");
+
       private void calcSleepTime()
       {
          Check.Require(this.IsAsleep == false, "Not asleep why get sleep time");
@@ -896,7 +906,6 @@ namespace SEARCH
          mLog.Debug("I will be active for " + numHours.ToString());
          this.WakeupTime = this.SleepTime.AddHours(numHours);
          mLog.Debug("so I will wake up at " + this.WakeupTime.ToShortDateString() + " " + this.WakeupTime.ToShortTimeString());
-
       }
 
       //end of calcWakeTime
@@ -965,7 +974,6 @@ namespace SEARCH
          }
          catch (System.Exception ex)
          {
-
             eLog.Debug(ex);
          }
 
@@ -1003,12 +1011,11 @@ namespace SEARCH
             mTextFileWriter.addLine("Animal number " + this.IdNum.ToString() + " died from starvation");
          }
 
-
          if (tempCloseCall < this.AnimalAtributes.RiskySafeTrigger) //george nearly died, so he feels like he had a close call
          {
             this.hadCloseCall = true;
          }
-         else if (tempCloseCall < (this.AnimalAtributes.SafeRiskyTrigger+this.AnimalAtributes.RiskySafeTrigger)) //predator wasn't even close, so george no longer feels like he had a close call
+         else if (tempCloseCall < (this.AnimalAtributes.SafeRiskyTrigger + this.AnimalAtributes.RiskySafeTrigger)) //predator wasn't even close, so george no longer feels like he had a close call
          {
             this.hadCloseCall = false;
          }
@@ -1053,7 +1060,6 @@ namespace SEARCH
                success = this.HomeRangeFinder.setHomeRangeCenter(this, myMapName);
 
                mLog.Debug("that returned " + success.ToString());
-
             }
          }
          catch (System.Exception ex)
@@ -1065,7 +1071,6 @@ namespace SEARCH
          }
 
          return success;
-
       }
 
       private void loseEnergy(double percentTimeStep)
@@ -1086,7 +1091,6 @@ namespace SEARCH
       private void setInitialLocaton()
       {
          mLog.Debug("inside set initial location x = " + myLocation.X.ToString() + " y " + myLocation.Y.ToString());
-
       }
 
       private void setSocialIndex()
@@ -1114,7 +1118,7 @@ namespace SEARCH
                this.StateModifer = this.AnimalManager.SafeForageMod;
             }
             else //animal isn't hungry, so is looking for a home
-            { 
+            {
                mLog.Debug("setting stateModifier to a new SafeSearchModifier");
                this.StateModifer = this.mAnimalManager.SafeSearchMod;
             }
@@ -1159,12 +1163,12 @@ namespace SEARCH
          this.mPredationRisk = this.mPredationRisk * this.mTemporalRiskValue * this.StateModifer.PredationRisk;
          this.mEnergyUsed = this.mEnergyUsed * this.mTemporalEnergyUsed * this.StateModifer.EnergyUsed;
          this.mPerceptionDist = this.mAnimalAtributes.PerceptionDistance * this.mTemporalPerceptonDistance * mPerceptonModifier * this.StateModifer.PerceptonModifier;
-          //Now/make sure the risk modifier is >1
-          //BC 08/08/2013
+         //Now/make sure the risk modifier is >1
+         //BC 08/08/2013
 
-         if (mPredationRisk > 1)       
+         if (mPredationRisk > 1)
          {
-             mPredationRisk = 1;
+            mPredationRisk = 1;
          }
          mLog.Debug("so my new turtosity is " + mMoveTurtosity.ToString());
       }
@@ -1186,8 +1190,6 @@ namespace SEARCH
             mTemporalEnergyUsed = this.GenderModifier.EnergyUsed * inHM.EnergyUsed * inDM.EnergyUsed;
             mTemporalPerceptonDistance = this.GenderModifier.PerceptonModifier * inHM.PerceptonModifier * inDM.PerceptonModifier;
             mLog.Debug("so now the current temporal move turosity is " + mTemporalMoveTurtosity.ToString());
-
-
          }
          catch (System.Exception ex)
          {
@@ -1196,11 +1198,10 @@ namespace SEARCH
 #endif
             eLog.Debug(ex);
          }
-
       }
 
-        #endregion Private Methods 
-        #region Protected Methods (1) 
+      #endregion Private Methods
+      #region Protected Methods (1)
 
       //end of buildLogger
       protected void buildFileNamePrefix(string year)
@@ -1217,7 +1218,6 @@ namespace SEARCH
             sb.Insert(0, sex);
             sb.Insert(0, year);
             this.fileNamePrefix = sb.ToString();
-
          }
          catch (System.Exception ex)
          {
@@ -1226,12 +1226,10 @@ namespace SEARCH
 #endif
             eLog.Debug(ex);
          }
-
-
       }
 
-        #endregion Protected Methods 
+      #endregion Protected Methods
 
-        #endregion Methods 
+      #endregion Methods
    }
 }

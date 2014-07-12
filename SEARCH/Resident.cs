@@ -136,7 +136,7 @@ namespace SEARCH
             {
                mLog.Debug("did not make it through the winter so setting mDead to true");
                this.mTextFileWriter.addLine("Resident died as winter kill in " + currentTime.ToString());
-               this.mIsDead = true;
+               this.MIsDead = true;
             }
          }
          catch (System.Exception ex)
@@ -168,7 +168,7 @@ namespace SEARCH
                status = "dead FROM ROLL OF DICE";
                mLog.Debug("george dies");
                this.mTextFileWriter.addLine("Resident died during timestep at " + currentTime.ToString());
-               this.mIsDead = true;
+               this.MIsDead = true;
             }
          }
          catch (System.Exception ex)
