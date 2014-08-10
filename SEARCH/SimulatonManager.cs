@@ -558,7 +558,7 @@ namespace SEARCH
          string filename = baseName + "\\Animals.xml";
 
          //Output Animal Attributes
-         output += this.mAnimalManager.getStringOutput(filename);
+         output += this.mAnimalManager.doBackUp(filename);
          //Outputs of date and iteration
          output += "Date," + currTime.ToString("yyyy-MM-dd HH:mm tt") + "\n";
          output += "Iteration: " + (iteration) + "\n";
@@ -758,7 +758,7 @@ namespace SEARCH
             //The reloaded failed for whatever reason.
             Console.Error.Write("Failed\n");
             Console.Error.WriteLine(e);
-            Environment.Exit(-2);
+          //  Environment.Exit(-2);
          }
          Console.Write("Complete\n");
       }

@@ -977,9 +977,11 @@ private MapManager()
          return true;
       }
 
-      public bool ReloadFromBackUp(string inBackupDir)
+      public bool ReloadFromBackUp(string inBackupDir,DateTime inCurrTime)
       {
-         this.reloadSocialMap (inBackupDir);
+         //HACK changed to reload all the maps.
+         //this.reloadSocialMap (inBackupDir);
+         this.changeMaps(inCurrTime);
          return this.reloadAnimalMaps ();
       }
       private void reloadSocialMap(string inBackUpDir)
@@ -989,8 +991,7 @@ private MapManager()
       Map m =  SerializeHelper.DeserializeFromFile (backupfile, new Map()) as Map;
       string file = System.IO.Path.GetFileNameWithoutExtension (m.FullFileName);
       string path = System.IO.Path.GetDirectoryName (m.FullFileName);
-      this.loadOneMap ("Social",file,path);
-         
+      this.loadOneMap ("Social",file,path); 
          
       }
       private bool reloadAnimalMaps()

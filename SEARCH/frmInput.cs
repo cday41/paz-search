@@ -2854,7 +2854,8 @@ namespace SEARCH
                 myMapManager.LoadBackup = inParms.backupLoad;
                 mySimManager.loadBackup (inParms.backupdir);
                 this.mySimManager.MapManager.OutMapPath = outputdir + '\\' + this.mySimManager.CurrTime.Year.ToString();
-                this.myMapManager.ReloadFromBackUp (inParms.backupdir);
+                this.myMapManager.ReloadFromBackUp (inParms.backupdir,mySimManager.CurrTime);
+              
             }
             else
             {

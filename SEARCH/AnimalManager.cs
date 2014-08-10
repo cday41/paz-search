@@ -376,7 +376,7 @@ namespace SEARCH
          return sc;
       }
 
-      public String getStringOutput(string filename)
+      public String doBackUp(string filename)
       {
          string output = string.Format("myAnimals count:{0}\n", myAnimals.Count); //Prints how many animals are in the array myAnimals
          string MapBackUpFileName = System.IO.Path.Combine(System.IO.Path.GetDirectoryName (filename),"Map.xml");
