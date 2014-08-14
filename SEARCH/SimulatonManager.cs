@@ -330,7 +330,7 @@ namespace SEARCH
          mLog.Debug("now start the big loop for the sim");
 
          //Start the simulation loop
-         for (; this.currSeason < this.mNumSeasons; this.currSeason++)
+         for (; this.currSeason <= this.mNumSeasons; this.currSeason++)
          {
             // Heartbeat - is the program still running?
             Console.WriteLine("Season: " + currSeason + "/" + this.mNumSeasons);
@@ -576,7 +576,8 @@ namespace SEARCH
          }
          else
          {
-            if (File.Exists(baseName + "\\Animals.xml")) { File.Delete("Animals.xml"); }
+            string fileName = mapOutputdir + "\\Animals.xml";
+            if (File.Exists(fileName)) { File.Delete(fileName); }
             dirCopy(this.mapOutputdir, baseName);
          }
 
@@ -710,6 +711,12 @@ namespace SEARCH
       //Reloads SEARCH from a backupDirectory
       public void loadBackup(string BackupDir)
       {
+         mLog.Debug("");
+         mLog.Debug("");
+         mLog.Debug("Reloading From Backup... ");
+         mLog.Debug("");
+         mLog.Debug("");
+
          Console.Write("Reloading From Backup... ");
          int i = 0;
          string file = BackupDir + "\\checkpoint.txt";
@@ -760,6 +767,7 @@ namespace SEARCH
             Console.Error.WriteLine(e);
           //  Environment.Exit(-2);
          }
+         mLog.Debug("Curr time is " + currTime.ToShortDateString() + " " + currTime.ToShortTimeString());
          Console.Write("Complete\n");
       }
 
