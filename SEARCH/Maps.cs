@@ -43,6 +43,7 @@
 using System;
 using System.Text;
 using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.XPath;
 using DesignByContract;
@@ -56,6 +57,11 @@ namespace SEARCH
       #region private members
       private bool changeMaps;
       private MapSwapTrigger[] mMyTriggers;
+      private int textIndex;
+
+     
+      private int currIndex;
+
       private int previousIndex; //used when switching out maps to see if the new one is the 
       //the same as the last one.  If so we do not need to reload.
       private String mMapType;
@@ -78,34 +84,68 @@ namespace SEARCH
          mMapType = type;
       }
 
+    
       
+      public void addYearToMaps()
+      {
+         if (this.mMyTriggers[0].MyTriggerType == MapSwapTrigger.mTriggerType.HOURLY ||
+             this.mMyTriggers[0].MyTriggerType == MapSwapTrigger.mTriggerType.DAILY)
+         {
+            int index = 0;
+            foreach (MapSwapTrigger mst in this.mMyTriggers)
+            {
+               //reset the start date back to the orginal for this year/season
+               mst.StartDate = mst.OriginalStartDate;
+               this.setNewDailyStart(index++);
+               mst.OriginalStartDate = mst.StartDate;
+            }
+         }
+
+      }
+
       public void changeMap(DateTime now)
       {
          try
          {
+           
             changeMaps = false;
-            int currIndex = this.mMyTriggers.Length - 1;
+            currIndex = this.mMyTriggers.Length - 1;
             mLog.Debug("");
             mLog.Debug("inside MapManager changeMap for map type " + mMapType + " at simulation datetime " + now.ToShortDateString() + " " + now.ToShortTimeString());
+         
             this.dumpTriggersHere();
             if (this.mMyTriggers.Length > 1)
             {
                //start at the latest in the time frame and work backwards to find the current time in the simulation
-               while (this.mMyTriggers[currIndex].StartDate > now && currIndex > 0)
+
+
+               //   while (this.mMyTriggers[currIndex].StartDate > now && currIndex > 0)
+               TimeSpan ts = ((TimeSpan)(now - this.mMyTriggers[currIndex].StartDate));
+
+               while (ts < TimeSpan.Zero)
                {
-                  mLog.Debug("current index is " + currIndex.ToString());
-                  mLog.Debug(this.mMyTriggers[currIndex].ToString());
                   currIndex--;
+                  if (currIndex < 0)
+                  {
+                     currIndex = 0;
+                     break;
+                  }
+                  ts = ((TimeSpan)(now - this.mMyTriggers[currIndex].StartDate));
+
                }
             }
+          
             mLog.Debug("outside of loop");
             mLog.Debug("Check to see if this index is the same as the last one.");
             mLog.Debug("current index is " + currIndex.ToString());
             mLog.Debug("Previous index was " + this.previousIndex.ToString());
+            mLog.Debug("Current time is " + now.ToShortDateString() + " " + now.ToShortTimeString());
+            mLog.Debug("trigger start date is " + this.mMyTriggers[currIndex].StartDate.ToShortDateString() + ' ' + this.mMyTriggers[currIndex].StartDate.ToShortDateString() );
             //Monday, September 24, 2007 Author: Bob Cummings 
             //changed condition from less than to less than or equal.
             if (this.mMyTriggers[currIndex].StartDate <= now && currIndex != this.previousIndex)
             {
+               this.TextIndex = currIndex;
                this.previousIndex = currIndex;
                mLog.Debug(this.mMyTriggers[currIndex].ToString());
                mLog.Debug("new start date year, day, and hour is less than now, so loading " + this.mMyTriggers[currIndex].Path + this.mMyTriggers[currIndex].Filename);
@@ -113,7 +153,8 @@ namespace SEARCH
                MapManager.GetUniqueInstance().loadOneMap(mMapType, this.mMyTriggers[currIndex].Filename, this.mMyTriggers[currIndex].Path);
                mLog.Debug("Now using new map");
                changeMaps = true;
-               setNewStartDate();
+               //TODO this is commented out while testing the map reload issue
+              // setNewStartDate();
             }
             mLog.Debug("");
          }
@@ -167,31 +208,6 @@ namespace SEARCH
 
          }
       }
-
-      public void setUpNewYearDispersalMap(DateTime now, AnimalManager am)
-      {
-         //Because this is happening at the yearly time change the simulation
-         //manager will handle making the new animal maps.
-         try
-         {
-            mLog.Debug("inside setUpNewYearDispersalMap(DateTime now, AnimalManager am) calling changeMap(now)");
-            this.changeMap(now);
-            if(changeMaps == true)
-            {
-               InitialAnimalAttributes[] inIAA;
-               MapManager.GetUniqueInstance().GetInitialAnimalAttributes(out inIAA);
-               am.addNewDispersers(inIAA, now);
-            }
-         }
-         catch (System.Exception ex)
-         {
-            eLog.Debug(ex);
-#if (DEBUG)
-            System.Windows.Forms.MessageBox.Show(ex.Message);
-#endif
-
-         }
-      }
       public string dumpTriggers()
       {
          StringBuilder sb = new StringBuilder();
@@ -202,24 +218,22 @@ namespace SEARCH
          return sb.ToString();
       }
       public void dumpTriggersHere()
-      {
+      {  int index = 0;
          foreach (MapSwapTrigger m in mMyTriggers)
-            if (m != null)   
-               mLog.Debug(m.ToString());
-      }
-      public void addYearToMaps()
-      {
-         if(this.mMyTriggers[0].MyTriggerType == MapSwapTrigger.mTriggerType.HOURLY)
          {
-            int index = 0;
-            foreach(MapSwapTrigger mst in this.mMyTriggers)
-            {
-               //reset the start date back to the orginal for this year/season
-               mst.StartDate = mst.OriginalStartDate;
-               this.setNewDailyStart(index++);
-               mst.OriginalStartDate = mst.StartDate;
-            }
+            
+            if (m != null)
+               mLog.Debug(m.ToString() + "index is " + index++.ToString());
          }
+      }
+      public void AddTrigger(MapSwapTrigger inTrigger)
+      {
+         mMyTriggers = new MapSwapTrigger[1];
+         List<MapSwapTrigger> t = new List<MapSwapTrigger>();
+         t.AddRange(MyTriggers);
+         t.Add(inTrigger);
+         MyTriggers = t.ToArray();
+        
 
       }
       public void loadXMLTriggers(XPathNodeIterator inIterator)
@@ -228,6 +242,7 @@ namespace SEARCH
          {
             mLog.Debug("inside loadXMLTriggers for " + this.mMapType + " MapManager");
             mMyTriggers = new MapSwapTrigger[inIterator.Count];
+           
             int index = -1;
             while (inIterator.MoveNext())
             {
@@ -276,6 +291,31 @@ namespace SEARCH
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
             eLog.Debug(ex);
+         }
+      }
+
+      public void setUpNewYearDispersalMap(DateTime now, AnimalManager am)
+      {
+         //Because this is happening at the yearly time change the simulation
+         //manager will handle making the new animal maps.
+         try
+         {
+            mLog.Debug("inside setUpNewYearDispersalMap(DateTime now, AnimalManager am) calling changeMap(now)");
+            this.changeMap(now);
+            if (changeMaps == true)
+            {
+               InitialAnimalAttributes[] inIAA;
+               MapManager.GetUniqueInstance().GetInitialAnimalAttributes(out inIAA);
+               am.addNewDispersers(inIAA, now);
+            }
+         }
+         catch (System.Exception ex)
+         {
+            eLog.Debug(ex);
+#if (DEBUG)
+            System.Windows.Forms.MessageBox.Show(ex.Message);
+#endif
+
          }
       }
 
@@ -410,8 +450,7 @@ namespace SEARCH
                if (this.mMyTriggers[i].StartDate.Year == tempDay.Year)
                {
                   mLog.Debug("found match");
-                  this.mMyTriggers[index].StartDate = tempDay.AddYears(1000);
-                  //TODO REMOVE MAP TRIGGER
+                  this.mMyTriggers[index].StartDate = tempDay.AddYears(1);
                   foundMatch = true;
                   break;
                }
@@ -445,7 +484,14 @@ namespace SEARCH
          get { return mMyPath; }
          set { mMyPath = value; }
       }
+      public int TextIndex
+      {
+         get { return textIndex; }
+         set { textIndex = value; }
+      }
 
+     
+      
 		
 
       #endregion

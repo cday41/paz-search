@@ -85,7 +85,6 @@ namespace SEARCH
             if (rollDice <= this.mMyAttributes.PercentBreed)
             {
                //pretend we win now roll to see how many
-               //TODO figure out how to get correct amount of kids
                mLog.Debug("my mean is " + this.mMyAttributes.NumChildernMean.ToString());
                mLog.Debug("my SD is " + this.MyAttributes.NumChildernSD.ToString());
                numChildren = rn.getNormalRandomInt(this.mMyAttributes.NumChildernMean, this.mMyAttributes.NumChildernSD);

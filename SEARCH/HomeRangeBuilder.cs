@@ -53,7 +53,7 @@ namespace SEARCH
                this.myDataManipulator.AddHomeRangePolyGon(homeRangeFileName, tempPoly);
                mLog.Debug("now clip it against the current social map");
                this.myDataManipulator.Clip(currSocialFileName, homeRangeFileName, clipPath);
-               mLog.Debug("now get all the good polygons from the clip to meassure the area");//HACK
+               mLog.Debug("now get all the good polygons from the clip to meassure the area");
                IFeatureClass fc = this.myDataManipulator.GetSuitablePolygons(clipPath, inAnimal.Sex, availablePolygonsFileName);
                IFeatureClass fc2 = this.myDataManipulator.DissolveBySexAndReturn(fc, this.dissolveHomeRangePolygon, inAnimal.Sex);
                if (fc2 != null)

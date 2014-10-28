@@ -22,9 +22,7 @@ namespace SEARCH
 			//
 			InitializeComponent();
          this.mValue = false;
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
+
 		}
 
 		#endregion Constructors 

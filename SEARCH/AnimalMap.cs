@@ -365,7 +365,7 @@ namespace SEARCH
      
       public void resetBaseMap()
       {
-         //HACK try to clean up the old files
+         //try to clean up the old files
          Directory.Delete(this.myPath,true);
          makeMap(this.myPath,this.myFileName,this.mGeoDef);
       }
@@ -383,11 +383,11 @@ namespace SEARCH
          bool success = true;
          try
          {
-             shapePath = shapePath + "\\" + shapeFileName;
+             shapePath = System.IO.Path.Combine(shapePath,shapeFileName);
             
 
 
-             //C:\test\2013\0\0
+             
              if (!loadFromBackup)
              {
 #if DEBUG
@@ -441,6 +441,7 @@ namespace SEARCH
             fieldsEdit.AddField(fieldEdit);
 
             //If loading from backup open the feature class rather than create a new one
+            //TODO refactor to check this in the beginning
             if (loadFromBackup)
             {
                 this.mySelf = this.getShapeFile(shapePath);

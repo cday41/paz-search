@@ -10,19 +10,34 @@
  *                how to set the next start time.  Problem was hourly time swap
  *                was working great for first day.  But did not advance to next
  *                day.
- *****************************************************************************/              
+ *****************************************************************************/
 using System;
 
 namespace SEARCH
 {
-	/// <summary>
-	/// Summary description for MapSwapTrigger.
-	/// </summary>
-	public class MapSwapTrigger:ICloneable
-	{
-		#region Public Members (4) 
+   /// <summary>
+   /// Summary description for MapSwapTrigger.
+   /// </summary>
+   public class MapSwapTrigger : ICloneable
+   {
+      #region Fields (12)
 
-		#region Enums (1) 
+      private int mDayGrp;
+      private string mFilename;
+      private mTriggerType mMyTriggerType;
+      private System.DateTime mOriginalStartDate;
+      private string mPath;
+      private int mSeasonGrp;
+      private System.DateTime mStartDate;
+      private string mStartDay;
+      private string mStartHour;
+      private string mStartMinute;
+      private string mStartMonth;
+      private int mYearGrp;
+
+      #endregion Fields
+
+      #region Enums (1)
 
       //For some reason the enum has to be made public to access
       //through a property.  But you can not see it from outside the 
@@ -35,28 +50,29 @@ namespace SEARCH
          HOURLY
       }
 
-		#endregion Enums 
-		#region Constructors (1) 
+      #endregion Enums
 
-public MapSwapTrigger()
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
+      #region Constructors (1)
 
-		#endregion Constructors 
-		#region Methods (2) 
-
-      public void setTriggerType(int numYears,int numDays, int numHours)
+      public MapSwapTrigger()
       {
-         if(numHours > 1)
+      }
+
+      #endregion Constructors
+
+      #region Methods (2)
+
+      // Public Methods (2) 
+
+      public void setTriggerType(int numYears, int numDays, int numHours)
+      {
+         if (numHours > 1)
             this.mMyTriggerType = mTriggerType.HOURLY;
-         else if(numDays > 1)
+         else if (numDays > 1)
             this.mMyTriggerType = mTriggerType.DAILY;
          else if (numYears > 1)
             this.mMyTriggerType = mTriggerType.YEARLY;
-         else 
+         else
             this.mMyTriggerType = mTriggerType.STATIC;
       }
 
@@ -65,115 +81,93 @@ public MapSwapTrigger()
          return mStartDate.ToShortDateString() + " " + mStartDate.ToShortTimeString() + " " + mFilename + " " + this.mMyTriggerType.ToString();
       }
 
-		#endregion Methods 
-
-		#endregion Public Members 
-
-		#region Non-Public Members (12) 
-
-		#region Fields (12) 
-
-		private int mDayGrp;
-		private string mFilename;
-      private mTriggerType mMyTriggerType;
-      private System.DateTime mOriginalStartDate;
-		private string mPath;
-		private int mSeasonGrp;
-		private System.DateTime mStartDate;
-		private string mStartDay;
-		private string mStartHour;
-		private string mStartMinute;
-		private string mStartMonth;
-		private int mYearGrp;
-
-		#endregion Fields 
-
-		#endregion Non-Public Members 
+      #endregion Methods
 
 
-#region getters and setters	
+
+      #region getters and setters
 
       public mTriggerType MyTriggerType
-		{
-			get { return mMyTriggerType; }
-			set  { mMyTriggerType = value; }
-		}
+      {
+         get { return mMyTriggerType; }
+         set { mMyTriggerType = value; }
+      }
 
-      
 
-		public int YearGrp
-		{
-			get { return mYearGrp; }
-			set { mYearGrp = value; }
-		}
 
-		public int SeasonGrp
-		{
-			get { return mSeasonGrp; }
-			set { mSeasonGrp = value; }
-		}
+      public int YearGrp
+      {
+         get { return mYearGrp; }
+         set { mYearGrp = value; }
+      }
 
-		public int DayGrp
-		{
-			get { return mDayGrp; }
-			set { mDayGrp = value; }
-		}
+      public int SeasonGrp
+      {
+         get { return mSeasonGrp; }
+         set { mSeasonGrp = value; }
+      }
 
-		public string StartMonth
-		{
-			get { return mStartMonth; }
-			set { mStartMonth = value; }
-		}
+      public int DayGrp
+      {
+         get { return mDayGrp; }
+         set { mDayGrp = value; }
+      }
 
-		public string StartDay
-		{
-			get { return mStartDay; }
-			set { mStartDay = value; }
-		}
+      public string StartMonth
+      {
+         get { return mStartMonth; }
+         set { mStartMonth = value; }
+      }
 
-		public string StartHour
-		{
-			get { return mStartHour; }
-			set { mStartHour = value; }
-		}
+      public string StartDay
+      {
+         get { return mStartDay; }
+         set { mStartDay = value; }
+      }
 
-		public string StartMinute
-		{
-			get { return mStartMinute; }
-			set { mStartMinute = value; }
-		}
+      public string StartHour
+      {
+         get { return mStartHour; }
+         set { mStartHour = value; }
+      }
 
-		public System.DateTime StartDate
-		{
-			get { return mStartDate; }
-			set { mStartDate = value; }
-		}
-       public System.DateTime OriginalStartDate
-		{
-			get { return mOriginalStartDate; }
-			set  { mOriginalStartDate = value; }
-		}
+      public string StartMinute
+      {
+         get { return mStartMinute; }
+         set { mStartMinute = value; }
+      }
 
-        public  string Path
-		{
-            get { return mPath; }
-            set { mPath = value; }
-		}
-		public string Filename
-		{
-			get { return mFilename; }
-			set { mFilename = value; }
-		}
+      public System.DateTime StartDate
+      {
+         get { return mStartDate; }
+         set { mStartDate = value; }
+      }
+      public System.DateTime OriginalStartDate
+      {
+         get { return mOriginalStartDate; }
+         set { mOriginalStartDate = value; }
+      }
 
-		#endregion
+      public string Path
+      {
+         get { return mPath; }
+         set { mPath = value; }
+      }
+      public string Filename
+      {
+         get { return mFilename; }
+         set { mFilename = value; }
+      }
 
-        #region ICloneable Members
+      #endregion
 
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+      #region ICloneable Members
 
-        #endregion
-    }
+      public object Clone()
+      {
+         return this.MemberwiseClone();
+      }
+
+      #endregion
+   }
 }

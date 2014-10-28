@@ -178,7 +178,9 @@ private MapManager()
             string unionPath = this.OutMapPath + "\\Union_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string timeStepPath = this.OutMapPath + "\\TimeStepPath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
             string dissolvePath = this.OutMapPath + "\\DissolvePath_" + AnimalID.ToString() + timeStep.ToString() + ".shp";
+            string foodMapPath = this.myFoodMap.Path + "\\" + this.myFoodMap.mySelf.AliasName;
 
+            mLog.Debug("the  current food map is " + foodMapPath);
             mLog.Debug("the  current animal map is " + currMapPath);
             mLog.Debug("the  current clip map is " + clipPath);
             mLog.Debug("the  current union map is " + unionPath);
@@ -343,6 +345,12 @@ private MapManager()
             
          }
       }
+
+      //public void CreateBackUp (string inFileName)
+      //{
+        
+      //   SerializeHelper.SerializeObjectToFile(System.IO.Path.Combine(inFileName,"DispersalMap.xml"), this.myDispersalMaps);
+      //}
 
 //      public IFeatureClass getAnimalMap(int index)
 //      {
@@ -824,6 +832,7 @@ private MapManager()
          try
          {
             mLog.Debug("inside load map for " + inMapType);
+            mLog.Debug("the current time is " + this.mCurrTime.ToShortDateString() + " " + this.mCurrTime.ToShortTimeString());
             //sometimes we are loading from an XML file and so we have to check that the
             //map is actually available
             String fullName = inPath + "\\" + fileName + ".shp";
@@ -980,8 +989,10 @@ private MapManager()
       public bool ReloadFromBackUp(string inBackupDir,DateTime inCurrTime)
       {
          //HACK changed to reload all the maps.
-         //this.reloadSocialMap (inBackupDir);
-         this.changeMaps(inCurrTime);
+        // this.reloadSocialMap (inBackupDir);
+         myDispersalMaps = (Maps)SerializeHelper.DeserializeFromFile(System.IO.Path.Combine(inBackupDir, "DispersalMap.xml"), myDispersalMaps);
+         
+           this.changeMaps(inCurrTime);
          return this.reloadAnimalMaps ();
       }
       private void reloadSocialMap(string inBackUpDir)
@@ -1027,6 +1038,7 @@ private MapManager()
               {
                   myAnimalMaps.Add(new AnimalMap(animalNum, tempArray[i], geoDef, true));
                   myAnimalMaps[i].MySocialMap = this.mySocialMap;
+                 
                
               }
               else if (String.Equals(animalNum, "Resident", StringComparison.CurrentCultureIgnoreCase))
@@ -1300,7 +1312,7 @@ private MapManager()
          Check.Require(inMapDir.Length > 0, "empty string for map dir");
          string[] fileNames;
          string[] fieldNames;
-         string[] fileInfo;
+        // string[] fileInfo;
          string mapType;
          success = false;
          if (Directory.Exists(inMapDir))
@@ -1870,6 +1882,7 @@ private MapManager()
           }
           catch (Exception ex)
           {
+             ex = null;
               obj = null;
           }
           finally

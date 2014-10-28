@@ -73,9 +73,7 @@ namespace SEARCH.Forms
 			//
 			InitializeComponent();
 
-			//
-			// TODO: Add any constructor code after InitializeComponent call
-			//
+			
 		}
 
 		#endregion Constructors 

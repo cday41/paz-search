@@ -58,8 +58,7 @@ namespace SEARCH
          try
          {
             mLog.Debug("inside getDurationMeanAndSD for  " + durationID.ToString());
-            //TODO remove before release
-            Check.Require(durationID <= this.myActivityDuration.GetUpperBound(0),"Duration ID is more then upper bound of the duration array in animal attributes");
+
             //get the mean and sd for the timed duration
             mean = this.myActivityDuration[durationID].MeanAmt;
             sd = this.myActivityDuration[durationID].StandardDeviation;

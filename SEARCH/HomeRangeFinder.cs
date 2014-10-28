@@ -725,7 +725,7 @@ namespace SEARCH
 
       public override bool setHomeRangeCenter(Animal inAnimal, ESRI.ArcGIS.Geodatabase.IFeatureClass inAnmialMemoryMap)
       {
-         // TODO:  Add HomeRangeFinder.setHomeRangeCenter implementation
+       
          return false;
       }
       public override bool setHomeRangeCenter(Animal inA, string inFileName)

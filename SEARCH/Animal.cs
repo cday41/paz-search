@@ -235,7 +235,8 @@ namespace SEARCH
       public double Heading
       {
          get { return mHeading; }
-         set { mHeading = value; }
+         set
+         {mHeading = value; }
       }
 
       [XmlIgnore]
@@ -515,7 +516,6 @@ namespace SEARCH
          //added temp for holding the old locations for doing text output
          double tempX = 0;
          double tempY = 0;
-         //TODO talk to Pat about stuck on the way home?
          int timesStuck = 0;
          bool timeToLookForHome = false;
 
@@ -537,7 +537,7 @@ namespace SEARCH
             while (percentTimeStep < 1 && !this.mIsDead)
             {
                //if(this.Location.X == 0) System.Windows.Forms.MessageBox.Show("No Location");
-
+               mLog.Debug("Start of loop tempPercentTimeStep is " + tempPercentTimeStep.ToString());
                this.timeStep++;
 
                //store off the original location
@@ -562,7 +562,21 @@ namespace SEARCH
 
                   //Monday, June 09, 2008
                   tempPercentTimeStep = percentTimeStep - previousPercentTimeStep;
-                  previousPercentTimeStep += tempPercentTimeStep;
+                  mLog.Debug("After doing the math our temp percent is " + tempPercentTimeStep.ToString());
+                  //HACK Add issue when two steps are the equal length we get into a loop because
+                  //they cancel each other out to Zero so the previous timestep will never accumulate
+                  if (tempPercentTimeStep == 0  )
+                  {
+                     mLog.Debug("evidently the percent returned from move = the accumulated time step so just add the previous to current and call it a day");
+                     previousPercentTimeStep += percentTimeStep;
+                  }
+                  else
+                  {
+                     previousPercentTimeStep += tempPercentTimeStep;
+
+                  }
+
+                  
                   mLog.Debug("previousPercentTimeStep is " + previousPercentTimeStep.ToString());
                   mLog.Debug("tempPercentTimeStep is " + tempPercentTimeStep.ToString());
                   mLog.Debug("total percent time step is " + percentTimeStep.ToString());
@@ -761,7 +775,7 @@ namespace SEARCH
          }
          return isSuitable && isAvailable;
       }
-
+      
       public void setInitialSleepTime(DateTime currTime)
       {
          mLog.Debug("inside set inital sleeptime curr time is " + currTime.ToShortDateString() + "  " + currTime.ToShortTimeString());
@@ -1081,6 +1095,7 @@ namespace SEARCH
          mLog.Debug("inside lose energy current energy level  is " + mCurrEnergy.ToString());
          this.mCurrEnergy = this.mCurrEnergy - lostEnergy; mLog.Debug("so current energy level is " + this.mCurrEnergy.ToString());
       }
+      
 
       private void move(ref double percentTimeStep)
       {
@@ -1148,7 +1163,7 @@ namespace SEARCH
          this.mMapManager.GetRiskModifier(this.myLocation, ref this.mRiskIndex, ref mPredationRisk);
          //Author: Bob Cummings moved down here from eat() made more sense to do it all in one place
          // fw.writeLine("my food index is " + this.FoodIndex.ToString());
-         this.mMapManager.GetFoodData(this.myLocation, ref this.mFoodIndex, ref this.mCaptureFood, ref this.mFoodMeanSize, ref this.mFoodSD_Size);
+        this.mMapManager.GetFoodData(this.myLocation, ref this.mFoodIndex, ref this.mCaptureFood, ref this.mFoodMeanSize, ref this.mFoodSD_Size);
       }
 
       private void upDateMyValues()

@@ -234,12 +234,13 @@ namespace SEARCH
             double newY = start.Y + stepLength * System.Math.Sin(heading + turnAngle);
             newPoint.X = newX;
             newPoint.Y = newY;
+            mLog.Debug("leaving step with new  x is " + newPoint.X.ToString() + " start y is " + newPoint.Y.ToString());
+
          }
          catch(System.Exception ex)
          {
             eLog.Debug(ex);
          }
-         mLog.Debug("leaving step with new  x is " + newPoint.X.ToString() + " start y is " + newPoint.Y.ToString());
          return newPoint;
       }//end of step
 

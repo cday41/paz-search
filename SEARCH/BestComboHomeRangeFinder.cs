@@ -17,9 +17,7 @@ namespace SEARCH
 
       public BestComboHomeRangeFinder()
       {
-         // 
-         // TODO: Add constructor logic here
-         //
+         
       }
 
 		#endregion Constructors 

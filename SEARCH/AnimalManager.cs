@@ -8,33 +8,31 @@
  * Modify Date    Sunday, November 08, 2009
  * Description    2 years into changing thought time to start.  For issue
  *                59 the issue was during the current time step the current
- *                social map reference was not being updated when a new 
+ *                social map reference was not being updated when a new
  *                resident was added.  Therefore when trying to remove a resident
- *                in the same time step there was not a correct refernce to 
+ *                in the same time step there was not a correct refernce to
  *                social map.
  * ***************************************************************************/
-
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using DesignByContract;
 using ESRI.ArcGIS.Geometry;
 using log4net;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-
 
 namespace SEARCH
 {
-    [Serializable()]
-    public class AnimalManager  
+   [Serializable()]
+   public class AnimalManager
    {
-      #region Fields (20) 
+      #region Fields (20)
 
       private IEnumerator currAnimal;
       private int currNumAnimals;
@@ -48,10 +46,13 @@ namespace SEARCH
       private HomeRangeCriteria mMaleHomeRangeCriteria;
       private MaleModifier mMaleModifier;
       private Dictionary<IPoint, MapValue> mMapValues;
- // ersi may need custom serializer. mark as transient.
+
+      // ersi may need custom serializer. mark as transient.
       private Mover mMover;
- // containes ref to map manager // mark as transient.
+
+      // containes ref to map manager // mark as transient.
       private ResidentAttributes mResidentAttributes;
+
       private Modifier mRiskyForageMod;
       private Modifier mRiskySearchMod;
       private Modifier mSafeForageMod;
@@ -59,9 +60,9 @@ namespace SEARCH
       private List<Animal> myAnimals;
       private string myErrMessage;
 
-      #endregion Fields 
+      #endregion Fields
 
-      #region Constructors (1) 
+      #region Constructors (1)
 
       public AnimalManager()
       {
@@ -79,9 +80,9 @@ namespace SEARCH
          currNumAnimals = 0;
       }
 
-      #endregion Constructors 
+      #endregion Constructors
 
-      #region Properties (9) 
+      #region Properties (9)
 
       public AnimalAtributes AnimalAttributes
       {
@@ -92,26 +93,28 @@ namespace SEARCH
       public string ErrMessage
       {
          get { return myErrMessage; }
-                                 
+
          set { myErrMessage = value; }
       }
 
       public FemaleModifier FemaleModifier
       {
          get { return mFemaleModifier; }
-         set 
+         set
          {
             mFemaleModifier = value;
-            mLog.Debug("inside animal manager setting the mFemaleModifierMod"); }
+            mLog.Debug("inside animal manager setting the mFemaleModifierMod");
+         }
       }
 
       public MaleModifier MaleModifier
       {
          get { return mMaleModifier; }
-         set 
+         set
          {
             mMaleModifier = value;
-            mLog.Debug("inside animal manager setting the mMaleModifierMod"); }
+            mLog.Debug("inside animal manager setting the mMaleModifierMod");
+         }
       }
 
       public ResidentAttributes ResidentAttributes
@@ -123,10 +126,11 @@ namespace SEARCH
       public Modifier RiskyForageMod
       {
          get { return mRiskyForageMod; }
-         set 
+         set
          {
             mRiskyForageMod = value;
-            mLog.Debug("inside animal manager setting the mRiskyForageMod"); }
+            mLog.Debug("inside animal manager setting the mRiskyForageMod");
+         }
       }
 
       public Modifier RiskySearchMod
@@ -138,25 +142,26 @@ namespace SEARCH
       public Modifier SafeForageMod
       {
          get { return mSafeForageMod; }
-         set 
+         set
          {
             mSafeForageMod = value;
-            mLog.Debug("inside animal manager setting the mSafeForageMod"); }
-
+            mLog.Debug("inside animal manager setting the mSafeForageMod");
+         }
       }
 
       public Modifier SafeSearchMod
       {
          get { return mSafeSearchMod; }
-         set 
+         set
          {
             mSafeSearchMod = value;
-            mLog.Debug("inside animal manager setting the mSafeSearchMod"); }
+            mLog.Debug("inside animal manager setting the mSafeSearchMod");
+         }
       }
 
-      #endregion Properties 
+      #endregion Properties
 
-      #region Methods (40) 
+      #region Methods (40)
 
       // Public Methods (27) 
 
@@ -168,14 +173,13 @@ namespace SEARCH
             for (int i = 0; i <= inIAA.Length - 1; i++)
             {
                mLog.Debug("calling makeNextGenAnimal");
-               this.makeNextGenAnimal(inIAA[i],currTime);
+               this.makeNextGenAnimal(inIAA[i], currTime);
             }
             mLog.Debug("done with loop in addNewDispersers calling mHomeRangeTrigger.reset");
             this.mHomeRangeTrigger.reset(this.myAnimals.Count + 1);
             mLog.Debug("back in addNewDispersers calling setNextGenHomeRange");
             setNextGenHomeRange();
             mLog.Debug("done with adding new dispersers leaving addNewDispersers");
-
          }
          catch (System.Exception ex)
          {
@@ -195,8 +199,8 @@ namespace SEARCH
       public int breedFemales(DateTime currTime)
       {
          mLog.Debug("inside breed females");
-         int numMales=0;
-         int numFemales=0;
+         int numMales = 0;
+         int numFemales = 0;
          int totalNewAnimals = 0;
          InitialAnimalAttributes iaa;
          mLog.Debug("starting the loop");
@@ -204,7 +208,6 @@ namespace SEARCH
 
          foreach (Resident r in myBreeders)
          {
-
             r.breed(out numMales, out numFemales);
             totalNewAnimals += numFemales + numMales;
             if (numMales > 0)
@@ -224,12 +227,10 @@ namespace SEARCH
                this.makeNextGenAnimal(iaa, currTime);
             }
          }
-         
 
          this.mHomeRangeTrigger.reset(this.myAnimals.Count + 1);
          setNextGenHomeRange();
          return totalNewAnimals;
-
       }
 
       public void changeToDeadAnimal(Animal inA)
@@ -241,29 +242,28 @@ namespace SEARCH
             mLog.Debug("removing at position " + dd.IdNum.ToString());
             this.myAnimals.RemoveAt(dd.IdNum);
             this.myAnimals.Insert(dd.IdNum, dd);
-                  
+
             mLog.Debug("new animal type is " + dd.GetType());
          }
          catch (System.Exception ex)
          {
             eLog.Debug(ex);
 #if (DEBUG)
-             System.Windows.Forms.MessageBox.Show(ex.Message);
+            System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
          }
       }
 
       public void doTimeStep(HourlyModifier inHM, DailyModifier inDM, DateTime currTime, bool DoTextOutPut, Map currSocialMap)
       {
-         
-         //List<Animal> liveAnimals = this.getAllLiveAnimals();
+       
          Animal a;
          string status = "";
          try
          {
             mLog.Debug("inside animal manager do time step with modifiers");
-           // foreach (Animal a in myAnimals)
-            for(int i=0;i<myAnimals.Count; i++)
+          
+            for (int i = 0; i < myAnimals.Count; i++)
             {
                a = this.myAnimals[i];
                mLog.Debug("");
@@ -271,31 +271,33 @@ namespace SEARCH
                mLog.Debug("animal is type " + a.GetType().ToString());
 
                //no sense trying a time step if already dead
-               //Continue will let us skip the rest of this loop and 
+               //Continue will let us skip the rest of this loop and
                // pick up the next animal.
-               if(a.IsDead) continue;
+               if (a.IsDead) continue;
 
-                a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
+               a.doTimeStep(inHM, inDM, currTime, DoTextOutPut, ref status);
                //check to see if they died if they did remove them from the list
                if (a.IsDead)
                {
-                   if (a.GetType().ToString().Equals("SEARCH.Resident", StringComparison.CurrentCultureIgnoreCase))
-                   { this.AdjustMapForDeadAnimal(currSocialMap, a); }
-                 
-                 this.changeToDeadAnimal(a);
+                  if (a.GetType().ToString().Equals("SEARCH.Resident", StringComparison.CurrentCultureIgnoreCase))
+                  { this.AdjustMapForDeadAnimal(currSocialMap, a); }
+
+                  this.changeToDeadAnimal(a);
                }
                //check to see if they are changing from disperser to resident
-               
+
                if (status == "resident")
                {
                   mLog.Debug("switching " + a.IdNum.ToString() + " to a resident");
                   Resident r = new Resident();
-                  
+
                   r.Sex = a.Sex;
                   r.IdNum = a.IdNum;
-                 
+
                   r.TextFileWriter = a.TextFileWriter;
-                 string fileName = r.TextFileWriter.RelocateFile();
+
+             
+                  string fileName = r.TextFileWriter.RelocateFile();
                   r.FileNamePrefix = a.FileNamePrefix;
                   r.HomeRangeCenter = a.HomeRangeCenter;
                   r.HomeRangeCriteria = a.HomeRangeCriteria;
@@ -308,16 +310,12 @@ namespace SEARCH
                   //update reference to current social map.
                   currSocialMap = MapManager.GetUniqueInstance().SocialMap;
                }
-              
             }
-            }
-         
-        
+         }
          catch (System.Exception ex)
          {
             eLog.Debug(ex);
          }
-        
       }
 
       public void dump()
@@ -339,7 +337,6 @@ namespace SEARCH
             }
          }
          return dispersers;
-
       }
 
       public int getNumDispersers()
@@ -353,7 +350,7 @@ namespace SEARCH
       }
 
       public StringCollection getResidentIDs()
-      {  
+      {
          System.Collections.Specialized.StringCollection sc = new System.Collections.Specialized.StringCollection();
          try
          {
@@ -364,7 +361,6 @@ namespace SEARCH
                   sc.Add(a.IdNum.ToString());
                }
             }
-
          }
          catch (System.Exception ex)
          {
@@ -379,7 +375,7 @@ namespace SEARCH
       public String doBackUp(string filename)
       {
          string output = string.Format("myAnimals count:{0}\n", myAnimals.Count); //Prints how many animals are in the array myAnimals
-         string MapBackUpFileName = System.IO.Path.Combine(System.IO.Path.GetDirectoryName (filename),"Map.xml");
+         string MapBackUpFileName = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(filename), "Map.xml");
 
          mLog.Debug("");
          mLog.Debug("");
@@ -390,8 +386,8 @@ namespace SEARCH
          mLog.Debug("Run time is " + DateTime.Now.ToShortTimeString());
 
 #if DEBUG
-//Console.WriteLine("going to serialize out " + output + " animals");
-//Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
+         //Console.WriteLine("going to serialize out " + output + " animals");
+         //Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
 #endif
 
          //For each animal convert mPath over to a list of strings so it can be serialized
@@ -408,139 +404,142 @@ namespace SEARCH
          mLog.Debug("Calling the serialization method");
          SerializeHelper.SerializeObjectToFile(filename, myAnimals);
          //BC 05/20/14 Use this so we can get the path when we reload.
-         SerializeHelper.SerializeObjectToFile (MapBackUpFileName, this.myAnimals[0].MapManager.SocialMap);
-         
-#if DEBUG
-//Console.WriteLine("Done Serializing");
-//Console.WriteLine ("Run time is " + DateTime.Now.ToShortTimeString());
-#endif
+         SerializeHelper.SerializeObjectToFile(MapBackUpFileName, this.myAnimals[0].MapManager.SocialMap);
+
+
 
          return output;
-
       }
 
-        public int getTotalNum()
-        {
-      
-          return this.myAnimals.Count();
-      }
-
-       //todo
-       public static AnimalManager load(string filename)
-       {
-           if (!File.Exists(filename))
-           {
-               return null;
-           }
-           FileStream fis = File.OpenRead(filename);
-           try
-           {              
-               BinaryFormatter bf = new BinaryFormatter();
-               AnimalManager am = (SEARCH.AnimalManager)bf.Deserialize(fis);
-               fis.Close();
-               return am;
-           }
-           catch (Exception e)
-           {
-               Console.WriteLine(e.ToString());
-               // something bad happened.
-               fis.Close();
-               return null;
-           }
-       }
-
-      public bool loadBackup(string line, string backup,string inStartYear)
+      public int getTotalNum()
       {
-          mLog.Debug("");
-          mLog.Debug("");
-          mLog.Debug("******************************************************************");
-          mLog.Debug("inside load backup");
+         return this.myAnimals.Count();
+      }
 
-#if DEBUG
-          Console.WriteLine("start loading backup runime is " + DateTime.Now.ToShortTimeString());
-#endif
-          int i = 0;
-
-          myAnimals.Clear ();
    
-          //Set the currNumAnimals to the saved number.
-          currNumAnimals =  Convert.ToInt32(((line.Split(':'))[1]).Trim());
-          mLog.Debug("we are going to load " + currNumAnimals.ToString());
-          //Deserialize the list of animals from BackupDir\Animals.xml
-          myAnimals = SerializeHelper.DeserializeFromFile(backup + "\\Animals.xml", new List<Animal>()) as List<Animal>;
-          mLog.Debug("we loaded " + myAnimals.Count.ToString());
-          mLog.Debug("");
-         
-          mLog.Debug("******************************************************************");
-            mLog.Debug(""); 
-          mLog.Debug("");
-          //Finish reconstruction that couldn't be saved to the xml file
-          setResidentsTextOutput (this.AnimalAttributes.OutPutDir, inStartYear);
-          foreach (Animal a in myAnimals)
-          {
-             if (a is Resident)
-             {
-                Resident r = a as Resident;
-                r.SaySomething ("From Backup");
-             }
-              if (a.TextFileWriter == null)
-              {
-                  a.ReBuildTextWriter(this.AnimalAttributes.OutPutDir);
-              }
-              a.rebuildIPointList();
-               a.AnimalManager = this;
-              i++;
-          }
-          if (i != currNumAnimals)
-          {
-              Console.WriteLine("Something is wrong! i={0} cur={1}", i, currNumAnimals);
-          }
+      public static AnimalManager load(string filename)
+      {
+         if (!File.Exists(filename))
+         {
+            return null;
+         }
+         FileStream fis = File.OpenRead(filename);
+         try
+         {
+            BinaryFormatter bf = new BinaryFormatter();
+            AnimalManager am = (SEARCH.AnimalManager)bf.Deserialize(fis);
+            fis.Close();
+            return am;
+         }
+         catch (Exception e)
+         {
+            Console.WriteLine(e.ToString());
+            // something bad happened.
+            fis.Close();
+            return null;
+         }
+      }
+
+      public bool loadBackup(string line, string backup, string inStartYear)
+      {
+         mLog.Debug("");
+         mLog.Debug("");
+         mLog.Debug("******************************************************************");
+         mLog.Debug("inside load backup");
+
 #if DEBUG
-          Console.WriteLine("done loading backup runime is " + DateTime.Now.ToShortTimeString());
+         Console.WriteLine("start loading backup runime is " + DateTime.Now.ToShortTimeString());
 #endif
-          return true;
+         int i = 0;
+
+         myAnimals.Clear();
+
+         //Set the currNumAnimals to the saved number.
+         currNumAnimals = Convert.ToInt32(((line.Split(':'))[1]).Trim());
+         mLog.Debug("we are going to load " + currNumAnimals.ToString());
+         //Deserialize the list of animals from BackupDir\Animals.xml
+         myAnimals = SerializeHelper.DeserializeFromFile(backup + "\\Animals.xml", new List<Animal>()) as List<Animal>;
+         mLog.Debug("we loaded " + myAnimals.Count.ToString());
+         mLog.Debug("");
+
+         mLog.Debug("******************************************************************");
+         mLog.Debug("");
+         mLog.Debug("");
+         //Finish reconstruction that couldn't be saved to the xml file
+         setResidentsTextOutput(this.AnimalAttributes.OutPutDir, inStartYear);
+         foreach (Animal a in myAnimals)
+         {
+            if (a is Resident)
+            {
+               Resident r = a as Resident;
+               r.SaySomething("From Backup");
+            }
+            else
+            {
+            ///   this.SetDisperserMapValues(a);
+            }
+
+
+            if (a.TextFileWriter == null)
+            {
+               a.ReBuildTextWriter(this.AnimalAttributes.OutPutDir);
+            }
+           
+            a.rebuildIPointList();
+            a.AnimalManager = this;
+            i++;
+         }
+
+         if (i != currNumAnimals)
+         {
+            Console.WriteLine("Something is wrong! i={0} cur={1}", i, currNumAnimals);
+         }
+#if DEBUG
+         Console.WriteLine("done loading backup runime is " + DateTime.Now.ToShortTimeString());
+#endif
+         return true;
       }
 
       public bool makeInitialAnimals(InitialAnimalAttributes[] inIAA)
       {
          bool success = true;
-         
+
          Animal tmpAnimal;
-               
+
          //fw.writeLine("inside make initial animals");
-             //this is an array of attributes one of which is how many to make of this type
-             for (int i = 0; i <= inIAA.Length - 1; i++)
-             {
-                 //so for each entity in the array we need to make j amount of animals
-                 for (int j = 0; j < inIAA[i].NumToMake; j++)
-                 {
-                     if (inIAA[i].Sex == 'M')
-                     {
-                         mLog.Debug("makeing a new male");
-                         tmpAnimal = new Male();
-                     }
-                     else
-                     {
-                         mLog.Debug("makeing a new female");
-                         tmpAnimal = new Female();
-                     }
+         //this is an array of attributes one of which is how many to make of this type
+         for (int i = 0; i <= inIAA.Length - 1; i++)
+         {
+            //so for each entity in the array we need to make j amount of animals
+            for (int j = 0; j < inIAA[i].NumToMake; j++)
+            {
+               if (inIAA[i].Sex == 'M')
+               {
+                  mLog.Debug("makeing a new male");
+                  tmpAnimal = new Male();
+               }
+               else
+               {
+                  mLog.Debug("makeing a new female");
+                  tmpAnimal = new Female();
+               }
 
-                     tmpAnimal.IdNum = this.currNumAnimals++;
-                     mLog.Debug("just made " + tmpAnimal.IdNum.ToString());
-                     tmpAnimal.Location = inIAA[i].Location;
+               tmpAnimal.IdNum = this.currNumAnimals++;
+               mLog.Debug("just made " + tmpAnimal.IdNum.ToString());
+               tmpAnimal.Location = inIAA[i].Location;
 
-                     tmpAnimal.AnimalAtributes = this.AnimalAttributes;
-                     mLog.Debug("now setting the mover");
-                     tmpAnimal.myMover = this.mMover;
-                     tmpAnimal.AnimalManager = this;
-                     mLog.Debug("now adding to the list of my animals;");
-                     this.myAnimals.Add(tmpAnimal);
-                 }
-             }
+               tmpAnimal.AnimalAtributes = this.AnimalAttributes;
+               mLog.Debug("now setting the mover");
+               tmpAnimal.myMover = this.mMover;
+               tmpAnimal.AnimalManager = this;
+               mLog.Debug("now adding to the list of my animals;");
+               this.myAnimals.Add(tmpAnimal);
+            }
+         }
          return success;
       }
 
-      public bool makeResidents(InitialAnimalAttributes[]inResAttributes,string currYear)
+      public bool makeResidents(InitialAnimalAttributes[] inResAttributes, string currYear)
       {
          bool success = false;
          Resident r;
@@ -555,25 +554,22 @@ namespace SEARCH
                if (inResAttributes[i].Sex.ToString().ToUpper() == "M")
                {
                   r.Sex = "Male";
-                 
                }
                else
                {
                   r.Sex = "Female";
-                 
                }
                //r.IsDead = false;
                r.IdNum = this.currNumAnimals++;
                r.Location = inResAttributes[i].Location;
                r.HomeRangeCenter = r.Location as PointClass; ;
                r.IdNumOrig = inResAttributes[i].OrginalID;
-                
+
                this.myAnimals.Add(r);
             }
-            
+
             mLog.Debug("after adding residents total animals now is " + this.myAnimals.Count.ToString());
             success = true;
-
          }
          catch (System.Exception ex)
          {
@@ -582,9 +578,8 @@ namespace SEARCH
             System.Windows.Forms.MessageBox.Show(ex.Message);
 #endif
          }
-         
-         return success;
 
+         return success;
       }
 
       public void removeRemaingDispersers()
@@ -612,25 +607,24 @@ namespace SEARCH
 #endif
             eLog.Debug(ex);
          }
-         
       }
 
-       // toto
-       public static bool save(string filename,AnimalManager animalManager)
+      // toto
+      public static bool save(string filename, AnimalManager animalManager)
       {
-          FileStream fos = File.Create(filename);
-          try
-          {
-              BinaryFormatter bf = new BinaryFormatter();
-              bf.Serialize(fos, animalManager);
-              fos.Close();
-              return true;
-          }
-          catch
-          {
-              fos.Close();
-              return false; // something bad happened
-          } 
+         FileStream fos = File.Create(filename);
+         try
+         {
+            BinaryFormatter bf = new BinaryFormatter();
+            bf.Serialize(fos, animalManager);
+            fos.Close();
+            return true;
+         }
+         catch
+         {
+            fos.Close();
+            return false; // something bad happened
+         }
       }
 
       public bool setAttributes()
@@ -655,13 +649,14 @@ namespace SEARCH
 
       /********************************************************************************
        *   Function name   : setHomeRange
-       *   Description     : 
-       *   Return type     : void 
+       *   Description     :
+       *   Return type     : void
        *   Argument        : string sex
        *   Argument        : double area
        *   Argument        : double distanceMean
        *   Argument        : double distanceSD
        * ********************************************************************************/
+
       public void setHomeRange(string sex, double area, double distanceMean, double distanceSD, double distanceWeight)
       {
          if (sex.ToUpper() == "MALE")
@@ -679,40 +674,42 @@ namespace SEARCH
       public bool setHomeRangeCriteria(string type)
       {
          bool success = false;
-       
+
          try
          {
             mLog.Debug("inside AnimalManger setHomeRangeCriteria " + "for " + type);
             switch (type)
             {
-               case("Food") : 
+               case ("Food"):
                   mLog.Debug("making a foodie");
                   mHomeRangeFinder = BestFoodHomeRangeFinder.getInstance();
                   break;
-               case("Risk") : 
+
+               case ("Risk"):
                   mLog.Debug("making a risky");
                   mHomeRangeFinder = BestRiskHomeRangeFinder.getInstance();
                   break;
-               case("Closest") : 
+
+               case ("Closest"):
                   mLog.Debug("making a closest");
                   mHomeRangeFinder = ClosestHomeRangeFinder.getInstance();
                   break;
-               case("Combo") : 
+
+               case ("Combo"):
                   mLog.Debug("making a combo");
                   mHomeRangeFinder = BestComboHomeRangeFinder.getInstance();
                   break;
-               default : 
+
+               default:
                   throw new ArgumentException("Unexpected Home Range Criteria sent in type = " + type);
             }
             mLog.Debug("now looping and setting the animals");
             foreach (Animal a in this.myAnimals)
             {
-               
                a.HomeRangeFinder = mHomeRangeFinder;
             }
             //if we get this far everything worked out fine
             success = true;
-
          }
          catch (System.Exception ex)
          {
@@ -728,26 +725,26 @@ namespace SEARCH
       {
          try
          {
-            
-            
             mLog.Debug("inside setHomeRangeTrigger want to create " + type + " for " + num.ToString());
             switch (type)
             {
-               case "SITES" : 
+               case "SITES":
                   mHomeRangeTrigger = new SiteHomeRangeTrigger(num, this.myAnimals.Count);
                   mLog.Debug("making a new site home ranger");
                   break;
-               case "STEPS" :
+
+               case "STEPS":
                   mHomeRangeTrigger = new TimeHomeRangeTrigger(num, this.myAnimals.Count);
                   mLog.Debug("making a new step home ranger");
                   break;
-               default : 
+
+               default:
                   throw new System.Exception("Not a valid home range trigger");
             }
             //now set the trigger to the animals
             mLog.Debug("now set the triggers to the animals");
-            
-            foreach(Animal a in myAnimals)
+
+            foreach (Animal a in myAnimals)
             {
                a.HomeRangeTrigger = this.mHomeRangeTrigger;
             }
@@ -787,7 +784,7 @@ namespace SEARCH
          return success;
       }
 
-      public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk, 
+      public void setResidentModifierValues(double inTimeStepRisk, double inYearlyRisk,
          double inPercentBreed, double inPercentFemale, double inMeanLitterSize, double inSDLitterSize)
       {
          try
@@ -801,7 +798,6 @@ namespace SEARCH
             Check.Require(inSDLitterSize >= 0, "Resident sd litter size less then zero");
             mResidentAttributes = new ResidentAttributes(inTimeStepRisk, inYearlyRisk, inPercentBreed, inPercentFemale, inMeanLitterSize, inSDLitterSize);
             this.setResidentAttributes();
-
          }
          catch (System.Exception ex)
          {
@@ -817,8 +813,7 @@ namespace SEARCH
          List<Resident> res = this.getResidents();
          foreach (Resident r in res)
          {
-            
-            r.BuildTextWriter (year, path + "\\Resident");             
+            r.BuildTextWriter(year, path + "\\Resident");
          }
       }
 
@@ -835,7 +830,6 @@ namespace SEARCH
                a.BuildTextWriter(CurrYear, this.AnimalAttributes.OutPutDir);
                SetMapValues(a, currTime);
             }
-            
          }
          catch (System.Exception ex)
          {
@@ -848,14 +842,12 @@ namespace SEARCH
          }
          mLog.Debug("leaving animal manager set sleep time with a value of " + success.ToString());
          return success;
-
       }
 
       public void winterKillResidents(Map currSocialMap, int currentTime)
       {
          try
          {
-            
             mLog.Debug("inside winterKillResidents");
             mLog.Debug("going to loop through " + this.myAnimals.Count.ToString() + " in the collection.");
 
@@ -870,10 +862,9 @@ namespace SEARCH
                   mLog.Debug("Well he died a glorious death but now he is just a dead animal ");
                   this.changeToDeadAnimal(r);
                   this.AdjustMapForDeadAnimal(currSocialMap, r);
-
-               } 
+               }
             }
-            
+
             mLog.Debug("there are " + this.myAnimals.Count.ToString() + " animals left.");
          }
          catch (System.Exception ex)
@@ -884,11 +875,11 @@ namespace SEARCH
             eLog.Debug(ex);
          }
       }
+
       // Private Methods (13) 
 
       private void AdjustMapForDeadAnimal(Map inSocialMap, Animal a)
       {
-
          string fieldName;
          try
          {
@@ -896,18 +887,16 @@ namespace SEARCH
                fieldName = "OCCUP_MALE";
             else
                fieldName = "OCCUP_FEMA";
-            mLog.Debug("calling resetFields"); 
+            mLog.Debug("calling resetFields");
             inSocialMap.resetFields(fieldName, a.IdNumOrig, "none");
-             //Changed above so that we use the original id for removing animals. For non-initial residents this
-             //is equal to their id number
+            //Changed above so that we use the original id for removing animals. For non-initial residents this
+            //is equal to their id number
          }
          catch (Exception ex)
          {
-
             eLog.Debug(ex);
             eLog.Debug(inSocialMap.mySelf.AliasName);
             eLog.Debug(a.IdNum.ToString());
-
          }
       }
 
@@ -917,15 +906,14 @@ namespace SEARCH
          return temp.ToList<Animal>();
       }
 
-       private List<Animal> getDispersers(string inSex)
+      private List<Animal> getDispersers(string inSex)
       {
-         var temp = from a in myAnimals where a.GetType().Name.Equals(inSex, StringComparison.CurrentCultureIgnoreCase)  && !a.IsDead select a;
+         var temp = from a in myAnimals where a.GetType().Name.Equals(inSex, StringComparison.CurrentCultureIgnoreCase) && !a.IsDead select a;
          return temp.ToList<Animal>();
       }
 
       private List<Resident> getResidents()
       {
-
          List<Resident> r = new List<Resident>();
          try
          {
@@ -949,7 +937,6 @@ namespace SEARCH
 
       private List<Resident> getResidents(string inSex)
       {
-
          var temp = from a in myAnimals where a.GetType().Name.Equals("resident", StringComparison.CurrentCultureIgnoreCase) && !a.IsDead && a.Sex.Equals(inSex, StringComparison.CurrentCultureIgnoreCase) select a as Resident;
          return temp.ToList<Resident>();
       }
@@ -974,7 +961,7 @@ namespace SEARCH
                   tmpAnimal = new Female();
                   tmpAnimal.GenderModifier = this.mFemaleModifier;
                }
-                  
+
                tmpAnimal.IdNum = this.currNumAnimals++;
                mLog.Debug("just made " + tmpAnimal.IdNum.ToString());
                tmpAnimal.Location = inIAA.Location;
@@ -987,15 +974,12 @@ namespace SEARCH
                tmpAnimal.HomeRangeTrigger = this.mHomeRangeTrigger;
                tmpAnimal.HomeRangeFinder = this.mHomeRangeFinder;
                tmpAnimal.setInitialSleepTime(currTime);
-               this.SetMapValues(tmpAnimal,currTime);
+               this.SetMapValues(tmpAnimal, currTime);
                tmpAnimal.BuildTextWriter(currTime.Year.ToString());
                tmpAnimal.dump();
                this.myAnimals.Add(tmpAnimal);
             }
-            
          }
-
-        
          catch (System.Exception ex)
          {
 #if (DEBUG)
@@ -1006,7 +990,7 @@ namespace SEARCH
       }
 
       /// <summary>
-      /// After changing the social map, the animals location will stay the same, 
+      /// After changing the social map, the animals location will stay the same,
       /// but the social index will need to be reset.
       /// </summary>
       /// <param name="inSocialMap">The new social map to pull the new index from</param>
@@ -1018,7 +1002,6 @@ namespace SEARCH
          {
             d.SocialIndex = inSocialMap.getCurrentPolygon(d.Location);
          }
-
       }
 
       /// <summary>
@@ -1075,8 +1058,6 @@ namespace SEARCH
          {
             female.HomeRangeCriteria = this.mFemaleHomeRangeCriteria;
          }
-
-
       }
 
       private void setMaleHomeRange()
@@ -1086,13 +1067,13 @@ namespace SEARCH
          {
             male.HomeRangeCriteria = this.mMaleHomeRangeCriteria;
          }
-           List<Resident> maleResidents = this.getResidents("male");
+         List<Resident> maleResidents = this.getResidents("male");
          foreach (Resident male in maleResidents)
          {
             male.HomeRangeCriteria = this.mMaleHomeRangeCriteria;
          }
       }
-
+     
       private void SetMapValues(Animal a, DateTime currTime)
       {
          mLog.Debug("inside SetMapValues for " + a.IdNum.ToString());
@@ -1141,7 +1122,6 @@ namespace SEARCH
       {
          setMaleHomeRange();
          setFemaleHomeRange();
-
       }
 
       private void setResidentAttributes()
@@ -1151,6 +1131,6 @@ namespace SEARCH
             r.MyAttributes = this.ResidentAttributes;
       }
 
-      #endregion Methods 
+      #endregion Methods
    }
 }

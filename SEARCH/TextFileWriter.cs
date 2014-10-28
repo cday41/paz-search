@@ -16,6 +16,7 @@ namespace SEARCH
 
 		#region Constructors (1) 
 
+
       public TextFileWriter(string path, string fileName)
       {
          bool exists = false;
@@ -26,13 +27,13 @@ namespace SEARCH
              {
                  System.IO.Directory.CreateDirectory(path);
              }
-             if(System.IO.File.Exists(path + "\\" + fileName + ".txt"))
+             if(System.IO.File.Exists(path + "\\" + fileName + ".csv"))
              {
                  exists = true;
                
              }
-             sw = new StreamWriter(path + "\\" + fileName + ".txt", true);
-             this.OutPath = path + "\\" + fileName + ".txt";
+             sw = new StreamWriter(path + "\\" + fileName + ".csv", true);
+             this.OutPath = path + "\\" + fileName + ".csv";
              sw.AutoFlush = true;
              if (!exists)
              {
@@ -80,8 +81,10 @@ namespace SEARCH
       {
          string fileName = Path.GetFileName(this.mOutPath);
          string path = Path.GetDirectoryName(this.mOutPath);
+         string newPath = Path.Combine(path, "Resident");
+         if (!Directory.Exists(newPath)) Directory.CreateDirectory(newPath);
          sw.Close();
-         string newFileName = Path.Combine(path,"Resident", fileName);
+         string newFileName = Path.Combine(newPath, fileName);
          if(File.Exists(newFileName)) File.Delete(newFileName);
          File.Copy(this.mOutPath, newFileName);
          sw = new StreamWriter(newFileName, true);

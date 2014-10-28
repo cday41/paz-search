@@ -219,6 +219,8 @@ namespace SEARCH
           string mapOutputDirectory;
           string textOutputDir;
           string xmlBackup;
+
+          
 #if DEBUG
           Console.WriteLine ("calling check license");
 #endif

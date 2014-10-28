@@ -1,4 +1,5 @@
 using System;
+using log4net;
 
 namespace SEARCH
 {
@@ -33,14 +34,28 @@ namespace SEARCH
 		{
             //Changed homing so that an animal only reorients towards a HR site each full timestep
             //to prevent bumping against impermeable boundary repeatedly
-			if (percentTimeStep == 0.0)
+         try
+         {
+            if (percentTimeStep == 0.0)
             {
-                inA.Heading = System.Math.Atan((inA.Location.Y - inA.HomeRangeCenter.Y) / (inA.Location.X - inA.HomeRangeCenter.X));
-                if (inA.Location.X > inA.HomeRangeCenter.X)
-                    inA.Heading = inA.Heading + Math.PI;
-                
+               inA.Heading = System.Math.Atan((inA.Location.Y - inA.HomeRangeCenter.Y) / (inA.Location.X - inA.HomeRangeCenter.X));
+               if (inA.Location.X > inA.HomeRangeCenter.X)
+                  inA.Heading = inA.Heading + Math.PI;
+               myMover.move(ref percentTimeStep, inA);
+
             }
-            myMover.move(ref percentTimeStep, inA);
+         }
+         catch (System.ArithmeticException ex)
+         {
+            ILog errolog = LogManager.GetLogger("DirectedMover");
+            errolog.Error(ex.Message);
+            errolog.Error("The animal passed in is " + inA.IdNum.ToString());
+            errolog.Error("My location is " + inA.getLocation_XY());
+            errolog.Error("My HomeRange Center is " + inA.HomeRangeCenter.X.ToString() + " " + inA.HomeRangeCenter.Y.ToString());
+            errolog.Error("My calculation for Heading was System.Math.Atan((inA.Location.Y - inA.HomeRangeCenter.Y) / (inA.Location.X - inA.HomeRangeCenter.X));");
+         }
+
+           
 			
 		}
 

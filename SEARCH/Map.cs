@@ -284,7 +284,7 @@ namespace SEARCH
       public double getAllAvailableArea(int inAnimalID, string sex)
       {
          IArea a;
-         //HACK remove after testing
+        
          int numFeature = 0;
          double area = 0;double d = 0;
          IFeatureCursor search = null;
@@ -1065,7 +1065,7 @@ namespace SEARCH
                   {
                      bool inside = relOp.Within(searchPoly);
                      bool touches = relOp.Touches(searchPoly);
-                     //HACK
+                     
                      if (relOp.Within(searchPoly) || relOp.Touches(searchPoly))
                      {
                         success = true;
