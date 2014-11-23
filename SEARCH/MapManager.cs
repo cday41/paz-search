@@ -990,7 +990,8 @@ private MapManager()
       {
          //HACK changed to reload all the maps.
         // this.reloadSocialMap (inBackupDir);
-         myDispersalMaps = (Maps)SerializeHelper.DeserializeFromFile(System.IO.Path.Combine(inBackupDir, "DispersalMap.xml"), myDispersalMaps);
+         //TODO remove the following 11/23/14
+         //myDispersalMaps = (Maps)SerializeHelper.DeserializeFromFile(System.IO.Path.Combine(inBackupDir, "DispersalMap.xml"), myDispersalMaps);
          
            this.changeMaps(inCurrTime);
          return this.reloadAnimalMaps ();

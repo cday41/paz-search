@@ -154,7 +154,7 @@ namespace SEARCH
                mLog.Debug("Now using new map");
                changeMaps = true;
                //TODO this is commented out while testing the map reload issue
-              // setNewStartDate();
+              setNewStartDate();
             }
             mLog.Debug("");
          }
