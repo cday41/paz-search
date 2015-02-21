@@ -1,3 +1,0 @@
-C:\SEARCH\paz-search\FileWriter\bin\Release\FileWriter.dll
-C:\SEARCH\paz-search\FileWriter\obj\Release\ResolveAssemblyReference.cache
-C:\SEARCH\paz-search\FileWriter\obj\Release\FileWriter.dll
