@@ -1,0 +1,9 @@
+D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\Utility.dll.config
+D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\Utility.dll
+D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\Utility.pdb
+D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\EntityFramework.dll
+D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\EntityFramework.SqlServer.dll
+D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\EntityFramework.xml
+D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\EntityFramework.SqlServer.xml
+D:\Fun Projects\ConsoleApplication1\Utility\obj\Debug\Utility.dll
+D:\Fun Projects\ConsoleApplication1\Utility\obj\Debug\Utility.pdb

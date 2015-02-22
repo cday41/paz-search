@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SearchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Animal">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Sex" Type="varchar" MaxLength="10" />
+    <Property Name="CurrLocation" Type="geometry" />
+  </EntityType>
+  <EntityType Name="AnimalPath">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CurrLocation" Type="geometry" />
+    <Property Name="TimeStep" Type="int" />
+    <Property Name="AnimalID" Type="int" />
+  </EntityType>
+  <EntityType Name="base_social">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SUITABILIT" Type="nvarchar" MaxLength="255" />
+    <Property Name="OCCUP_MALE" Type="nvarchar" MaxLength="255" />
+    <Property Name="OCCUP_FEMA" Type="nvarchar" MaxLength="255" />
+    <Property Name="Delete" Type="nvarchar" MaxLength="255" />
+    <Property Name="geom" Type="geometry" />
+  </EntityType>
+  <Association Name="FK_Animal_Animal">
+    <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
+    <End Role="Animal1" Type="Self.Animal" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Animal1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnimalPath_AnimalPath">
+    <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+    <End Role="AnimalPath" Type="Self.AnimalPath" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AnimalPath">
+        <PropertyRef Name="AnimalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SearchModelStoreContainer">
+    <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AnimalPath" EntityType="Self.AnimalPath" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="base_social" EntityType="Self.base_social" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Animal_Animal" Association="Self.FK_Animal_Animal">
+      <End Role="Animal" EntitySet="Animal" />
+      <End Role="Animal1" EntitySet="Animal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AnimalPath_AnimalPath" Association="Self.FK_AnimalPath_AnimalPath">
+      <End Role="Animal" EntitySet="Animal" />
+      <End Role="AnimalPath" EntitySet="AnimalPath" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

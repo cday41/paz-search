@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HomeRange xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <HomeRangeArea gender="male">0.07</HomeRangeArea>
+    <HomeRangeArea gender="female">0.07</HomeRangeArea>
+    <MaleDistanceModifierWeight gender="male">1</MaleDistanceModifierWeight>
+    <FemaleDistanceModifierWeight gender="female">1</FemaleDistanceModifierWeight>
+    <HomeRangeTrigger type="steps">False</HomeRangeTrigger>
+    <HomeRangeTrigger type="sites">True</HomeRangeTrigger>
+    <txtTriggerNum>10</txtTriggerNum>
+    <HomeRangeCriteria type="Closest">False</HomeRangeCriteria>
+    <HomeRangeCriteria type="food">False</HomeRangeCriteria>
+    <HomeRangeCriteria type="risk">False</HomeRangeCriteria>
+    <HomeRangeCriteria type="combo">True</HomeRangeCriteria>
+  </HomeRange>

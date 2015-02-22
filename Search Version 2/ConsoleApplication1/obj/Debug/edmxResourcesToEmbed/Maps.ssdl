@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SearchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Search.dbo.Animal' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Search.dbo.AnimalPath' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="base_food">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LABEL" Type="nvarchar" MaxLength="255" />
+    <Property Name="PROBCAP" Type="float" />
+    <Property Name="X_SIZE" Type="bigint" />
+    <Property Name="SD_SIZE" Type="bigint" />
+    <Property Name="geom" Type="geometry" />
+  </EntityType>
+  <EntityType Name="base_move">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MVL" Type="float" />
+    <Property Name="MSL" Type="bigint" />
+    <Property Name="ENERGYUSED" Type="float" />
+    <Property Name="CROSSING" Type="float" />
+    <Property Name="PR_X" Type="float" />
+    <Property Name="LABEL" Type="nvarchar" MaxLength="255" />
+    <Property Name="geom" Type="geometry" />
+  </EntityType>
+  <EntityType Name="base_release">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RELEASESIT" Type="bigint" />
+    <Property Name="MALES" Type="bigint" />
+    <Property Name="FEMS" Type="bigint" />
+    <Property Name="geom" Type="geometry" />
+  </EntityType>
+  <EntityType Name="base_risk">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LABEL" Type="nvarchar" MaxLength="255" />
+    <Property Name="RISK" Type="float" />
+    <Property Name="geom" Type="geometry" />
+  </EntityType>
+  <EntityType Name="base_social">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SUITABILIT" Type="nvarchar" MaxLength="255" />
+    <Property Name="OCCUP_MALE" Type="nvarchar" MaxLength="255" />
+    <Property Name="OCCUP_FEMA" Type="nvarchar" MaxLength="255" />
+    <Property Name="Delete" Type="nvarchar" MaxLength="255" />
+    <Property Name="geom" Type="geometry" />
+  </EntityType>
+  <EntityContainer Name="SearchModelStoreContainer">
+    <EntitySet Name="base_food" EntityType="Self.base_food" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="base_move" EntityType="Self.base_move" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="base_release" EntityType="Self.base_release" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="base_risk" EntityType="Self.base_risk" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="base_social" EntityType="Self.base_social" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

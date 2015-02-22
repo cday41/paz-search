@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Map" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="Map" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Directory" nillable="true">
+          <xs:complexType>
+            <xs:simpleContent msdata:ColumnName="Directory_Text" msdata:Ordinal="1">
+              <xs:extension base="xs:string">
+                <xs:attribute name="type" type="xs:string" />
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="MapSwitchTriggers">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="StartDate" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+              <xs:element name="StartTime" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              <xs:element name="Path" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              <xs:element name="FileName" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+              <xs:element name="TriggerType" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

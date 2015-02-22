@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnimalModifiers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <Modifier type="MaleModifier">
+        <CaptureFood>1</CaptureFood>
+        <EnergyUsed>1</EnergyUsed>
+        <MoveSpeed>1</MoveSpeed>
+        <MoveTurtosity>1</MoveTurtosity>
+        <Name />
+        <PerceptonModifier>1</PerceptonModifier>
+        <PredationRisk>1</PredationRisk>
+      </Modifier>
+      <Modifier type="FemaleModifier">
+        <CaptureFood>1</CaptureFood>
+        <EnergyUsed>0</EnergyUsed>
+        <MoveSpeed>1</MoveSpeed>
+        <MoveTurtosity>1</MoveTurtosity>
+        <Name />
+        <PerceptonModifier>1</PerceptonModifier>
+        <PredationRisk>1</PredationRisk>
+      </Modifier>
+      <Modifier type="RiskyForageMod">
+        <CaptureFood>1</CaptureFood>
+        <EnergyUsed>1</EnergyUsed>
+        <MoveSpeed>1</MoveSpeed>
+        <MoveTurtosity>1</MoveTurtosity>
+        <Name>RiskyForageModifier</Name>
+        <PerceptonModifier>1</PerceptonModifier>
+        <PredationRisk>1</PredationRisk>
+      </Modifier>
+      <Modifier type="RiskySearchMod">
+        <CaptureFood>1</CaptureFood>
+        <EnergyUsed>1</EnergyUsed>
+        <MoveSpeed>1</MoveSpeed>
+        <MoveTurtosity>1</MoveTurtosity>
+        <Name>RiskySearchModifier</Name>
+        <PerceptonModifier>1</PerceptonModifier>
+        <PredationRisk>1</PredationRisk>
+      </Modifier>
+      <Modifier type="SafeForageMod">
+        <CaptureFood>1</CaptureFood>
+        <EnergyUsed>1</EnergyUsed>
+        <MoveSpeed>1</MoveSpeed>
+        <MoveTurtosity>1</MoveTurtosity>
+        <Name>SafeForageModifier</Name>
+        <PerceptonModifier>1</PerceptonModifier>
+        <PredationRisk>1</PredationRisk>
+      </Modifier>
+      <Modifier type="SafeSearchMod">
+        <CaptureFood>1</CaptureFood>
+        <EnergyUsed>1</EnergyUsed>
+        <MoveSpeed>1</MoveSpeed>
+        <MoveTurtosity>1</MoveTurtosity>
+        <Name>SafeSearchModifier</Name>
+        <PerceptonModifier>1</PerceptonModifier>
+        <PredationRisk>1</PredationRisk>
+      </Modifier>
+    </AnimalModifiers>
+  

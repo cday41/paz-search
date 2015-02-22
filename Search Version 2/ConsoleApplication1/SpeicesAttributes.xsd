@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="Species">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="txtPerception" type="xs:string" minOccurs="0" />
+        <xs:element name="EnergyParameters" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="InitialEnergy" type="xs:string" minOccurs="0" />
+              <xs:element name="MaxEnergy" type="xs:string" minOccurs="0" />
+              <xs:element name="MinEnergy" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TemporalParameters" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="WakeUpTime" type="xs:string" minOccurs="0" />
+              <xs:element name="ActivityDurations" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Duration" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="MeanAmt" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+                          <xs:element name="StandardDeviation" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+                        </xs:sequence>
+                        <xs:attribute name="Type" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="BehavioralTriggers" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="txtRiskyToSafe" type="xs:string" minOccurs="0" />
+              <xs:element name="txtSafeToRisky" type="xs:string" minOccurs="0" />
+              <xs:element name="txtSearchForageTrigger" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="Species" />
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

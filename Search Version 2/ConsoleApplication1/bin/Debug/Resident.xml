@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Resident xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+       <txtResDieBetweenSeason>0.194</txtResDieBetweenSeason>
+      <txtResDieTimeStep>0.0000667</txtResDieTimeStep>
+      <txtResBreedPercent>0.2</txtResBreedPercent>
+      <txtResFemalePercent>0.6</txtResFemalePercent>
+      <txtResOffspringMean>1.75</txtResOffspringMean>
+      <txtResOffspringSD>0.5</txtResOffspringSD>
+    </Resident>

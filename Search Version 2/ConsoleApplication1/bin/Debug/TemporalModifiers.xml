@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TemporalModifiers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <DailyModifiers>
+        <Modifier type="DailyModifier">
+          <StartDate>3/15/2013 6:00:00 PM</StartDate>
+          <CaptureFood>1</CaptureFood>
+          <EnergyUsed>1</EnergyUsed>
+          <MoveSpeed>1</MoveSpeed>
+          <MoveTurtosity>1</MoveTurtosity>
+          <Name />
+          <PerceptonModifier>1</PerceptonModifier>
+          <PredationRisk>1</PredationRisk>
+        </Modifier>
+      </DailyModifiers>
+      <HourlyModifiers>
+        <Modifier type="HourlyModifier">
+          <StartTime>18</StartTime>
+          <CaptureFood>1</CaptureFood>
+          <EnergyUsed>1</EnergyUsed>
+          <MoveSpeed>1</MoveSpeed>
+          <MoveTurtosity>1</MoveTurtosity>
+          <Name />
+          <PerceptonModifier>1</PerceptonModifier>
+          <PredationRisk>1</PredationRisk>
+        </Modifier>
+      </HourlyModifiers>
+    </TemporalModifiers>

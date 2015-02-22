@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Time xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <StartSimDate>3/15/2013</StartSimDate>
+    <EndDaySeason>3/19/2013</EndDaySeason>
+    <NumSeasonDays>4</NumSeasonDays>
+    <NumYears>3</NumYears>
+    <TimeBetweenDailyTimeStep>180</TimeBetweenDailyTimeStep>
+    <StartTime>18</StartTime>
+  </Time>

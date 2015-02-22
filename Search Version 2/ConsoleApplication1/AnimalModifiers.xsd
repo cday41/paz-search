@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="AnimalModifiers" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="AnimalModifiers" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Modifier">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CaptureFood" type="xs:string" minOccurs="0" msdata:Ordinal="0" />
+              <xs:element name="EnergyUsed" type="xs:string" minOccurs="0" msdata:Ordinal="1" />
+              <xs:element name="MoveSpeed" type="xs:string" minOccurs="0" msdata:Ordinal="2" />
+              <xs:element name="MoveTurtosity" type="xs:string" minOccurs="0" msdata:Ordinal="3" />
+              <xs:element name="Name" type="xs:string" minOccurs="0" msdata:Ordinal="4" />
+              <xs:element name="PerceptonModifier" type="xs:string" minOccurs="0" msdata:Ordinal="5" />
+              <xs:element name="PredationRisk" type="xs:string" minOccurs="0" msdata:Ordinal="6" />
+            </xs:sequence>
+            <xs:attribute name="type" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

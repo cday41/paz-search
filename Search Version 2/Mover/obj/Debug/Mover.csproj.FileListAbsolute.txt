@@ -1,0 +1,16 @@
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\Mover.dll.config
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\Mover.dll
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\Mover.pdb
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\EntityFramework.dll
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\EntityFramework.SqlServer.dll
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\log4net.dll
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\MathNet.Numerics.dll
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\Utility.dll
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\Utility.pdb
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\EntityFramework.xml
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\EntityFramework.SqlServer.xml
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\log4net.xml
+D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\MathNet.Numerics.xml
+D:\Fun Projects\ConsoleApplication1\Mover\obj\Debug\Mover.csprojResolveAssemblyReference.cache
+D:\Fun Projects\ConsoleApplication1\Mover\obj\Debug\Mover.dll
+D:\Fun Projects\ConsoleApplication1\Mover\obj\Debug\Mover.pdb

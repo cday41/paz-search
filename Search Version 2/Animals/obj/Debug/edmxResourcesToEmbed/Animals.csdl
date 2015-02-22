@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SearchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Animal">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="AnimalPaths" Relationship="Self.FK_AnimalPath_AnimalPath" FromRole="Animal" ToRole="AnimalPath" />
+    <Property Name="CurrLocation" Type="Geometry" />
+  </EntityType>
+  <EntityType Name="AnimalPath">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CurrLocation" Type="Geometry" />
+    <Property Name="TimeStep" Type="Int32" />
+    <Property Name="AnimalID" Type="Int32" />
+    <NavigationProperty Name="Animal" Relationship="Self.FK_AnimalPath_AnimalPath" FromRole="AnimalPath" ToRole="Animal" />
+  </EntityType>
+  <Association Name="FK_AnimalPath_AnimalPath">
+    <End Role="Animal" Type="Self.Animal" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AnimalPath" Type="Self.AnimalPath" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AnimalPath">
+        <PropertyRef Name="AnimalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AnimalsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Animals" EntityType="Self.Animal" />
+    <EntitySet Name="AnimalPaths" EntityType="Self.AnimalPath" />
+    <AssociationSet Name="FK_AnimalPath_AnimalPath" Association="Self.FK_AnimalPath_AnimalPath">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="AnimalPath" EntitySet="AnimalPaths" />
+    </AssociationSet>
+    <EntitySet Name="base_social" EntityType="SearchModel.base_social" />
+  </EntityContainer>
+  <EntityType Name="base_social">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SUITABILIT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="OCCUP_MALE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="OCCUP_FEMA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Delete" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="geom" Type="Geometry" />
+  </EntityType>
+</Schema>

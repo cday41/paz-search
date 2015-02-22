@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Species xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <EnergyParameters>
+      <InitialEnergy>3750</InitialEnergy>
+      <MaxEnergy>10000</MaxEnergy>
+      <MinEnergy>1800</MinEnergy>
+    </EnergyParameters>
+    <TemporalParameters>
+      <WakeUpTime>18</WakeUpTime>
+      <ActivityDurations>
+        <Duration Type="Active">
+          <MeanAmt>16</MeanAmt>
+          <StandardDeviation>0</StandardDeviation>
+        </Duration>
+        <Duration Type="Sleeping">
+          <MeanAmt>8</MeanAmt>
+          <StandardDeviation>0</StandardDeviation>
+        </Duration>
+      </ActivityDurations>
+    </TemporalParameters>
+    <BehavioralTriggers>
+      <txtRiskyToSafe>0</txtRiskyToSafe>
+      <txtSafeToRisky>0</txtSafeToRisky>
+      <txtSearchForageTrigger>800</txtSearchForageTrigger>
+    </BehavioralTriggers>
+    <txtPerception>400</txtPerception>
+  </Species>

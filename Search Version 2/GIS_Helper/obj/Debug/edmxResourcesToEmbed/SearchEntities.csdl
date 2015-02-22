@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SearchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Animal">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="CurrLocation" Type="Geometry" />
+    <NavigationProperty Name="AnimalPaths" Relationship="Self.FK_AnimalPath_AnimalPath" FromRole="Animal" ToRole="AnimalPath" />
+  </EntityType>
+  <EntityType Name="AnimalPath">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CurrLocation" Type="Geometry" />
+    <Property Name="TimeStep" Type="Int32" />
+    <Property Name="AnimalID" Type="Int32" />
+    <NavigationProperty Name="Animal" Relationship="Self.FK_AnimalPath_AnimalPath" FromRole="AnimalPath" ToRole="Animal" />
+  </EntityType>
+  <EntityType Name="base_food">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LABEL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="PROBCAP" Type="Double" />
+    <Property Name="X_SIZE" Type="Int64" />
+    <Property Name="SD_SIZE" Type="Int64" />
+    <Property Name="geom" Type="Geometry" />
+  </EntityType>
+  <EntityType Name="base_move">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MVL" Type="Double" />
+    <Property Name="MSL" Type="Int64" />
+    <Property Name="ENERGYUSED" Type="Double" />
+    <Property Name="CROSSING" Type="Double" />
+    <Property Name="PR_X" Type="Double" />
+    <Property Name="LABEL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="geom" Type="Geometry" />
+  </EntityType>
+  <EntityType Name="base_release">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RELEASESIT" Type="Int64" />
+    <Property Name="MALES" Type="Int64" />
+    <Property Name="FEMS" Type="Int64" />
+    <Property Name="geom" Type="Geometry" />
+  </EntityType>
+  <EntityType Name="base_risk">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LABEL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="RISK" Type="Double" />
+    <Property Name="geom" Type="Geometry" />
+  </EntityType>
+  <EntityType Name="base_social">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SUITABILIT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="OCCUP_MALE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="OCCUP_FEMA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Delete" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="geom" Type="Geometry" />
+  </EntityType>
+  <Association Name="FK_AnimalPath_AnimalPath">
+    <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+    <End Role="AnimalPath" Type="Self.AnimalPath" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Animal">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="AnimalPath">
+        <PropertyRef Name="AnimalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SearchEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Animals" EntityType="Self.Animal" />
+    <EntitySet Name="AnimalPaths" EntityType="Self.AnimalPath" />
+    <EntitySet Name="base_food" EntityType="Self.base_food" />
+    <EntitySet Name="base_move" EntityType="Self.base_move" />
+    <EntitySet Name="base_release" EntityType="Self.base_release" />
+    <EntitySet Name="base_risk" EntityType="Self.base_risk" />
+    <EntitySet Name="base_social" EntityType="Self.base_social" />
+    <AssociationSet Name="FK_AnimalPath_AnimalPath" Association="Self.FK_AnimalPath_AnimalPath">
+      <End Role="Animal" EntitySet="Animals" />
+      <End Role="AnimalPath" EntitySet="AnimalPaths" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

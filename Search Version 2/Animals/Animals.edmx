@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SearchModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Animal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sex" Type="varchar" MaxLength="10" />
+          <Property Name="CurrLocation" Type="geometry" />
+        </EntityType>
+        <EntityType Name="AnimalPath">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CurrLocation" Type="geometry" />
+          <Property Name="TimeStep" Type="int" />
+          <Property Name="AnimalID" Type="int" />
+        </EntityType>
+        <EntityType Name="base_social">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SUITABILIT" Type="nvarchar" MaxLength="255" />
+          <Property Name="OCCUP_MALE" Type="nvarchar" MaxLength="255" />
+          <Property Name="OCCUP_FEMA" Type="nvarchar" MaxLength="255" />
+          <Property Name="Delete" Type="nvarchar" MaxLength="255" />
+          <Property Name="geom" Type="geometry" />
+        </EntityType>
+        <Association Name="FK_Animal_Animal">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="1" />
+          <End Role="Animal1" Type="Self.Animal" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Animal1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AnimalPath_AnimalPath">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="AnimalPath" Type="Self.AnimalPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AnimalPath">
+              <PropertyRef Name="AnimalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SearchModelStoreContainer">
+          <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AnimalPath" EntityType="Self.AnimalPath" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="base_social" EntityType="Self.base_social" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Animal_Animal" Association="Self.FK_Animal_Animal">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="Animal1" EntitySet="Animal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AnimalPath_AnimalPath" Association="Self.FK_AnimalPath_AnimalPath">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="AnimalPath" EntitySet="AnimalPath" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SearchModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Animal">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sex" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AnimalPaths" Relationship="Self.FK_AnimalPath_AnimalPath" FromRole="Animal" ToRole="AnimalPath" />
+          <Property Name="CurrLocation" Type="Geometry" />
+          </EntityType>
+        <EntityType Name="AnimalPath">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CurrLocation" Type="Geometry" />
+          <Property Name="TimeStep" Type="Int32" />
+          <Property Name="AnimalID" Type="Int32" />
+          <NavigationProperty Name="Animal" Relationship="Self.FK_AnimalPath_AnimalPath" FromRole="AnimalPath" ToRole="Animal" />
+        </EntityType>
+        <Association Name="FK_AnimalPath_AnimalPath">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AnimalPath" Type="Self.AnimalPath" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AnimalPath">
+              <PropertyRef Name="AnimalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AnimalsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Animals" EntityType="Self.Animal" />
+          <EntitySet Name="AnimalPaths" EntityType="Self.AnimalPath" />
+          <AssociationSet Name="FK_AnimalPath_AnimalPath" Association="Self.FK_AnimalPath_AnimalPath">
+            <End Role="Animal" EntitySet="Animals" />
+            <End Role="AnimalPath" EntitySet="AnimalPaths" />
+          </AssociationSet>
+          <EntitySet Name="base_social" EntityType="SearchModel.base_social" />
+        </EntityContainer>
+        <EntityType Name="base_social">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SUITABILIT" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OCCUP_MALE" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="OCCUP_FEMA" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Delete" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="geom" Type="Geometry" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SearchModelStoreContainer" CdmEntityContainer="AnimalsEntities">
+          <EntitySetMapping Name="Animals">
+            <EntityTypeMapping TypeName="SearchModel.Animal">
+              <MappingFragment StoreEntitySet="Animal">
+                <ScalarProperty Name="CurrLocation" ColumnName="CurrLocation" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AnimalPaths">
+            <EntityTypeMapping TypeName="SearchModel.AnimalPath">
+              <MappingFragment StoreEntitySet="AnimalPath">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CurrLocation" ColumnName="CurrLocation" />
+                <ScalarProperty Name="TimeStep" ColumnName="TimeStep" />
+                <ScalarProperty Name="AnimalID" ColumnName="AnimalID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="base_social">
+            <EntityTypeMapping TypeName="SearchModel.base_social">
+              <MappingFragment StoreEntitySet="base_social">
+                <ScalarProperty Name="geom" ColumnName="geom" />
+                <ScalarProperty Name="Delete" ColumnName="Delete" />
+                <ScalarProperty Name="OCCUP_FEMA" ColumnName="OCCUP_FEMA" />
+                <ScalarProperty Name="OCCUP_MALE" ColumnName="OCCUP_MALE" />
+                <ScalarProperty Name="SUITABILIT" ColumnName="SUITABILIT" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
