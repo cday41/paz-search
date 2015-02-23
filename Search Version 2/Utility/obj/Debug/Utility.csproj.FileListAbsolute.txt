@@ -7,3 +7,12 @@ D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\EntityFramework.xml
 D:\Fun Projects\ConsoleApplication1\Utility\bin\Debug\EntityFramework.SqlServer.xml
 D:\Fun Projects\ConsoleApplication1\Utility\obj\Debug\Utility.dll
 D:\Fun Projects\ConsoleApplication1\Utility\obj\Debug\Utility.pdb
+F:\Search\Search Version 2\Utility\bin\Debug\Utility.dll.config
+F:\Search\Search Version 2\Utility\bin\Debug\Utility.dll
+F:\Search\Search Version 2\Utility\bin\Debug\Utility.pdb
+F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.dll
+F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.SqlServer.dll
+F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.xml
+F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.SqlServer.xml
+F:\Search\Search Version 2\Utility\obj\Debug\Utility.dll
+F:\Search\Search Version 2\Utility\obj\Debug\Utility.pdb

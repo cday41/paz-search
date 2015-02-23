@@ -14,3 +14,19 @@ D:\Fun Projects\ConsoleApplication1\Mover\bin\Debug\MathNet.Numerics.xml
 D:\Fun Projects\ConsoleApplication1\Mover\obj\Debug\Mover.csprojResolveAssemblyReference.cache
 D:\Fun Projects\ConsoleApplication1\Mover\obj\Debug\Mover.dll
 D:\Fun Projects\ConsoleApplication1\Mover\obj\Debug\Mover.pdb
+F:\Search\Search Version 2\Mover\bin\Debug\Mover.dll.config
+F:\Search\Search Version 2\Mover\bin\Debug\Mover.dll
+F:\Search\Search Version 2\Mover\bin\Debug\Mover.pdb
+F:\Search\Search Version 2\Mover\bin\Debug\EntityFramework.dll
+F:\Search\Search Version 2\Mover\bin\Debug\EntityFramework.SqlServer.dll
+F:\Search\Search Version 2\Mover\bin\Debug\log4net.dll
+F:\Search\Search Version 2\Mover\bin\Debug\MathNet.Numerics.dll
+F:\Search\Search Version 2\Mover\bin\Debug\Utility.dll
+F:\Search\Search Version 2\Mover\bin\Debug\Utility.pdb
+F:\Search\Search Version 2\Mover\bin\Debug\EntityFramework.xml
+F:\Search\Search Version 2\Mover\bin\Debug\EntityFramework.SqlServer.xml
+F:\Search\Search Version 2\Mover\bin\Debug\log4net.xml
+F:\Search\Search Version 2\Mover\bin\Debug\MathNet.Numerics.xml
+F:\Search\Search Version 2\Mover\obj\Debug\Mover.csprojResolveAssemblyReference.cache
+F:\Search\Search Version 2\Mover\obj\Debug\Mover.dll
+F:\Search\Search Version 2\Mover\obj\Debug\Mover.pdb

@@ -12,6 +12,8 @@ namespace Animals
 		
 		public partial class Animal
 		{
+
+			
 			MoveValues mv = new MoveValues();
 
 			

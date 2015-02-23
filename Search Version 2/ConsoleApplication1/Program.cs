@@ -13,12 +13,12 @@ namespace ModularSearch
 
 		public static void Main(string[] args)
 		{
-			animalManager = new AnimalManager();
+			//animalManager = new AnimalManager();
 			//animalManager.DeleteAllAnimals();
-			
+			//animalManager.Initialize();
 
-	
-
+			GisHelper gh = new GisHelper();
+			gh.loadShapeFile();
 		
 		}
 

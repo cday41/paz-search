@@ -7,3 +7,13 @@ D:\Fun Projects\ConsoleApplication1\MapManager\bin\Debug\EntityFramework.xml
 D:\Fun Projects\ConsoleApplication1\MapManager\bin\Debug\EntityFramework.SqlServer.xml
 D:\Fun Projects\ConsoleApplication1\MapManager\obj\Debug\MapManager.dll
 D:\Fun Projects\ConsoleApplication1\MapManager\obj\Debug\MapManager.pdb
+F:\Search\Search Version 2\MapManager\bin\Debug\MapManager.dll.config
+F:\Search\Search Version 2\MapManager\bin\Debug\MapManager.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\MapManager.pdb
+F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.SqlServer.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.xml
+F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.SqlServer.xml
+F:\Search\Search Version 2\MapManager\obj\Debug\MapManager.dll
+F:\Search\Search Version 2\MapManager\obj\Debug\MapManager.pdb
+F:\Search\Search Version 2\MapManager\obj\Debug\MapManager.csprojResolveAssemblyReference.cache

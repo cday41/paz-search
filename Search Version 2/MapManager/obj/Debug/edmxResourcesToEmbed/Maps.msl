@@ -1,62 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="SearchModelStoreContainer" CdmEntityContainer="MapEntities">
-    <EntitySetMapping Name="base_food">
-      <EntityTypeMapping TypeName="SearchModel.base_food">
-        <MappingFragment StoreEntitySet="base_food">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="LABEL" ColumnName="LABEL" />
-          <ScalarProperty Name="PROBCAP" ColumnName="PROBCAP" />
-          <ScalarProperty Name="X_SIZE" ColumnName="X_SIZE" />
-          <ScalarProperty Name="SD_SIZE" ColumnName="SD_SIZE" />
-          <ScalarProperty Name="geom" ColumnName="geom" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="base_move">
-      <EntityTypeMapping TypeName="SearchModel.base_move">
-        <MappingFragment StoreEntitySet="base_move">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="MVL" ColumnName="MVL" />
-          <ScalarProperty Name="MSL" ColumnName="MSL" />
-          <ScalarProperty Name="ENERGYUSED" ColumnName="ENERGYUSED" />
-          <ScalarProperty Name="CROSSING" ColumnName="CROSSING" />
-          <ScalarProperty Name="PR_X" ColumnName="PR_X" />
-          <ScalarProperty Name="LABEL" ColumnName="LABEL" />
-          <ScalarProperty Name="geom" ColumnName="geom" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="base_release">
       <EntityTypeMapping TypeName="SearchModel.base_release">
         <MappingFragment StoreEntitySet="base_release">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="RELEASESIT" ColumnName="RELEASESIT" />
-          <ScalarProperty Name="MALES" ColumnName="MALES" />
+          <ScalarProperty Name="geom" ColumnName="geom" />
           <ScalarProperty Name="FEMS" ColumnName="FEMS" />
-          <ScalarProperty Name="geom" ColumnName="geom" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="base_risk">
-      <EntityTypeMapping TypeName="SearchModel.base_risk">
-        <MappingFragment StoreEntitySet="base_risk">
+          <ScalarProperty Name="MALES" ColumnName="MALES" />
+          <ScalarProperty Name="RELEASESIT" ColumnName="RELEASESIT" />
           <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="LABEL" ColumnName="LABEL" />
-          <ScalarProperty Name="RISK" ColumnName="RISK" />
-          <ScalarProperty Name="geom" ColumnName="geom" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="base_social">
-      <EntityTypeMapping TypeName="SearchModel.base_social">
-        <MappingFragment StoreEntitySet="base_social">
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="SUITABILIT" ColumnName="SUITABILIT" />
-          <ScalarProperty Name="OCCUP_MALE" ColumnName="OCCUP_MALE" />
-          <ScalarProperty Name="OCCUP_FEMA" ColumnName="OCCUP_FEMA" />
-          <ScalarProperty Name="Delete" ColumnName="Delete" />
-          <ScalarProperty Name="geom" ColumnName="geom" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
