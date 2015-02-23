@@ -517,11 +517,13 @@ namespace SEARCH
          double tempX = 0;
          double tempY = 0;
          int timesStuck = 0;
+         int timeStuckGoingHome = 0;
+
          bool timeToLookForHome = false;
 
          try
          {
-            //this.timeStepPath++;
+            
             #region
             mLog.Debug("");
             mLog.Debug("inside Animal Do Time Step for " + myIdNum.ToString() +
@@ -536,6 +538,16 @@ namespace SEARCH
             this.upDateMyValues();
             while (percentTimeStep < 1 && !this.mIsDead)
             {
+               if (timesStuck++ > 10)
+               {
+                 // this.IsDead = true;
+               //   mTextFileWriter.addLine ("Stuck for 20 times so died");
+                  //get out of the loop
+                  //percentTimeStep = 1.5;
+                  int i = 0;
+               }
+                  
+              
                //if(this.Location.X == 0) System.Windows.Forms.MessageBox.Show("No Location");
                mLog.Debug("Start of loop tempPercentTimeStep is " + tempPercentTimeStep.ToString());
                this.timeStep++;
@@ -568,7 +580,7 @@ namespace SEARCH
                   if (tempPercentTimeStep == 0  )
                   {
                      mLog.Debug("evidently the percent returned from move = the accumulated time step so just add the previous to current and call it a day");
-                     previousPercentTimeStep += percentTimeStep;
+                     percentTimeStep+= previousPercentTimeStep;
                   }
                   else
                   {
@@ -679,8 +691,8 @@ namespace SEARCH
 
                   if (this.goingHome && this.IsAsleep == false)
                   {
-                     timesStuck++;
-                     if (timesStuck > 20)
+                     timeStuckGoingHome++;
+                     if (timeStuckGoingHome > 20)
                      {
                         this.IsDead = true;
                         mTextFileWriter.addLine("Stuck on the way home for 20 times so died");
