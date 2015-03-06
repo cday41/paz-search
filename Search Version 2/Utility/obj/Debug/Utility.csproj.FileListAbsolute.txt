@@ -14,5 +14,6 @@ F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.dll
 F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.SqlServer.dll
 F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.xml
 F:\Search\Search Version 2\Utility\bin\Debug\EntityFramework.SqlServer.xml
+F:\Search\Search Version 2\Utility\obj\Debug\Utility.csprojResolveAssemblyReference.cache
 F:\Search\Search Version 2\Utility\obj\Debug\Utility.dll
 F:\Search\Search Version 2\Utility\obj\Debug\Utility.pdb

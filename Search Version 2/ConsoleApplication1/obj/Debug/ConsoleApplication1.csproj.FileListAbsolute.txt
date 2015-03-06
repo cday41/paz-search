@@ -23,28 +23,39 @@ D:\Fun Projects\ConsoleApplication1\ConsoleApplication1\bin\Debug\MapManager.pdb
 D:\Fun Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
 D:\Fun Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ModularSearch.exe
 D:\Fun Projects\ConsoleApplication1\ConsoleApplication1\obj\Debug\ModularSearch.pdb
-F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\ModularSearch.exe.config
-F:\Search\Search Version 2\ConsoleApplication1\obj\Debug\ModularSearch.exe
-F:\Search\Search Version 2\ConsoleApplication1\obj\Debug\ModularSearch.pdb
+F:\Search\Search Version 2\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\Refrences\Utility.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\ModularSearch.exe.config
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\ModularSearch.exe
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\ModularSearch.pdb
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\Animals.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DataHelper.dll
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\EntityFramework.dll
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\EntityFramework.SqlServer.dll
-F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\GIS_Helper.dll
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\log4net.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\MapManager.dll
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\Mover.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\SharpGIS.Gis.dll
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\System.Spatial.dll
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\Utility.dll
-F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\MapManager.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Data.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Topology.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Serialization.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Projections.dll
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Mono.dll
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\Animals.pdb
-F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\GIS_Helper.pdb
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DataHelper.pdb
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\MapManager.pdb
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\Mover.pdb
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\Utility.pdb
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\EntityFramework.xml
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\EntityFramework.SqlServer.xml
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\log4net.xml
 F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\System.Spatial.xml
-F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\MapManager.pdb
-F:\Search\Search Version 2\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Data.xml
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Topology.xml
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Serialization.xml
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Projections.xml
+F:\Search\Search Version 2\ConsoleApplication1\bin\Debug\DotSpatial.Mono.xml
+F:\Search\Search Version 2\ConsoleApplication1\obj\Debug\ModularSearch.exe
+F:\Search\Search Version 2\ConsoleApplication1\obj\Debug\ModularSearch.pdb

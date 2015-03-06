@@ -80,6 +80,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Animal.cs" />
+    <Compile Include="_AnimalPath.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Animals.edmx">
@@ -106,6 +107,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GIS_Helper\DataHelper.csproj">
+      <Project>{5a000caa-9a89-4f07-b39a-a26065e9f5fd}</Project>
+      <Name>DataHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MapManager\MapManager.csproj">
       <Project>{9716a768-fca5-420f-95b6-d83c981fe55f}</Project>
       <Name>MapManager</Name>

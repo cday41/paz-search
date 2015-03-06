@@ -8,21 +8,22 @@ namespace Utility
 		#region PrivateMembers
 
 		private Double angle;
+		private Double? chanceToEat;
 		private DbGeometry end;
+		private Double? energyUsed;
 		private Double heading;
 		private int id;
 		private double location;
+		private Double? meanChanceToEat;
 		private Double percentTimeStep;
-		private DbGeometry start;
-		private Double stepLength;
-		private Double turt;
-		private int timeStep;
+		private Double? perceptionModifier;
+		private Double? risk;
 
-		public int TimeStep
-		{
-			get { return timeStep; }
-			set { timeStep = value; }
-		}
+		private Double? stdDeviationToEat;
+		private DbGeometry start;
+		private Double? stepLength;
+		private int timeStep;
+		private Double? turt;
 
 		#endregion PrivateMembers
 
@@ -34,20 +35,28 @@ namespace Utility
 			set { angle = value; }
 		}
 
+		public Double? ChanceToEat
+		{
+			get { return chanceToEat; }
+			set { chanceToEat = value; }
+		}
+
 		public DbGeometry End
 		{
 			get { return end; }
 			set { end = value; }
 		}
+
+		public Double? EnergyUsed
+		{
+			get { return energyUsed; }
+			set { energyUsed = value; }
+		}
+
 		public Double Heading
 		{
 			get { return heading; }
 			set { heading = value; }
-		}
-		public double Location
-		{
-			get { return location; }
-			set { location = value; }
 		}
 
 		public int Id
@@ -56,10 +65,34 @@ namespace Utility
 			set { id = value; }
 		}
 
+		public double Location
+		{
+			get { return location; }
+			set { location = value; }
+		}
+
+		public Double? MeanChanceToEat
+		{
+			get { return meanChanceToEat; }
+			set { meanChanceToEat = value; }
+		}
+
 		public Double PercentTimeStep
 		{
 			get { return percentTimeStep; }
 			set { percentTimeStep = value; }
+		}
+
+		public Double? PerceptionModifier
+		{
+			get { return perceptionModifier; }
+			set { perceptionModifier = value; }
+		}
+
+		public Double? Risk
+		{
+			get { return risk; }
+			set { risk = value; }
 		}
 
 		public DbGeometry Start
@@ -68,13 +101,25 @@ namespace Utility
 			set { start = value; }
 		}
 
-		public Double StepLength
+		public Double? StdDeviationToEat
+		{
+			get { return stdDeviationToEat; }
+			set { stdDeviationToEat = value; }
+		}
+
+		public Double? StepLength
 		{
 			get { return stepLength; }
 			set { stepLength = value; }
 		}
 
-		public Double Turt
+		public int TimeStep
+		{
+			get { return timeStep; }
+			set { timeStep = value; }
+		}
+
+		public Double? Turt
 		{
 			get { return turt; }
 			set { turt = value; }
@@ -91,6 +136,5 @@ namespace Utility
 		{
 			return "End X " + Start.XCoordinate.Value.ToString() + " Y " + Start.YCoordinate.Value.ToString();
 		}
-
 	}
 }

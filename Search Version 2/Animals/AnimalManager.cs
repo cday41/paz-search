@@ -1,13 +1,16 @@
 ﻿using Map_Manager;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Animals
 {
 	public class AnimalManager
 	{
-		private AnimalsEntities animalProxy;
 		private List<Animal> myAnimals;
+		//private static int change = 0;
 
 		public AnimalManager()
 		{
@@ -18,37 +21,41 @@ namespace Animals
 
 		#region PublicMethods
 
-		public void DeleteAllAnimals()
-		{
-			using (AnimalsEntities ae = new AnimalsEntities())
-			{
-				ae.Database.ExecuteSqlCommand("Truncate Table [AnimalPath]");
-				ae.Database.ExecuteSqlCommand("Delete from Animal");
-				ae.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('dbo.Animal', RESEED, -1);");
-				ae.SaveChanges();
-			}
-		}
-
 		public void Initialize()
 		{
-			animalProxy = new AnimalsEntities();
+			this.DeleteAllAnimals();
 			this.GetNewAnimals();
 		}
 
 		public void MoveTheAnimals()
 		{
+			Console.WriteLine("Starting Move the Animals at " + DateTime.Now.ToLongTimeString());
+			List<AnimalPath> myPaths = new List<AnimalPath>();
 			Mover.Mover mover = new Mover.Mover();
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 1000; i++)
 			{
-				foreach (Animals.Animal a in myAnimals)
+				//foreach (Animals.Animal a in myAnimals)
+				Parallel.ForEach(myAnimals, a =>
 				{
+					AnimalPath ap = new AnimalPath();
+					a.Move_Values.PercentTimeStep = 0;
+					ap.AnimalID = a.ID;
+					ap.TimeStep = i;
 					a.Move_Values.TimeStep = i;
 					mover.move(a.Move_Values);
+					ap.CurrLocation = a.Move_Values.End;
+					a.AnimalPaths.Add(ap);
 				}
+				);
+				this.UpdateAllAnimalsModifiers();
 			}
-
+			Console.WriteLine("Done moving at " + DateTime.Now.ToLongTimeString());
+			Console.WriteLine("now the data base part");
 			UpdateAllAnimalsLocation(myAnimals);
+			Console.WriteLine("Finish Move the Animals at " + DateTime.Now.ToLongTimeString());
 		}
+
+		
 
 		#endregion PublicMethods
 
@@ -56,8 +63,11 @@ namespace Animals
 
 		private void AddAnimalsToDB()
 		{
-			animalProxy.Animals.AddRange(myAnimals);
-			animalProxy.SaveChanges();
+			using (AnimalsEntities animalProxy = new AnimalsEntities())
+			{
+				animalProxy.Animals.AddRange(myAnimals);
+				animalProxy.SaveChanges();
+			}
 		}
 
 		private void BuildAnimals(DbGeometry inLocation, long? numAnimals, string inSex)
@@ -68,7 +78,7 @@ namespace Animals
 				a = new Animals.Animal();
 				a.Sex = inSex;
 				a.CurrLocation = inLocation;
-				a.Initialize();
+				a.UpdateModifiers();
 				myAnimals.Add(a);
 			}
 		}
@@ -89,12 +99,23 @@ namespace Animals
 			}
 		}
 
+		private void DeleteAllAnimals()
+		{
+			using (AnimalsEntities ae = new AnimalsEntities())
+			{
+				ae.Database.ExecuteSqlCommand("Truncate Table [AnimalPath]");
+				ae.Database.ExecuteSqlCommand("Delete from Animal");
+				ae.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('dbo.Animal', RESEED, -1);");
+				ae.SaveChanges();
+			}
+		}
+
 		private void GetNewAnimals()
 		{
 			List<long?> numFemales;
 			List<long?> numMales;
 			List<DbGeometry> locations;
-			Release.GetReleaseSiteInfor(out numMales, out numFemales, out locations);
+			Release.GetReleaseSiteInfo(out numMales, out numFemales, out locations);
 
 			int numAnimals = numMales.Count;
 			for (int i = 0; i < numAnimals; i++)
@@ -107,22 +128,29 @@ namespace Animals
 
 		private void UpdateAllAnimalsLocation(List<Animal> inA)
 		{
-			using (AnimalsEntities ae = new AnimalsEntities())
-			{
-				foreach (Animal a in inA)
-				{
-					a.CurrLocation = a.Move_Values.End;
-					a.Move_Values.Start = a.Move_Values.End;
-					AnimalPath ap = new AnimalPath();
-					ap.AnimalID = a.ID;
-					ap.CurrLocation = a.CurrLocation;
-					ap.TimeStep = a.Move_Values.TimeStep;
-					ae.AnimalPaths.Add(ap);
-					ae.SaveChanges();
-				}
-			}
+			Parallel.ForEach(inA, a =>
+				  {
+					  using (AnimalsEntities ae = new AnimalsEntities())
+					  {
+						  Animal CurrAnimal = ae.Animals.Find(a.ID);
+						  CurrAnimal.CurrLocation = a.Move_Values.End;
+						  CurrAnimal.Move_Values.Start = a.Move_Values.End;
+						  AnimalPath path = a.AnimalPaths.LastOrDefault();
+						  CurrAnimal.AnimalPaths = a.AnimalPaths;
+						  ae.SaveChanges();
+					  }// end using
+				  }//end foreach scope
+				  );//end foreach loop
+		}
+
+		private void UpdateAllAnimalsModifiers()
+		{
+
+		//	foreach (Animal a in myAnimals)
+			Parallel.ForEach(myAnimals, a =>
+				{ a.UpdateModifiers(); });
 		}
 
 		#endregion PrivateMethods
 	}
-}
+}//namespace 

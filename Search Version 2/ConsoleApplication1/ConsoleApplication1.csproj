@@ -82,61 +82,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnimalModifiers.cs" />
-    <Compile Include="base_food.cs">
-      <DependentUpon>Maps.tt</DependentUpon>
-    </Compile>
-    <Compile Include="base_move.cs">
-      <DependentUpon>Maps.tt</DependentUpon>
-    </Compile>
-    <Compile Include="base_release.cs">
-      <DependentUpon>Maps.tt</DependentUpon>
-    </Compile>
-    <Compile Include="base_risk.cs">
-      <DependentUpon>Maps.tt</DependentUpon>
-    </Compile>
-    <Compile Include="base_social.cs">
-      <DependentUpon>Maps.tt</DependentUpon>
-    </Compile>
     <Compile Include="HomeRange.cs" />
-    <Compile Include="Maps.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Maps.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Maps1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Maps.tt</DependentUpon>
-    </Compile>
     <Compile Include="NewMaps.cs" />
-    <Compile Include="Maps.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Maps.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Simulation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Maps.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Maps.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Maps.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Maps.edmx</DependentUpon>
-      <LastGenOutput>Maps.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Maps.edmx.diagram">
-      <DependentUpon>Maps.edmx</DependentUpon>
-    </None>
-    <None Include="Maps.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Maps.edmx</DependentUpon>
-      <LastGenOutput>Maps1.cs</LastGenOutput>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +102,13 @@
       <Project>{8fa65f2e-de59-4583-b028-2e90fbf539f7}</Project>
       <Name>Animals</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GIS_Helper\GIS_Helper.csproj">
+    <ProjectReference Include="..\GIS_Helper\DataHelper.csproj">
       <Project>{5a000caa-9a89-4f07-b39a-a26065e9f5fd}</Project>
-      <Name>GIS_Helper</Name>
+      <Name>DataHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapManager\MapManager.csproj">
+      <Project>{9716a768-fca5-420f-95b6-d83c981fe55f}</Project>
+      <Name>MapManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mover\Mover.csproj">
       <Project>{4b7be3a6-bf69-4330-ab82-46b8c02ccaf5}</Project>

@@ -4,22 +4,24 @@ using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataHelper;
 
 namespace Map_Manager
 {
-    public static class Release
+	 public static class Release
 	 {
-		static MapEntities me = new MapEntities();
+	
 
 		 
-		public static bool  GetReleaseSiteInfor(out List<long?> numMales, out List<long?> numFemales, out List<DbGeometry> location)
+		public static bool  GetReleaseSiteInfo(out List<long?> numMales, out List<long?> numFemales, out List<DbGeometry> location)
 		 {
+			 DbHelper db = new DbHelper();
 			
 			 bool success = true;
 			 numFemales = new List<long?>();
 			 numMales = new List<long?>();
 			 location = new List<DbGeometry>();
-			 var tempRelease = me.base_release;
+			 var tempRelease = db.GetReleaseSites();
 
 			foreach(var rs in tempRelease)
 			{
@@ -31,5 +33,5 @@ namespace Map_Manager
 			 return success;
 		 }
 
-    }
+	 }
 }

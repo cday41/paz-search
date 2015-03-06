@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animals", "Animals\Animals.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mover", "Mover\Mover.csproj", "{4B7BE3A6-BF69-4330-AB82-46B8C02CCAF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GIS_Helper", "GIS_Helper\GIS_Helper.csproj", "{5A000CAA-9A89-4F07-B39A-A26065E9F5FD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataHelper", "GIS_Helper\DataHelper.csproj", "{5A000CAA-9A89-4F07-B39A-A26065E9F5FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapManager", "MapManager\MapManager.csproj", "{9716A768-FCA5-420F-95B6-D83C981FE55F}"
 EndProject

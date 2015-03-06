@@ -1,7 +1,8 @@
 ﻿using Animals;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Linq;
+using System.Collections.Specialized;
+using System.Configuration;
 
 namespace ModularSearch
 {
@@ -9,21 +10,20 @@ namespace ModularSearch
 	{
 		public static List<Animals.Animal> myAnimals = new List<Animals.Animal>();
 		private static AnimalManager animalManager;
-		private static base_release release = null;
+		private static NameValueCollection settings = ConfigurationManager.AppSettings;
 
 		public static void Main(string[] args)
 		{
-			//animalManager = new AnimalManager();
-			//animalManager.DeleteAllAnimals();
-			//animalManager.Initialize();
+			//MapManager mm = new MapManager();
+			//mm = (MapManager)SerializeHelper.DeserializeFromFile(settings["MapSource"], mm);
+			//mm.LoadInitialMaps();
 
-			GisHelper gh = new GisHelper();
-			gh.loadShapeFile();
-		
+			animalManager = new AnimalManager();
+			animalManager.Initialize();
+			animalManager.MoveTheAnimals();
+
+			Console.WriteLine("All done press the famous any key to continue");
+			Console.ReadKey();
 		}
-
-
-
-		
 	}
 }

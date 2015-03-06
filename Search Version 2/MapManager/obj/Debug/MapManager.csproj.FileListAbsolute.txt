@@ -7,13 +7,27 @@ D:\Fun Projects\ConsoleApplication1\MapManager\bin\Debug\EntityFramework.xml
 D:\Fun Projects\ConsoleApplication1\MapManager\bin\Debug\EntityFramework.SqlServer.xml
 D:\Fun Projects\ConsoleApplication1\MapManager\obj\Debug\MapManager.dll
 D:\Fun Projects\ConsoleApplication1\MapManager\obj\Debug\MapManager.pdb
+F:\Search\Search Version 2\MapManager\obj\Debug\MapManager.csprojResolveAssemblyReference.cache
 F:\Search\Search Version 2\MapManager\bin\Debug\MapManager.dll.config
 F:\Search\Search Version 2\MapManager\bin\Debug\MapManager.dll
 F:\Search\Search Version 2\MapManager\bin\Debug\MapManager.pdb
+F:\Search\Search Version 2\MapManager\bin\Debug\DataHelper.dll
 F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.dll
 F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.SqlServer.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\Utility.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Data.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Topology.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Serialization.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Projections.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Mono.dll
+F:\Search\Search Version 2\MapManager\bin\Debug\DataHelper.pdb
+F:\Search\Search Version 2\MapManager\bin\Debug\Utility.pdb
 F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.xml
 F:\Search\Search Version 2\MapManager\bin\Debug\EntityFramework.SqlServer.xml
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Data.xml
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Topology.xml
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Serialization.xml
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Projections.xml
+F:\Search\Search Version 2\MapManager\bin\Debug\DotSpatial.Mono.xml
 F:\Search\Search Version 2\MapManager\obj\Debug\MapManager.dll
 F:\Search\Search Version 2\MapManager\obj\Debug\MapManager.pdb
-F:\Search\Search Version 2\MapManager\obj\Debug\MapManager.csprojResolveAssemblyReference.cache
